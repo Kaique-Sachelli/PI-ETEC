@@ -1,76 +1,36 @@
 body {
     background-color: white;
-    margin: 0; /* Remove margens do body */
-    padding: 0; /* Remove paddings do body */
-}
-
-h1 {
-    color: black;
-    font-family: 'Montserrat';
-    justify-content: center; /* Centraliza horizontalmente */
-    align-items: center; /* Centraliza verticalmente */
-    font-size: 61px;
-    margin-top: 5px;
-    text-align: center;
-    border: 0px;
-}
-
-h2 {
-    color: rgb(54, 54, 54);
-    font-family: 'RoxboroughCF';
-    justify-content: center; /* Centraliza horizontalmente */
-    align-items: center; /* Centraliza verticalmente */
-    font-size: 18px;
-    text-align: center;
-    margin-top: -30px;
-}
-
-p {
-    color: black;
-    font-family: 'DM Sans', sans-serif;
-    font-size: 16px;
-    
-}
-
-.Links {
+    /*Cor do fundo*/
+    font-family: var(--font-dm-sans);
     display: flex;
-    justify-content: space-around;
+    justify-content: center;
+    /* Centraliza horizontalmente */
+    align-items: center;
+    /* Alinha no topo */
+    min-height: 100vh;
+    /* Garante altura total da tela */
+    margin: 0;
+    padding: 0;
 }
 
-.Links a {
-    padding: 10px;
-    font-size: 20px;
-    font-family: 'DM Sans', sans-serif;
-    text-decoration: none;
-    color: black;
+.sidebar__navigation {
+    background-color: gray;
+    display: flex;
+    justify-content: space-between;
+    border-radius: 8px;
+    padding: 16px;
+    width: 700px; /* Largura */
+    height: 400px; /* Altura */
+    margin-top: 250px; /* empurra um pouco para baixo */
+}
+    
+
+.avatar {
+    width: 100px;
+    height: 100px;
 }
 
-.Linha-azul {
-    width: 100%; /* Largura da linha */
-    height: 20px; /* Altura da linha */
-    background-color: #bc0e0e; /* Cor da Linha */
-    margin: 20px 0; /* Espaçamento superior e inferior */
-    border: none; /* Remove a borda padrão da tag */
-    margin-top: 0px;  
-}
-
-.Linha-preta {
-    width: 40%; /* Largura da linha */
-    height: 2px; /* Altura da linha */
-    background-color: black; /* Cor da Linha */
-    margin: 20px 0; /* Espaçamento superior e inferior */
-    border: none; /* Remove a borda padrão da tag */
-    margin-right: 500px;
-    margin-left: 390px;
-    margin-top: -10px;
-}
-
-img {
-    height: 500px;
-    width: 1280px;
-}
-
-.Logo-Mauá-News {
-    height: 50px;
-    width: 50px;
+.logo_etec {
+    width: 100px;
+    height: 100px;
 }
