@@ -14,19 +14,14 @@ body {
   background-position: -5px -5px;
 }
 
-.titulo {
+.logo {
   position: absolute; /* fixa em relação ao body */
-  top: 20px; /* distância do topo */
-  left: 50%; /* joga para o meio */
-  transform: translateX(-50%); /* centraliza certinho */
-  font-family: "Verdana", sans-serif; /* Define a fonte como Verdana */
-  font-style: italic; /* Define o estilo como itálico */
-  font-size: 20px; /* Tamanho da fonte */
-  color: rgb(0, 0, 0); /* Cor do texto */
-  margin: 0; /* Remove margens padrão */
-  width: 1110px; /* Largura fixa */
-}
+  top: 10px; /* distância do topo */
+  left: 10px; /* distância da esquerda */
+  width: 100px; /* largura fixa */
+  height: auto; /* altura automática para manter proporção */
 
+}
 
 .login {
   display: grid; 

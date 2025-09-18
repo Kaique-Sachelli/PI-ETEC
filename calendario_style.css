@@ -1,0 +1,90 @@
+body {
+      font-family: Arial, sans-serif;
+      background: #FFFFFF;
+      margin: 0;
+      padding: 0;
+    }
+
+    .calendario {
+      max-width: 1000px;
+      margin: 40px auto;
+      padding: 20px;
+    }
+
+    /* Cabeçalho */
+    .topo {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 20px;
+    }
+
+    .menu {
+      font-size: 28px;
+      cursor: pointer;
+      color: #000000;
+    }
+
+    .mes {
+      font-size: 22px;
+      font-weight: bold;
+      color: #141313; /* Vermelho destaque */
+    }
+
+    .setas {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .setas button {
+      background: none;
+      border: none;
+      font-size: 18px;
+      cursor: pointer;
+      padding: 5px 10px;
+      border-radius: 6px;
+      color: #034EA2; /* Azul */
+      transition: background 0.3s;
+    }
+
+    .setas button:hover {
+      background: #FB8900; /* Amarelo */
+      color: #FFFFFF;
+    }
+
+    .perfil {
+      font-size: 28px;
+      cursor: pointer;
+      color: #000000;
+    }
+
+    /* Grid do calendário */
+    .dias-semana, .dias {
+      display: grid;
+      grid-template-columns: repeat(7, 1fr);
+      text-align: center;
+    }
+
+    .dias-semana div {
+      font-weight: bold;
+      padding: 10px 0;
+      color: #000000;
+    }
+
+    .dias div {
+      padding: 25px 0;
+      cursor: pointer;
+      transition: background 0.2s, color 0.2s;
+    }
+
+    .dias div:hover {
+      background: #0B9247; /* Verde */
+      color: #FFFFFF;
+      border-radius: 6px;
+    }
+
+    /* Destacar domingos em vermelho */
+    .dias div:nth-child(7n) {
+      color: #FF161F; /* Vermelho */
+    }
