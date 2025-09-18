@@ -1,95 +1,76 @@
-.login {
-  display: grid;
-  place-items: center;
+body {
+    background-color: white;
+    margin: 0; /* Remove margens do body */
+    padding: 0; /* Remove paddings do body */
 }
 
-.container {
-  max-width: 350px;
-  background: #F8F9FD;
-  background: linear-gradient(0deg, rgb(255, 255, 255) 0%, rgb(244, 247, 251) 100%);
-  border-radius: 40px;
-  padding: 25px 35px;
-  border: 5px solid rgb(255, 255, 255);
-  box-shadow: #d28b8e 0px 30px 30px -20px;
-  margin: 20px;
-  
+h1 {
+    color: black;
+    font-family: 'Montserrat';
+    justify-content: center; /* Centraliza horizontalmente */
+    align-items: center; /* Centraliza verticalmente */
+    font-size: 61px;
+    margin-top: 5px;
+    text-align: center;
+    border: 0px;
 }
 
-.heading {
-  text-align: center;
-  font-weight: 900;
-  font-size: 30px;
-  color: rgb(0, 0, 0);
+h2 {
+    color: rgb(54, 54, 54);
+    font-family: 'RoxboroughCF';
+    justify-content: center; /* Centraliza horizontalmente */
+    align-items: center; /* Centraliza verticalmente */
+    font-size: 18px;
+    text-align: center;
+    margin-top: -30px;
 }
 
-.form {
-  margin-top: 20px;
-  margin-left: -20px;
-  margin-right: 20px;
+p {
+    color: black;
+    font-family: 'DM Sans', sans-serif;
+    font-size: 16px;
+    
 }
 
-.form .input {
-  width: 100%;
-  background: white;
-  border: none;
-  padding: 15px 20px;
-  border-radius: 20px;
-  margin-top: 15px;
-  
-  box-shadow: #d28b8e 0px 10px 10px -5px;
-  border-inline: 2px solid transparent;
+.Links {
+    display: flex;
+    justify-content: space-around;
 }
 
-.form .input::-moz-placeholder {
-  /* Texto de dentro do input */
-  color: rgb(170, 170, 170);
+.Links a {
+    padding: 10px;
+    font-size: 20px;
+    font-family: 'DM Sans', sans-serif;
+    text-decoration: none;
+    color: black;
 }
 
-.form .input::placeholder {
-  /* Texto de dentro do input */
-  color: rgb(170, 170, 170);
+.Linha-azul {
+    width: 100%; /* Largura da linha */
+    height: 20px; /* Altura da linha */
+    background-color: #bc0e0e; /* Cor da Linha */
+    margin: 20px 0; /* Espaçamento superior e inferior */
+    border: none; /* Remove a borda padrão da tag */
+    margin-top: 0px;  
 }
 
-.form .input:focus {
-  /* Cor da borda do input */
-  outline: none;
-  border-inline: 2px solid #FF161F;
+.Linha-preta {
+    width: 40%; /* Largura da linha */
+    height: 2px; /* Altura da linha */
+    background-color: black; /* Cor da Linha */
+    margin: 20px 0; /* Espaçamento superior e inferior */
+    border: none; /* Remove a borda padrão da tag */
+    margin-right: 500px;
+    margin-left: 390px;
+    margin-top: -10px;
 }
 
-.form .forgot-password {
-  display: block;
-  margin-top: 10px;
-  margin-left: 10px;
+img {
+    height: 500px;
+    width: 1280px;
 }
 
-.form .forgot-password a {
-  /* Esqueçeu semja a senha? */
-  font-size: 11px;
-  color: #000000;
-  text-decoration: none;
-}
-
-.form .login-button {
-  /* Botão de entrar */
-  display: block;
-  width: 100%;
-  font-weight: bold;
-  background: linear-gradient(45deg, rgb(237, 28, 36) 0%, rgb(132, 37,25) 100%);
-  color: white;
-  padding-block: 15px;
-  margin: 20px auto;
-  border-radius: 20px;
-  box-shadow: #d28b8e 0px 20px 10px -15px;
-  border: none;
-  transition: all 0.2s ease-in-out;
-}
-
-.form .login-button:hover {
-  transform: scale(1.03);
-  box-shadow: #d28b8e 0px 23px 10px -20px;
-}
-
-.form .login-button:active {
-  transform: scale(0.95);
-  box-shadow: #d28b8e 0px 15px 10px -10px;
+.Logo-Mauá-News {
+    height: 50px;
+    width: 50px;
 }
