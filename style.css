@@ -1,4 +1,5 @@
 body {
+    font-family: Arial, sans-serif;
     background-color: white;
     margin: 0; /* Remove margens do body */
     padding: 0; /* Remove paddings do body */
@@ -32,12 +33,12 @@ p {
     
 }
 
-.Links {
+.secoes {
     display: flex;
     justify-content: space-around;
 }
 
-.Links a {
+.secoes a {
     padding: 10px;
     font-size: 20px;
     font-family: 'DM Sans', sans-serif;
@@ -48,29 +49,95 @@ p {
 .Linha-azul {
     width: 100%; /* Largura da linha */
     height: 20px; /* Altura da linha */
-    background-color: #bc0e0e; /* Cor da Linha */
+    background-color: #B20000; /* Cor da Linha */
     margin: 20px 0; /* Espaçamento superior e inferior */
     border: none; /* Remove a borda padrão da tag */
     margin-top: 0px;  
 }
 
 .Linha-preta {
-    width: 40%; /* Largura da linha */
+    width: 800PX; /* Largura da linha */
     height: 2px; /* Altura da linha */
+    
+    margin: 15px auto;
+
     background-color: black; /* Cor da Linha */
-    margin: 20px 0; /* Espaçamento superior e inferior */
-    border: none; /* Remove a borda padrão da tag */
-    margin-right: 500px;
-    margin-left: 390px;
-    margin-top: -10px;
 }
 
-img {
-    height: 500px;
-    width: 1280px;
+/* Calendario */
+.calendario {
+    max-width: 1000px;
+    margin: 40px auto;
+    padding: 20px;
 }
 
-.Logo-Mauá-News {
-    height: 50px;
-    width: 50px;
+/* Cabeçalho */
+.topo {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+}
+
+/* Texto do mês */
+.mes {
+    display: inline-block;
+    font-size: 22px;
+    font-weight: bold;
+    color: #000000; /* Vermelho destaque */
+}
+
+/* Setas */
+.setas {
+    display: inline-block;
+    margin-left: 70%;
+    gap: 10px;
+}
+
+/* Botão setas */
+.setas button {
+    background: none;
+    border: none;
+    font-size: 18px;
+    cursor: pointer;
+    padding: 5px 10px;
+    border-radius: 6px;
+    color: #034EA2; /* Azul */
+    transition: background 0.3s;
+    
+}
+
+/* Animação das setas */
+.setas button:hover {
+    background: #FBB900; /* Amarelo */
+    color: #FFFFFF;
+}
+
+/* Grid do calendário */
+.dias-semana, .dias {
+    display: grid;
+    grid-template-columns: repeat(7, 1fr);
+    text-align: center;
+}
+
+/* Dias da semana */
+.dias-semana div {
+    font-weight: bold;
+    padding: 10px 0;
+    color: #000000;
+}
+
+/* Dias número */
+.dias div {
+    padding: 25px 0;
+    cursor: pointer;
+    transition: background 0.2s, color 0.2s;
+    border: 1px solid #BFBFBF;
+    
+}
+
+/* Animação dos números do mês */
+.dias div:hover {
+    background: #0B9247; /* Azul */
+    color: #FFFFFF;
 }
