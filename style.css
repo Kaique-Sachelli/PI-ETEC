@@ -46,6 +46,15 @@ p {
     color: black;
 }
 
+.logo {
+  
+  top: 10px; /* distância do topo */
+  left: 10px; /* distância da esquerda */
+  width: 100px; /* largura fixa */
+  height: auto; /* altura automática para manter proporção */
+
+}
+
 .Linha-azul {
     width: 100%; /* Largura da linha */
     height: 20px; /* Altura da linha */
@@ -70,6 +79,8 @@ p {
     margin: 40px auto;
     padding: 20px;
 }
+
+
 
 /* Cabeçalho */
 .topo {
