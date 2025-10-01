@@ -32,24 +32,83 @@ p {
     font-size: 16px;
 }
 
-.secoes {
-    padding: 10px;
-    font-size: 20px;
-    font-family: 'DM Sans', sans-serif;
-    text-decoration: none;
-    color: rgb(222, 33, 4);
-}
-
-.secoes a{
-    display: flex;
-    justify-content: space-around;
-    background-color: rgb(138, 71, 255);
-}
-
-.Linha-preta {
+.linha-preta {
     width: 800PX; /* Largura da linha */
     height: 2px; /* Altura da linha */
     margin: 15px auto;
     background-color: black; /* Cor da Linha */
 }
 
+.container-vermelho {
+    height: 60px; 
+    background-color: #B20000; 
+    border: 2px solid black;
+}
+
+.secao {
+    height: 60px;
+    border: 2px solid black;
+    align-self: center;
+    color: #fff;
+}
+
+.container {
+    width: 100%;
+}
+
+.container-produtos {
+    background-color: #f0f0f0; /* Cor de fundo cinza claro */
+    border: 1px solid #dcdcdc;  /* Borda sutil para dar acabamento */
+    border-radius: 20px;        /* Bordas arredondadas */
+    width: 250px;
+    height: 400px;
+    padding: 25px; /* Espaçamento Interno */
+    display: flex;
+    flex-direction: column; /* Itens empilhados na vertical */
+    justify-content: space-between; /* Distribui o espaço entre os itens */
+    align-items: center; /* Centraliza os itens na horizontal */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.05); /* Sombra para um efeito de elevação (opcional) */
+}
+
+.kit-container {
+    background-color: #f0f0f0; /* Cor de fundo cinza claro */
+    border: 1px solid #dcdcdc;  /* Borda sutil para dar acabamento */
+    border-radius: 20px;        /* Bordas arredondadas */
+    width: 250px;
+    height: 400px;
+    padding: 25px; /* Espaçamento Interno */
+    display: flex;
+    flex-direction: column; /* Itens empilhados na vertical */
+    justify-content: space-between; /* Distribui o espaço entre os itens */
+    align-items: center; /* Centraliza os itens na horizontal */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.05); /* Sombra para um efeito de elevação (opcional) */
+}
+
+.kit-title {
+    color: #333;
+    font-size: 1.5em; /* 1.5 vezes o tamanho da fonte padrão */
+    margin: 0; /* Remove margem padrão do h2 */
+}
+
+.add-icon {
+    font-size: 5em;  /* Tamanho grande para o "+" */
+    font-weight: 300; /* Fonte mais fina */
+    color: #555;
+}
+
+.finalize-button {
+    background-color: #c4c4c4; /* Cor cinza mais escura */
+    color: #333;
+    border: none;
+    border-radius: 15px;
+    padding: 15px;
+    width: 100%; /* Ocupa 100% da largura do container (respeitando o padding) */
+    font-size: 1.2em;
+    font-weight: bold;
+    cursor: pointer; /* Muda o cursor para uma "mãozinha" ao passar o mouse */
+    transition: background-color 0.3s; /* Efeito suave na mudança de cor */
+}
+
+.finalize-button:hover {
+    background-color: #b0b0b0; /* Cor um pouco mais escura ao passar o mouse */
+}
