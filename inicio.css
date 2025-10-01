@@ -33,17 +33,20 @@ p {
     
 }
 
-.secoes {
-    display: flex;
-    justify-content: space-around;
+.container-vermelho {
+    height: 60px; 
+    background-color: #B20000; 
+    justify-content: center;
 }
 
-.secoes a {
-    padding: 10px;
-    font-size: 20px;
-    font-family: 'DM Sans', sans-serif;
-    text-decoration: none;
-    color: black;
+.secao {
+    height: 100%;
+    border-top: 1px solid rgb(100, 0, 0);
+    border-left: 1px solid rgb(100, 0, 0);
+    border-bottom: 1px solid rgb(100, 0, 0);
+    color: #fff;
+    text-align: center;
+    align-content: center;
 }
 
 .logo {
@@ -53,15 +56,6 @@ p {
   width: 100px; /* largura fixa */
   height: auto; /* altura automática para manter proporção */
 
-}
-
-.Linha-azul {
-    width: 100%; /* Largura da linha */
-    height: 20px; /* Altura da linha */
-    background-color: #B20000; /* Cor da Linha */
-    margin: 20px 0; /* Espaçamento superior e inferior */
-    border: none; /* Remove a borda padrão da tag */
-    margin-top: 0px;  
 }
 
 .Linha-preta {
