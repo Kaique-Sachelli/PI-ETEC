@@ -16,10 +16,3 @@ Jordana Barbosa Balestrin
 Kaique Sachelli Fernandes Ferreira
 
 Pedro Moreno
-
-
-
-
-Kaique Sachelli Fernandes Ferreira
-
-Pedro Moreno
