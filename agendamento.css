@@ -30,6 +30,7 @@ p {
     color: black;
     font-family: 'DM Sans', sans-serif;
     font-size: 16px;
+    text-align: center;
     
 }
 
@@ -63,6 +64,7 @@ p {
     max-width: 1000px;
     margin: 40px auto;
     padding: 20px;
+    
 }
 
 /* Cabeçalho */
