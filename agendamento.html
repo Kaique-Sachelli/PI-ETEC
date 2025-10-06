@@ -2,169 +2,150 @@
 <html lang="pt-BR">
 
 <head>
-   <meta charset="UTF-8">
-   <meta http-equiv="X-UA-Compatible" content="IE=edge">
-   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-   <title>Etec - Agendamento</title>
-   <link rel="stylesheet" href="agendamento.css">
-   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css" rel="stylesheet"
-      integrity="sha384-rbsA2VBKQhggwzxH7pPCaAqO46MgnOM80zW1RWuH61DGLwZJEdK2Kadq2F9CUG65" crossorigin="anonymous">
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Etec - Agendamento</title>
+  <link rel="stylesheet" href="agendamento.css">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css" rel="stylesheet"
+    integrity="sha384-rbsA2VBKQhggwzxH7pPCaAqO46MgnOM80zW1RWuH61DGLwZJEdK2Kadq2F9CUG65" crossorigin="anonymous">
 </head>
 
 <body>
-   <header class="text-center py-4">
-      <h1 class="titulo"> ETEC</h1>
-      <h2 class="subtitulo">Agendamento e Gerenciamento De Aulas de Práticas</h2>
-   </header>
+  <!-- CABEÇALHO -->
+  <header class="text-center py-4">
+    <h1 class="titulo">ETEC</h1>
+    <h2 class="subtitulo">Agendamento e Gerenciamento de Aulas Práticas</h2>
+  </header>
 
-   <div class="linha-preta mx-auto"></div>
-   <!-- MENNU -->
-   <div class="row container-vermelho">
-      <a href="inicio.html" class="col-2 secao">Início</a>
-      <a href="agendamento.html" class="col-2 secao">Agendamento</a>
-      <a href="" class="col-2 secao">Solicitações</a>
-      <a href="produtos.html" class="col-2 secao" style="border-right: 1px solid rgb(100, 0, 0);">Produtos</a>
-   </div>
+  <div class="linha-preta mx-auto"></div>
 
+  <!-- MENU -->
+  <div class="row container-vermelho">
+    <a href="inicio.html" class="col-2 secao">Início</a>
+    <a href="agendamento.html" class="col-2 secao">Agendamento</a>
+    <a href="" class="col-2 secao">Solicitações</a>
+    <a href="produtos.html" class="col-2 secao" style="border-right: 1px solid rgb(100, 0, 0);">Produtos</a>
+  </div>
 
-   <div class="Linha-azul"></div>
+  <div class="Linha-azul"></div>
 
-   <p>
-   <h2> Agendamento De Laboratórios</h2>
-   </p>
+  <h2 class="text-center mt-4">Agendamento de Laboratórios</h2>
 
-   <div class="calendario">
+  <!-- ✅ CONTAINER QUE JUNTA O CALENDÁRIO E O BLOCO DE HORÁRIOS -->
+  <div class="container d-flex flex-wrap justify-content-center align-items-start gap-4 mt-4">
 
-      <!-- Cabeçalho -->
-      <div class="mes-header d-flex justify-content-between align-items-center">
-         <button class="seta">◀</button>
-         <h3 class="mes"> Setembro</h3>
-         <button class="seta">▶</button>
+    <!-- 🗓️ CALENDÁRIO -->
+    <div class="calendario p-4">
+      <div class="mes-header d-flex justify-content-between align-items-center mb-3">
+        <button class="seta">◀</button>
+        <h3 class="mes m-0">Setembro</h3>
+        <button class="seta">▶</button>
       </div>
+
       <!-- Dias da semana -->
       <div class="dias-semana">
-         <div>Seg.</div>
-         <div>Ter.</div>
-         <div>Qua.</div>
-         <div>Qui.</div>
-         <div>Sex.</div>
-         <div>Sab.</div>
-         <div>Dom.</div>
+        <div>Seg.</div>
+        <div>Ter.</div>
+        <div>Qua.</div>
+        <div>Qui.</div>
+        <div>Sex.</div>
+        <div>Sab.</div>
+        <div>Dom.</div>
       </div>
 
       <!-- Dias -->
       <div class="dias">
-         <div>1</div>
-         <div>2</div>
-         <div>3</div>
-         <div>4</div>
-         <div>5</div>
-         <div>6</div>
-         <div>7</div>
-         <div>8</div>
-         <div>9</div>
-         <div>10</div>
-         <div>11</div>
-         <div>12</div>
-         <div>13</div>
-         <div>14</div>
-         <div>15</div>
-         <div>16</div>
-         <div>17</div>
-         <div>18</div>
-         <div>19</div>
-         <div>20</div>
-         <div>21</div>
-         <div>22</div>
-         <div>23</div>
-         <div>24</div>
-         <div>25</div>
-         <div>26</div>
-         <div>27</div>
-         <div>28</div>
-         <div>29</div>
-         <div>30</div>
+        <div>1</div><div>2</div><div>3</div><div>4</div><div>5</div><div>6</div><div>7</div>
+        <div>8</div><div>9</div><div>10</div><div>11</div><div>12</div><div>13</div><div>14</div>
+        <div>15</div><div>16</div><div>17</div><div>18</div><div>19</div><div>20</div><div>21</div>
+        <div>22</div><div>23</div><div>24</div><div>25</div><div>26</div><div>27</div><div>28</div>
+        <div>29</div><div>30</div>
       </div>
+    </div>
 
-   </div>
-   <div class="col-md-5 bloco-horarios ms-md-4 p-4">
+    <!-- 🕐 BLOCO DE HORÁRIOS -->
+    <div class="col-md-5 bloco-horarios p-4">
       <h4 class="text-center mb-3">Selecionar Horários e Sala:</h4>
-      <!-- Período -->
-      <div class="mb-3">
-         <label class="form-label">Laboratórios</label>
-         <select class="form-select">
-            <option value="">Selecione o Laboratório:</option>
-            <option>Laboratório 2</option>
-            <option>Laboratório 3</option>
-            <option>Laboratório 4</option>
-         </select>
-      </div>
-      <div class="mb-3">
-         <label class="form-label">Periodo:</label>
-         <select class="form-select">
-            <option value="">Selecione</option>
-            <option value="matutino">Matutino</option>
-            <option value="vespertino">Vespertino</option>
-         </select>
-      </div>
-      <!-- Horario de Matutino -->
-      <div class="mb-3">
-         <label class="form-label">Horários de Matutino</label>
-         <select class="form-select">
-            <option value="">Selecione o horário</option>
-            <option>1ª aula - 7h10 às 8h00</option>
-            <option>2ª aula - 8h00 às 8h50</option>
-            <option>3ª aula - 8h50 às 9h40</option>
-            <option>Intervalo - 9h40 às 10h00</option>
-            <option>4ª aula - 10h00 às 10h50</option>
-            <option>5ª aula - 10h50 às 11h40</option>
-            <option>6ª aula - 11h40 às 12h30</option>
-         </select>
-      </div>
 
-      <!-- Horários de Vespertino -->
       <div class="mb-3">
-         <label class="form-label">Horários Vespertino:</label>
-         <select class="form-select">
-            <option value="">Selecione o horário</option>
-            <option>1ª aula - 13h00 às 13h50</option>
-            <option>2ª aula - 13h50 às 14h40</option>
-            <option>3ª aula - 14h40 às 15h30</option>
-            <option>Intervalo - 15h30 às 15h50</option>
-            <option>4ª aula - 15h50 às 16h40</option>
-            <option>5ª aula - 16h40 às 17h30</option>
-            <option>6ª aula - 17h30 às 18h20</option>
-         </select>
+        <label class="form-label">Laboratórios</label>
+        <select class="form-select">
+          <option value="">Selecione o Laboratório:</option>
+          <option>Laboratório 2</option>
+          <option>Laboratório 3</option>
+          <option>Laboratório 4</option>
+        </select>
       </div>
 
       <div class="mb-3">
-         <label class="form-label">Horários de Noturno:</label>
-         <select class="form-select">
-            <option value="">Selecione o Horários:</option>
-            <option>18h50-20h44</option>
-            <option>20h58-22</option>
-         </select>
+        <label class="form-label">Período:</label>
+        <select class="form-select">
+          <option value="">Selecione</option>
+          <option value="matutino">Matutino</option>
+          <option value="vespertino">Vespertino</option>
+          <option value="noturno">Noturno</option>
+        </select>
       </div>
-      <button class="btn btn-primary w-100 mt-3">Agendar</button>
-   </div>
-   </div>
-   <!-- VLibras -->
 
-   <div vw class="enabled">
-      <div vw-access-button class="active"></div>
-      <div vw-plugin-wrapper>
-         <div class="vw-plugin-top-wrapper"></div>
+      <div class="mb-3">
+        <label class="form-label">Horários Matutino:</label>
+        <select class="form-select">
+          <option value="">Selecione o horário</option>
+          <option>1ª aula - 7h10 às 8h00</option>
+          <option>2ª aula - 8h00 às 8h50</option>
+          <option>3ª aula - 8h50 às 9h40</option>
+          <option>4ª aula - 10h00 às 10h50</option>
+          <option>5ª aula - 10h50 às 11h40</option>
+          <option>6ª aula - 11h40 às 12h30</option>
+        </select>
       </div>
-   </div>
-   <script src="https://vlibras.gov.br/app/vlibras-plugin.js"></script>
-   <script>
-      new window.VLibras.Widget('https://vlibras.gov.br/app');
-   </script>
 
-   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"
-      integrity="sha384-kenU1KFdBIe4zVF0s0G1M5b4hcpxyD9F7jL+jjXkk+Q2h455rYXK/7HAuoJl+0I4"
-      crossorigin="anonymous"></script>
+      <div class="mb-3">
+        <label class="form-label">Horários Vespertino:</label>
+        <select class="form-select">
+          <option value="">Selecione o horário</option>
+          <option>1ª aula - 13h00 às 13h50</option>
+          <option>2ª aula - 13h50 às 14h40</option>
+          <option>3ª aula - 14h40 às 15h30</option>
+          <option>4ª aula - 15h50 às 16h40</option>
+          <option>5ª aula - 16h40 às 17h30</option>
+          <option>6ª aula - 17h30 às 18h20</option>
+        </select>
+      </div>
+
+      <div class="mb-3">
+        <label class="form-label">Horários Noturno:</label>
+        <select class="form-select">
+          <option value="">Selecione o Horário</option>
+          <option>1ª aula - 18h50 às 19h40</option>
+          <option>2ª aula - 19h40 às 20h30</option>
+          <option>3ª aula - 20h44 às 21h34</option>
+          <option>4ª aula - 21h34 às 22h20</option>
+        </select>
+      </div>
+
+      <button class="btn btn-danger w-100 mt-3">Agendar</button>
+    </div>
+
+  </div> <!-- 🔚 fecha container -->
+
+  <!-- VLibras -->
+  <div vw class="enabled">
+    <div vw-access-button class="active"></div>
+    <div vw-plugin-wrapper>
+      <div class="vw-plugin-top-wrapper"></div>
+    </div>
+  </div>
+
+  <script src="https://vlibras.gov.br/app/vlibras-plugin.js"></script>
+  <script>
+    new window.VLibras.Widget('https://vlibras.gov.br/app');
+  </script>
+
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"
+    integrity="sha384-kenU1KFdBIe4zVF0s0G1M5b4hcpxyD9F7jL+jjXkk+Q2h455rYXK/7HAuoJl+0I4"
+    crossorigin="anonymous"></script>
 
 </body>
-
 </html>
