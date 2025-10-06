@@ -48,10 +48,9 @@ p {
 
 .secao {
     height: 100%;
-    border-top: 1px solid rgb(100, 0, 0);
-    border-left: 1px solid rgb(100, 0, 0);
-    border-bottom: 1px solid rgb(100, 0, 0);
+    border: 1px solid rgb(100, 0, 0);
     color: #fff;
+    background-color: #B20000;
     text-align: center;
     align-content: center;
 }
