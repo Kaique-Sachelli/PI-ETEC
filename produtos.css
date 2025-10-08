@@ -69,11 +69,15 @@ p {
   overflow-y: auto; /* Para rolar se tiver muitos produtos */
 }
 
-.produtos-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
-  gap: 15px;
+.produtos-lista {
   width: 100%;
+  margin-top: 10px;
+}
+
+.produtos-scroll {
+  flex-grow: 1;
+  overflow-y: auto;
+  padding: 15px;
 }
 
 .container-item {
@@ -91,12 +95,6 @@ p {
   cursor: pointer;
   transition: all 0.2s ease;
   box-shadow: 0 2px 4px rgba(0,0,0,0.05);
-}
-
-/* Grade interna */
-.produtos-lista {
-  width: 100%;
-  margin-top: 10px;
 }
 
 .container-item:hover {
@@ -117,6 +115,16 @@ p {
   line-height: 1.2;
 }
 
+/* Cabeçalho fixo */
+.produtos-header {
+  background-color: #f0f0f0;
+  position: sticky;
+  top: 0;
+  z-index: 2;
+  padding: 15px;
+  text-align: center;
+  border-bottom: 1px solid #ddd;
+}
 
 .barra-pesquisa{
     display: flex;
@@ -201,4 +209,3 @@ p {
 .finalize-button:hover {
     background-color: #b0b0b0; /* Cor um pouco mais escura ao passar o mouse */
 }
-
