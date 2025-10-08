@@ -56,17 +56,67 @@ p {
 }
 
 .container-produtos {
-    background-color: #f0f0f0; /* Cor de fundo cinza claro */
-    border: 1px solid #dcdcdc;  /* Borda sutil para dar acabamento */
-    border-radius: 20px;        /* Bordas arredondadas */
-    width: 250px;
-    height: 400px;
-    padding: 25px; /* Espaçamento Interno */
-    display: flex;
-    flex-direction: column; /* Itens empilhados na vertical */
-    align-items: center; /* Centraliza os itens na horizontal */
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.05); /* Sombra para um efeito de elevação (opcional) */
+  background-color: #f0f0f0;
+  border: 1px solid #dcdcdc;
+  border-radius: 20px;
+  width: 250px;
+  height: 400px;
+  padding: 25px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.05);
+  overflow-y: auto; /* Para rolar se tiver muitos produtos */
 }
+
+.produtos-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+  gap: 15px;
+  width: 100%;
+}
+
+.container-item {
+  background-color: #fff;
+  border: 1px solid #e0e0e0;
+  border-radius: 10px;
+  padding: 10px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  width: 100%;          /* ocupa toda a largura disponível da célula */
+  aspect-ratio: 1 / 1;  /* mantém sempre quadrado */
+  max-width: 120px;     /* limite máximo */
+  cursor: pointer;
+  transition: all 0.2s ease;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+}
+
+/* Grade interna */
+.produtos-lista {
+  width: 100%;
+  margin-top: 10px;
+}
+
+.container-item:hover {
+  transform: scale(1.03);
+  box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+}
+
+.produto-img {
+  width: 40px;
+  height: auto;
+  margin-bottom: 8px;
+}
+
+.container-item p {
+  font-size: 13px;
+  color: #333;
+  text-align: center;
+  line-height: 1.2;
+}
+
 
 .barra-pesquisa{
     display: flex;
@@ -151,3 +201,4 @@ p {
 .finalize-button:hover {
     background-color: #b0b0b0; /* Cor um pouco mais escura ao passar o mouse */
 }
+
