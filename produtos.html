@@ -16,36 +16,153 @@
    <h2>Agendamento e Gerenciamento de Aulas Práticas</h2>
 
    <div class="linha-preta d-flex justify-content-center"></div>
-   
+
+   <!-- Menu superior -->
    </div>
-      <div class="row container-vermelho">
-         <a href="inicio.html" class="col-2 secao">Início</a>
-         <a href="agendamento.html" class="col-2 secao">Agendamento</a>
-         <a href="" class="col-2 secao">Solicitações</a>
-         <a href="produtos.html" class="col-2 secao" style="border-right: 1px solid rgb(100, 0, 0);">Produtos</a>
+      <div class="row justify-content-md-start  justify-content-lg-center container-vermelho">
+         <button onclick="window.location.href='inicio.html'"class="col-lg-2 col-3 secao"> Início </button>
+         <button onclick="window.location.href='agendamento.html'"class="col-lg-2 col-3 secao"> Agendamento </button>
+         <button onclick="window.location.href=''"class="col-lg-2 col-3 secao"> Solicitações </button>
+         <button onclick="window.location.href='produtos.html'"class="col-lg-2 col-3 secao"> Produtos </button>
       </div>
    </div>
 
+   <!-- Container principal -->
    <div class="container mt-2 border p-5">
       <div class="row">
+         
+         <!-- Container de produtos -->
          <div class="col-6 container-produtos">
+            <div class="produtos-header">
+               <h2>Produtos disponíveis</h2>
+               <div class="barra-pesquisa">
+                  <svg class="icon" aria-hidden="true" viewBox="0 0 24 24"><g><path d="M21.53 20.47l-3.66-3.66C19.195 15.24 20 13.214 20 11c0-4.97-4.03-9-9-9s-9 4.03-9 9 4.03 9 9 9c2.215 0 4.24-.804 5.808-2.13l3.66 3.66c.147.146.34.22.53.22s.385-.073.53-.22c.295-.293.295-.767.002-1.06zM3.5 11c0-4.135 3.365-7.5 7.5-7.5s7.5 3.365 7.5 7.5-3.365 7.5-7.5 7.5-7.5-3.365-7.5-7.5z"></path></g></svg>
+                  <input placeholder="Search" type="search" class="input">
+               </div>
+            </div>
+
+            <div class="menu">
+               <div class="item">
+                  <a href="#" class="link">
+                     <span> Filtros </span>
+                        <svg viewBox="0 0 360 360" xml:space="preserve">
+                     </svg>
+                  </a>
+                  <div class="submenu">
+                     <div class="submenu-item">
+                        <a href="#" class="submenu-link"> Vidraria </a>
+                     </div>
+                     <div class="submenu-item">
+                        <a href="#" class="submenu-link"> Reagentes </a>
+                     </div>
+                  </div>
+               </div>
+            </div>
             
+            <!-- Scrool -->
+            <div class="produtos-scroll">
+
+            <!-- Quadradinhos dos produtos -->
+            <div class="row produtos-lista">
+
+               <!-- Vidrarias -->
+               <button class="col-3 container-item">
+                  <img src="imagens\Vidraria-img.png" alt="Bequer" class="produto-img">
+                  <p> Béquer 100ml <br> 3 und.</p>
+               </button>
+
+               <button class="col-3 container-item">
+                  <img src="imagens\Vidraria-img.png" alt="Bequer" class="produto-img">
+                  <p> Béquer 250ml <br> 2 und.</p>
+               </button>
+
+               <button class="col-3 container-item">
+                  <img src="imagens\Vidraria-img.png" alt="Termômetro" class="produto-img">
+                  <p>Termômetro <br> Mercúrio <br> 2 und.</p>
+               </button>
+
+               <button class="col-3 container-item">
+                  <img src="imagens\Vidraria-img.png" alt="Termômetro" class="produto-img">
+                  <p> Termômetro <br> Digital <br> 4 und.</p>
+               
+               <button class="col-3 container-item">
+                  <img src="imagens\Vidraria-img.png" alt="Caixa papel filtro" class="produto-img">
+                  <p> Caixa papel filtro <br> preto <br> 1 und.</p>
+               </button>
+
+               <button class="col-3 container-item">
+                  <img src="imagens\Vidraria-img.png" alt="Caixa papel filtro" class="produto-img">
+                  <p> Caixa papel filtro <br> azul <br> 1 und.</p>
+               </button>
+
+               <button class="col-3 container-item">
+                  <img src="imagens\Vidraria-img.png" alt="Bureta" class="produto-img">
+                  <p> Bureta 25ml <br> 2 und.</p>
+               </button>
+
+               <button class="col-3 container-item">
+                  <img src="imagens\Vidraria-img.png" alt="Produto 1" class="produto-img">
+                  <p> Pump 25ml <br> 2 und.</p>
+               </button>
+
+               <!-- Reagentes -->
+               <button class="col-3 container-item">
+                  <img src="imagens\beaker.png" alt="Produto 1" class="produto-img">
+                  <p>Vidraria <br> 5 und.</p>
+               </button>
+
+               <button class="col-3 container-item">
+                  <img src="imagens\beaker.png" alt="Produto 1" class="produto-img">
+                  <p>Vidraria <br> 5 und.</p>
+               </button>
+
+               <button class="col-3 container-item">
+                  <img src="imagens\beaker.png" alt="Produto 1" class="produto-img">
+                  <p>Vidraria <br> 5 und.</p>
+               </button>
+
+               <button class="col-3 container-item">
+                  <img src="imagens\beaker.png" alt="Produto 1" class="produto-img">
+                  <p>Vidraria <br> 5 und.</p>
+               </button>
+
+               <button class="col-3 container-item">
+                  <img src="imagens\beaker.png" alt="Produto 1" class="produto-img">
+                  <p>Vidraria <br> 5 und.</p>
+               </button>
+
+               <button class="col-3 container-item">
+                  <img src="imagens\beaker.png" alt="Produto 1" class="produto-img">
+                  <p>Vidraria <br> 5 und.</p>
+               </button>
+
+               <button class="col-3 container-item">
+                  <img src="imagens\beaker.png" alt="Produto 1" class="produto-img">
+                  <p>Vidraria <br> 5 und.</p>
+               </button>
+
+               <button class="col-3 container-item">
+                  <img src="imagens\beaker.png" alt="Produto 1" class="produto-img">
+                  <p>Vidraria <br> 5 und.</p>
+               </button>
+
+            </div>
+            </div>
+
          </div>
 
-         <div class="col-1">
+         <!-- Divisoria entre o container produtos e o container kit -->
+         <div class="col-1"></div>
 
-         </div>
-
+         <!-- Container montar kit -->
          <div class="col-5 kit-container">  
             <h2 class="kit-title">Monte seu KIT</h2>
-            <div class="add-icon">+</div>
+            <div class="add-icon">+</div>            
             <button class="finalize-button">Finalizar</button>
          </div>
 
       </div>
    </div>
-
-   
 
    <!-- VLibras -->
    <div vw class="enabled">

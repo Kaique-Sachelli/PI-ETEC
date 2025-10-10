@@ -35,21 +35,21 @@ p {
 }
 
 .container-vermelho {
-    height: 60px; 
     background-color: #B20000; 
-    justify-content: center;
     font-family: Verdana, sans-serif;
 }
 
 .secao {
-    height: 100%;
-    border-top: 1px solid rgb(100, 0, 0);
-    border-left: 1px solid rgb(100, 0, 0);
-    border-bottom: 1px solid rgb(100, 0, 0);
+    height: 60px;
+    border: 1px solid rgb(100, 0, 0);
+    background-color: #B20000;
     color: #fff;
-    text-align: center;
-    align-content: center;
 }
+
+.secao:hover {
+    background-color: #BA1A1A; /* Cor um pouco mais escura ao passar o mouse */
+}
+
 
 .Linha-preta {
     width: 800PX; /* Largura da linha */

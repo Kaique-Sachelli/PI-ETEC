@@ -20,17 +20,12 @@
 
   <div class="linha-preta mx-auto"></div>
 
-  <!-- MENU -->
-  <div class="row container-vermelho">
-    <a href="inicio.html" class="col-2 secao">Início</a>
-    <a href="agendamento.html" class="col-2 secao">Agendamento</a>
-    <a href="" class="col-2 secao">Solicitações</a>
-    <a href="produtos.html" class="col-2 secao" style="border-right: 1px solid rgb(100, 0, 0);">Produtos</a>
-  </div>
-
-  <div class="Linha-azul"></div>
-
-  <h2 class="text-center mt-4">Agendamento de Laboratórios</h2>
+    <div class="row justify-content-md-start  justify-content-lg-center container-vermelho">
+      <button onclick="window.location.href='inicio.html'"class="col-lg-2 col-3 secao"> Início </button>
+      <button onclick="window.location.href='agendamento.html'"class="col-lg-2 col-3 secao"> Agendamento </button>
+      <button onclick="window.location.href=''"class="col-lg-2 col-3 secao"> Solicitações </button>
+      <button onclick="window.location.href='produtos.html'"class="col-lg-2 col-3 secao"> Produtos </button>
+    </div>
 
   <!-- ✅ CONTAINER QUE JUNTA O CALENDÁRIO E O BLOCO DE HORÁRIOS -->
   <div class="container d-flex flex-wrap justify-content-center align-items-start gap-4 mt-4">
@@ -38,9 +33,9 @@
     <!-- 🗓️ CALENDÁRIO -->
     <div class="calendario p-4">
       <div class="mes-header d-flex justify-content-between align-items-center mb-3">
-        <button class="seta">◀</button>
-        <h3 class="mes m-0">Setembro</h3>
-        <button class="seta">▶</button>
+          <button class="seta">◀</button>
+          <h3 class="mes m-0">Setembro</h3>
+          <button class="seta">▶</button>
       </div>
 
       <!-- Dias da semana -->
