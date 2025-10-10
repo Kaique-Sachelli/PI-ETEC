@@ -45,6 +45,11 @@ p {
     color: #fff;
 }
 
+.secao:hover {
+    background-color: #BA1A1A; /* Cor um pouco mais escura ao passar o mouse */
+}
+
+
 .logo {
   
   top: 10px; /* distância do topo */
