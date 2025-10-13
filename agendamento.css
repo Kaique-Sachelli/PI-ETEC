@@ -53,6 +53,7 @@ p {
 
 .container-vermelho .secao:hover {
     background-color: #BA1A1A; /* Cor um pouco mais escura ao passar o mouse */
+}
 
 .container-principal {
   display: flex;
@@ -237,8 +238,14 @@ footer {
   margin-top: 100px;
 }
 
+footer .row {
+  display: flexbox;
+  justify-content: space-around;
+}
+
 footer .secao {
   min-height: 150px;
+  min-width: 230px;
 }
 
 footer h3 {
