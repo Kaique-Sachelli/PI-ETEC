@@ -340,8 +340,14 @@ footer {
   margin-top: 100px;
 }
 
+footer .row {
+  display: flexbox;
+  justify-content: space-around;
+}
+
 footer .secao {
   min-height: 150px;
+  min-width: 230px;
 }
 
 footer h3 {
