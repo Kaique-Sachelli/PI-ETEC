@@ -44,14 +44,14 @@ p {
     font-family: Verdana, sans-serif;
 }
 
-.secao {
+.container-vermelho .secao {
     height: 60px;
     border: 1px solid rgb(100, 0, 0);
     background-color: #B20000;
     color: #fff;
 }
 
-.secao:hover {
+.container-vermelho .secao:hover {
     background-color: #BA1A1A; /* Cor um pouco mais escura ao passar o mouse */
 }
 
@@ -331,4 +331,37 @@ p {
 
 .submenu .submenu-link:hover {
   color: #ffffff;
+}
+
+footer {
+  background-color: #1e2c64;
+  min-height: 300px;
+  width: auto;
+  padding: 50px;
+}
+
+footer .secao {
+  min-height: 150px;
+}
+
+footer h3 {
+  font-size: x-large;
+  color: #fff;
+  margin-bottom: 20px;
+}
+
+footer .texto {
+  color: rgb(170, 170, 170);
+}
+
+footer .secao .icones {
+  font-size: 30px;
+  margin-top: 10px;
+}
+
+footer .linha-footer {
+    width: 800px;
+    height: 2px;
+    margin: 15px auto;
+    background-color: rgb(85, 85, 85);
 }
