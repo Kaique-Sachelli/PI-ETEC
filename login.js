@@ -1,0 +1,23 @@
+
+document.getElementById('formLogin').addEventListener('submit', async (e) => {
+  e.preventDefault();
+
+  const email = document.getElementById('email').value;
+  const senha = document.getElementById('senha').value;
+
+  try {
+    const resposta = await fetch('http://localhost:5501/login', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ email, senha })
+    });
+
+    const dados = await resposta.json();
+
+    const msg = document.getElementById('mensagem');
+    msg.textContent = dados.mensagem;
+    msg.style.color = dados.sucesso ? 'green' : 'red';
+  } catch (erro) {
+    console.error('Erro ao tentar fazer login:', erro);
+  }
+});
