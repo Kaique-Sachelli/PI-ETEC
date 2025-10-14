@@ -6,7 +6,7 @@ const pool = require('./bancodedados');
 const app = express();
 app.use(cors());
 app.use(bodyParser.json());
-
+app.use(express.static('public'));
 
 app.post('/login', async (req, res) => {
   const { email, senha } = req.body;
