@@ -11,12 +11,13 @@ document.getElementById('formLogin').addEventListener('submit', async (e) => {
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ email, senha })
     });
-
     const dados = await resposta.json();
-
     const msg = document.getElementById('mensagem');
     msg.textContent = dados.mensagem;
     msg.style.color = dados.sucesso ? 'green' : 'red';
+    if (dados.sucesso) {
+      window.location.href = 'inicio.html';
+    }
   } catch (erro) {
     console.error('Erro ao tentar fazer login:', erro);
   }
