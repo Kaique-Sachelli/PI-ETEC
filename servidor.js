@@ -1,7 +1,7 @@
 const express = require('express');
 const bodyParser = require('body-parser');
 const cors = require('cors');
-const pool = require('./bancodedados'); 
+const pool = require('./bancoDeDados'); 
 
 const app = express();
 app.use(cors());
@@ -13,7 +13,7 @@ app.post('/login', async (req, res) => {
 
   try {
     const [rows] = await pool.query(
-      'SELECT * FROM usuarios WHERE email = ? AND senha = ?',
+      'SELECT * FROM usuario WHERE email = ? AND senha = ?',
       [email, senha]
     );
 
