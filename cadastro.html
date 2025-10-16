@@ -27,37 +27,40 @@
     </div>
    
    <!-- Container principal -->
-   <div class="container mt-2 border p-5">
+   <div class="container-fluid mt-2 p-5">
 
       <div class="row">
 
+         <!-- Coluna esquerda -->
+         <div class="col-1"></div>
+
          <!-- Container de cadastro de usuário -->
-         <div class="container_cadastro col-5">
+         <div class="container_cadastro col-4">
 
             <div class="heading">Cadastro de usuário</div>
 
             <form action="" class="form">
 
                <!-- Campo para o nome -->
-               <div class="mb-3">
+               <div class="nome">
                   <label class="form-label">Nome:</label>
                   <input type="text" class="form-control" placeholder="Digite seu nome">
                </div>
 
                <!-- Campo para o email -->
-               <div class="mb-3">
+               <div class="email">
                   <label class="form-label">Email:</label>
                   <input type="email" class="form-control" placeholder="Digite seu email">   
                </div>
 
                <!-- Campo para a senha -->
-               <div class="mb-3">   
+               <div class="senha">   
                   <label class="form-label">Senha:</label>
                   <input type="password" class="form-control" placeholder="Digite sua senha">
                </div>
 
                <!-- Caixa de seleção da turma -->
-               <div class="mb-3">
+               <div class="turma">
                   <label class="form-label">Turmas</label>
                   <select class="form-select">
                      <option value="">Selecione a turma</option>
@@ -68,7 +71,7 @@
                </div>
 
                <!-- Caixa de seleção do login -->
-               <div class="mb-3">
+               <div class="login">
                   <label class="form-label">Tipo de login</label>
                   <select class="form-select">
                      <option value="">Selecione o login</option>
@@ -84,10 +87,10 @@
          </div>
          
 
-         <div class="col-1"></div>
+         <div class="col-2"></div>
 
          <!-- Container de alteração de usuário -->
-         <div class="container_alterar col-5">
+         <div class="container_alterar col-4">
             <div class="heading">Alterar Usuário</div>
 
             <form action="" class="form">
@@ -145,6 +148,8 @@
             </form>
          </div>
 
+         <!-- Coluna direita -->
+          <div class="col-1"></div>
       </div>
 
    </div>
