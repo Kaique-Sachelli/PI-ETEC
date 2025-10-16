@@ -45,15 +45,15 @@ p {
 }
 
 .container-vermelho .secao {
-    height: 60px;
-    border: 1px solid rgb(100, 0, 0);
-    background-color: #B20000;
-    color: #fff;
+  height: 60px;
+  border: 1px solid rgb(100, 0, 0);
+  background-color: #b20000;
+  color: #fff;
 }
 
 .container-vermelho .secao:hover {
-    background-color: #BA1A1A; /* Cor um pouco mais escura ao passar o mouse */
-
+  background-color: #ba1a1a; /* Cor um pouco mais escura ao passar o mouse */
+}
 .container-principal {
   display: flex;
   flex-wrap: wrap;
@@ -71,19 +71,30 @@ p {
   border-radius: 10px;
   box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
   padding: 20px;
-  flex: 0 0 700px;
-  max-width: 700px;
+  flex: 0 0 900px;
+  height: 50%;
 }
 .mes-header {
   display: flex;
-  justify-content: space-between;
   align-items: center;
+  justify-content: center;
   margin-bottom: 20px;
+  position: relative;
 }
 .mes {
-  font-size: 22px;
+  font-size: 1.4rem;
   font-weight: bold;
-  color: #000000;
+  color: #212222
+}
+/* posiciona as setas nas laterais */
+.mes-header .seta:first-child {
+  position: absolute;
+  left: 20px;
+}
+
+.mes-header .seta:last-child {
+  position: absolute;
+  right: 20px;
 }
 .seta {
   background: none;
@@ -97,8 +108,10 @@ p {
 }
 .seta:hover {
   background: #fbb900;
-  color: #ffffff;
+  color: #fff;
+  transform: scale(1.1);
 }
+
 .selecionar-semana {
   font-size: 16px;
   line-height: 1.6;
@@ -223,11 +236,12 @@ p {
   cursor: pointer;
   transition: background 0.2s, color 0.2s;
   border: 1px solid #bfbfbf;
+  border-radius: 3px;
 }
 
 .dias div:hover {
-    background: #0B9247; /* Azul */
-    color: #FFFFFF;
+  background: #0b9247; /* Azul */
+  color: #ffffff;
 }
 
 footer {
@@ -257,10 +271,10 @@ footer .secao .icones {
 }
 
 footer .linha-footer {
-    width: 800px;
-    height: 2px;
-    margin: 30px auto;
-    background-color: rgb(128, 128, 128);
+  width: 800px;
+  height: 2px;
+  margin: 30px auto;
+  background-color: rgb(128, 128, 128);
 }
 
 .bloco-horarios {
