@@ -365,3 +365,43 @@ footer .linha-footer {
     margin: 30px auto;
     background-color: rgb(128, 128, 128);
 }
+
+/* css dos kits, odeio css, quem me fez fazer essa merda, depois se virem com a responsividade, boa sorte! (nem o gpt ajuda nessa merda, tive q fazer a maioria na mao} */
+
+.kit-container {
+    background-color: #f0f0f0;
+    border: 1px solid #dcdcdc;
+    border-radius: 20px;
+    width: 250px;
+    height: 400px;
+    padding: 25px;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: center;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.05);
+    overflow: hidden;
+}
+
+.kit-lista {
+    width: 100%;
+    margin-top: 10px;
+    overflow-y: auto;  /* scroll */
+    flex-grow: 1;
+    padding-right: 5px;
+}
+
+.kit-item {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 10px;
+    margin-bottom: 8px;
+    width: 100%;
+    padding: 5px 10px;
+    background-color: #fff;
+    border-radius: 8px;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+    flex-shrink: 0;
+}
+
