@@ -71,6 +71,7 @@ p {
   padding: 25px;
   display: flex;
   flex-direction: column;
+  align-items: center;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.05);
   overflow-y: auto; /* Para rolar se tiver muitos produtos */
 }
@@ -86,10 +87,6 @@ p {
   padding: 15px;
 }
 
-.produtos-header {
-  
-}
-
 .container-item {
   background-color: #fff;
   border: 1px solid #e0e0e0;
@@ -99,9 +96,9 @@ p {
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  width: 100%;          /* ocupa toda a largura disponível da célula */
-  aspect-ratio: 1 / 1;  /* mantém sempre quadrado */
-  max-width: 120px;     /* limite máximo */
+  width: 100%;          
+  aspect-ratio: 1 / 1;  
+  max-width: 120px;     
   cursor: pointer;
   transition: all 0.2s ease;
   box-shadow: 0 2px 4px rgba(0,0,0,0.05);
@@ -125,7 +122,7 @@ p {
   line-height: 1.2;
 }
 
-/* Cabeçalho */
+/* Cabeçalho fixo */
 .produtos-header {
   background-color: #f0f0f0;
   position: sticky;
@@ -134,6 +131,132 @@ p {
   padding: 15px;
   text-align: center;
   border-bottom: 1px solid #ddd;
+  align-self: flex-start;
+  width: 100%;
+  text-align: left;
+}
+
+.produtos-title {
+  color: #333;
+  margin: 0;
+  font-family: Verdana, sans-serif;
+  font-size: 30px !important;
+}
+
+.produtos-header-linha {
+  display: flex;
+  justify-content: space-between; /* um em cada extremo */
+  align-items: center;            /* centraliza verticalmente */
+  width: 100%;
+  margin-top: 10px;               /* espaço abaixo do título */
+}
+
+.filtro {
+  font-size: 16px;
+  line-height: 1.6;
+  color: #000000;
+  width: fit-content;
+  display: flex;
+  list-style: none;
+  padding: 0;
+  margin-bottom: 20px;
+}
+
+.filtro a {
+  text-decoration: none;
+  color: inherit;
+  font-family: inherit;
+  font-size: inherit;
+  line-height: inherit;
+}
+
+.filtro .link {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  padding: 12px 36px;
+  border-radius: 16px;
+  overflow: hidden;
+  transition: all 0.48s cubic-bezier(0.23, 1, 0.32, 1);
+  border: 1px solid #ddd;
+}
+
+.filtro .link::after {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: #ffffff;
+  z-index: -1;
+  transform: scaleX(0);
+  transform-origin: left;
+  transition: transform 0.48s cubic-bezier(0.23, 1, 0.32, 1);
+}
+
+.filtro .item {
+  position: relative;
+}
+
+.filtro .item .submenu {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  position: absolute;
+  top: 100%;
+  border-radius: 0 0 16px 16px;
+  left: 0;
+  width: 100%;
+  overflow: hidden;
+  border: 1px solid #000000;
+  opacity: 0;
+  visibility: hidden;
+  transform: translateY(-12px);
+  transition: all 0.48s cubic-bezier(0.23, 1, 0.32, 1);
+  z-index: 1;
+  pointer-events: none;
+  list-style: none;
+  padding: 0;
+  background-color: white;
+}
+
+.filtro .item:hover .submenu {
+  opacity: 1;
+  visibility: visible;
+  transform: translateY(0);
+  pointer-events: auto;
+  border-top: transparent;
+  border-color: #000000;
+}
+
+.filtro .item:hover .link {
+  color: #000000;
+  border-radius: 16px 16px 0 0;
+}
+
+.filtro .item:hover .link::after {
+  transform: scaleX(1);
+  transform-origin: right;
+}
+
+.filtro .submenu-item {
+  width: 100%;
+}
+
+.filtro .submenu-link {
+  display: block;
+  padding: 10px;
+  text-align: center;
+  color: #000;
+  text-decoration: none;
+  transition: background 0.3s;
+}
+
+.filtro .submenu-link:hover {
+  background-color: #f0f0f0;
 }
 
 .barra-pesquisa{
@@ -153,7 +276,7 @@ p {
  border: 2px solid transparent;
  border-radius: 8px;
  outline: none;
- background-color: #f3f3f4;
+ background-color: #ffffff;
  color: #0d0c22;
  transition: .3s ease;
 }
@@ -178,218 +301,15 @@ p {
 }
 
 .kit-container {
-    background-color: #f0f0f0; /* Cor de fundo cinza claro */
-    border: 1px solid #dcdcdc;  /* Borda sutil para dar acabamento */
-    border-radius: 20px;        /* Bordas arredondadas */
+    background-color: #f0f0f0; 
+    border: 1px solid #dcdcdc;  
+    border-radius: 20px;        
     width: 250px;
     height: 600px;
-    padding: 25px; /* Espaçamento Interno */
+    padding: 25px; 
     display: flex;
-    flex-direction: column; /* Itens empilhados na vertical */
-    justify-content: space-between; /* Distribui o espaço entre os itens */
-    align-items: center; /* Centraliza os itens na horizontal */
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.05); /* Sombra para um efeito de elevação (opcional) */
-}
-
-.kit-title {
-    color: #333;
-    font-size: 1.5em; /* 1.5 vezes o tamanho da fonte padrão */
-    margin: 0; /* Remove margem padrão do h2 */
-}
-
-.add-icon {
-    font-size: 5em;  /* Tamanho grande para o "+" */
-    font-weight: 300; /* Fonte mais fina */
-    color: #555;
-}
-
-.finalize-button {
-    background-color: #c4c4c4; /* Cor cinza mais escura */
-    color: #333;
-    border: none;
-    border-radius: 15px;
-    padding: 15px;
-    width: 100%; /* Ocupa 100% da largura do container (respeitando o padding) */
-    font-size: 1.2em;
-    font-weight: bold;
-    cursor: pointer; /* Muda o cursor para uma "mãozinha" ao passar o mouse */
-    transition: background-color 0.3s; /* Efeito suave na mudança de cor */
-}
-
-.finalize-button:hover {
-    background-color: #b0b0b0; /* Cor um pouco mais escura ao passar o mouse */
-}
-
-.menu {
-  font-size: 16px;
-  line-height: 1.6;
-  color: #000000;
-  width: fit-content;
-  display: flex;
-  list-style: none;
-}
-
-.menu a {
-  text-decoration: none;
-  color: inherit;
-  font-family: inherit;
-  font-size: inherit;
-  line-height: inherit;
-}
-
-.menu .link {
-  position: relative;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 12px;
-  padding: 12px 36px;
-  border-radius: 16px;
-  overflow: hidden;
-  transition: all 0.48s cubic-bezier(0.23, 1, 0.32, 1);
-}
-
-.menu .link::after {
-  content: "";
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background-color: #0a3cff;
-  z-index: -1;
-  transform: scaleX(0);
-  transform-origin: left;
-  transition: transform 0.48s cubic-bezier(0.23, 1, 0.32, 1);
-}
-
-.menu .item {
-  position: relative;
-}
-
-.menu .item .submenu {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  position: absolute;
-  top: 100%;
-  border-radius: 0 0 16px 16px;
-  left: 0;
-  width: 100%;
-  overflow: hidden;
-  border: 1px solid #000000;
-  opacity: 0;
-  visibility: hidden;
-  transform: translateY(-12px);
-  transition: all 0.48s cubic-bezier(0.23, 1, 0.32, 1);
-  z-index: 1;
-  pointer-events: none;
-  list-style: none;
-}
-
-.menu .item:hover .submenu {
-  opacity: 1;
-  visibility: visible;
-  transform: translateY(0);
-  pointer-events: auto;
-  border-top: transparent;
-  border-color: #000000;
-}
-
-.menu .item:hover .link {
-  color: #000000;
-  border-radius: 16px 16px 0 0;
-}
-
-.menu .item:hover .link::after {
-  transform: scaleX(1);
-  transform-origin: right;
-}
-
-.menu .item:hover .link svg {
-  fill: #ffffff;
-  transform: rotate(-180deg);
-}
-
-.submenu .submenu-item {
-  width: 100%;
-  transition: all 0.48s cubic-bezier(0.23, 1, 0.32, 1);
-}
-
-.submenu .submenu-link {
-  display: block;
-  padding: 12px 24px;
-  width: 100%;
-  position: relative;
-  text-align: center;
-  transition: all 0.48s cubic-bezier(0.23, 1, 0.32, 1);
-}
-
-.submenu .submenu-item:last-child .submenu-link {
-  border-bottom: none;
-}
-
-
-.submenu .submenu-link:hover:before {
-  transform: scaleX(1);
-  transform-origin: right;
-}
-
-.submenu .submenu-link:hover {
-  color: #ffffff;
-}
-
-footer {
-  background-color: #000000;
-  min-height: 250px;
-  padding: 30px;
-  margin-top: 100px;
-}
-
-footer .row {
-  display: flexbox;
-  justify-content: space-around;
-}
-
-footer .secao {
-  min-height: 150px;
-  min-width: 230px;
-}
-
-footer h3 {
-  font-size: x-large;
-  color: #fff;
-  margin-bottom: 20px;
-}
-
-footer .texto {
-  color: rgb(191, 191, 191);
-}
-
-footer .secao .icones {
-  font-size: 30px;
-  margin-top: 10px;
-}
-
-footer .linha-footer {
-    width: 800px;
-    height: 2px;
-    margin: 30px auto;
-    background-color: rgb(128, 128, 128);
-}
-
-/* css dos kits, odeio css, quem me fez fazer essa merda, depois se virem com a responsividade, boa sorte! (nem o gpt ajuda nessa merda, tive q fazer a maioria na mao} */
-
-.kit-container {
-    background-color: #f0f0f0;
-    border: 1px solid #dcdcdc;
-    border-radius: 20px;
-    width: 250px;
-    height: 400px;
-    padding: 25px;
-    display: flex;
-    flex-direction: column;
-    justify-content: flex-start;
+    flex-direction: column; 
+    justify-content: space-between; 
     align-items: center;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.05);
     overflow: hidden;
@@ -442,4 +362,67 @@ footer .linha-footer {
 
 .remover-item:hover {
     transform: scale(1.2);
+}
+
+.kit-title {
+    color: #333;
+    margin: 0;
+    font-family: Verdana, sans-serif;
+    font-size: 30px !important;
+}
+
+.add-icon {
+    font-size: 5em;  
+    font-weight: 300; 
+    color: #555;
+}
+
+.finalize-button {
+    background-color: #c4c4c4; 
+    color: #333;
+    border: none;
+    border-radius: 15px;
+    padding: 15px;
+    width: 100%;
+    font-size: 1.2em;
+    font-weight: bold;
+    cursor: pointer; 
+    transition: background-color 0.3s; 
+}
+
+.finalize-button:hover {
+    background-color: #b0b0b0;
+}
+
+footer {
+  background-color: #000000;
+  min-height: 250px;
+  padding: 30px;
+  margin-top: 100px;
+}
+
+footer .secao {
+  min-height: 150px;
+}
+
+footer h3 {
+  font-size: x-large;
+  color: #fff;
+  margin-bottom: 20px;
+}
+
+footer .texto {
+  color: rgb(191, 191, 191);
+}
+
+footer .secao .icones {
+  font-size: 30px;
+  margin-top: 10px;
+}
+
+footer .linha-footer {
+    width: 800px;
+    height: 2px;
+    margin: 30px auto;
+    background-color: rgb(128, 128, 128);
 }
