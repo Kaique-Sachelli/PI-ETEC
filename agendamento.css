@@ -242,6 +242,51 @@ p {
     color: #FFFFFF;
 }
 
+.container-semana {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  align-items: flex-start;
+  gap: 30px;
+  margin-top: 20px;
+  padding: 0 20px;
+  max-width: 1200px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.container-semana .calendario {
+  background-color: white;
+  border-radius: 10px;
+  box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+  padding: 20px;
+  min-width: 95%;
+}
+
+.semana {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  text-align: center;
+  gap: 1px;
+}
+
+.semana div {
+  border: 1px solid #b3b3b3;
+}
+
+.semana div .horario {
+  padding: 20px 0px;
+  cursor: pointer;
+  transition: background 0.2s, color 0.2s;
+  border: 1px dashed #cacaca;
+}
+
+.semana div .horario:hover {
+    border: none;
+    background: #0B9247; /* Azul */
+    color: #FFFFFF;
+}
+
 footer {
   background-color: #000000;
   min-height: 250px;
@@ -249,8 +294,14 @@ footer {
   margin-top: 100px;
 }
 
+footer .row {
+  display: flexbox;
+  justify-content: space-around;
+}
+
 footer .secao {
   min-height: 150px;
+  min-width: 230px;
 }
 
 footer h3 {
