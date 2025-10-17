@@ -71,7 +71,6 @@ p {
   padding: 25px;
   display: flex;
   flex-direction: column;
-  align-items: center;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.05);
   overflow-y: auto; /* Para rolar se tiver muitos produtos */
 }
