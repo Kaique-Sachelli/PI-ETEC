@@ -53,6 +53,7 @@ p {
 
 .container-vermelho .secao:hover {
     background-color: #BA1A1A; /* Cor um pouco mais escura ao passar o mouse */
+}
 
 .container-principal {
   display: flex;
@@ -66,6 +67,7 @@ p {
   margin-left: auto;
   margin-right: auto;
 }
+
 .calendario {
   background-color: white;
   border-radius: 10px;
@@ -74,17 +76,20 @@ p {
   flex: 0 0 700px;
   max-width: 700px;
 }
+
 .mes-header {
   display: flex;
   justify-content: space-between;
   align-items: center;
   margin-bottom: 20px;
 }
+
 .mes {
   font-size: 22px;
   font-weight: bold;
   color: #000000;
 }
+
 .seta {
   background: none;
   border: none;
@@ -95,10 +100,12 @@ p {
   color: #034ea2;
   transition: background 0.3s;
 }
+
 .seta:hover {
   background: #fbb900;
   color: #ffffff;
 }
+
 .selecionar-semana {
   font-size: 16px;
   line-height: 1.6;
@@ -109,6 +116,7 @@ p {
   padding: 0;
   margin-bottom: 20px;
 }
+
 .selecionar-semana a {
   text-decoration: none;
   color: inherit;
@@ -116,6 +124,7 @@ p {
   font-size: inherit;
   line-height: inherit;
 }
+
 .selecionar-semana .link {
   position: relative;
   display: flex;
@@ -128,6 +137,7 @@ p {
   transition: all 0.48s cubic-bezier(0.23, 1, 0.32, 1);
   border: 1px solid #ddd;
 }
+
 .selecionar-semana .link::after {
   content: "";
   position: absolute;
@@ -141,9 +151,11 @@ p {
   transform-origin: left;
   transition: transform 0.48s cubic-bezier(0.23, 1, 0.32, 1);
 }
+
 .selecionar-semana .item {
   position: relative;
 }
+
 .selecionar-semana .item .submenu {
   display: flex;
   flex-direction: column;
