@@ -43,4 +43,22 @@ function atualizarKit() {
 }
 
 
+function inicializarEventos() {
+    const produtos = document.querySelectorAll(".container-item");
+    produtos.forEach(produto => {
+        produto.addEventListener("click", () => adicionarAoKit(produto));
+    });
 
+    const botaoFinalizar = document.querySelector(".finalize-button");
+    botaoFinalizar.addEventListener("click", () => {
+        if (kitSelecionado.length === 0) {
+            alert("Nenhum item selecionado!");
+            return;
+        }
+
+        const nomes = kitSelecionado.map(item => item.nome).join("\n• ");
+        alert("Kit finalizado com os seguintes itens:\n\n• " + nomes);
+    });
+}
+
+document.addEventListener("DOMContentLoaded", inicializarEventos);
