@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="solicitacao.css" />
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+    />
+    <title>Etec</title>
+  </head>
+  <body>
+    <h1>ETEC</h1>
+
+    <h2>Agendamento e Gerenciamento de Aulas Práticas</h2>
+
+    <div class="Linha-preta d-flex justify-content-center"></div>
+ </div>
+      <div class="row justify-content-md-start  justify-content-lg-center container-vermelho">
+         <button onclick="window.location.href='inicio.html'"class="col-lg-2 col-3 secao"> Início </button>
+         <button onclick="window.location.href='agendamento.html'"class="col-lg-2 col-3 secao"> Agendamento </button>
+         <button onclick="window.location.href=''"class="col-lg-2 col-3 secao"> Estoque </button>
+         <button onclick="window.location.href='produtos.html'"class="col-lg-2 col-3 secao"> Kits </button>
+      </div>
+   </div>
+
+
+    <!-- Container Principal -->
+    <div class="container-solicitacao">
+      <h2>Solicitações</h2>
+    </div>
+
+    <div class="table-container">
+      <table border="1" cellpadding="8" cellspacing="0">
+        <thead>
+          <tr>
+            <th>Período</th>
+            <th>Horário</th>
+            <th>Sala</th>
+            <th>Status</th>
+            <th>Expandir</th>
+          </tr>
+        </thead>
+        <tbody>
+          <!-- Período 1 - Manhã -->
+          <tr class="periodo-manha">
+            <td>11:00 - 13:00</td>
+            <td>Vespertino</td>
+            <td>LAB1</td>
+            <td><span class="status aprovado">Aprovado</span></td>
+            <td class="seta expandir-btn" data-target="detalhes-1">▼</td>
+          </tr>
+
+          <!-- Período 2 - Tarde -->
+          <tr class="periodo-tarde">
+            <td>11:00 - 13:00</td>
+            <td>Diurno</td>
+            <td>A06</td>
+            <td><span class="status cancelado">Cancelado</span></td>
+            <td class="seta expandir-btn" data-target="detalhes-2">▼</td>
+          </tr>
+
+          <!-- Período 3 - Tarde -->
+          <tr class="periodo-tarde">
+            <td>14:00 - 17:00</td>
+            <td>Diurno</td>
+            <td>A06</td>
+            <td><span class="status pendente">Pendente</span></td>
+            <td class="seta expandir-btn" data-target="detalhes-3">▼</td>
+          </tr>
+
+          <!-- Período 4 - Manhã -->
+          <tr class="periodo-manha">
+            <td>11:00 - 13:00</td>
+            <td>Vespertino</td>
+            <td>A01</td>
+            <td><span class="status cancelado">Cancelado</span></td>
+            <td class="seta expandir-btn" data-target="detalhes-4">▼</td>
+          </tr>
+
+          <!-- Período 5 - Tarde -->
+          <tr class="periodo-tarde">
+            <td>11:00 - 13:00</td>
+            <td>Diurno</td>
+            <td>A02</td>
+            <td><span class="status pendente">Pendente</span></td>
+            <td class="seta expandir-btn" data-target="detalhes-5">▼</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <!-- Detalhes da solicitação -->
+    <div class="detalhes" id="detalhes-solicitacao">
+      <div class="dados">
+        <h4>Dados da solitação:</h4>
+        <p><strong>Professor:</strong> Fábio</p>
+        <p><strong>Sala solicitado:</strong> A01</p>
+        <p><strong>Data da solitação:</strong> 12/10/25 - 15h</p>
+      </div>
+      <div class="produtos">
+        <h4>Produtos solicitado:</h4>
+        <ul>
+          <li>Lucas de pétrio 500ml - 1und.</li>
+          <li>Lucas de pétrio 500ml - 1und.</li>
+          <li>Lucas de pétrio 300ml - 1und.</li>
+        </ul>
+      </div>
+      <div class="botoes-acao">
+        <button class="btn-pronto">Solicitar Kit</button>
+        <button class="btn-devolvido">Kit Devolvido</button>
+      </div>
+    </div>
+     <!-- VLibras -->
+  <div vw class="enabled">
+    <div vw-access-button class="active"></div>
+    <div vw-plugin-wrapper>
+      <div class="vw-plugin-top-wrapper"></div>
+    </div>
+  </div>
+    <!-- Footer -->
+  <footer>
+    <div class="row">
+      
+        <div class="col-sm-6 secao">
+          <h3>🧪 ETEC Laboratórios</h3>
+          <div class="texto">Sistema de agendamento de laboratórios para a ETEC Júlio de Mesquita.</div>
+          <div class="icones">♈♐♉</div>
+        </div>
+      
+        <div class="col-sm-4 secao">
+          <div>
+              <h3>Contato</h3>
+              <div class="texto">📍 Av. Exemplo 1000 - São Paulo SP</div>
+              <div class="texto">📞 (11) 1234-5678</div>
+              <div class="texto">✉ contato@eteclabs.edu.br</div>
+              <div class="texto">🕓 Seg - Sex: 8:00 - 17:00</div>
+          </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="linha-footer d-flex justify-content-center"></div>
+        <div class="texto d-flex justify-content-center">&copy; 2025 ETEC. Todos os direitos reservados.</div>
+    </div>
+  </footer>
+
+  <script src="https://vlibras.gov.br/app/vlibras-plugin.js"></script>
+  <script>
+    new window.VLibras.Widget('https://vlibras.gov.br/app');
+  </script>
+
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"
+    integrity="sha384-kenU1KFdBIe4zVF0s0G1M5b4hcpxyD9F7jL+jjXkk+Q2h455rYXK/7HAuoJl+0I4"
+    crossorigin="anonymous"></script>
+  </body>
+</html>
