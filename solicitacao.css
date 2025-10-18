@@ -152,14 +152,60 @@ table {
 }
 
 .cancelado {
-    background-color: #6e1d1d;
+    background-color: #b02c2c;
 }
 
 .pendente {
-    background-color: #b2c412;
+    background-color: #dbe519;
     color: #000;
 }
+.expandir {
+    text-align: center;
+    cursor: pointer;
+    user-select: none;
+    transition: all 0.3s ease;
+}
 
+.expandir .seta {
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    background-color: #f0f0f0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    transition: all 0.3s ease;
+    margin: 0 auto;
+    border: 2px solid transparent;
+}
+
+.expandir .seta:hover {
+    background-color: #B20000;
+    transform: scale(1.1);
+    border-color: #900000;
+}
+
+.expandir .seta::after {
+    content: '▼';
+    font-size: 12px;
+    color: #666;
+    transition: all 0.3s ease;
+}
+
+.expandir .seta:hover::after {
+    color: white;
+    transform: translateY(1px);
+}
+
+/* Estado expandido (quando clicado) */
+.expandir .seta.expandida {
+    background-color: #B20000;
+    transform: rotate(180deg) scale(1.1);
+}
+
+.expandir .seta.expandida::after {
+    color: white;
+}
 .seta {
     text-align: center;
     font-size: 18px;
@@ -173,7 +219,7 @@ table {
     border-radius: 10px;
     padding: 20px;
     margin: 20px auto;
-    max-width: 25%;
+    max-width: 50%;
     border: 1px solid #ddd;
 }
 
