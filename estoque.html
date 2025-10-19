@@ -1,0 +1,741 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Etec</title>
+    <link rel="stylesheet" href="estoque.css">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-rbsA2VBKQhggwzxH7pPCaAqO46MgnOM80zW1RWuH61DGLwZJEdK2Kadq2F9CUG65" crossorigin="anonymous">
+</head>
+
+<body>
+    <h1>ETEC</h1>
+
+    <h2>Agendamento e Gerenciamento de Aulas Práticas</h2>
+
+    <div class="linha-preta d-flex justify-content-center"></div>
+
+    <!-- Menu superior -->
+    </div>
+    <div class="row justify-content-md-start  justify-content-lg-center container-vermelho">
+        <button onclick="window.location.href='inicio.html'" class="col-lg-2 col-3 secao"> Início </button>
+        <button onclick="window.location.href='agendamento.html'" class="col-lg-2 col-3 secao"> Agendamento </button>
+        <button onclick="window.location.href=''" class="col-lg-2 col-3 secao"> Estoque </button>
+        <button onclick="window.location.href='produtos.html'" class="col-lg-2 col-3 secao"> Kits </button>
+    </div>
+    </div>
+
+    <!-- Container principal -->
+    <div class="container-principal mt-2 p-5">
+        <div class="row">
+
+            <div class="col-1"></div>
+
+            <!-- Container de produtos -->
+            <div class="col-5 container-produtos">
+                <div class="produtos-header">
+                    <h2 class="produtos-title">Produtos disponíveis</h2>
+
+                    <div class="produtos-header-linha">
+
+                        <!-- Barra de pesquisa -->
+                        <div class="barra-pesquisa">
+                            <svg class="icon" aria-hidden="true" viewBox="0 0 24 24">
+                                <g>
+                                    <path
+                                        d="M21.53 20.47l-3.66-3.66C19.195 15.24 20 13.214 20 11c0-4.97-4.03-9-9-9s-9 4.03-9 9 4.03 9 9 9c2.215 0 4.24-.804 5.808-2.13l3.66 3.66c.147.146.34.22.53.22s.385-.073.53-.22c.295-.293.295-.767.002-1.06zM3.5 11c0-4.135 3.365-7.5 7.5-7.5s7.5 3.365 7.5 7.5-3.365 7.5-7.5 7.5-7.5-3.365-7.5-7.5z">
+                                    </path>
+                                </g>
+                            </svg>
+                            <input placeholder="Search" type="search" class="input">
+                        </div>
+
+                        <!-- Filtro -->
+                        <ul class="filtro">
+                            <li class="item">
+                                <a href="#" class="link">
+                                    <span> Filtros </span>
+                                </a>
+                                <ul class="submenu">
+                                    <li class="submenu-item">
+                                        <a href="#" class="submenu-link"> Dias</a>
+                                    </li>
+                                    <li class="submenu-item">
+                                        <a href="#" class="submenu-link"> Semana </a>
+                                    </li>
+                                    <li class="submenu-item">
+                                        <a href="#" class="submenu-link">Mês</a>
+                                    </li>
+                                </ul>
+                            </li>
+                        </ul>
+
+                    </div>
+                </div>
+
+
+
+
+                <!-- Scrool -->
+                <div class="produtos-scroll">
+
+                    <!-- Quadradinhos dos produtos -->
+                    <div class="row produtos-lista">
+
+                        <!-- Vidrarias -->
+                        <button class="col-3 container-item">
+                            <img src="imagens\Vidraria-img.png" alt="Bequer" class="produto-img">
+                            <p> Bagueta <br> Vidro <br> 10 und.</p>
+                        </button>
+
+                        <button class="col-3 container-item">
+                            <img src="imagens\Vidraria-img.png" alt="Bequer" class="produto-img">
+                            <p> Balão de fundo chata 250ml <br> 4 und.</p>
+                        </button>
+
+                        <button class="col-3 container-item">
+                            <img src="imagens\Vidraria-img.png" alt="Bequer" class="produto-img">
+                            <p> Balão volumétrico 2000ml <br> 1 und.</p>
+                        </button>
+
+                        <button class="col-3 container-item">
+                            <img src="imagens\Vidraria-img.png" alt="Bequer" class="produto-img">
+                            <p> Balão volumétrico 1000ml <br> 1 und.</p>
+                        </button>
+
+                        <button class="col-3 container-item">
+                            <img src="imagens\Vidraria-img.png" alt="Bequer" class="produto-img">
+                            <p> Balão volumétrico 250ml <br> 15 und.</p>
+                        </button>
+
+                        <button class="col-3 container-item">
+                            <img src="imagens\Vidraria-img.png" alt="Bequer" class="produto-img">
+                            <p> Balão volumétrico 200ml <br> 1 und.</p>
+                        </button>
+
+                        <button class="col-3 container-item">
+                            <img src="imagens\Vidraria-img.png" alt="Bequer" class="produto-img">
+                            <p> Balão volumétrico 100ml <br> 12 und.</p>
+                        </button>
+
+                        <button class="col-3 container-item">
+                            <img src="imagens\Vidraria-img.png" alt="Bequer" class="produto-img">
+                            <p> Balão volumétrico 50ml <br> 22 und.</p>
+                        </button>
+
+                        <button class="col-3 container-item">
+                            <img src="imagens\Vidraria-img.png" alt="Bequer" class="produto-img">
+                            <p> Balão volumétrico 25ml <br> 1 und.</p>
+                        </button>
+
+                        <button class="col-3 container-item">
+                            <img src="imagens\Vidraria-img.png" alt="Bequer" class="produto-img">
+                            <p> Balão volumétrico 10ml <br> 20 und.</p>
+                        </button>
+
+                        <button class="col-3 container-item">
+                            <img src="imagens\Vidraria-img.png" alt="Bequer" class="produto-img">
+                            <p> Balão volumétrico 5ml <br> 43 und.</p>
+                        </button>
+
+                        <button class="col-3 container-item">
+                            <img src="imagens\Vidraria-img.png" alt="Bequer" class="produto-img">
+                            <p> Béquer de plástico <br> 2000ml <br> 1 und.</p>
+                        </button>
+
+                        <button class="col-3 container-item">
+                            <img src="imagens\Vidraria-img.png" alt="Bequer" class="produto-img">
+                            <p> Béquer de plástico <br> 1000ml <br> 1 und.</p>
+                        </button>
+
+                        <button class="col-3 container-item">
+                            <img src="imagens\Vidraria-img.png" alt="Bequer" class="produto-img">
+                            <p> Béquer de plástico <br> 600ml <br> 2 und.</p>
+                        </button>
+
+                        <button class="col-3 container-item">
+                            <img src="imagens\Vidraria-img.png" alt="Bequer" class="produto-img">
+                            <p> Béquer de plástico <br> 400ml <br> 1 und.</p>
+                        </button>
+
+                        <button class="col-3 container-item">
+                            <img src="imagens\Vidraria-img.png" alt="Bequer" class="produto-img">
+                            <p> Béquer de vidro <br> 2000ml <br> 1 und.</p>
+                        </button>
+
+                        <button class="col-3 container-item">
+                            <img src="imagens\Vidraria-img.png" alt="Bequer" class="produto-img">
+                            <p> Béquer de vidro <br> 600ml <br> 5 und.</p>
+                        </button>
+
+                        <button class="col-3 container-item">
+                            <img src="imagens\Vidraria-img.png" alt="Bequer" class="produto-img">
+                            <p> Béquer de vidro <br> 500ml <br> 8 und.</p>
+                        </button>
+
+                        <button class="col-3 container-item">
+                            <img src="imagens\Vidraria-img.png" alt="Bequer" class="produto-img">
+                            <p> Béquer de vidro <br> 250ml <br> 44 und.</p>
+                        </button>
+
+                        <button class="col-3 container-item">
+                            <img src="imagens\Vidraria-img.png" alt="Bequer" class="produto-img">
+                            <p> Béquer de vidro <br> 100ml <br> 36 und.</p>
+                        </button>
+
+                        <button class="col-3 container-item">
+                            <img src="imagens\Vidraria-img.png" alt="Bequer" class="produto-img">
+                            <p> Béquer de vidro <br> 50ml <br> 31 und.</p>
+                        </button>
+
+                        <button class="col-3 container-item">
+                            <img src="imagens\Vidraria-img.png" alt="Bequer" class="produto-img">
+                            <p> Béquer de vidro <br> 10ml <br> 10 und.</p>
+                        </button>
+
+                        <button class="col-3 container-item">
+                            <img src="imagens\Vidraria-img.png" alt="Bequer" class="produto-img">
+                            <p> Béquer de vidro <br> 5ml <br> 7 und.</p>
+                        </button>
+
+                        <button class="col-3 container-item">
+                            <img src="imagens\Vidraria-img.png" alt="Bequer" class="produto-img">
+                            <p> Bico de busen <br> 8 und.</p>
+                        </button>
+
+                        <button class="col-3 container-item">
+                            <img src="imagens\Vidraria-img.png" alt="Bequer" class="produto-img">
+                            <p> Bureta (saída lateral) <br> 100ml <br> 1 und.</p>
+                        </button>
+
+                        <button class="col-3 container-item">
+                            <img src="imagens\Vidraria-img.png" alt="Bequer" class="produto-img">
+                            <p> Bureta 50ml <br> 1 und.</p>
+                        </button>
+
+                        <button class="col-3 container-item">
+                            <img src="imagens\Vidraria-img.png" alt="Bequer" class="produto-img">
+                            <p> Cadinho Groooch <br> 10ml <br> 6 und.</p>
+                        </button>
+
+                        <button class="col-3 container-item">
+                            <img src="imagens\Vidraria-img.png" alt="Bequer" class="produto-img">
+                            <p> Cadinho Porcelana <br> 9 und.</p>
+                        </button>
+
+                        <button class="col-3 container-item">
+                            <img src="imagens\Vidraria-img.png" alt="Bequer" class="produto-img">
+                            <p>Cadinho vidro com placa porosa <br> 4 und.</p>
+                        </button>
+
+                        <button class="col-3 container-item">
+                            <img src="imagens\Vidraria-img.png" alt="Bequer" class="produto-img">
+                            <p> Cápsula de porcelana <br> 4 und.</p>
+                        </button>
+
+                        <button class="col-3 container-item">
+                            <img src="imagens\Vidraria-img.png" alt="Bequer" class="produto-img">
+                            <p> Copo graduado <br> 500ml <br> 1 und.</p>
+                        </button>
+
+                        <button class="col-3 container-item">
+                            <img src="imagens\Vidraria-img.png" alt="Bequer" class="produto-img">
+                            <p> Copo graduado <br> 250ml <br> 7 und.</p>
+                        </button>
+
+                        <button class="col-3 container-item">
+                            <img src="imagens\Vidraria-img.png" alt="Bequer" class="produto-img">
+                            <p>Copo graduado <br> 60ml <br> 4 und.</p>
+                        </button>
+
+                        <button class="col-3 container-item">
+                            <img src="imagens\Vidraria-img.png" alt="Bequer" class="produto-img">
+                            <p> Erlenmeyer de boca larga <br> 250ml <br> 10 und.</p>
+                        </button>
+
+                        <button class="col-3 container-item">
+                            <img src="imagens\Vidraria-img.png" alt="Bequer" class="produto-img">
+                            <p> Escova de limpeza (grande)<br> 3 und.</p>
+                        </button>
+
+                        <button class="col-3 container-item">
+                            <img src="imagens\Vidraria-img.png" alt="Bequer" class="produto-img">
+                            <p> Fita de ph <br> 1 Caixa</p>
+                        </button>
+
+                        <button class="col-3 container-item">
+                            <img src="imagens\Vidraria-img.png" alt="Bequer" class="produto-img">
+                            <p> Funil de bunchner (grande) <br> 1 und.</p>
+                        </button>
+
+                        <button class="col-3 container-item">
+                            <img src="imagens\Vidraria-img.png" alt="Bequer" class="produto-img">
+                            <p> Funil de bunchner (pequeno)<br> 2 und.</p>
+                        </button>
+
+                        <button class="col-3 container-item">
+                            <img src="imagens\Vidraria-img.png" alt="Bequer" class="produto-img">
+                            <p> Frasco Saybolt 60ml <br> 4 und.</p>
+                        </button>
+
+                        <button class="col-3 container-item">
+                            <img src="imagens\Vidraria-img.png" alt="Bequer" class="produto-img">
+                            <p> Junta conectante adaptadora (24/40)<br> 7 und.</p>
+                        </button>
+
+                        <button class="col-3 container-item">
+                            <img src="imagens\Vidraria-img.png" alt="Bequer" class="produto-img">
+                            <p>Garra para bureta (unitária) <br> 1 und.</p>
+                        </button>
+
+                        <button class="col-3 container-item">
+                            <img src="imagens\Vidraria-img.png" alt="Bequer" class="produto-img">
+                            <p> Garra para bureta (dupla)<br> 7 und.</p>
+                        </button>
+
+                        <!-- Reagentes -->
+                        <button class="col-3 container-item">
+                            <img src="imagens\beaker.png" alt="Amido Solúvel" class="produto-img">
+                            <p> Amido Solúvel <br> 500g </p>
+                        </button>
+
+                        <button class="col-3 container-item">
+                            <img src="imagens\beaker.png" alt="Biftalato de Potássio" class="produto-img">
+                            <p> Biftalato de Potássio <br> 500g </p>
+                        </button>
+
+                        <button class="col-3 container-item">
+                            <img src="imagens\beaker.png" alt="Carbonato de Sódio" class="produto-img">
+                            <p> Carbonato de Sódio <br> 400g </p>
+                        </button>
+
+                        <button class="col-3 container-item">
+                            <img src="imagens\beaker.png" alt="Cloreto de Potássio" class="produto-img">
+                            <p> Cloreto de Potássio <br> 500g </p>
+                        </button>
+
+                        <button class="col-3 container-item">
+                            <img src="imagens\beaker.png" alt="Cloreto de Sódio" class="produto-img">
+                            <p> Cloreto de Sódio <br> 700g </p>
+                        </button>
+
+                        <button class="col-3 container-item">
+                            <img src="imagens\beaker.png" alt="Iodeto de Potássio" class="produto-img">
+                            <p> Iodeto de Potássio <br> 350g </p>
+                        </button>
+
+                        <button class="col-3 container-item">
+                            <img src="imagens\beaker.png" alt="Lauril Sulfato de sódio" class="produto-img">
+                            <p> Lauril Sulfato de sódio <br> 200g </p>
+                        </button>
+
+                        <button class="col-3 container-item">
+                            <img src="imagens\beaker.png" alt="Nitrato de Prata" class="produto-img">
+                            <p> Nitrato de Prata <br> 15g </p>
+                        </button>
+
+                        <button class="col-3 container-item">
+                            <img src="imagens\beaker.png" alt="Sulfato de Alúminio" class="produto-img">
+                            <p> Sulfato de Alúminio <br> 500g </p>
+                        </button>
+
+                        <button class="col-3 container-item">
+                            <img src="imagens\beaker.png" alt="Tiossulfato de Sódio" class="produto-img">
+                            <p> Tiossulfato de Sódio <br> 400g </p>
+                        </button>
+
+                    </div>
+                </div>
+
+            </div>
+
+            <!-- Divisoria entre o container produtos e o container produtos indisponíveis -->
+            <div class="col-1"></div>
+
+            <!-- Container solicitar reposição estoque -->
+            <div class="col-4 solicitacao-container">
+                <h2 class="solicitacao-title">Solicitar material</h2>
+                <div class="botoes">
+                    <button class="cancelar-button">Cancelar</button>
+                    <button class="confirmar-button">Confirmar</button>
+                </div>
+            </div>
+
+            <div class="col-1"></div>
+        </div>
+    </div>
+
+    <div class="container-principal mt-2 p-5">
+        <div class="row">
+
+            <div class="col-1"></div>
+
+            <!-- Container de produtos indisponíveis -->
+            <div class="col-5 container-produtos">
+                <div class="produtos-header">
+                    <h2 class="produtos-title">Produtos indisponíveis</h2>
+
+                    <div class="produtos-header-linha">
+
+                        <!-- Barra de pesquisa -->
+                        <div class="barra-pesquisa">
+                            <svg class="icon" aria-hidden="true" viewBox="0 0 24 24">
+                                <g>
+                                    <path
+                                        d="M21.53 20.47l-3.66-3.66C19.195 15.24 20 13.214 20 11c0-4.97-4.03-9-9-9s-9 4.03-9 9 4.03 9 9 9c2.215 0 4.24-.804 5.808-2.13l3.66 3.66c.147.146.34.22.53.22s.385-.073.53-.22c.295-.293.295-.767.002-1.06zM3.5 11c0-4.135 3.365-7.5 7.5-7.5s7.5 3.365 7.5 7.5-3.365 7.5-7.5 7.5-7.5-3.365-7.5-7.5z">
+                                    </path>
+                                </g>
+                            </svg>
+                            <input placeholder="Search" type="search" class="input">
+                        </div>
+
+                        <!-- Filtro -->
+                        <ul class="filtro">
+                            <li class="item">
+                                <a href="#" class="link">
+                                    <span> Filtros </span>
+                                </a>
+                                <ul class="submenu">
+                                    <li class="submenu-item">
+                                        <a href="#" class="submenu-link"> Dias</a>
+                                    </li>
+                                    <li class="submenu-item">
+                                        <a href="#" class="submenu-link"> Semana </a>
+                                    </li>
+                                    <li class="submenu-item">
+                                        <a href="#" class="submenu-link">Mês</a>
+                                    </li>
+                                </ul>
+                            </li>
+                        </ul>
+
+                    </div>
+                </div>
+
+
+
+
+                <!-- Scrool -->
+                <div class="produtos-scroll">
+
+                    <!-- Quadradinhos dos produtos -->
+                    <div class="row produtos-lista">
+
+                        <!-- Vidrarias -->
+                        <button class="col-3 container-item">
+                            <img src="imagens\Vidraria-img.png" alt="Bequer" class="produto-img">
+                            <p> Bagueta <br> Vidro <br> 10 und.</p>
+                        </button>
+
+                        <button class="col-3 container-item">
+                            <img src="imagens\Vidraria-img.png" alt="Bequer" class="produto-img">
+                            <p> Balão de fundo chata 250ml <br> 4 und.</p>
+                        </button>
+
+                        <button class="col-3 container-item">
+                            <img src="imagens\Vidraria-img.png" alt="Bequer" class="produto-img">
+                            <p> Balão volumétrico 2000ml <br> 1 und.</p>
+                        </button>
+
+                        <button class="col-3 container-item">
+                            <img src="imagens\Vidraria-img.png" alt="Bequer" class="produto-img">
+                            <p> Balão volumétrico 1000ml <br> 1 und.</p>
+                        </button>
+
+                        <button class="col-3 container-item">
+                            <img src="imagens\Vidraria-img.png" alt="Bequer" class="produto-img">
+                            <p> Balão volumétrico 250ml <br> 15 und.</p>
+                        </button>
+
+                        <button class="col-3 container-item">
+                            <img src="imagens\Vidraria-img.png" alt="Bequer" class="produto-img">
+                            <p> Balão volumétrico 200ml <br> 1 und.</p>
+                        </button>
+
+                        <button class="col-3 container-item">
+                            <img src="imagens\Vidraria-img.png" alt="Bequer" class="produto-img">
+                            <p> Balão volumétrico 100ml <br> 12 und.</p>
+                        </button>
+
+                        <button class="col-3 container-item">
+                            <img src="imagens\Vidraria-img.png" alt="Bequer" class="produto-img">
+                            <p> Balão volumétrico 50ml <br> 22 und.</p>
+                        </button>
+
+                        <button class="col-3 container-item">
+                            <img src="imagens\Vidraria-img.png" alt="Bequer" class="produto-img">
+                            <p> Balão volumétrico 25ml <br> 1 und.</p>
+                        </button>
+
+                        <button class="col-3 container-item">
+                            <img src="imagens\Vidraria-img.png" alt="Bequer" class="produto-img">
+                            <p> Balão volumétrico 10ml <br> 20 und.</p>
+                        </button>
+
+                        <button class="col-3 container-item">
+                            <img src="imagens\Vidraria-img.png" alt="Bequer" class="produto-img">
+                            <p> Balão volumétrico 5ml <br> 43 und.</p>
+                        </button>
+
+                        <button class="col-3 container-item">
+                            <img src="imagens\Vidraria-img.png" alt="Bequer" class="produto-img">
+                            <p> Béquer de plástico <br> 2000ml <br> 1 und.</p>
+                        </button>
+
+                        <button class="col-3 container-item">
+                            <img src="imagens\Vidraria-img.png" alt="Bequer" class="produto-img">
+                            <p> Béquer de plástico <br> 1000ml <br> 1 und.</p>
+                        </button>
+
+                        <button class="col-3 container-item">
+                            <img src="imagens\Vidraria-img.png" alt="Bequer" class="produto-img">
+                            <p> Béquer de plástico <br> 600ml <br> 2 und.</p>
+                        </button>
+
+                        <button class="col-3 container-item">
+                            <img src="imagens\Vidraria-img.png" alt="Bequer" class="produto-img">
+                            <p> Béquer de plástico <br> 400ml <br> 1 und.</p>
+                        </button>
+
+                        <button class="col-3 container-item">
+                            <img src="imagens\Vidraria-img.png" alt="Bequer" class="produto-img">
+                            <p> Béquer de vidro <br> 2000ml <br> 1 und.</p>
+                        </button>
+
+                        <button class="col-3 container-item">
+                            <img src="imagens\Vidraria-img.png" alt="Bequer" class="produto-img">
+                            <p> Béquer de vidro <br> 600ml <br> 5 und.</p>
+                        </button>
+
+                        <button class="col-3 container-item">
+                            <img src="imagens\Vidraria-img.png" alt="Bequer" class="produto-img">
+                            <p> Béquer de vidro <br> 500ml <br> 8 und.</p>
+                        </button>
+
+                        <button class="col-3 container-item">
+                            <img src="imagens\Vidraria-img.png" alt="Bequer" class="produto-img">
+                            <p> Béquer de vidro <br> 250ml <br> 44 und.</p>
+                        </button>
+
+                        <button class="col-3 container-item">
+                            <img src="imagens\Vidraria-img.png" alt="Bequer" class="produto-img">
+                            <p> Béquer de vidro <br> 100ml <br> 36 und.</p>
+                        </button>
+
+                        <button class="col-3 container-item">
+                            <img src="imagens\Vidraria-img.png" alt="Bequer" class="produto-img">
+                            <p> Béquer de vidro <br> 50ml <br> 31 und.</p>
+                        </button>
+
+                        <button class="col-3 container-item">
+                            <img src="imagens\Vidraria-img.png" alt="Bequer" class="produto-img">
+                            <p> Béquer de vidro <br> 10ml <br> 10 und.</p>
+                        </button>
+
+                        <button class="col-3 container-item">
+                            <img src="imagens\Vidraria-img.png" alt="Bequer" class="produto-img">
+                            <p> Béquer de vidro <br> 5ml <br> 7 und.</p>
+                        </button>
+
+                        <button class="col-3 container-item">
+                            <img src="imagens\Vidraria-img.png" alt="Bequer" class="produto-img">
+                            <p> Bico de busen <br> 8 und.</p>
+                        </button>
+
+                        <button class="col-3 container-item">
+                            <img src="imagens\Vidraria-img.png" alt="Bequer" class="produto-img">
+                            <p> Bureta (saída lateral) <br> 100ml <br> 1 und.</p>
+                        </button>
+
+                        <button class="col-3 container-item">
+                            <img src="imagens\Vidraria-img.png" alt="Bequer" class="produto-img">
+                            <p> Bureta 50ml <br> 1 und.</p>
+                        </button>
+
+                        <button class="col-3 container-item">
+                            <img src="imagens\Vidraria-img.png" alt="Bequer" class="produto-img">
+                            <p> Cadinho Groooch <br> 10ml <br> 6 und.</p>
+                        </button>
+
+                        <button class="col-3 container-item">
+                            <img src="imagens\Vidraria-img.png" alt="Bequer" class="produto-img">
+                            <p> Cadinho Porcelana <br> 9 und.</p>
+                        </button>
+
+                        <button class="col-3 container-item">
+                            <img src="imagens\Vidraria-img.png" alt="Bequer" class="produto-img">
+                            <p>Cadinho vidro com placa porosa <br> 4 und.</p>
+                        </button>
+
+                        <button class="col-3 container-item">
+                            <img src="imagens\Vidraria-img.png" alt="Bequer" class="produto-img">
+                            <p> Cápsula de porcelana <br> 4 und.</p>
+                        </button>
+
+                        <button class="col-3 container-item">
+                            <img src="imagens\Vidraria-img.png" alt="Bequer" class="produto-img">
+                            <p> Copo graduado <br> 500ml <br> 1 und.</p>
+                        </button>
+
+                        <button class="col-3 container-item">
+                            <img src="imagens\Vidraria-img.png" alt="Bequer" class="produto-img">
+                            <p> Copo graduado <br> 250ml <br> 7 und.</p>
+                        </button>
+
+                        <button class="col-3 container-item">
+                            <img src="imagens\Vidraria-img.png" alt="Bequer" class="produto-img">
+                            <p>Copo graduado <br> 60ml <br> 4 und.</p>
+                        </button>
+
+                        <button class="col-3 container-item">
+                            <img src="imagens\Vidraria-img.png" alt="Bequer" class="produto-img">
+                            <p> Erlenmeyer de boca larga <br> 250ml <br> 10 und.</p>
+                        </button>
+
+                        <button class="col-3 container-item">
+                            <img src="imagens\Vidraria-img.png" alt="Bequer" class="produto-img">
+                            <p> Escova de limpeza (grande)<br> 3 und.</p>
+                        </button>
+
+                        <button class="col-3 container-item">
+                            <img src="imagens\Vidraria-img.png" alt="Bequer" class="produto-img">
+                            <p> Fita de ph <br> 1 Caixa</p>
+                        </button>
+
+                        <button class="col-3 container-item">
+                            <img src="imagens\Vidraria-img.png" alt="Bequer" class="produto-img">
+                            <p> Funil de bunchner (grande) <br> 1 und.</p>
+                        </button>
+
+                        <button class="col-3 container-item">
+                            <img src="imagens\Vidraria-img.png" alt="Bequer" class="produto-img">
+                            <p> Funil de bunchner (pequeno)<br> 2 und.</p>
+                        </button>
+
+                        <button class="col-3 container-item">
+                            <img src="imagens\Vidraria-img.png" alt="Bequer" class="produto-img">
+                            <p> Frasco Saybolt 60ml <br> 4 und.</p>
+                        </button>
+
+                        <button class="col-3 container-item">
+                            <img src="imagens\Vidraria-img.png" alt="Bequer" class="produto-img">
+                            <p> Junta conectante adaptadora (24/40)<br> 7 und.</p>
+                        </button>
+
+                        <button class="col-3 container-item">
+                            <img src="imagens\Vidraria-img.png" alt="Bequer" class="produto-img">
+                            <p>Garra para bureta (unitária) <br> 1 und.</p>
+                        </button>
+
+                        <button class="col-3 container-item">
+                            <img src="imagens\Vidraria-img.png" alt="Bequer" class="produto-img">
+                            <p> Garra para bureta (dupla)<br> 7 und.</p>
+                        </button>
+
+                        <!-- Reagentes -->
+                        <button class="col-3 container-item">
+                            <img src="imagens\beaker.png" alt="Amido Solúvel" class="produto-img">
+                            <p> Amido Solúvel <br> 500g </p>
+                        </button>
+
+                        <button class="col-3 container-item">
+                            <img src="imagens\beaker.png" alt="Biftalato de Potássio" class="produto-img">
+                            <p> Biftalato de Potássio <br> 500g </p>
+                        </button>
+
+                        <button class="col-3 container-item">
+                            <img src="imagens\beaker.png" alt="Carbonato de Sódio" class="produto-img">
+                            <p> Carbonato de Sódio <br> 400g </p>
+                        </button>
+
+                        <button class="col-3 container-item">
+                            <img src="imagens\beaker.png" alt="Cloreto de Potássio" class="produto-img">
+                            <p> Cloreto de Potássio <br> 500g </p>
+                        </button>
+
+                        <button class="col-3 container-item">
+                            <img src="imagens\beaker.png" alt="Cloreto de Sódio" class="produto-img">
+                            <p> Cloreto de Sódio <br> 700g </p>
+                        </button>
+
+                        <button class="col-3 container-item">
+                            <img src="imagens\beaker.png" alt="Iodeto de Potássio" class="produto-img">
+                            <p> Iodeto de Potássio <br> 350g </p>
+                        </button>
+
+                        <button class="col-3 container-item">
+                            <img src="imagens\beaker.png" alt="Lauril Sulfato de sódio" class="produto-img">
+                            <p> Lauril Sulfato de sódio <br> 200g </p>
+                        </button>
+
+                        <button class="col-3 container-item">
+                            <img src="imagens\beaker.png" alt="Nitrato de Prata" class="produto-img">
+                            <p> Nitrato de Prata <br> 15g </p>
+                        </button>
+
+                        <button class="col-3 container-item">
+                            <img src="imagens\beaker.png" alt="Sulfato de Alúminio" class="produto-img">
+                            <p> Sulfato de Alúminio <br> 500g </p>
+                        </button>
+
+                        <button class="col-3 container-item">
+                            <img src="imagens\beaker.png" alt="Tiossulfato de Sódio" class="produto-img">
+                            <p> Tiossulfato de Sódio <br> 400g </p>
+                        </button>
+
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+
+    <!-- Footer -->
+    <footer>
+        <div class="row">
+            <div class="col-1"></div>
+            <div class="col-6 secao">
+                <h3>🧪 ETEC Laboratórios</h3>
+                <div class="texto">Sistema de agendamento de laboratórios para a ETEC Júlio de Mesquita.</div>
+                <div class="icones">♈♐♉</div>
+            </div>
+            <div class="col-1"></div>
+            <div class="col-4 secao">
+                <div>
+                    <h3>Contato</h3>
+                    <div class="texto">📍 Av. Exemplo 1000 - São Paulo SP</div>
+                    <div class="texto">📞 (11) 1234-5678</div>
+                    <div class="texto">✉ contato@eteclabs.edu.br</div>
+                    <div class="texto">🕓 Seg - Sex: 8:00 - 17:00</div>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="linha-footer d-flex justify-content-center"></div>
+            <div class="texto d-flex justify-content-center">&copy; 2025 ETEC. Todos os direitos reservados.</div>
+        </div>
+    </footer>
+
+    <!-- VLibras -->
+    <div vw class="enabled">
+        <div vw-access-button class="active"></div>
+        <div vw-plugin-wrapper>
+            <div class="vw-plugin-top-wrapper"></div>
+        </div>
+    </div>
+    <script src="https://vlibras.gov.br/app/vlibras-plugin.js"></script>
+    <script>
+        new window.VLibras.Widget('https://vlibras.gov.br/app');
+    </script>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-kenU1KFdBIe4zVF0s0G1M5b4hcpxyD9F7jL+jjXkk+Q2h455rYXK/7HAuoJl+0I4"
+        crossorigin="anonymous"></script>
+    <script src="produtos.js"></script>
+</body>
+
+</html>
