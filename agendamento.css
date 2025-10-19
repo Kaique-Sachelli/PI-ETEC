@@ -365,3 +365,11 @@ footer .linha-footer {
 .btn-agendar:hover {
   background-color: #8a0000;
 }
+
+.container-semana {
+  display: none;
+}
+
+.conteiner-periodo {
+  display: none
+}
