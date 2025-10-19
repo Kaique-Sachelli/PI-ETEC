@@ -54,6 +54,14 @@ h2 {
     background-color: black; /* Cor da Linha */
 }
 
+.container-principal {
+    display: flex;
+}
+
+.container-texto {
+    display: flexbox;
+}
+
 .titulo {
     font-size: 36px;
     font-family: 'Roboto Slab', serif;
@@ -72,6 +80,10 @@ p {
     font-size: 16px;
     font-family: 'Roboto', sans-serif;
     color: #666;
+}
+
+.container-agendamentos {
+    display: flexbox;
 }
 
 /* Calendario */
@@ -187,8 +199,8 @@ footer .secao .icones {
 }
 
 footer .linha-footer {
-    width: 800px;
-    height: 2px;
-    margin: 30px auto;
-    background-color: rgb(128, 128, 128);
+  width: 800px;
+  height: 2px;
+  margin: 30px auto;
+  background-color: rgb(128, 128, 128);
 }
