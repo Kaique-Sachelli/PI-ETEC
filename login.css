@@ -20,9 +20,7 @@ body {
   left: 10px; /* distância da esquerda */
   width: 100px; /* largura fixa */
   height: auto; /* altura automática para manter proporção */
-
 }
-
 .login {
   display: grid; 
   place-items: center;
@@ -38,7 +36,6 @@ body {
   border: 5px solid rgb(255, 255, 255);
   box-shadow: #d28b8e 0px 30px 30px -20px;
   margin: 20px;
-  
 }
 
 .heading {
@@ -64,9 +61,9 @@ body {
   padding: 15px 20px;
   border-radius: 20px;
   margin-top: 15px;
-  
   box-shadow: #d28b8e 0px 10px 10px -5px;
   border-inline: 2px solid transparent;
+  box-sizing: border-box;
 }
 
 .form .input::-moz-placeholder {
@@ -114,6 +111,7 @@ body {
   box-shadow: #d28b8e 0px 20px 10px -15px; /* Sombra do botão */
   border: none;
   transition: all 0.2s ease-in-out;
+  cursor: pointer;
 }
 
 .form .login-button:hover {
@@ -126,4 +124,72 @@ body {
   /* Sombra do botão e leve aumento */
   transform: scale(0.95);
   box-shadow: #d28b8e 0px 15px 10px -10px;
+}
+
+.senha-container {
+  position: relative;
+  width: 100%;
+  margin-top: 15px;
+}
+
+.senha-container .input {
+  width: 100%;
+  padding-right: 45px; /* espaço para o ícone */
+  box-sizing: border-box;
+  /* Remove propriedades que podem causar conflito */
+  display: block;
+  align-items: normal;
+}
+
+.toggle-senha {
+  position: absolute;
+  right: 15px; /* distância da borda direita */
+  top: 50%;
+  transform: translateY(-50%);
+  background: none;
+  border: none;
+  cursor: pointer;
+  font-size: 18px;
+  color: #888;
+  transition: color 0.2s ease;
+  padding: 0;
+  width: 24px;
+  height: 24px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 2; /* garante que fique acima do input */
+}
+
+.toggle-senha:hover {
+  color: #FF161F;
+  background-color: rgba(0, 0, 0, 0.05);
+  border-radius: 50%;
+}
+
+/* Ícones SVG personalizados */
+.toggle-senha:hover {
+  color: #FF161F;
+  background-color: rgba(0, 0, 0, 0.05);
+  border-radius: 50%;
+}
+
+/* Ícones SVG personalizados */
+.toggle-senha .icon-olho {
+  width: 20px;
+  height: 20px;
+  fill: currentColor;
+  transition: all 0.2s ease;
+}
+
+.toggle-senha .icon-olho.fechado {
+  display: none;
+}
+
+.toggle-senha.mostrando .icon-olho.aberto {
+  display: none;
+}
+
+.toggle-senha.mostrando .icon-olho.fechado {
+  display: block;
 }
