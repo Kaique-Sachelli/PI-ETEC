@@ -1,6 +1,6 @@
 // ==================== VARIÁVEIS PRINCIPAIS ====================
 let dataAtual = new Date();
-let modoVisualizacao = "mes"; // padrão inicial
+let modoVisualizacao = "mes"; // visão padrão ao carregar
 let mesElemento = document.querySelector(".mes");
 
 // ==================== ATUALIZA O MÊS EXIBIDO ====================
@@ -38,37 +38,35 @@ function alternarVisualizacao(tipo) {
 
 // ==================== MOSTRAR / ESCONDER HORÁRIOS ====================
 function controlarHorarios() {
-  const seletorPeriodo = document.querySelector(".bloco-horarios select:nth-of-type(2)");
-  const periodo = seletorPeriodo.value;
+  const seletorPeriodo = document.getElementById("periodo");
+  const periodoSelecionado = seletorPeriodo.value;
 
-  const blocoMatutino = document.querySelectorAll(".bloco-horarios .mb-3")[2];
-  const blocoVespertino = document.querySelectorAll(".bloco-horarios .mb-3")[3];
-  const blocoNoturno = document.querySelectorAll(".bloco-horarios .mb-3")[4];
+  // Seleciona todos os blocos de horários (matutino / vespertino / noturno)
+  const blocos = document.querySelectorAll(".bloco-periodo");
 
-  // Oculta todos primeiro
-  blocoMatutino.style.display = "none";
-  blocoVespertino.style.display = "none";
-  blocoNoturno.style.display = "none";
+  // Oculta todos os blocos primeiro
+  blocos.forEach(bloco => bloco.style.display = "none");
 
-  // Exibe o bloco correspondente
-  if (periodo === "matutino") blocoMatutino.style.display = "block";
-  if (periodo === "vespertino") blocoVespertino.style.display = "block";
-  if (periodo === "noturno") blocoNoturno.style.display = "block";
+  // Mostra somente o bloco correspondente
+  if (periodoSelecionado) {
+    const blocoSelecionado = document.querySelector(`.bloco-periodo.${periodoSelecionado}`);
+    if (blocoSelecionado) blocoSelecionado.style.display = "block";
+  }
 }
 
 // ==================== CONFIGURAR EVENTOS ====================
 document.addEventListener("DOMContentLoaded", () => {
-  // Define o mês atual
+  // Atualiza o mês ao iniciar
   atualizarMes();
 
-  // Botões de navegação
+  // Botões de navegação (ícones de seta)
   const botoesEsquerda = document.querySelectorAll(".fa-chevron-left, .seta:first-child");
   const botoesDireita = document.querySelectorAll(".fa-chevron-right, .seta:last-child");
 
   botoesEsquerda.forEach(botao => botao.addEventListener("click", mesAnterior));
   botoesDireita.forEach(botao => botao.addEventListener("click", proximoMes));
 
-  // Filtros (Dia / Semana / Mês)
+  // Filtros de visualização (Dia / Semana / Mês)
   const opcoesFiltro = document.querySelectorAll(".submenu-link");
   opcoesFiltro.forEach(opcao => {
     opcao.addEventListener("click", (e) => {
@@ -79,10 +77,10 @@ document.addEventListener("DOMContentLoaded", () => {
     });
   });
 
-  // Controle de horários
-  const seletorPeriodo = document.querySelector(".bloco-horarios select:nth-of-type(2)");
-  seletorPeriodo.addEventListener("change", controlarHorarios);
-
-  // Inicialmente, oculta todos os blocos de horário
-  controlarHorarios();
+  // Controle de horários (período matutino / vespertino / noturno)
+  const seletorPeriodo = document.getElementById("periodo");
+  if (seletorPeriodo) {
+    seletorPeriodo.addEventListener("change", controlarHorarios);
+    controlarHorarios(); // Oculta tudo ao carregar
+  }
 });
