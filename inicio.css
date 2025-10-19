@@ -54,22 +54,21 @@ h2 {
     background-color: black; /* Cor da Linha */
 }
 
-.container-principal {
-    display: flex;
-}
+/* ------Texto principal------ */
 
-.container-texto {
+.container-principal .row {
     display: flexbox;
+    justify-content: space-around;
 }
 
-.titulo {
+.texto .titulo {
     font-size: 36px;
     font-family: 'Roboto Slab', serif;
     color: #005c6d;
     text-align: left;
 }
 
-.subtitulo {
+.texto .subtitulo {
     font-size: 24px;
     font-family: 'Roboto Slab', serif;
     color: #005c6d;
@@ -82,8 +81,41 @@ p {
     color: #666;
 }
 
+/* ------Agendamentos Recentes------ */
+
 .container-agendamentos {
+  background-color: #ffffff;
+  border-radius: 10px;
+  box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+  padding: 20px;
+}
+
+.container-agendamentos .subtitulo {
+    font-size: 24px;
+    font-family: 'Roboto Slab', serif;
+    color: #005c6d;
+    text-align: center;
+}
+
+.container-agendamentos .row {
     display: flexbox;
+    text-align: center;
+}
+
+.container-agendamentos .cabecalho {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);;
+    font-weight: bold;
+}
+
+.container-agendamentos .informacoes {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+}
+
+.container-agendamentos .informacoes button {
+    border: none;
+    background-color: #fff;
 }
 
 /* Calendario */
