@@ -55,6 +55,11 @@ p {
     background-color: #BA1A1A; /* Cor um pouco mais escura ao passar o mouse */
 }
 
+.container-fluid .row {
+  display: flexbox;
+  justify-content: space-around;
+}
+
 .container {
     width: 100%;
     height: auto;

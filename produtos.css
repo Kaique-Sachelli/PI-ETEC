@@ -61,6 +61,11 @@ p {
   padding-bottom: 5em;
 }
 
+.container-principal .row {
+  display: flexbox;
+  justify-content: space-around;
+}
+
 .container-produtos {
   background-color: #f0f0f0;
   border: 1px solid #dcdcdc;

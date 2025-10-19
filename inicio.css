@@ -111,6 +111,7 @@ p {
 .container-agendamentos .informacoes {
     display: grid;
     grid-template-columns: repeat(4, 1fr);
+    margin-top: 10px;
 }
 
 .container-agendamentos .informacoes button {
