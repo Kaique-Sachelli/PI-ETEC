@@ -226,11 +226,16 @@ footer .texto {
   color: rgb(191, 191, 191);
 }
 
+footer .secao .icones {
+  font-size: 30px;
+  margin-top: 10px;
+}
+
 footer .linha-footer {
-    width: 800px;
-    height: 2px;
-    margin: 30px auto;
-    background-color: rgb(128, 128, 128);
+  width: 70%;
+  height: 2px;
+  margin: 30px auto;
+  background-color: rgb(128, 128, 128);
 }
 
 .icones {

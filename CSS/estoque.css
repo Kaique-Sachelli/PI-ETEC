@@ -421,8 +421,14 @@ footer {
   margin-top: 100px;
 }
 
+footer .row {
+  display: flexbox;
+  justify-content: space-around;
+}
+
 footer .secao {
   min-height: 150px;
+  min-width: 230px;
 }
 
 footer h3 {
@@ -441,8 +447,29 @@ footer .secao .icones {
 }
 
 footer .linha-footer {
-    width: 800px;
-    height: 2px;
-    margin: 30px auto;
-    background-color: rgb(128, 128, 128);
+  width: 70%;
+  height: 2px;
+  margin: 30px auto;
+  background-color: rgb(128, 128, 128);
+}
+
+.icones {
+  display: flex;
+  gap: 15px;
+  margin-top: 10px;
+}
+
+.icones a {
+  text-decoration: none; /* Remove o sublinhado dos links */
+}
+
+.icones-rede {
+  width: 40px;
+  height: 40px;
+  object-fit: contain; /* Redimensiona a imagem para caber no contêiner */
+  transition: transform 0.3s;
+}
+
+.icones-rede:hover {
+  transform: scale(1.1); /* Efeito de zoom */
 }
