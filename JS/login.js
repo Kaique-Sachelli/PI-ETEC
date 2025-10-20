@@ -16,7 +16,7 @@ document.getElementById('formLogin').addEventListener('submit', async (e) => {
         msg.textContent = dados.mensagem;
         msg.style.color = dados.sucesso ? 'green' : 'red';
         if (dados.sucesso) {
-            window.location.href = 'inicio.html';
+            window.location.href = '../HTML/inicio.html';
         }
     } catch (erro) {
         console.error('Erro ao tentar fazer login:', erro);

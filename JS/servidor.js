@@ -1,7 +1,7 @@
 const express = require('express');
 const bodyParser = require('body-parser');
 const cors = require('cors');
-const pool = require('./bancoDeDados'); 
+const pool = require('conexao.js'); 
 
 const app = express();
 app.use(cors());
