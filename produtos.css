@@ -61,6 +61,11 @@ p {
   padding-bottom: 5em;
 }
 
+.container-principal .row {
+  display: flexbox;
+  justify-content: space-around;
+}
+
 .container-produtos {
   background-color: #f0f0f0;
   border: 1px solid #dcdcdc;
@@ -401,8 +406,14 @@ footer {
   margin-top: 100px;
 }
 
+footer .row {
+  display: flexbox;
+  justify-content: space-around;
+}
+
 footer .secao {
   min-height: 150px;
+  min-width: 230px;
 }
 
 footer h3 {
@@ -421,8 +432,8 @@ footer .secao .icones {
 }
 
 footer .linha-footer {
-    width: 800px;
-    height: 2px;
-    margin: 30px auto;
-    background-color: rgb(128, 128, 128);
+  width: 800px;
+  height: 2px;
+  margin: 30px auto;
+  background-color: rgb(128, 128, 128);
 }
