@@ -365,3 +365,24 @@ footer .linha-footer {
 .btn-agendar:hover {
   background-color: #8a0000;
 }
+
+.icones {
+  display: flex;
+  gap: 15px;
+  margin-top: 10px;
+}
+
+.icones a {
+  text-decoration: none; /* Remove o sublinhado dos links */
+}
+
+.icones-rede {
+  width: 40px;
+  height: 40px;
+  object-fit: contain; /* Redimensiona a imagem para caber no contêiner */
+  transition: transform 0.3s;
+}
+
+.icones-rede:hover {
+  transform: scale(1.1); /* Efeito de zoom */
+}
