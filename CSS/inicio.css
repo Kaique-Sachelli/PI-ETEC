@@ -35,27 +35,46 @@ h2 {
     background-color: #BA1A1A; /* Cor um pouco mais escura ao passar o mouse */
 }
 
+.titulo-header h1 {
+  font-size: 48px;
+  color: black;
+  margin: 0;
+  text-align: center;
+  font-family: Verdana, sans-serif;
+}
 
-.logo {
-    
-    top: 10px; /* distância do topo */
-    left: 10px; /* distância da esquerda */
-    width: 100px; /* largura fixa */
-    height: auto; /* altura automática para manter proporção */
-    
+.titulo-header h2 {
+  font-size: 20px;
+  color: #333;
+  margin: 5px 0 10px;
+  font-family: Verdana, sans-serif;
+}
+
+.linha-preta {
+  width: 60%;
+  height: 2px;
+  background-color: black;
+  margin: 0 auto;
+}
+
+.logo-etec {
+  width: 100px;
+  height: auto;
+}
+
+.logo-sp {
+  width: 150px;
+  height: auto;
 }
 
 .Linha-preta {
-    width: 800PX; /* Largura da linha */
-    height: 2px; /* Altura da linha */
-    
+    width: 800PX; 
+    height: 2px; 
     margin: 15px auto;
-    
-    background-color: black; /* Cor da Linha */
+    background-color: black; 
 }
 
 /* ------Texto principal------ */
-
 .container-principal .row {
     display: flexbox;
     justify-content: space-around;
