@@ -297,6 +297,29 @@ p {
  box-shadow: 0 0 0 4px rgb(234 76 137 / 10%);
 }
 
+.descricao {
+ padding: 10px;
+ margin-right: auto;
+ width: 100%;
+}
+
+.input-kit {
+  width: 80%;
+  height: 45px; 
+  font-size: 16px; 
+  padding: 10px; 
+  border-radius: 8px; 
+  border: 1px solid #ccc; 
+  outline: none;
+  transition: 0.3s;
+}
+
+.input-kit:focus {
+  border-color: #b20000; /* 🔹 destaque ao focar */
+  box-shadow: 0 0 5px rgba(178, 0, 0, 0.3);
+}
+
+
 .icon {
  position: absolute;
  left: 1rem;
