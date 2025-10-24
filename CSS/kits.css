@@ -5,38 +5,37 @@ body {
     padding: 0; /* Remove paddings do body */
 }
 
-h1 {
-    color: black;
-    font-family: Verdana, sans-serif;
-    justify-content: center; /* Centraliza horizontalmente */
-    align-items: center; /* Centraliza verticalmente */
-    font-size: 61px;
-    margin-top: 5px;
-    text-align: center;
-    border: 0px;
+.titulo-header h1 {
+  font-size: 48px;
+  color: black;
+  margin: 0;
+  text-align: center;
+  font-family: Verdana, sans-serif;
+  font-weight: normal !important;
 }
 
-h2 {
-    color: rgb(54, 54, 54);
-    font-family: Verdana, sans-serif;
-    justify-content: center; /* Centraliza horizontalmente */
-    align-items: center; /* Centraliza verticalmente */
-    font-size: 18px;
-    text-align: center;
-    margin-top: -30px;
-}
-
-p {
-    color: black;
-    font-family: Verdana, sans-serif;
-    font-size: 16px;
+.titulo-header h2 {
+  font-size: 20px;
+  color: #333;
+  margin: 5px 0 10px;
+  font-family: Verdana, sans-serif;
 }
 
 .linha-preta {
-    width: 800PX; /* Largura da linha */
-    height: 2px; /* Altura da linha */
-    margin: 15px auto;
-    background-color: black; /* Cor da Linha */
+  width: 60%;
+  height: 2px;
+  background-color: black;
+  margin: 0 auto;
+}
+
+.logo-etec {
+  width: 150px;
+  height: auto;
+}
+
+.logo-sp {
+  width: 150px;
+  height: auto;
 }
 
 .container-vermelho {
@@ -296,6 +295,29 @@ p {
  background-color: #fff;
  box-shadow: 0 0 0 4px rgb(234 76 137 / 10%);
 }
+
+.descricao {
+ padding: 10px;
+ margin-right: auto;
+ width: 100%;
+}
+
+.input-kit {
+  width: 80%;
+  height: 45px; 
+  font-size: 16px; 
+  padding: 10px; 
+  border-radius: 8px; 
+  border: 1px solid #ccc; 
+  outline: none;
+  transition: 0.3s;
+}
+
+.input-kit:focus {
+  border-color: #b20000; /* 🔹 destaque ao focar */
+  box-shadow: 0 0 5px rgba(178, 0, 0, 0.3);
+}
+
 
 .icon {
  position: absolute;
