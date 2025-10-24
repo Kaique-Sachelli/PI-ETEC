@@ -107,12 +107,11 @@ p {
   font-weight: bold;
   width: 390px;
   font-family: Verdana, Geneva, sans-serif;
-  background: linear-gradient(45deg, #b20000 0%, rgb(132, 25, 25) 100%);
+  background: #b20000;
   color: white;
   padding-block: 15px;
   margin: 20px auto;
   border-radius: 5px;
-  box-shadow: #d28b8b 0px 20px 10px -15px;
   border: none;
   transition: all 0.2s ease-in-out;
 }
