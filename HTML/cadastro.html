@@ -26,7 +26,7 @@
       <button onclick="window.location.href=''"class="col-md-2 col-4 secao" style="background-color: #BA1A1A;">Cadastro</button>
    </div>
    
-   <!-- Container principal -->
+    <!-- Container principal -->
    <div class="container-fluid mt-2 p-5">
 
       <div class="row">
@@ -53,7 +53,19 @@
                <!-- Campo para a senha -->
                <div class="senha">   
                   <label class="form-label">Senha:</label>
-                  <input type="password" class="form-control" placeholder="Digite sua senha">
+                  <div class="password-container">
+                     <input type="password" class="form-control" placeholder="Digite sua senha" id="senha-cadastro">
+                     <button type="button" class="toggle-password" data-target="senha-cadastro">
+                        <!-- SVG do olho fechado (padrão) -->
+                        <svg class="password-icon" viewBox="0 0 24 24" id="eye-closed">
+                           <path d="M12 7c2.76 0 5 2.24 5 5 0 .65-.13 1.26-.36 1.83l2.92 2.92c1.51-1.26 2.7-2.89 3.43-4.75-1.73-4.39-6-7.5-11-7.5-1.4 0-2.74.25-3.98.7l2.16 2.16C10.74 7.13 11.35 7 12 7zM2 4.27l2.28 2.28.46.46C3.08 8.3 1.78 10.02 1 12c1.73 4.39 6 7.5 11 7.5 1.55 0 3.03-.3 4.38-.84l.42.42L19.73 22 21 20.73 3.27 3 2 4.27zM7.53 9.8l1.55 1.55c-.05.21-.08.43-.08.65 0 1.66 1.34 3 3 3 .22 0 .44-.03.65-.08l1.55 1.55c-.67.33-1.41.53-2.2.53-2.76 0-5-2.24-5-5 0-.79.2-1.53.53-2.2zm4.31-.78l3.15 3.15.02-.16c0-1.66-1.34-3-3-3l-.17.01z"/>
+                        </svg>
+                        <!-- SVG do olho aberto (inicialmente oculto) -->
+                        <svg class="password-icon" viewBox="0 0 24 24" id="eye-open" style="display: none;">
+                           <path d="M12 4.5C7 4.5 2.73 7.61 1 12c1.73 4.39 6 7.5 11 7.5s9.27-3.11 11-7.5c-1.73-4.39-6-7.5-11-7.5zM12 17c-2.76 0-5-2.24-5-5s2.24-5 5-5 5 2.24 5 5-2.24 5-5 5zm0-8c-1.66 0-3 1.34-3 3s1.34 3 3 3 3-1.34 3-3-1.34-3-3-3z"/>
+                        </svg>
+                     </button>
+                  </div>
                </div>
 
                <!-- Caixa de seleção da turma -->
@@ -83,8 +95,6 @@
             </form>
          </div>
          
-
-
          <!-- Container de alteração de usuário -->
          <div class="container_alterar col-4">
             <div class="heading">Alterar Usuário</div>
@@ -114,7 +124,19 @@
                <!-- Campo para a senha -->
                <div class="mb-3">   
                   <label class="form-label">Senha:</label>
-                  <input type="password" class="form-control" placeholder="Digite sua senha">
+                  <div class="password-container">
+                     <input type="password" class="form-control" placeholder="Digite sua senha" id="senha-alterar">
+                     <button type="button" class="toggle-password" data-target="senha-alterar">
+                        <!-- SVG do olho fechado (padrão) -->
+                        <svg class="password-icon" viewBox="0 0 24 24" id="eye-closed">
+                           <path d="M12 7c2.76 0 5 2.24 5 5 0 .65-.13 1.26-.36 1.83l2.92 2.92c1.51-1.26 2.7-2.89 3.43-4.75-1.73-4.39-6-7.5-11-7.5-1.4 0-2.74.25-3.98.7l2.16 2.16C10.74 7.13 11.35 7 12 7zM2 4.27l2.28 2.28.46.46C3.08 8.3 1.78 10.02 1 12c1.73 4.39 6 7.5 11 7.5 1.55 0 3.03-.3 4.38-.84l.42.42L19.73 22 21 20.73 3.27 3 2 4.27zM7.53 9.8l1.55 1.55c-.05.21-.08.43-.08.65 0 1.66 1.34 3 3 3 .22 0 .44-.03.65-.08l1.55 1.55c-.67.33-1.41.53-2.2.53-2.76 0-5-2.24-5-5 0-.79.2-1.53.53-2.2zm4.31-.78l3.15 3.15.02-.16c0-1.66-1.34-3-3-3l-.17.01z"/>
+                        </svg>
+                        <!-- SVG do olho aberto (inicialmente oculto) -->
+                        <svg class="password-icon" viewBox="0 0 24 24" id="eye-open" style="display: none;">
+                           <path d="M12 4.5C7 4.5 2.73 7.61 1 12c1.73 4.39 6 7.5 11 7.5s9.27-3.11 11-7.5c-1.73-4.39-6-7.5-11-7.5zM12 17c-2.76 0-5-2.24-5-5s2.24-5 5-5 5 2.24 5 5-2.24 5-5 5zm0-8c-1.66 0-3 1.34-3 3s1.34 3 3 3 3-1.34 3-3-1.34-3-3-3z"/>
+                        </svg>
+                     </button>
+                  </div>
                </div>
 
                <!-- Caixa de seleção da turma -->
@@ -216,6 +238,6 @@
    </script>
    
    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-kenU1KFdBIe4zVF0s0G1M5b4hcpxyD9F7jL+jjXkk+Q2h455rYXK/7HAuoJl+0I4" crossorigin="anonymous"></script>
-
+   <script src="../JS/cadastro.js"></script>
 </body>
 </html>

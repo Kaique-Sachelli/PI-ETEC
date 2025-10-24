@@ -1,58 +1,58 @@
 body {
-    font-family: Verdana, sans-serif;
-    background-color: white;
-    margin: 0; /* Remove margens do body */
-    padding: 0; /* Remove paddings do body */
+  font-family: Verdana, sans-serif;
+  background-color: white;
+  margin: 0; /* Remove margens do body */
+  padding: 0; /* Remove paddings do body */
 }
 
 h1 {
-    color: black;
-    font-family: Verdana, sans-serif;
-    justify-content: center; /* Centraliza horizontalmente */
-    align-items: center; /* Centraliza verticalmente */
-    font-size: 61px;
-    margin-top: 5px;
-    text-align: center;
-    border: 0px;
+  color: black;
+  font-family: Verdana, sans-serif;
+  justify-content: center; /* Centraliza horizontalmente */
+  align-items: center; /* Centraliza verticalmente */
+  font-size: 61px;
+  margin-top: 5px;
+  text-align: center;
+  border: 0px;
 }
 
 h2 {
-    color: rgb(54, 54, 54);
-    font-family: Verdana, sans-serif;
-    justify-content: center; /* Centraliza horizontalmente */
-    align-items: center; /* Centraliza verticalmente */
-    font-size: 18px;
-    text-align: center;
-    margin-top: -30px;
+  color: rgb(54, 54, 54);
+  font-family: Verdana, sans-serif;
+  justify-content: center; /* Centraliza horizontalmente */
+  align-items: center; /* Centraliza verticalmente */
+  font-size: 18px;
+  text-align: center;
+  margin-top: -30px;
 }
 
 p {
-    color: black;
-    font-family: Verdana, sans-serif;
-    font-size: 16px;
+  color: black;
+  font-family: Verdana, sans-serif;
+  font-size: 16px;
 }
 
 .linha-preta {
-    width: 800PX; /* Largura da linha */
-    height: 2px; /* Altura da linha */
-    margin: 15px auto;
-    background-color: black; /* Cor da Linha */
+  width: 800px; /* Largura da linha */
+  height: 2px; /* Altura da linha */
+  margin: 15px auto;
+  background-color: black; /* Cor da Linha */
 }
 
 .container-vermelho {
-    background-color: #B20000; 
-    font-family: Verdana, sans-serif;
+  background-color: #b20000;
+  font-family: Verdana, sans-serif;
 }
 
 .container-vermelho .secao {
-    height: 60px;
-    border: 1px solid rgb(100, 0, 0);
-    background-color: #B20000;
-    color: #fff;
+  height: 60px;
+  border: 1px solid rgb(100, 0, 0);
+  background-color: #b20000;
+  color: #fff;
 }
 
 .container-vermelho .secao:hover {
-    background-color: #BA1A1A; /* Cor um pouco mais escura ao passar o mouse */
+  background-color: #ba1a1a; /* Cor um pouco mais escura ao passar o mouse */
 }
 
 .container-fluid .row {
@@ -61,9 +61,9 @@ p {
 }
 
 .container {
-    width: 100%;
-    height: auto;
-    padding-bottom: 5em;
+  width: 100%;
+  height: auto;
+  padding-bottom: 5em;
 }
 
 .container_cadastro {
@@ -92,11 +92,12 @@ p {
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.05);
 }
 
-.heading { /* Texto do título */
-  text-align: center; 
+.heading {
+  /* Texto do título */
+  text-align: center;
   font-weight: 900;
   font-family: Verdana, sans-serif;
-  font-size: 30px; 
+  font-size: 30px;
   color: rgb(0, 0, 0);
 }
 
@@ -104,14 +105,13 @@ p {
   display: block;
   width: 100%;
   font-weight: bold;
-  width: 390px;   
+  width: 390px;
   font-family: Verdana, Geneva, sans-serif;
-  background: linear-gradient(45deg, rgb(16, 98, 20) 0%, rgb(25, 132, 41) 100%);
-  color: white; 
+  background: #b20000;
+  color: white;
   padding-block: 15px;
-  margin: 20px auto; 
-  border-radius: 20px; 
-  box-shadow: #8bd2a0 0px 20px 10px -15px;
+  margin: 20px auto;
+  border-radius: 5px;
   border: none;
   transition: all 0.2s ease-in-out;
 }
@@ -119,23 +119,54 @@ p {
 .form .login-button:hover {
   /* Sombra do botão e leve aumento */
   transform: scale(1.03);
-  box-shadow: #8bd2a0 0px 23px 10px -20px;
+  box-shadow: #d28b8b 0px 23px 10px -20px;
 }
 
 .form .login-button:active {
   /* Sombra do botão e leve aumento */
   transform: scale(0.95);
-  box-shadow: #8bd2a0 0px 15px 10px -10px;
+  box-shadow: #d28b8b 0px 15px 10px -10px;
 }
 
-.form-control:focus, 
+.form-control:focus,
 .form-select:focus {
   outline: none !important;
-  border-color: #B20000 !important;
-  box-shadow: 0 0 5px #BA1A1A !important; 
+  border-color: #b20000 !important;
+  box-shadow: 0 0 5px #ba1a1a !important;
   transition: all 0.2s ease-in-out;
 }
+.password-container {
+  position: relative;
+}
 
+.toggle-password {
+  position: absolute;
+  right: 10px;
+  top: 50%;
+  transform: translateY(-50%);
+  cursor: pointer;
+  background: none;
+  border: none;
+  padding: 0;
+  width: 24px;
+  height: 24px;
+}
+
+.password-icon {
+  width: 100%;
+  height: 100%;
+  fill: #6c757d;
+  transition: fill 0.2s;
+}
+
+.toggle-password:hover .password-icon {
+  fill: #b20000;
+}
+
+/* Ajuste para campos de senha com ícone */
+.password-container input {
+  padding-right: 40px;
+} 
 /* Footer */
 footer {
   background-color: #000000;
