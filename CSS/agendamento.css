@@ -373,18 +373,14 @@ footer .linha-footer {
   color: #333;
 }
 
-.btn-agendar {
-  background-color: #b20000;
-  color: white;
-  border: none;
-  padding: 10px;
-  border-radius: 5px;
-  width: 100%;
-  font-weight: bold;
+.bloco-horarios button {
+  background-color: #D32719;
+  color: #fff;
 }
 
-.btn-agendar:hover {
-  background-color: #8a0000;
+.bloco-horarios button:hover {
+  background-color: #F95B4D;
+  color: #fff;
 }
 
 .container-semana {
