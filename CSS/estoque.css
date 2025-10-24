@@ -404,6 +404,10 @@ body {
 }
 
 .cancelar-button:hover {
+  transform: scale(1.03);
+}
+
+.cancelar-button:active {
   background-color: #F95B4D;
 }
 
@@ -412,6 +416,10 @@ body {
 }
 
 .confirmar-button:hover {
+  transform: scale(1.03);
+}
+
+.confirmar-button:active {
   background-color: #80E96D;
 }
 

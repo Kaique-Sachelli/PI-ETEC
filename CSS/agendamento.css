@@ -250,8 +250,8 @@ body {
 }
 
 .dias div:hover {
-  background: #0b9247; /* Azul */
-  color: #ffffff;
+  background: #00D8E8; /* Azul */
+  color: #000;
 }
 
 .container-semana {
@@ -296,8 +296,7 @@ body {
 
 .semana div .horario:hover {
     border: none;
-    background: #0B9247; /* Azul */
-    color: #FFFFFF;
+    background: #00D8E8; /* Azul */
 }
 
 footer {
@@ -374,13 +373,19 @@ footer .linha-footer {
 }
 
 .bloco-horarios button {
-  background-color: #D32719;
+  background-color: #3ACF1F;
   color: #fff;
 }
 
 .bloco-horarios button:hover {
-  background-color: #F95B4D;
+  background-color: #3ACF1F;
   color: #fff;
+  transform: scale(1.02);
+}
+
+.bloco-horarios button:active {
+  background-color: #80E96D !important; 
+  color: #fff !important;
 }
 
 .container-semana {
