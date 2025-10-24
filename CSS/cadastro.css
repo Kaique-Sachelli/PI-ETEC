@@ -100,31 +100,26 @@ body {
   color: rgb(0, 0, 0);
 }
 
-.form .login-button {
+.form .confirmar {
   display: block;
   width: 100%;
-  font-weight: bold;
   width: 390px;
   font-family: Verdana, Geneva, sans-serif;
-  background: #b20000;
+  background-color: #3ACF1F;
   color: white;
   padding-block: 15px;
   margin: 20px auto;
-  border-radius: 5px;
+  border-radius: 8px;
   border: none;
   transition: all 0.2s ease-in-out;
 }
 
-.form .login-button:hover {
-  /* Sombra do botão e leve aumento */
-  transform: scale(1.03);
-  box-shadow: #d28b8b 0px 23px 10px -20px;
+.form .confirmar:hover {
+  transform: scale(1.01);
 }
 
-.form .login-button:active {
-  /* Sombra do botão e leve aumento */
-  transform: scale(0.95);
-  box-shadow: #d28b8b 0px 15px 10px -10px;
+.form .confirmar:active {
+  background-color: #80E96D;
 }
 
 .form-control:focus,
