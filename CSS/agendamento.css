@@ -51,7 +51,7 @@ body {
 }
 
 .container-vermelho .secao:hover {
-    background-color: #BA1A1A; /* Cor um pouco mais escura ao passar o mouse */
+  background-color: #BA1A1A; /* Cor um pouco mais escura ao passar o mouse */
 }
 
 .container-principal {
@@ -262,7 +262,7 @@ body {
   gap: 30px;
   margin-top: 20px;
   padding: 0 20px;
-  max-width: 1200px;
+  max-width: 1400px;
   margin-left: auto;
   margin-right: auto;
 }
@@ -272,7 +272,8 @@ body {
   border-radius: 10px;
   box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
   padding: 20px;
-  min-width: 95%;
+  flex: 0 0 900px;
+  height: 50%;
 }
 
 .semana {
