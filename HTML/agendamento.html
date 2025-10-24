@@ -23,7 +23,7 @@
   <!-- MENU -->
    <div class="row justify-content-md-start  justify-content-lg-center container-vermelho">
       <button onclick="window.location.href='inicio.html'"class="col-md-2 col-4 secao">Início</button>
-      <button onclick="window.location.href=''"class="col-md-2 col-4 secao">Agendamento</button>
+      <button onclick="window.location.href=''"class="col-md-2 col-4 secao" style="background-color: #BA1A1A;">Agendamento</button>
       <button onclick="window.location.href='estoque.html'"class="col-md-2 col-4 secao">Estoque</button>
       <button onclick="window.location.href='kits.html'"class="col-md-2 col-4 secao">Kits</button>
       <button onclick="window.location.href='solicitacao.html'"class="col-md-2 col-4 secao">Solicitações</button>
@@ -171,6 +171,72 @@
         <div><div class="horario">7h10</div><div class="horario">8h00</div><div class="horario">8h50</div><div class="horario">10h00</div><div class="horario">10h50</div><div class="horario">11h40</div></div>
         <div><div class="horario">7h10</div><div class="horario">8h00</div><div class="horario">8h50</div><div class="horario">10h00</div><div class="horario">10h50</div><div class="horario">11h40</div></div>
       </div>
+    </div>
+        <!-- BLOCO DE HORÁRIOS -->
+    <div class="bloco-horarios">
+      <h4 class="text-center mb-3">Selecionar Horários e Sala:</h4>
+
+      <div class="mb-3">
+        <label class="form-label">Laboratórios</label>
+        <select class="form-select">
+          <option value="">Selecione o Laboratório:</option>
+          <option>Laboratório 2</option>
+          <option>Laboratório 3</option>
+          <option>Laboratório 4</option>
+        </select>
+      </div>
+
+      <div class="mb-3">
+        <label class="form-label">Período:</label>
+        <select class="form-select" id="periodo">
+          <option value="">Selecione</option>
+          <option value="matutino">Matutino</option>
+          <option value="vespertino">Vespertino</option>
+          <option value="noturno">Noturno</option>
+        </select>
+      </div>
+
+      <!-- MATUTINO -->
+      <div class="mb-3 bloco-periodo matutino">
+        <label class="form-label">Horários Matutino:</label>
+        <select class="form-select">
+          <option value="">Selecione o horário</option>
+          <option>1ª aula - 7h10 às 8h00</option>
+          <option>2ª aula - 8h00 às 8h50</option>
+          <option>3ª aula - 8h50 às 9h40</option>
+          <option>4ª aula - 10h00 às 10h50</option>
+          <option>5ª aula - 10h50 às 11h40</option>
+          <option>6ª aula - 11h40 às 12h30</option>
+        </select>
+      </div>
+
+      <!-- VESPERTINO -->
+      <div class="mb-3 bloco-periodo vespertino">
+        <label class="form-label">Horários Vespertino:</label>
+        <select class="form-select">
+          <option value="">Selecione o horário</option>
+          <option>1ª aula - 13h00 às 13h50</option>
+          <option>2ª aula - 13h50 às 14h40</option>
+          <option>3ª aula - 14h40 às 15h30</option>
+          <option>4ª aula - 15h50 às 16h40</option>
+          <option>5ª aula - 16h40 às 17h30</option>
+          <option>6ª aula - 17h30 às 18h20</option>
+        </select>
+      </div>
+
+      <!-- NOTURNO -->
+      <div class="mb-3 bloco-periodo noturno">
+        <label class="form-label">Horários Noturno:</label>
+        <select class="form-select">
+          <option value="">Selecione o horário</option>
+          <option>1ª aula - 18h50 às 19h40</option>
+          <option>2ª aula - 19h40 às 20h30</option>
+          <option>3ª aula - 20h44 às 21h34</option>
+          <option>4ª aula - 21h34 às 22h20</option>
+        </select>
+      </div>
+
+      <button class="btn btn-danger w-100 mt-3">Agendar</button>
     </div>
   </div>
 
