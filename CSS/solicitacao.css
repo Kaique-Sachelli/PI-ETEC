@@ -120,18 +120,18 @@ summary::-webkit-details-marker {
 
 /* Cores principais das linhas */
 .verde summary {
-  background-color: #e8f7e9;
+  background-color: #e8fbe4;
   border-left: 4px solid #4acd51;
   border-bottom: #d4f0d6;
 }
 
 .amarelo summary {
-  background-color: #fff7dc;
+  background-color: #fff5ea;
   border-left: 4px solid #ffcc00;
 }
 
 .vermelho summary {
-  background-color: #ffeaea;
+  background-color: #fdd5d1;
   border-left: 4px solid #e63c3c;
 }
 
@@ -156,16 +156,16 @@ details[open] .seta {
 }
 
 .aprovado {
-  background-color: #2e8b57;
+  background-color: #3acf1f;
 }
 
 .pendente {
-  background-color: #d6c32a;
+  background-color: #b78718;
   color: #333;
 }
 
 .cancelado {
-  background-color: #e63c3c;
+  background-color: #d32719;
 }
 
 /* Caixa de detalhes */
@@ -177,6 +177,12 @@ details[open] .seta {
   display: flex;
   justify-content: space-between;
   box-shadow: 0px 0px 5px rgba(0, 0, 0, 0.1);
+}
+
+.detalhes-box .row {
+ display: flexbox;
+ width: 100%;
+ height: auto;
 }
 
 .coluna {
@@ -200,10 +206,14 @@ details[open] .seta {
 /* Botões */
 .botoes {
   margin-top: 15px;
-  display: flex;
-  gap: 10px;
-  flex-wrap: wrap;
+  color: white;
+  border: none;
+  padding: 10px;
+  border-radius: 5px;
+  width: 100%;
+  font-weight: bold;
 }
+
 
 button {
   border: none;
@@ -230,21 +240,21 @@ button {
 }
 
 .btn-pronto {
-  background-color: #4caf50 !important;
+  background-color:  #4c7eff !important;
   border-radius: 5px;
 }
 
 .btn-pronto:hover {
-  background-color: #45a049 !important;
+  background-color: #003ee8 !important;
 }
 
 .btn-devolvido {
-  background-color: #3f51b5 !important;
+  background-color: #949494 !important;
   border-radius: 5px;
 }
 
 .btn-devolvido:hover {
-  background-color: #3645a0 !important;
+  background-color: #858585 !important;
 }
 
 .btn:hover {
