@@ -1,8 +1,6 @@
 body {
     font-family: Verdana, sans-serif;
     background-color: white;
-    margin: 0; /* Remove margens do body */
-    padding: 0; /* Remove paddings do body */
 }
 
 .titulo-header h1 {
@@ -62,7 +60,8 @@ body {
 
 .container-solicitacao {
     text-align: center;
-    margin: 30px 0
+    margin: 30px 0;
+    background-color: #ba1a1a; /* Cor um pouco mais escura ao passar o mouse */
 }
 
 .container {
@@ -261,6 +260,7 @@ button {
   opacity: 0.9;
   transform: scale(1.03);
 }
+
 footer {
   background-color: #000000;
   min-height: 250px;

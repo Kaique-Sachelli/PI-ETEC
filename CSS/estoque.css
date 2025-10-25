@@ -400,23 +400,20 @@ body {
 }
 
 .cancelar-button {
-  background-color: red;
+  background-color: #D32719; 
 }
 
 .cancelar-button:hover {
-  background-color: #cc0000;
-  transform: scale(1.05);
+  background-color: #F95B4D;
 }
 
 .confirmar-button {
-  background-color: green;
+  background-color: #3ACF1F;
 }
 
 .confirmar-button:hover {
-  background-color: #0f7a0f;
-  transform: scale(1.05);
+  background-color: #80E96D;
 }
-
 
 footer {
   background-color: #000000;
