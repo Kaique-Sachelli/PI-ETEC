@@ -113,7 +113,7 @@ body {
   box-shadow: 0 4px 8px rgba(0,0,0,0.1);
 }
 
-.produto-img {
+.vidraria-img, .reagente-img {
   width: 40px;
   height: auto;
   margin-bottom: 8px;
