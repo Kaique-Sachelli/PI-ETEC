@@ -91,7 +91,7 @@ body {
   padding: 15px;
 }
 
-.container-item {
+.vidraria, .reagente {
   background-color: #fff;
   border: 1px solid #e0e0e0;
   border-radius: 10px;
@@ -108,7 +108,12 @@ body {
   box-shadow: 0 2px 4px rgba(0,0,0,0.05);
 }
 
-.container-item:hover {
+.vidraria:hover {
+  transform: scale(1.03);
+  box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+}
+
+.reagente:hover {
   transform: scale(1.03);
   box-shadow: 0 4px 8px rgba(0,0,0,0.1);
 }
@@ -119,7 +124,7 @@ body {
   margin-bottom: 8px;
 }
 
-.container-item p {
+.vidraria, .reagente p {
   font-size: 13px;
   color: #333;
   text-align: center;
