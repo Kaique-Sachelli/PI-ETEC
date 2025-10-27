@@ -6,7 +6,7 @@ document.getElementById('formLogin').addEventListener('submit', async (e) => {
     const senha = document.getElementById('senha').value;
 
     try {
-        const resposta = await fetch('http://localhost:5501/login', {
+        const resposta = await fetch('http://localhost:5502/login', {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({ email, senha })
@@ -22,6 +22,7 @@ document.getElementById('formLogin').addEventListener('submit', async (e) => {
         console.error('Erro ao tentar fazer login:', erro);
     }
 });
+
 
 // Código de Mostrar Senha / Ocultar Senha
 const senhaInput = document.getElementById('senha');
