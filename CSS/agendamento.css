@@ -38,20 +38,24 @@ body {
   height: auto;
 }
 
-.container-vermelho {
-  background-color: #b20000;
-  font-family: Verdana, sans-serif;
-}
-
-.container-vermelho .secao {
-  height: 60px;
+.navbar .secao {
+  list-style-type: none;
   border: 1px solid rgb(100, 0, 0);
-  background-color: #b20000;
+  background-color: #B20000;
   color: #fff;
 }
 
-.container-vermelho .secao:hover {
+.navbar .secao a {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 60px;
+  font-family: Verdana, sans-serif;
+}
+
+.navbar .secao:hover {
   background-color: #BA1A1A; /* Cor um pouco mais escura ao passar o mouse */
+  cursor: pointer;
 }
 
 .container-principal {
