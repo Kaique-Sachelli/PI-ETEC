@@ -29,19 +29,19 @@
    </header>
 
   <!-- MENU -->
-   <div class="row justify-content-md-start  justify-content-lg-center container-vermelho">
-      <button onclick="window.location.href='inicio.html'"class="col-md-2 col-4 secao">Início</button>
-      <button onclick="window.location.href=''"class="col-md-2 col-4 secao" style="background-color: #BA1A1A;">Agendamento</button>
-      <button onclick="window.location.href='estoque.html'"class="col-md-2 col-4 secao">Estoque</button>
-      <button onclick="window.location.href='kits.html'"class="col-md-2 col-4 secao">Kits</button>
-      <button onclick="window.location.href='solicitacao.html'"class="col-md-2 col-4 secao">Solicitações</button>
-      <button onclick="window.location.href='cadastro.html'"class="col-md-2 col-4 secao">Cadastro</button>
-   </div>
+  <ul class="navbar">
+    <li class="col-md-2 col-4 secao"><a onclick="window.location.href='inicio.html'">Início</a></li>
+    <li class="col-md-2 col-4 secao" style="background-color: #BA1A1A;"><a>Agendamento</a></li>
+    <li class="col-md-2 col-4 secao"><a onclick="window.location.href='estoque.html'">Estoque</a></li>
+    <li class="col-md-2 col-4 secao"><a onclick="window.location.href='kits.html'">Kits</a></li>
+    <li class="col-md-2 col-4 secao"><a onclick="window.location.href='solicitacao.html'">Solicitações</a></li>
+    <li class="col-md-2 col-4 secao"><a onclick="window.location.href='cadastro.html'">Cadastro</a></li>
+ </ul>
 
   <!-- CONTAINER PRINCIPAL (VISÃO MENSAL) -->
   <div class="container-principal">
     <!-- CALENDÁRIO -->
-    <div class="calendario">
+    <div class="col-12 col-lg-8 calendario">
       <div class="mes-header">
         <button class="seta"><i class="fa-solid fa-chevron-left"></i></button>
         <h3 class="mes">Setembro</h3>
@@ -76,7 +76,7 @@
     </div>
 
     <!-- BLOCO DE HORÁRIOS -->
-    <div class="bloco-horarios">
+    <div class="col-12 col-lg-3 bloco-horarios">
       <h4 class="text-center mb-3">Selecionar Horários e Sala:</h4>
 
       <div class="mb-3">
@@ -156,7 +156,7 @@
 
   <!-- CONTAINER SEMANA -->
   <div class="container-semana" style="display: none;">
-    <div class="calendario">
+    <div class="col-12 col-lg-8 calendario">
       <div class="mes-header">
         <button class="seta"><i class="fa-solid fa-chevron-left"></i></button>
         <h3 class="mes">Semana</h3>
@@ -190,7 +190,7 @@
       </div>
     </div>
         <!-- BLOCO DE HORÁRIOS -->
-    <div class="bloco-horarios">
+    <div class="col-12 col-lg-3 bloco-horarios">
       <h4 class="text-center mb-3">Selecionar Horários e Sala:</h4>
 
       <div class="mb-3">
