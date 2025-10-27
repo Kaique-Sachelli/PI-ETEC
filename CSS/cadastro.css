@@ -212,16 +212,53 @@ footer .linha-footer {
 }
 
 .icones a {
-  text-decoration: none; /* Remove o sublinhado dos links */
+  text-decoration: none; 
 }
 
 .icones-rede {
   width: 40px;
   height: 40px;
-  object-fit: contain; /* Redimensiona a imagem para caber no contêiner */
+  object-fit: contain; 
   transition: transform 0.3s;
 }
 
 .icones-rede:hover {
-  transform: scale(1.1); /* Efeito de zoom */
+  transform: scale(1.1); 
+}
+
+
+#notificacao {
+    position: fixed; 
+    top: 20px;
+    right: 20px;
+    padding: 16px 24px;
+    border-radius: 8px;
+    font-size: 16px;
+    font-weight: 500;
+    color: white;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+    z-index: 1001;
+    
+ 
+    opacity: 0;
+    transform: translateX(150%);
+    
+    /* Animação suave */
+    transition: transform 0.5s ease-out, opacity 0.5s ease-out;
+}
+
+
+#notificacao.show {
+    opacity: 1;
+    transform: translateX(0);
+}
+
+
+#notificacao.sucesso {
+    background-color: #28a745; 
+}
+
+
+#notificacao.erro {
+    background-color: #BA1A1A;
 }
