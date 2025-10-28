@@ -1,5 +1,5 @@
 body {
-    font-family: Verdana, sans-serif;
+    font-family: 'Roboto', sans-serif;
     background-color: white;
 }
 
@@ -34,7 +34,7 @@ body {
 .logo-sp {
   width: 150px;
   height: auto;
-  font-family: Verdana, sans-serif;
+  font-family: 'Roboto', sans-serif;
   background-color: white;
   margin: 0; /* Remove margens do body */
   padding: 0; /* Remove paddings do body */
@@ -53,7 +53,7 @@ body {
   justify-content: center;
   align-items: center;
   height: 60px;
-  font-family: Verdana, sans-serif;
+  font-family: 'Roboto', sans-serif;
 }
 
 .navbar .secao:hover {

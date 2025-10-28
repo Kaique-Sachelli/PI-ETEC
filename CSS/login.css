@@ -56,7 +56,7 @@ body {
 .form .input {
   width: 100%;
   background: white;
-  font-family: Verdana, sans-serif;
+  font-family: 'Roboto', sans-serif;
   border: none;
   padding: 15px 20px;
   border-radius: 20px;
@@ -91,7 +91,7 @@ body {
 .form .forgot-password a {
   /* Esqueçeu a senha? */
   font-size: 15px;
-  font-family: Verdana, sans-serif;
+  font-family: 'Roboto', sans-serif;
   color: #000000;
   text-decoration: none;
 }
