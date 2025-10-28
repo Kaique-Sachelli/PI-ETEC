@@ -73,10 +73,8 @@ body {
   background-color: #ffffff;
   border: 1px solid #dcdcdc;
   border-radius: 20px;
-  width: 250px;
-  height: 600px;
   padding: 25px;
-  display: flex;
+  display: flexbox;
   flex-direction: column;
   align-items: center;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.05);
@@ -86,10 +84,8 @@ body {
   background-color: #ffffff;
   border: 1px solid #dcdcdc;
   border-radius: 20px;
-  width: 250px;
-  height: 600px;
   padding: 25px;
-  display: flex;
+  display: flexbox;
   flex-direction: column;
   align-items: center;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.05);
@@ -101,18 +97,16 @@ body {
   font-weight: 900;
   font-family: Verdana, sans-serif;
   font-size: 30px;
-  color: rgb(0, 0, 0);
+  color: #005c6d;
 }
 
 .form .confirmar {
-  display: block;
   width: 100%;
-  width: 390px;
   font-family: Verdana, Geneva, sans-serif;
   background-color: #3ACF1F;
   color: white;
   padding-block: 15px;
-  margin: 20px auto;
+  margin-top: 20px;
   border-radius: 8px;
   border: none;
   transition: all 0.2s ease-in-out;
