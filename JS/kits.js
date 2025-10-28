@@ -1,5 +1,5 @@
-
 let kitSelecionado = [];
+
 function adicionarAoKit(elemento) {
     const nomeProduto = elemento.querySelector("p").innerText.trim();
     const imagemProduto = elemento.querySelector("img").getAttribute("src");
@@ -15,11 +15,15 @@ function removerDoKit(index) {
 function atualizarKit() {
     const kitContainer = document.querySelector(".kit-container");
     let listaContainer = kitContainer.querySelector(".kit-lista");
+
+
     if (!listaContainer) {
         listaContainer = document.createElement("div");
         listaContainer.classList.add("kit-lista");
-        kitContainer.insertBefore(listaContainer, kitContainer.querySelector(".finalize-button"));
+        kitContainer.insertBefore(listaContainer, kitContainer.querySelector(".finalizar-button"));
     }
+
+
     listaContainer.innerHTML = "";
     kitSelecionado.forEach((item, index) => {
         const div = document.createElement("div");
@@ -30,26 +34,23 @@ function atualizarKit() {
             <button class="remover-item">&times;</button>
         `;
 
-
         div.querySelector(".remover-item").addEventListener("click", () => removerDoKit(index));
         listaContainer.appendChild(div);
     });
+
     const addIcon = document.querySelector(".add-icon");
-    if (kitSelecionado.length > 0) {
-        addIcon.style.display = "none";
-    } else {
-        addIcon.style.display = "block";
-    }
+    addIcon.style.display = kitSelecionado.length > 0 ? "none" : "block";
 }
 
-
 function inicializarEventos() {
-    const produtos = document.querySelectorAll(".container-item");
+
+    const produtos = document.querySelectorAll(".vidraria, .reagente");
     produtos.forEach(produto => {
         produto.addEventListener("click", () => adicionarAoKit(produto));
     });
 
-    const botaoFinalizar = document.querySelector(".finalize-button");
+
+    const botaoFinalizar = document.querySelector(".finalizar-button");
     botaoFinalizar.addEventListener("click", () => {
         if (kitSelecionado.length === 0) {
             alert("Nenhum item selecionado!");

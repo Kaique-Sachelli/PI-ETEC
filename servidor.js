@@ -76,5 +76,5 @@ app.get('/usuarios', async (req, res) => {
     });
   }
 });
-const PORTA = 5502;
+const PORTA = 3000;
 app.listen(PORTA, () => console.log(`Servidor rodando na porta ${PORTA}`));
