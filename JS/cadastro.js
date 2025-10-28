@@ -21,19 +21,47 @@ document.getElementById("formCadastro").addEventListener("submit", async (e) => 
          } else {
             mostrarNotificao(dados.mensagem, 'erro')
          }
-   
+
       } catch (error) {
          mostrarNotificao("erro ao se conectar com o servidor", error)
          console.error("erro ao se conectar com o servidor", error)
       }
    }
-   else{
-      mostrarNotificao("Preencha todos os campos!",'erro')
+   else {
+      mostrarNotificao("Preencha todos os campos!", 'erro')
    }
 })
 
+// função para alterar usuário
+async function carregarUsuarios() {
+   selectUsuarios = document.getElementById("selectAlterar")
+   try {
+      const resposta = await fetch('http://localhost:5502/usuarios')
+      const dados = resposta.json()
+      if (dados.sucesso) {
+         selectUsuarios.innerHTML = '<option value="">Selecione um usuário</option>'
+         dados.usuarios.forEach(usuario => {
+            const option = document.createElement('option')
+            option.value = usuario.permissao
+            option.textContent = usuario.nome
+            selectUsuarios.appendChild(option)
+         })
+      } else {
+         mostrarNotificao('falha ao carregar usuários', 'erro')
+         console.log(dados.mensagem)
+      }
 
-// função para notificação de cadastro
+   } catch (error) {
+      mostrarNotificao('Erro interno de conexão', 'erro')
+      console.log(error)
+   }
+}
+//função para carregar a página e executar métodos
+   document.addEventListener('DOMContentLoaded', function(){
+      carregarUsuarios()
+   })
+
+// função para notificação
 const notificação = document.getElementById('notificacao')
 let timerNotificacao = null;
 
