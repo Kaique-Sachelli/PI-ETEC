@@ -71,6 +71,7 @@ body {
   width: 80%;
   max-width: 900px;
   margin-top: 40px;
+  font-family: 'Roboto', sans-serif;
 }
 
 /* Cabeçalho da tabela - ALINHAMENTO CORRIGIDO */
@@ -180,10 +181,17 @@ details[open] .seta {
   justify-content: space-between;
   box-shadow: 0px 0px 5px rgba(0, 0, 0, 0.1);
 }
+
 .detalhes-box .row {
  display: flexbox;
  width: 100%;
  height: auto;
+}
+
+.detalhes-box h4 {
+  font-family: 'Roboto-Slab', serif;
+  color: #005c6d;
+  margin-bottom: 8px;
 }
 
 .coluna {
@@ -195,11 +203,6 @@ details[open] .seta {
 .coluna:not(:last-child){
   border-right: 2px solid black;
   height: 150px;
-}
-
-.coluna h4 {
-  color: #a00;
-  margin-bottom: 8px;
 }
 
 .coluna ul {
