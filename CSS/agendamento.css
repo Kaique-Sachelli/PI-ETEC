@@ -371,6 +371,13 @@ footer .linha-footer {
   color: #333;
 }
 
+.form-select:focus {
+  outline: none !important;
+  border-color: #b20000 !important;
+  box-shadow: 0 0 5px #ba1a1a !important;
+  transition: all 0.2s ease-in-out;
+}
+
 .bloco-horarios button {
   background-color: #3ACF1F;
   color: #fff;

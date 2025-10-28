@@ -129,6 +129,7 @@ body {
   box-shadow: 0 0 5px #ba1a1a !important;
   transition: all 0.2s ease-in-out;
 }
+
 .password-container {
   position: relative;
 }
