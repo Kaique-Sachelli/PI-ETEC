@@ -79,6 +79,7 @@ body {
   align-items: center;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.05);
   margin-bottom: 20px;
+  font-family: 'Roboto', sans-serif;
 }
 
 .container_alterar {
@@ -91,20 +92,21 @@ body {
   align-items: center;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.05);
   margin-bottom: 20px;
+  font-family: 'Roboto', sans-serif;
 }
 
 .heading {
   /* Texto do título */
   text-align: center;
   font-weight: 900;
-  font-family: Verdana, sans-serif;
+  font-family: 'Roboto Slab', serif;
   font-size: 30px;
   color: #005c6d;
 }
 
 .form .confirmar {
   width: 100%;
-  font-family: Verdana, Geneva, sans-serif;
+  font-family: 'Roboto', sans-serif;
   background-color: #3ACF1F;
   color: white;
   padding-block: 15px;
@@ -167,6 +169,7 @@ footer {
   min-height: 250px;
   padding: 30px;
   margin-top: 100px;
+  font-family: 'Roboto', sans-serif;
 }
 
 footer .row {
@@ -180,6 +183,7 @@ footer .secao {
 }
 
 footer h3 {
+  font-family: 'Roboto Slab', serif;
   font-size: x-large;
   color: #fff;
   margin-bottom: 20px;

@@ -208,6 +208,7 @@ footer {
   min-height: 250px;
   padding: 30px;
   margin-top: 100px;
+  font-family: 'Roboto', sans-serif;
 }
 
 footer .row {
@@ -221,6 +222,7 @@ footer .secao {
 }
 
 footer h3 {
+  font-family: 'Roboto Slab', serif;
   font-size: x-large;
   color: #fff;
   margin-bottom: 20px;
