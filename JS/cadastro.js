@@ -9,7 +9,7 @@ document.getElementById("formCadastro").addEventListener("submit", async (e) => 
 
    if (nome && email && senha && login != null) {
       try {
-         const resposta = await fetch('http://localhost:5502/cadastro', {
+         const resposta = await fetch('http://localhost:3000/cadastro', {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({ nome, email, senha, login })
@@ -36,8 +36,8 @@ document.getElementById("formCadastro").addEventListener("submit", async (e) => 
 async function carregarUsuarios() {
    selectUsuarios = document.getElementById("selectAlterar")
    try {
-      const resposta = await fetch('http://localhost:5502/usuarios')
-      const dados = resposta.json()
+      const resposta = await fetch('http://localhost:3000/usuarios')
+      const dados = await resposta.json()
       if (dados.sucesso) {
          selectUsuarios.innerHTML = '<option value="">Selecione um usuário</option>'
          dados.usuarios.forEach(usuario => {
