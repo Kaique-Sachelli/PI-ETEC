@@ -8,6 +8,7 @@ app.use(cors());
 app.use(bodyParser.json());
 app.use(express.static('public'));
 
+// login
 app.post('/login', async (req, res) => {
   const { email, senha } = req.body;
 
@@ -27,7 +28,7 @@ app.post('/login', async (req, res) => {
   }
 });
 
-
+// cadastro
 app.post('/cadastro', async (req, res) => {
   const { nome, email, senha, login } = req.body;
 
@@ -56,6 +57,24 @@ app.post('/cadastro', async (req, res) => {
 
   }
 });
+// alterar usuário
+app.get('/usuarios', async (req, res) => {
+  try {
+    const [rows] = await pool.query(
+      'SELECT idUsuario, nome, permissao FROM usuario'
+    );
 
+    res.json({
+      sucesso: true,
+      usuarios: rows
+    });
+
+  } catch (erro) {
+    res.status(500).json({
+      sucesso: false,
+      mensagem: 'Erro ao buscar usuários: ' + erro.message
+    });
+  }
+});
 const PORTA = 5502;
 app.listen(PORTA, () => console.log(`Servidor rodando na porta ${PORTA}`));
