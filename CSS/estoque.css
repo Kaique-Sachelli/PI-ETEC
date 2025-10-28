@@ -394,6 +394,7 @@ body {
 
 .botoes {
   display: flex;
+  width: 100%;
   justify-content: center;
   gap: 20px; /* espaço entre os botões */
 }
@@ -402,24 +403,12 @@ body {
 .confirmar-button {
   color: white;
   border: none;
-  padding: 12px 40px;
+  padding: 15px;
   border-radius: 8px;
-  font-size: 16px;
+  font-size: 1.2em;
   font-weight: 500;
   cursor: pointer;
-  transition: transform 0.1s ease, box-shadow 0.2s ease;
-}
-
-.cancelar-button {
-  background-color: #D32719; 
-}
-
-.cancelar-button:hover {
-  transform: scale(1.03);
-}
-
-.cancelar-button:active {
-  background-color: #F95B4D;
+  width: 45%;
 }
 
 .confirmar-button {
@@ -427,11 +416,23 @@ body {
 }
 
 .confirmar-button:hover {
-  transform: scale(1.03);
+  transform: scale(1.02);
 }
 
 .confirmar-button:active {
   background-color: #80E96D;
+}
+
+.cancelar-button {
+  background-color: #D32719; 
+}
+
+.cancelar-button:hover {
+  transform: scale(1.02);
+}
+
+.cancelar-button:active {
+  background-color: #F95B4D;
 }
 
 footer {
