@@ -82,6 +82,7 @@ body {
   align-items: center;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.05);
   overflow-y: auto; /* Para rolar se tiver muitos produtos */
+  font-family: 'Roboto', sans-serif;
 }
 
 .produtos-lista {
@@ -145,11 +146,11 @@ body {
 }
 
 .produtos-title {
-  color: #333;
-  margin: 0;
-  font-family: Verdana, sans-serif;
-  font-size: 30px !important;
-  text-align: center;
+    color: #005c6d;
+    margin: 0;
+    font-family: 'Roboto-Slab', serif;
+    font-size: 32px !important;
+    text-align: center;
 }
 
 .produtos-header-linha {
@@ -294,11 +295,9 @@ body {
  color: #9e9ea7;
 }
 
-.input:focus, input:hover {
- outline: none;
- border-color: rgba(234,76,137,0.4);
- background-color: #fff;
- box-shadow: 0 0 0 4px rgb(234 76 137 / 10%);
+.input:focus {
+  border-color: #b20000; /* 🔹 destaque ao focar */
+  box-shadow: 0 0 5px rgba(178, 0, 0, 0.3);
 }
 
 .icon {
@@ -322,6 +321,7 @@ body {
     align-items: center;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.05);
     overflow: hidden;
+    font-family: 'Roboto', sans-serif;
 }
 
 .solicitacao-lista {
@@ -380,10 +380,11 @@ body {
 }
 
 .solicitacao-title {
-    color: #333;
+    color: #005c6d;
     margin: 0;
-    font-family: Verdana, sans-serif;
-    font-size: 30px !important;
+    font-family: 'Roboto-Slab', serif;
+    font-size: 32px !important;
+    text-align: center;
 }
 
 .add-icon {
@@ -440,6 +441,7 @@ footer {
   min-height: 250px;
   padding: 30px;
   margin-top: 100px;
+  font-family: 'Roboto', sans-serif;
 }
 
 footer .row {
@@ -453,6 +455,7 @@ footer .secao {
 }
 
 footer h3 {
+  font-family: 'Roboto Slab', serif;
   font-size: x-large;
   color: #fff;
   margin-bottom: 20px;
