@@ -1,3 +1,7 @@
+//função para carregar a página e executar métodos
+document.addEventListener('DOMContentLoaded', function () {
+   carregarUsuarios()
+})
 //função para cadastro de usuários
 document.getElementById("formCadastro").addEventListener("submit", async (e) => {
    e.preventDefault();
@@ -32,7 +36,7 @@ document.getElementById("formCadastro").addEventListener("submit", async (e) => 
    }
 })
 
-// função para alterar usuário
+// função para carregar usuários
 async function carregarUsuarios() {
    selectUsuarios = document.getElementById("selectAlterar")
    try {
@@ -42,8 +46,8 @@ async function carregarUsuarios() {
          selectUsuarios.innerHTML = '<option value="">Selecione um usuário</option>'
          dados.usuarios.forEach(usuario => {
             const option = document.createElement('option')
-            option.value = usuario.permissao
-            option.textContent = usuario.nome
+            option.value = usuario.idUsuario
+            option.textContent = `${usuario.nome} - ${usuario.permissao}`
             selectUsuarios.appendChild(option)
          })
       } else {
@@ -56,10 +60,65 @@ async function carregarUsuarios() {
       console.log(error)
    }
 }
-//função para carregar a página e executar métodos
-   document.addEventListener('DOMContentLoaded', function(){
-      carregarUsuarios()
+
+//verifica se algum item do label foi selecionado
+const usuarioSelecionado = document.getElementById("selectAlterar")
+usuarioSelecionado.addEventListener('change', async function () {
+   const idUsuarioSelecionado = this.value
+   if (idUsuarioSelecionado) {
+      dadosUsuario(idUsuarioSelecionado)
+   }
+})
+
+//função para preencher os dados do usuário selecionado
+async function dadosUsuario(id) {
+   try {
+      const resposta = await fetch(`http://localhost:3000/usuarios/${id}`)
+      const dados = await resposta.json()
+      if (dados.sucesso) {
+         document.getElementById("emailAlterar").value = dados.usuario.email
+         document.getElementById("senhaAlterar").value = "" //retorna a senha vazia por segurança
+         document.getElementById("loginAlterar").value = dados.usuario.permissao
+      } else {
+         mostrarNotificao(dados.mensagem, "erro")
+      }
+   } catch (error) {
+      mostrarNotificao('Erro interno de conexão', 'erro')
+      console.log(error)
+   }
+}
+//função para armazenar os dados alterados
+async function atualizaUsuario(idUsuario, email, novaSenha, permissao) {
+   resultado = await fetch('http://localhost:3000/usuarios/atualizar', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ email, novaSenha, permissao, idUsuario })
    })
+   dados = await resultado.json()
+   return dados
+}
+
+//listener para ouvir o botao de enviar 
+document.getElementById("alterarForm").addEventListener("submit", async (e) => {
+   e.preventDefault()
+   email = document.getElementById('emailAlterar').value
+   senha = document.getElementById('senhaAlterar').value
+   permissao = document.getElementById('loginAlterar').value
+   idUsuario = document.getElementById('selectAlterar').value
+   try {
+      dados = await atualizaUsuario(idUsuario,email,senha,permissao)
+      if (dados.sucesso) {
+            mostrarNotificao(dados.mensagem, 'sucesso')
+            document.getElementById("alterarForm").reset()
+         } else {
+            mostrarNotificao(dados.mensagem, 'erro')
+            console.log(dados.mensagem, 'erro')
+         }
+   } catch (error) {
+      mostrarNotificao('erro ao se conectar com o servidor', 'error')
+   }
+
+})
 
 // função para notificação
 const notificação = document.getElementById('notificacao')
@@ -78,9 +137,6 @@ function mostrarNotificao(mensagem, tipo) {
       notificação.classList.remove('show')
    }, 2000)
 }
-
-
-
 // Função para alternar a visibilidade da senha
 document.addEventListener('DOMContentLoaded', function () {
    const toggleButtons = document.querySelectorAll('.toggle-password');
