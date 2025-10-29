@@ -42,7 +42,6 @@ body {
 }
 
 .linha-preta {
-  width: 60%;
   height: 2px;
   background-color: black;
   margin: 0 auto;
