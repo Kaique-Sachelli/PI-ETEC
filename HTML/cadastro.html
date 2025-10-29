@@ -120,15 +120,15 @@
                <!-- Campo para o email -->
                <div class="mb-3">
                   <label class="form-label">Email:</label>
-                  <input type="email" class="form-control" placeholder="Digite seu email">
+                  <input type="email" class="form-control" placeholder="Digite seu email" id="emailAlterar">
                </div>
 
                <!-- Campo para a senha -->
                <div class="mb-3">
                   <label class="form-label">Senha:</label>
                   <div class="password-container">
-                     <input type="password" class="form-control" placeholder="Digite sua senha" id="senha-alterar">
-                     <button type="button" class="toggle-password" data-target="senha-alterar">
+                     <input type="password" class="form-control" placeholder="Digite sua senha" id="senhaAlterar">
+                     <button type="button" class="toggle-password" data-target="senhaAlterar">
                         <!-- SVG do olho fechado (padrão) -->
                         <svg class="password-icon" viewBox="0 0 24 24" id="eye-closed">
                            <path
@@ -147,7 +147,7 @@
                <div class="mb-3">
                   <label class="form-label">Tipo de login</label>
                   <select class="form-select">
-                     <option value="">Selecione o login</option>
+                     <option value="" id="loginAlterar">Selecione o login</option>
                      <option>Professor</option>
                      <option>Técnico</option>
                      <option>Administrador</option>
