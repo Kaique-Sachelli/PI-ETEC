@@ -57,7 +57,8 @@ app.post('/cadastro', async (req, res) => {
 
   }
 });
-// alterar usuário
+
+// buscar usuários
 app.get('/usuarios', async (req, res) => {
   try {
     const [rows] = await pool.query(
@@ -76,5 +77,48 @@ app.get('/usuarios', async (req, res) => {
     });
   }
 });
+
+//buscar informação completa do usuário
+app.get('/usuarios/:id', async (req, res) => {
+  const id = req.params.id
+  try {
+    const [rows] = await pool.query(
+      'SELECT email FROM usuario WHERE idUsuario = ?', [id]
+    )
+    if (rows.length > 0) {
+      res.json({
+        sucesso: true,
+        usuario: rows[0]
+      })
+    }
+  } catch (erro) {
+    res.json({
+      sucesso: false,
+      mensagem: 'Erro ao buscar usuário: ' + erro.message
+    })
+  }
+})
+
+//atualiza dados do usuario
+app.post('/usuarios/atualizar', async (req, res) => {
+  const { idUsuario, email, novaSenha, permissao } = req.body;
+
+  try {
+    const [result] = await pool.query(
+      'UPDATE usuario SET email = ?, senha = ?, permissao = ? WHERE idUsuario = ?',
+      [email, novaSenha, permissao, idUsuario]
+    );
+    res.json({
+      sucesso: true,
+      mensagem: 'Dados atualizados com sucesso!'
+    });
+  } catch (erro) {
+    res.json({
+      sucesso: false,
+      mensagem: 'Erro ao atualizar: ' + erro.message
+    })
+  }
+});
+
 const PORTA = 3000;
 app.listen(PORTA, () => console.log(`Servidor rodando na porta ${PORTA}`));
