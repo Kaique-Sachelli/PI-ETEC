@@ -111,6 +111,7 @@ document.getElementById("alterarForm").addEventListener("submit", async (e) => {
          if (dados.sucesso) {
             mostrarNotificao(dados.mensagem, 'sucesso')
             document.getElementById("alterarForm").reset()
+            carregarUsuarios() //refresh nos usuários do banco
          } else {
             mostrarNotificao(dados.mensagem, 'erro')
             console.log(dados.mensagem, 'erro')
@@ -121,7 +122,6 @@ document.getElementById("alterarForm").addEventListener("submit", async (e) => {
    } else {
       mostrarNotificao('Preencha todos os campos!','erro')
    }
-
 })
 
 // função para notificação
