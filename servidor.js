@@ -83,7 +83,7 @@ app.get('/usuarios/:id', async (req, res) => {
   const id = req.params.id
   try {
     const [rows] = await pool.query(
-      'SELECT email FROM usuario WHERE idUsuario = ?', [id]
+      'SELECT email, permissao FROM usuario WHERE idUsuario = ?', [id]
     )
     if (rows.length > 0) {
       res.json({
