@@ -1,5 +1,5 @@
 body {
-  font-family: Arial, sans-serif;
+  font-family: 'Roboto', sans-serif;
   background-color: white;
   margin: 0; /* Remove margens do body */
   padding: 0; /* Remove paddings do body */
@@ -19,7 +19,7 @@ body {
   color: black;
   margin: 0;
   text-align: center;
-  font-family: Verdana, sans-serif;
+  font-family: 'Roboto-Slab', serif;
   font-weight: normal !important;
 }
 
@@ -27,11 +27,10 @@ body {
   font-size: 48px;
   color: #333;
   margin: 5px 0 10px;
-  font-family: Verdana, sans-serif;
+  font-family: 'Roboto-Slab', serif;
 }
 
 .linha-preta {
-  width: 60%;
   height: 2px;
   background-color: black;
   margin: 0 auto;
@@ -125,7 +124,7 @@ body {
   justify-content: center;
   align-items: center;
   height: 60px;
-  font-family: Verdana, sans-serif;
+  font-family: 'Roboto', sans-serif;
 }
 
 .navbar .secao:hover {
@@ -151,6 +150,7 @@ body {
   box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
   padding: 20px;
   height: 50%;
+  font-family: 'Roboto', sans-serif;
 }
 
 .mes-header {
@@ -162,9 +162,9 @@ body {
 }
 
 .mes {
-  font-size: 1.4rem;
-  font-weight: bold;
-  color: #212222
+  font-size: 24px;
+  font-family: 'Roboto Slab', serif;
+  color: #005c6d;
 }
 /* posiciona as setas nas laterais */
 .mes-header .seta:first-child {
@@ -379,6 +379,7 @@ footer {
   min-height: 250px;
   padding: 30px;
   margin-top: 100px;
+  font-family: 'Roboto', sans-serif;
 }
 
 footer .row {
@@ -392,6 +393,7 @@ footer .secao {
 }
 
 footer h3 {
+  font-family: 'Roboto Slab', serif;
   font-size: x-large;
   color: #fff;
   margin-bottom: 20px;
@@ -439,11 +441,19 @@ footer .linha-footer {
   border-radius: 10px;
   box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
   padding: 20px;
+  font-family: 'Roboto', sans-serif;
 }
 
 .form-label {
   font-weight: bold;
   color: #333;
+}
+
+.form-select:focus {
+  outline: none !important;
+  border-color: #b20000 !important;
+  box-shadow: 0 0 5px #ba1a1a !important;
+  transition: all 0.2s ease-in-out;
 }
 
 .bloco-horarios button {

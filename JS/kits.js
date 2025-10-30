@@ -18,7 +18,7 @@ function atualizarKit() {
     if (!listaContainer) {
         listaContainer = document.createElement("div");
         listaContainer.classList.add("kit-lista");
-        kitContainer.insertBefore(listaContainer, kitContainer.querySelector(".finalize-button"));
+        kitContainer.insertBefore(listaContainer, kitContainer.querySelector(".finalizar-button"));
     }
     listaContainer.innerHTML = "";
     kitSelecionado.forEach((item, index) => {
@@ -49,7 +49,7 @@ function inicializarEventos() {
         produto.addEventListener("click", () => adicionarAoKit(produto));
     });
 
-    const botaoFinalizar = document.querySelector(".finalize-button");
+    const botaoFinalizar = document.querySelector(".finalizar-button");
     botaoFinalizar.addEventListener("click", () => {
         if (kitSelecionado.length === 0) {
             alert("Nenhum item selecionado!");

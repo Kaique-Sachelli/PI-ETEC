@@ -1,5 +1,5 @@
 body {
-  font-family: Verdana, sans-serif;
+  font-family: 'Roboto', sans-serif;
   background-color: white;
   margin: 0; /* Remove margens do body */
   padding: 0; /* Remove paddings do body */
@@ -19,7 +19,7 @@ body {
   color: black;
   margin: 0;
   text-align: center;
-  font-family: Verdana, sans-serif;
+  font-family: 'Roboto-Slab', serif;
   font-weight: normal !important;
 }
 
@@ -27,11 +27,10 @@ body {
   font-size: 48px;
   color: #333;
   margin: 5px 0 10px;
-  font-family: Verdana, sans-serif;
+  font-family: 'Roboto-Slab', serif;
 }
 
 .linha-preta {
-  width: 60%;
   height: 2px;
   background-color: black;
   margin: 0 auto;
@@ -125,7 +124,7 @@ body {
   justify-content: center;
   align-items: center;
   height: 60px;
-  font-family: Verdana, sans-serif;
+  font-family: 'Roboto', sans-serif;
 }
 
 .navbar .secao:hover {
@@ -138,56 +137,78 @@ body {
   justify-content: space-around;
 }
 
-.container {
-  width: 100%;
-  height: auto;
-  padding-bottom: 5em;
+/* Botões Cadastrar / Alterar */
+.container-botoes {
+  background-color: #dcdcdc;
+  display: flex;
+  justify-content: space-between;
+  border: #000000 solid 1px;
+  border-radius: 8px;
+  padding: 5px !important;
+  margin-bottom: 16px;
+}
+
+.container-botoes .cadastrar,
+.container-botoes .alterar {
+  background-color: inherit;
+  width: 48%;
+  border: #dcdcdc solid 1px;
+  padding: 10px;
+}
+
+.container-botoes .cadastrar:hover,
+.container-botoes .alterar:hover {
+  background-color: #fff;
+  border: #000000 solid 1px;
+  border-radius: 8px;
+}
+
+.alterar:double-button {
+  
 }
 
 .container_cadastro {
   background-color: #ffffff;
   border: 1px solid #dcdcdc;
   border-radius: 20px;
-  width: 250px;
-  height: 600px;
   padding: 25px;
-  display: flex;
+  display: flexbox;
   flex-direction: column;
   align-items: center;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.05);
+  margin-bottom: 20px;
+  font-family: 'Roboto', sans-serif;
 }
 
 .container_alterar {
   background-color: #ffffff;
   border: 1px solid #dcdcdc;
   border-radius: 20px;
-  width: 250px;
-  height: 600px;
   padding: 25px;
-  display: flex;
+  display: flexbox;
   flex-direction: column;
   align-items: center;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.05);
+  margin-bottom: 20px;
+  font-family: 'Roboto', sans-serif;
 }
 
 .heading {
   /* Texto do título */
   text-align: center;
   font-weight: 900;
-  font-family: Verdana, sans-serif;
-  font-size: 30px;
-  color: rgb(0, 0, 0);
+  font-family: 'Roboto Slab', serif;
+  font-size: 32px;
+  color: #005c6d;
 }
 
 .form .confirmar {
-  display: block;
   width: 100%;
-  width: 390px;
-  font-family: Verdana, Geneva, sans-serif;
+  font-family: 'Roboto', sans-serif;
   background-color: #3ACF1F;
   color: white;
   padding-block: 15px;
-  margin: 20px auto;
+  margin-top: 20px;
   border-radius: 8px;
   border: none;
   transition: all 0.2s ease-in-out;
@@ -246,6 +267,7 @@ footer {
   min-height: 250px;
   padding: 30px;
   margin-top: 100px;
+  font-family: 'Roboto', sans-serif;
 }
 
 footer .row {
@@ -259,6 +281,7 @@ footer .secao {
 }
 
 footer h3 {
+  font-family: 'Roboto Slab', serif;
   font-size: x-large;
   color: #fff;
   margin-bottom: 20px;
