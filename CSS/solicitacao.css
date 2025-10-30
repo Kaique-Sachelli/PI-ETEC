@@ -3,6 +3,15 @@ body {
     background-color: white;
 }
 
+.cabecalho h2 {
+  font-size: 30px !important;
+  color: black;
+  margin: 0;
+  text-align: center;
+  font-family: Verdana, sans-serif;
+  font-weight: normal !important;
+}
+
 .titulo-header h1 {
   font-size: 48px;
   color: black;
@@ -13,10 +22,76 @@ body {
 }
 
 .titulo-header h2 {
-  font-size: 20px;
+  font-size: 48px;
   color: #333;
   margin: 5px 0 10px;
   font-family: Verdana, sans-serif;
+}
+
+.linha-preta {
+  width: 60%;
+  height: 2px;
+  background-color: black;
+  margin: 0 auto;
+}
+
+.logo-etec {
+  width: 160px;
+  height: auto;
+}
+
+.logo-sp {
+  width: 200px;
+  height: auto;
+  margin-top: 10px;
+  margin-left: 20px;
+}
+
+/* Dropdown Button */
+.dropbtn {
+  padding: 16px;
+  font-size: 16px;
+  border: none;
+}
+
+/* The container <div> - needed to position the dropdown content */
+.dropdown {
+  position: relative;
+  display: inline-block;
+}
+
+.dropdown .dropbtn {
+  background-color: transparent;
+  border: none;
+  cursor: pointer;
+}
+
+.dropdown .dropbtn img {
+  width: 50px;
+  height: auto;
+}
+
+/* Dropdown Content (Hidden by Default) */
+.dropdown-content {
+  display: none;
+  position: absolute;
+  background-color: #f1f1f1;
+  box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+  z-index: 1;
+  right: 0;
+}
+
+/* Links inside the dropdown */
+.dropdown-content a {
+  color: black;
+  padding: 15px 40px;
+  text-decoration: none;
+  display: block;
+}
+
+/* Show the dropdown menu on hover */
+.dropdown:hover .dropdown-content {
+  display: block;
 }
 
 .linha-preta {
