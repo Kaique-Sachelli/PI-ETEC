@@ -83,44 +83,7 @@ body {
   outline: none;
   border-inline: 2px solid #FF161F;
 }
-/* Inputs */
-.input {
-  width: 100%;
-  background: white;
-  font-family: Verdana, sans-serif;
-  border: none;
-  padding: 15px 20px;
-  border-radius: 20px;
-  margin-top: 15px;
-  box-shadow: #d28b8e 0px 10px 10px -5px;
-  border-inline: 2px solid transparent;
-  box-sizing: border-box;
-}
 
-.input:focus {
-  outline: none;
-  border-inline: 2px solid #FF161F;
-}
-/* Ícone olho */
-.input-container {
-  position: relative;
-  width: 100%;
-}
-
-.toggle-senha {
-  position: absolute;
-  right: 10px;
-  top: 50%;
-  transform: translateY(-15%);
-  cursor: pointer;
-  font-size: 18px;
-  color: #777;
-  transition: 0.2s;
-}
-
-.toggle-senha:hover {
-  color: #FF161F;
-}
 
 .container-login .esqueceu-senha {
   display: block;
@@ -177,3 +140,40 @@ body {
   text-decoration: none;
 }
 
+.mostrar {
+  width: 100%;
+  background: white;
+  font-family: Verdana, sans-serif;
+  border: none;
+  padding: 15px 20px;
+  border-radius: 20px;
+  margin-top: 15px;
+  box-shadow: #d28b8e 0px 10px 10px -5px;
+  border-inline: 2px solid transparent;
+  box-sizing: border-box;
+}
+
+.mostrar:focus {
+  outline: none;
+  border-inline: 2px solid #FF161F;
+}
+/* Ícone olho */
+.mostrar-container {
+  position: relative;
+  width: 100%;
+}
+
+.toggle-senha {
+  position: absolute;
+  right: 10px;
+  top: 50%;
+  transform: translateY(-15%);
+  cursor: pointer;
+  font-size: 18px;
+  color: #777;
+  transition: 0.2s;
+}
+
+.toggle-senha:hover {
+  color: #FF161F;
+}
