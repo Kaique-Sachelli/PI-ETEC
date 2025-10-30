@@ -11,7 +11,7 @@ document.getElementById("formCadastro").addEventListener("submit", async (e) => 
    const senha = document.getElementById("senhaCadastro").value
    const login = document.getElementById("loginCadastro").value
 
-   if (nome && email && senha && login != null) {
+   if (nome && email && senha && login) {
       try {
          const resposta = await fetch('http://localhost:3000/cadastro', {
             method: 'POST',
@@ -105,17 +105,21 @@ document.getElementById("alterarForm").addEventListener("submit", async (e) => {
    senha = document.getElementById('senhaAlterar').value
    permissao = document.getElementById('loginAlterar').value
    idUsuario = document.getElementById('selectAlterar').value
-   try {
-      dados = await atualizaUsuario(idUsuario,email,senha,permissao)
-      if (dados.sucesso) {
+   if (email && senha && permissao) {
+      try {
+         dados = await atualizaUsuario(idUsuario, email, senha, permissao)
+         if (dados.sucesso) {
             mostrarNotificao(dados.mensagem, 'sucesso')
             document.getElementById("alterarForm").reset()
          } else {
             mostrarNotificao(dados.mensagem, 'erro')
             console.log(dados.mensagem, 'erro')
          }
-   } catch (error) {
-      mostrarNotificao('erro ao se conectar com o servidor', 'error')
+      } catch (error) {
+         mostrarNotificao('erro ao se conectar com o servidor', 'erro')
+      }
+   } else {
+      mostrarNotificao('Preencha todos os campos!','erro')
    }
 
 })
