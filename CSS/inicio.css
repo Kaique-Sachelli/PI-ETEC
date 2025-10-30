@@ -58,13 +58,14 @@ body {
 }
 
 .logo-etec {
-  width: 150px;
+  width: 160px;
   height: auto;
 }
 
 .logo-sp {
-  width: 150px;
+  width: 200px;
   height: auto;
+  margin-top: 10px;
   margin-left: 20px;
 }
 
@@ -139,8 +140,6 @@ p {
     padding: 20px;
 }
 
-
-
 /* Cabeçalho */
 .topo {
     display: flex;
@@ -174,7 +173,6 @@ p {
     border-radius: 6px;
     color: #034EA2; /* Azul */
     transition: background 0.3s;
-    
 }
 
 /* Animação das setas */
