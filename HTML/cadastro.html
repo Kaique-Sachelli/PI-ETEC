@@ -131,12 +131,12 @@
          <div class="container_alterar col-lg-4 col-md-8">
             <div class="heading">Alterar Usuário</div>
 
-            <form action="" class="form">
+            <form action="" class="form" id="alterarForm">
 
                <!-- Campo para o nome -->
                <div class="">
                   <label class="form-label">Usuários</label>
-                  <select class="form-select">
+                  <select class="form-select" id="selectAlterar">
                      <option value="">Selecione um usuário</option>
                      <option>Kaique</option>
                      <option>Guilherme</option>
@@ -152,7 +152,7 @@
                <!-- Campo para o email -->
                <div class="">
                   <label class="form-label">Email:</label>
-                  <input type="email" class="form-control" placeholder="Digite seu email">
+                  <input type="email" class="form-control" placeholder="Digite seu email" id="emailAlterar">
                </div>
 
                <p></p> <!-- espaçamento entre elementos -->
@@ -161,8 +161,8 @@
                <div class="">
                   <label class="form-label">Senha:</label>
                   <div class="password-container">
-                     <input type="password" class="form-control" placeholder="Digite sua senha" id="senha-alterar">
-                     <button type="button" class="toggle-password" data-target="senha-alterar">
+                     <input type="password" class="form-control" placeholder="Digite sua senha" id="senhaAlterar">
+                     <button type="button" class="toggle-password" data-target="senhaAlterar">
                         <!-- SVG do olho fechado (padrão) -->
                         <svg class="password-icon" viewBox="0 0 24 24" id="eye-closed">
                            <path
@@ -182,11 +182,11 @@
                <!-- Caixa de seleção do login -->
                <div class="">
                   <label class="form-label">Tipo de login</label>
-                  <select class="form-select">
+                  <select class="form-select" id="loginAlterar">
                      <option value="">Selecione o login</option>
-                     <option>Professor</option>
-                     <option>Técnico</option>
-                     <option>Administrador</option>
+                     <option value="Professor">Professor</option>
+                     <option value="Tecnico">Técnico</option>
+                     <option value="Administrador">Administrador</option>
                   </select>
                </div>
 
