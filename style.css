@@ -5,8 +5,6 @@ body {
   height: 100%;
   display: flex;
   place-items: center;
-  
-  /* Background com as bolinhas */
   background-color: #ffffff;
   background-image: radial-gradient(rgba(12, 12, 12, 0.171) 2px, transparent 0);
   background-size: 30px 30px;
@@ -25,20 +23,16 @@ body {
   width: 100%;
   height: auto;
   padding-bottom: 5em;
-
 }
 
 .container-principal .row {
   display: flexbox;
-  
   width: 100%;
   justify-content: center;
 }
 
 .container-login {
-  /* Bloco do formulário de login */
   max-width: 350px; 
-  background: #F8F9FD;
   background: linear-gradient(0deg, rgb(255, 255, 255) 0%, rgb(244, 247, 251) 100%);
   border-radius: 40px;
   padding: 25px 35px;
@@ -48,41 +42,12 @@ body {
 }
 
 .container-login h1 {
-  /* Título "Área de Login" */
   text-align: center; 
   font-family: Verdana, sans-serif;
   font-size: 30px; 
   color: rgb(0, 0, 0); 
 }
 
-.container-login .input {
-  width: 100%;
-  background: white;
-  font-family: Verdana, sans-serif;
-  border: none;
-  padding: 15px 20px;
-  border-radius: 20px;
-  margin-top: 15px;
-  box-shadow: #d28b8e 0px 10px 10px -5px;
-  border-inline: 2px solid transparent;
-  box-sizing: border-box;
-}
-
-.container-login .input::-moz-placeholder {
-  /* Texto de dentro do input */
-  color: rgb(170, 170, 170);
-}
-
-.container-login .input::placeholder {
-  /* Texto de dentro do input */
-  color: rgb(170, 170, 170);
-}
-
-.container-login .input:focus {
-  /* Cor da borda do input */
-  outline: none;
-  border-inline: 2px solid #FF161F;
-}
 /* Inputs */
 .input {
   width: 100%;
@@ -101,6 +66,7 @@ body {
   outline: none;
   border-inline: 2px solid #FF161F;
 }
+
 /* Ícone olho */
 .input-container {
   position: relative;
@@ -109,9 +75,9 @@ body {
 
 .toggle-senha {
   position: absolute;
-  right: 10px;
+  right: 15px;
   top: 50%;
-  transform: translateY(-15%);
+  transform: translateY(-50%);
   cursor: pointer;
   font-size: 18px;
   color: #777;
@@ -122,26 +88,26 @@ body {
   color: #FF161F;
 }
 
-.container-login .esqueceu-senha {
+/* Esqueci senha */
+.esqueceu-senha {
   display: block;
   margin-top: 10px;
   margin-left: 10px;
 }
 
-.container-login .esqueceu-senha a {
-  /* Esqueçeu a senha? */
+.esqueceu-senha a {
   font-size: 15px;
   font-family: Verdana, sans-serif;
   color: #000000;
   text-decoration: none;
 }
 
-.container-login .botao-entrar{
-  /* Botão de entrar */
+/* Botão */
+.botao-entrar{
   display: block;
   width: 100%;
   font-weight: bold;
-  font-family: Verdana, Geneva, sans-serif;
+  font-family: Verdana, sans-serif;
   background: linear-gradient(45deg, rgb(237, 28, 36) 0%, rgb(132, 37,25) 100%);
   color: white; 
   padding-block: 15px; 
@@ -153,27 +119,12 @@ body {
   cursor: pointer;
 }
 
-.container-login .botao-entrar:hover {
-  /* Sombra do botão e leve aumento */
+.botao-entrar:hover {
   transform: scale(1.03);
   box-shadow: #d28b8e 0px 23px 10px -20px;
 }
 
-.container-login .botao-entrar:active {
-  /* Sombra do botão e leve aumento */
+.botao-entrar:active {
   transform: scale(0.95);
   box-shadow: #d28b8e 0px 15px 10px -10px;
 }
-
-.container-login .esqueceu-senha {
-  display: block;
-  margin-top: 10px;
-  margin-left: 10px;
-}
-
-.container-login .esqueceu-senha a {
-  font-size: 15px;
-  color: #000000;
-  text-decoration: none;
-}
-
