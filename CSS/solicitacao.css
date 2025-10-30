@@ -70,7 +70,6 @@ body {
   height: auto;
 }
 
-/* Dropdown Content (Hidden by Default) */
 .dropdown-content {
   display: none;
   position: absolute;
@@ -80,7 +79,6 @@ body {
   right: 0;
 }
 
-/* Links inside the dropdown */
 .dropdown-content a {
   color: black;
   padding: 15px 40px;
@@ -88,7 +86,6 @@ body {
   display: block;
 }
 
-/* Show the dropdown menu on hover */
 .dropdown:hover .dropdown-content {
   display: block;
 }
@@ -110,8 +107,8 @@ body {
   height: auto;
   font-family: 'Roboto', sans-serif;
   background-color: white;
-  margin: 0; /* Remove margens do body */
-  padding: 0; /* Remove paddings do body */
+  margin: 0; 
+  padding: 0; 
   font-weight: normal;
 }
 
@@ -148,7 +145,6 @@ body {
   font-family: 'Roboto', sans-serif;
 }
 
-/* Cabeçalho da tabela - ALINHAMENTO CORRIGIDO */
 .tabela-cabecalho {
   display: grid;
   grid-template-columns: 1.2fr 1.2fr 0.8fr 1fr 0.5fr;
@@ -166,7 +162,6 @@ body {
   font-weight: bold;
 }
 
-/* Alinhamento das linhas - ALINHAMENTO CORRIGIDO */
 .linha {
   display: grid;
   grid-template-columns: 1.2fr 1.2fr 0.8fr 1fr 0.5fr;
@@ -311,10 +306,10 @@ button {
 }
 
 .btn {
-  padding: 5px 12px;        /* diminui a altura e largura interna */
-  font-size: 12px;          /* texto menor */
-  min-width: unset;         /* largura mínima menor */
-  border-radius: 6px;       /* cantos suavemente arredondados */
+  padding: 5px 12px;        
+  font-size: 12px;          
+  min-width: unset;         
+  border-radius: 6px;       
   font-weight: bold;
   color: white !important;
   cursor: pointer;
@@ -344,9 +339,9 @@ button {
 }
 .btn-pronto,
 .btn-devolvido {
-  width: 150px;  /* Largura menor e fixa */
-  height: 50px;  /*Altura menor*/
-  padding: 6px 8px !important;  /*Padding reduzindo */
+  width: 150px;  
+  height: 50px;  
+  padding: 6px 8px !important;  
   font-size: 11px !important;
   border-radius: 5px !important;
   display: flex;
@@ -403,16 +398,16 @@ footer .linha-footer {
 }
 
 .icones a {
-  text-decoration: none; /* Remove o sublinhado dos links */
+  text-decoration: none; 
 }
 
 .icones-rede {
   width: 40px;
   height: 40px;
-  object-fit: contain; /* Redimensiona a imagem para caber no contêiner */
+  object-fit: contain; 
   transition: transform 0.3s;
 }
 
 .icones-rede:hover {
-  transform: scale(1.1); /* Efeito de zoom */
+  transform: scale(1.1); 
 }
