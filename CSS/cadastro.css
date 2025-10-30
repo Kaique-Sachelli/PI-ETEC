@@ -62,10 +62,34 @@ body {
   justify-content: space-around;
 }
 
-.container {
-  width: 100%;
-  height: auto;
-  padding-bottom: 5em;
+/* Botões Cadastrar / Alterar */
+.container-botoes {
+  background-color: #dcdcdc;
+  display: flex;
+  justify-content: space-between;
+  border: #000000 solid 1px;
+  border-radius: 8px;
+  padding: 5px !important;
+  margin-bottom: 16px;
+}
+
+.container-botoes .cadastrar,
+.container-botoes .alterar {
+  background-color: inherit;
+  width: 48%;
+  border: #dcdcdc solid 1px;
+  padding: 10px;
+}
+
+.container-botoes .cadastrar:hover,
+.container-botoes .alterar:hover {
+  background-color: #fff;
+  border: #000000 solid 1px;
+  border-radius: 8px;
+}
+
+.alterar:double-button {
+  
 }
 
 .container_cadastro {
