@@ -23,11 +23,11 @@
         <h1 class="titulo">Área de Login</h1>         
 
         <!-- EMAIL -->
-        <input type="email" class="input" id="email" placeholder="Digite seu e-mail">
+        <input type="email" class="input" id="emailLogin" placeholder="Digite seu e-mail">
 
         <!-- SENHA + ÍCONE -->
         <div class="mostrar-container">
-          <input type="password" class="mostrar" id="senha" placeholder="Digite sua senha">
+          <input type="password" class="mostrar" id="senhaLogin" placeholder="Digite sua senha">
           <i class="fa-solid fa-eye toggle-senha" onclick="toggleSenha()"></i>
         </div>
 
@@ -37,14 +37,14 @@
         </span>
 
         <!-- Botão -->
-        <button class="botao-entrar">
+        <button class="botao-entrar" id="botaoLogin">
           Entrar
         </button>
 
       </div>
     </div>
   </div>
-
+  <p id="mensagem"></p>
   <script src="../JS/login.js"></script>
 </body>
 </html>
