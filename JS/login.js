@@ -1,9 +1,10 @@
 // Código do login
-document.getElementById('formLogin').addEventListener('submit', async (e) => {
+document.getElementById('botaoLogin').addEventListener('click', async function (e) {
     e.preventDefault();
 
-    const email = document.getElementById('email').value;
-    const senha = document.getElementById('senha').value;
+    const email = document.getElementById('emailLogin').value;
+    const senha = document.getElementById('senhaLogin').value;
+
 
     try {
         const resposta = await fetch('http://localhost:3000/login', {
@@ -26,14 +27,14 @@ document.getElementById('formLogin').addEventListener('submit', async (e) => {
 
 // Código de Mostrar Senha / Ocultar Senha
 function toggleSenha() {
-    const input = document.getElementById("senha");
+    const input = document.getElementById("senhaLogin");
     const icon = document.querySelector(".toggle-senha");
 
-    if(input.type === "password"){
+    if (input.type === "password") {
         input.type = "text";
         icon.classList.remove("fa-eye-slash");
         icon.classList.add("fa-eye");
-    } else{
+    } else {
         input.type = "password";
         icon.classList.remove("fa-eye");
         icon.classList.add("fa-eye-slash");
