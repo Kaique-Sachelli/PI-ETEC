@@ -1,12 +1,12 @@
 body {
-  font-family: Arial, sans-serif;
+  font-family: 'Roboto', sans-serif;
   background-color: white;
   margin: 0; /* Remove margens do body */
   padding: 0; /* Remove paddings do body */
 }
 
-.titulo-header h1 {
-  font-size: 48px;
+.cabecalho h2 {
+  font-size: 30px !important;
   color: black;
   margin: 0;
   text-align: center;
@@ -14,11 +14,85 @@ body {
   font-weight: normal !important;
 }
 
+.titulo-header h1 {
+  font-size: 48px;
+  color: black;
+  margin: 0;
+  text-align: center;
+  font-family: 'Roboto-Slab', serif;
+  font-weight: normal !important;
+}
+
 .titulo-header h2 {
-  font-size: 20px;
+  font-size: 48px;
   color: #333;
   margin: 5px 0 10px;
-  font-family: Verdana, sans-serif;
+  font-family: 'Roboto-Slab', serif;
+}
+
+.linha-preta {
+  height: 2px;
+  background-color: black;
+  margin: 0 auto;
+}
+
+.logo-etec {
+  width: 160px;
+  height: auto;
+}
+
+.logo-sp {
+  width: 200px;
+  height: auto;
+  margin-top: 10px;
+  margin-left: 20px;
+}
+
+/* Dropdown Button */
+.dropbtn {
+  padding: 16px;
+  font-size: 16px;
+  border: none;
+}
+
+/* The container <div> - needed to position the dropdown content */
+.dropdown {
+  position: relative;
+  display: inline-block;
+}
+
+.dropdown .dropbtn {
+  background-color: transparent;
+  border: none;
+  cursor: pointer;
+}
+
+.dropdown .dropbtn img {
+  width: 50px;
+  height: auto;
+}
+
+/* Dropdown Content (Hidden by Default) */
+.dropdown-content {
+  display: none;
+  position: absolute;
+  background-color: #f1f1f1;
+  box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+  z-index: 1;
+  right: 0;
+}
+
+/* Links inside the dropdown */
+.dropdown-content a {
+  color: black;
+  padding: 15px 40px;
+  text-decoration: none;
+  display: block;
+}
+
+/* Show the dropdown menu on hover */
+.dropdown:hover .dropdown-content {
+  display: block;
 }
 
 .linha-preta {
@@ -50,7 +124,7 @@ body {
   justify-content: center;
   align-items: center;
   height: 60px;
-  font-family: Verdana, sans-serif;
+  font-family: 'Roboto', sans-serif;
 }
 
 .navbar .secao:hover {
@@ -76,6 +150,7 @@ body {
   box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
   padding: 20px;
   height: 50%;
+  font-family: 'Roboto', sans-serif;
 }
 
 .mes-header {
@@ -87,9 +162,9 @@ body {
 }
 
 .mes {
-  font-size: 1.4rem;
-  font-weight: bold;
-  color: #212222
+  font-size: 24px;
+  font-family: 'Roboto Slab', serif;
+  color: #005c6d;
 }
 /* posiciona as setas nas laterais */
 .mes-header .seta:first-child {
@@ -120,113 +195,44 @@ body {
 }
 
 .selecionar-semana {
-  font-size: 16px;
-  line-height: 1.6;
-  color: #000000;
-  width: fit-content;
-  display: flex;
+  display: inline-flex;
+  background-color: #f2f2f2;
+  border-radius: 12px;
+  padding: 4px;
+  gap: 4px;
   list-style: none;
-  padding: 0;
-  margin-bottom: 20px;
+  margin: 0;
 }
 
-.selecionar-semana a {
-  text-decoration: none;
-  color: inherit;
-  font-family: inherit;
-  font-size: inherit;
-  line-height: inherit;
-}
 
-.selecionar-semana .link {
-  position: relative;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 12px;
-  padding: 12px 36px;
-  border-radius: 16px;
-  overflow: hidden;
-  transition: all 0.48s cubic-bezier(0.23, 1, 0.32, 1);
-  border: 1px solid #ddd;
-}
-
-.selecionar-semana .link::after {
-  content: "";
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background-color: #0a3cff;
-  z-index: -1;
-  transform: scaleX(0);
-  transform-origin: left;
-  transition: transform 0.48s cubic-bezier(0.23, 1, 0.32, 1);
-}
-
-.selecionar-semana .item {
-  position: relative;
-}
-
-.selecionar-semana .item .submenu {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  position: absolute;
-  top: 100%;
-  border-radius: 0 0 16px 16px;
-  left: 0;
-  width: 100%;
-  overflow: hidden;
-  border: 1px solid #000000;
-  opacity: 0;
-  visibility: hidden;
-  transform: translateY(-12px);
-  transition: all 0.48s cubic-bezier(0.23, 1, 0.32, 1);
-  z-index: 1;
-  pointer-events: none;
-  list-style: none;
-  padding: 0;
-  background-color: white;
-}
-
-.selecionar-semana .item:hover .submenu {
-  opacity: 1;
-  visibility: visible;
-  transform: translateY(0);
-  pointer-events: auto;
-  border-top: transparent;
-  border-color: #000000;
-}
-
-.selecionar-semana .item:hover .link {
-  color: #000000;
-  border-radius: 16px 16px 0 0;
-}
-
-.selecionar-semana .item:hover .link::after {
-  transform: scaleX(1);
-  transform-origin: right;
-}
-
-.selecionar-semana .submenu-item {
-  width: 100%;
-}
-
-.selecionar-semana .submenu-link {
-  display: block;
-  padding: 10px;
-  text-align: center;
-  color: #000;
-  text-decoration: none;
-  transition: background 0.3s;
-}
-
-.selecionar-semana .submenu-link:hover {
+.submenu-link {
   background-color: #f0f0f0;
+  border: none;
+  background: transparent;
+  padding: 8px 20px;
+  border-radius: 8px;
+  cursor: pointer;
+  font-family: Verdana, sans-serif;
+  font-size: 14px;
+  color: #333;
+  transition: all 0.25s ease;
 }
 
+.submenu-link:hover {
+  background-color: #e5e5e5;
+}
+
+.submenu-link.ativo {
+  background-color: white;
+  box-shadow: 0 2px 46px rgba(0,0,0,0.15);
+  color: #000;
+  font-weight: bold;
+  transition: all 0.25s ease;
+}
+
+.submenu-link.ativo:houver{
+  background-color: #e5e5e5;
+}
 .dias-semana {
   display: grid;
   grid-template-columns: repeat(7, 1fr);
@@ -304,6 +310,7 @@ footer {
   min-height: 250px;
   padding: 30px;
   margin-top: 100px;
+  font-family: 'Roboto', sans-serif;
 }
 
 footer .row {
@@ -317,6 +324,7 @@ footer .secao {
 }
 
 footer h3 {
+  font-family: 'Roboto Slab', serif;
   font-size: x-large;
   color: #fff;
   margin-bottom: 20px;
@@ -364,11 +372,19 @@ footer .linha-footer {
   border-radius: 10px;
   box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
   padding: 20px;
+  font-family: 'Roboto', sans-serif;
 }
 
 .form-label {
   font-weight: bold;
   color: #333;
+}
+
+.form-select:focus {
+  outline: none !important;
+  border-color: #b20000 !important;
+  box-shadow: 0 0 5px #ba1a1a !important;
+  transition: all 0.2s ease-in-out;
 }
 
 .bloco-horarios button {
