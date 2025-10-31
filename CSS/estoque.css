@@ -144,7 +144,7 @@ body {
 }
 
 .container-produtos {
-  background-color: #f0f0f0;
+  background-color: #ffffff;
   border: 1px solid #dcdcdc;
   align-items: end;
   border-radius: 20px;
@@ -168,6 +168,8 @@ body {
   flex-grow: 1;
   overflow-y: auto;
   padding: 15px;
+  border-top: 1px solid #ddd;
+  border-bottom: 1px solid #ddd;
 }
 
 .container-item {
@@ -207,13 +209,12 @@ body {
 
 /* Cabeçalho fixo */
 .produtos-header {
-  background-color: #f0f0f0;
+  background-color: #ffffff;
   position: sticky;
   top: 0;
   z-index: 2;
   padding: 15px;
   text-align: center;
-  border-bottom: 1px solid #ddd;
   align-self: flex-start;
   width: 100%;
   text-align: left;
@@ -313,7 +314,7 @@ body {
   transform: translateY(0);
   pointer-events: auto;
   border-top: transparent;
-  border-color: #000000;
+  border-color: #ddd;
 }
 
 .filtro .item:hover .link {
@@ -352,17 +353,17 @@ body {
 }
 
 .input {
- width: 100%;
- height: 40px;
- line-height: 28px;
- padding: 0 1rem;
- padding-left: 2.5rem;
- border: 2px solid transparent;
- border-radius: 8px;
- outline: none;
- background-color: #ffffff;
- color: #0d0c22;
- transition: .3s ease;
+  width: 100%;
+  height: 40px;
+  line-height: 28px;
+  padding: 0 1rem;
+  padding-left: 2.5rem;
+  border: 2px solid transparent;
+  border-radius: 8px;
+  outline: none;
+  background-color: #f8f8f8;
+  color: #0d0c22;
+  transition: .3s ease;
 }
 
 .input::placeholder {
@@ -383,7 +384,7 @@ body {
 }
 
 .solicitacao-container {
-    background-color: #f0f0f0; 
+    background-color: #ffffff; 
     border: 1px solid #dcdcdc;  
     border-radius: 20px;        
     width: 250px;
