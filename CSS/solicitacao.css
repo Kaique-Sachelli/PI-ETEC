@@ -274,10 +274,7 @@ details[open] .seta {
   width: 48%;
 }
 /* linha vertical entre as colunas */
-.coluna:not(:last-child){
-  border-right: 2px solid black;
-  height: 150px;
-}
+
 
 .coluna ul {
   margin: 0;
