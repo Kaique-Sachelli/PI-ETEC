@@ -211,7 +211,10 @@ summary::-webkit-details-marker {
   background-color: #fdd5d1;
   border-left: 4px solid #e63c3c;
 }
-
+.azul summary{
+  background-color: #b3ecf1;
+  border-left: 4px solid #1ac7d4;
+}
 .seta {
   transition: transform 0.3s;
   font-size: 18px;
@@ -244,7 +247,9 @@ details[open] .seta {
 .cancelado {
   background-color: #d32719;
 }
-
+.finalizado{
+  background-color: #00d8e8;
+}
 /* Caixa de detalhes */
 .detalhes-box {
   background-color: #f5f5f5;
