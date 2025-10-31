@@ -115,10 +115,12 @@ body {
   font-weight: normal;
 }
 
+.navbar {
+  background-color: #B20000;
+}
+
 .navbar .secao {
   list-style-type: none;
-  border: 1px solid rgb(100, 0, 0);
-  background-color: #B20000;
   color: #fff;
 }
 
