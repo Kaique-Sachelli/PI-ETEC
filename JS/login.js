@@ -6,7 +6,7 @@ document.getElementById('formLogin').addEventListener('submit', async (e) => {
     const senha = document.getElementById('senha').value;
 
     try {
-        const resposta = await fetch('http://localhost:5502/login', {
+        const resposta = await fetch('http://localhost:3000/login', {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({ email, senha })
@@ -25,19 +25,17 @@ document.getElementById('formLogin').addEventListener('submit', async (e) => {
 
 
 // Código de Mostrar Senha / Ocultar Senha
-const senhaInput = document.getElementById('senha');
-const toggleBtn = document.getElementById('toggleSenha');
+function toggleSenha() {
+    const input = document.getElementById("senha");
+    const icon = document.querySelector(".toggle-senha");
 
-if (senhaInput && toggleBtn) {
-    toggleBtn.addEventListener('click', () => {
-        const tipo = senhaInput.getAttribute('type');
-
-        if (tipo === 'password'){
-            senhaInput.setAttribute('type', 'text');
-            toggleBtn.classList.add('mostrando');
-        }else{
-            senhaInput.setAttribute('type', 'password');
-            toggleBtn.classList.remove('mostrando');
-        }
-    });
+    if(input.type === "password"){
+        input.type = "text";
+        icon.classList.remove("fa-eye-slash");
+        icon.classList.add("fa-eye");
+    } else{
+        input.type = "password";
+        icon.classList.remove("fa-eye");
+        icon.classList.add("fa-eye-slash");
+    }
 }

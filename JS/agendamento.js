@@ -1,12 +1,49 @@
-
 let dataAtual = new Date();
 let modoVisualizacao = "mes";
 let mesElemento = document.querySelector(".mes");
 
 
+const diasContainer = document.querySelector(".dias");
+const diasSemana = ["Dom.", "Seg.", "Ter.", "Qua.", "Qui.", "Sex.", "Sáb."];
+
 function atualizarMes() {
   const nomeMes = dataAtual.toLocaleString("pt-BR", { month: "long", year: "numeric" });
   mesElemento.textContent = nomeMes.charAt(0).toUpperCase() + nomeMes.slice(1);
+  renderizarDias();
+}
+
+function renderizarDias() {
+  const ano = dataAtual.getFullYear();
+  const mes = dataAtual.getMonth();
+  const diasNoMes = new Date(ano, mes + 1, 0).getDate();
+  const primeiroDiaSemana = new Date(ano, mes, 1).getDay();
+
+  diasContainer.innerHTML = "";
+
+
+  for (let i = 0; i < (primeiroDiaSemana === 0 ? 6 : primeiroDiaSemana - 1); i++) {
+    const vazio = document.createElement("div");
+    vazio.classList.add("vazio");
+    diasContainer.appendChild(vazio);
+  }
+
+
+  for (let dia = 1; dia <= diasNoMes; dia++) {
+    const divDia = document.createElement("div");
+    divDia.textContent = dia;
+
+
+    const hoje = new Date();
+    if (
+      dia === hoje.getDate() &&
+      mes === hoje.getMonth() &&
+      ano === hoje.getFullYear()
+    ) {
+      divDia.classList.add("dia-atual");
+    }
+
+    diasContainer.appendChild(divDia);
+  }
 }
 
 
@@ -40,12 +77,9 @@ function alternarVisualizacao(tipo) {
 function controlarHorarios() {
   const seletorPeriodo = document.getElementById("periodo");
   const periodoSelecionado = seletorPeriodo.value;
-
   const blocos = document.querySelectorAll(".bloco-periodo");
 
-
   blocos.forEach(bloco => bloco.style.display = "none");
-
 
   if (periodoSelecionado) {
     const blocoSelecionado = document.querySelector(`.bloco-periodo.${periodoSelecionado}`);
@@ -55,7 +89,6 @@ function controlarHorarios() {
 
 
 document.addEventListener("DOMContentLoaded", () => {
-
   atualizarMes();
 
 
@@ -75,6 +108,7 @@ document.addEventListener("DOMContentLoaded", () => {
       if (texto.includes("mês") || texto.includes("mes")) alternarVisualizacao("mes");
     });
   });
+
 
   const seletorPeriodo = document.getElementById("periodo");
   if (seletorPeriodo) {
