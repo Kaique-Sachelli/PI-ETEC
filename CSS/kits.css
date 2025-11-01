@@ -486,6 +486,49 @@ body {
     color: #555;
 }
 
+
+.kit-qtd-container {
+    display: flex;
+    align-items: center;
+    gap: 10px; /* Espaçamento entre os elementos */
+    margin: 0 5px; /* Margem nas laterais */
+}
+
+.qtd-btn {
+    background-color: transparent;
+    border: none;
+    font-size: 1.2rem;
+    cursor: pointer;
+    color: #333;
+    transition: transform 0.2s;
+}
+
+.qtd-btn:hover {
+    transform: scale(1.1);
+}
+
+.kit-qtd {
+    width: 40px;
+    text-align: center;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    padding: 2px;
+}
+
+/* O código abaixo foi feito com IA para tirar o seletor padrão dos navegadores: Chrome, Safari e Firefox */
+
+.kit-qtd::-webkit-inner-spin-button,
+.kit-qtd::-webkit-outer-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+}
+
+.kit-qtd[type=number] {
+    -moz-appearance: textfield;
+}
+
+/* Fim do código da IA */
+
 .finalizar-button {
     background-color: #3ACF1F;
     color: #ffffff;
