@@ -627,6 +627,11 @@ footer .linha-footer {
 
 .linha {
   width: 100%;
+  display: grid;
+  grid-template-columns: 1.2fr 1.2fr 0.8fr 1fr 0.5fr;
+  align-items: center;
+  width: 100%;
+  gap: 10px;
 }
 
 .linha span {
@@ -652,8 +657,8 @@ summary::-webkit-details-marker {
 
 /* Cores principais das linhas */
 .verde summary {
-  background-color: #e8fbe4;
-  border-left: 4px solid #4acd51;
+  background-color: #ffffff;
+  border-left: 4px solid #ddd;
   border-bottom: #d4f0d6;
 }
 
