@@ -164,3 +164,30 @@ document.addEventListener('DOMContentLoaded', function () {
       });
    });
 });
+
+function alternarVisualizacao(tipo) {
+   const containerCadastro = document.querySelector(".container-cadastro");
+   const containerAlterar = document.querySelector(".container-alterar");
+ 
+   if (tipo === "alterar") {
+     modoVisualizacao = "alterar";
+     containerCadastro.style.display = "none";
+     containerAlterar.style.display = "block";
+   } else {
+     modoVisualizacao = "cadastrar";
+     containerCadastro.style.display = "block";
+     containerAlterar.style.display = "none";
+   }
+}
+
+document.addEventListener("DOMContentLoaded", () => {
+   const opcoesFiltro = document.querySelectorAll(".submenu-link");
+   opcoesFiltro.forEach(opcao => {
+     opcao.addEventListener("click", (e) => {
+       e.preventDefault();
+       const texto = opcao.textContent.trim().toLowerCase();
+       if (texto.includes("alterar")) alternarVisualizacao("alterar");
+       if (texto.includes("cadastrar") || texto.includes("cadastrar")) alternarVisualizacao("cadastrar");
+      });
+   });
+});
