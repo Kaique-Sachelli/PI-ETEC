@@ -183,11 +183,19 @@ function alternarVisualizacao(tipo) {
 document.addEventListener("DOMContentLoaded", () => {
    const opcoesFiltro = document.querySelectorAll(".submenu-link");
    opcoesFiltro.forEach(opcao => {
-     opcao.addEventListener("click", (e) => {
-       e.preventDefault();
-       const texto = opcao.textContent.trim().toLowerCase();
-       if (texto.includes("alterar")) alternarVisualizacao("alterar");
-       if (texto.includes("cadastrar") || texto.includes("cadastrar")) alternarVisualizacao("cadastrar");
+      opcao.addEventListener("click", (e) => {
+      e.preventDefault();
+      const texto = opcao.textContent.trim().toLowerCase();
+      let botaoCadastro = document.getElementById("cadastrar")
+      let botaoAlterar = document.getElementById("alterar")
+      if (texto.includes("alterar")) {alternarVisualizacao("alterar")
+         botaoCadastro.classList.remove('ativo')
+         botaoAlterar.classList.add('ativo')
+      };
+      if (texto.includes("cadastrar")) {alternarVisualizacao("cadastrar")
+         botaoAlterar.classList.remove('ativo')
+         botaoCadastro.classList.add('ativo')
+      };
       });
    });
 });
