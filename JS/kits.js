@@ -1,7 +1,17 @@
+const idUsuario = require('login.js')
 let kitSelecionado = [];
 
 function adicionarAoKit(elemento) {
-    const nomeProduto = elemento.querySelector("p").innerText.trim();
+    const pElem = elemento.querySelector('p');
+    let nomeProduto = '';
+    if (pElem) {
+        const partes = pElem.innerText.split('\n').map(s => s.trim()).filter(Boolean);
+        const nome = partes[0] || '';
+        const detalhe = partes[1] || '';
+        nomeProduto = detalhe ? `${nome} — ${detalhe}` : nome;
+    } else {
+        nomeProduto = elemento.innerText.trim();
+    }
     const imagemProduto = elemento.querySelector("img").getAttribute("src");
     const produtoExistente = kitSelecionado.find(item => item.nome === nomeProduto);
     const tipoElemento = elemento.dataset.tipo;
@@ -48,7 +58,6 @@ function atualizarQuantidadeManual(index, novaQtd) {
     const item = kitSelecionado[index];
     const step = item.tipo === 'reagente' ? 0.1 : 1;
     const min = item.tipo === 'reagente' ? step : 1;
-    // aplicar arredondamento apropriado
     if (item.tipo === 'reagente') {
         novaQtd = parseFloat(novaQtd);
         novaQtd = parseFloat(novaQtd.toFixed(1));
@@ -186,7 +195,7 @@ function renderizarItens(itens, container, tipo) {
         }
         btn.innerHTML = `
             <img src="../Img/${imgNome}" alt="${nome}" class="${tipo}-img">
-            <p> ${nome} <br> ${detalhe} <br> ${quantidade}</p>
+            <p> ${nome} <br> ${detalhe} <br> <span class="produto-quantidade">${quantidade}</span></p>
         `;
         // armazena o tipo e o número do estoque no dataset para facilitar verificações
         btn.dataset.tipo = tipo;
@@ -243,6 +252,11 @@ function inicializarEventos() {
         }
         console.log(kitFinal.nomeKit)
     });
+//função para salvar o kit
+async function salvaKit(kit) {
+
+
+}
 }
 
 
