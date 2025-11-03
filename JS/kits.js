@@ -4,7 +4,6 @@ function adicionarAoKit(elemento) {
     const nomeProduto = elemento.querySelector("p").innerText.trim();
     const imagemProduto = elemento.querySelector("img").getAttribute("src");
     const produtoExistente = kitSelecionado.find(item => item.nome === nomeProduto);
-    // interpreta o estoque de acordo com o tipo (vidraria -> inteiro, reagente -> float)
     const tipoElemento = elemento.dataset.tipo;
     const estoque = tipoElemento === 'vidraria'
         ? parseInt(elemento.dataset.estoque, 10) || 0
@@ -14,7 +13,6 @@ function adicionarAoKit(elemento) {
         alert("Este produto já foi adicionado ao kit");
         return;
     }
-    // quantidade inicial respeita o passo (reagente -> 0.1, vidraria -> 1)
     kitSelecionado.push({ nome: nomeProduto, imagem: imagemProduto, quantidade: passoInicial, estoqueMax: estoque, tipo: tipoElemento});
     atualizarKit();
 }
@@ -27,10 +25,8 @@ function removerDoKit(index) {
 function alterarQuantidade(index, delta) {
     const item = kitSelecionado[index];
     const step = item.tipo === 'reagente' ? 0.1 : 1;
-    // evita erros de ponto flutuante: arredonda novaQtd antes de validar
     let novaQtd = item.quantidade + delta;
     if (item.tipo === 'reagente') {
-        // arredonda para 1 casa decimal
         novaQtd = parseFloat(novaQtd.toFixed(1));
     } else {
         novaQtd = Math.round(novaQtd);
@@ -99,12 +95,11 @@ function atualizarKit() {
             <button class="remover-item">&times;</button>
         `;
 
-    // usa passo dinâmico: 0.1 para reagentes, 1 para vidrarias
+
     const passo = item.tipo === 'reagente' ? 0.1 : 1;
     div.querySelector(".mais").addEventListener("click", () => alterarQuantidade(index, passo));
     div.querySelector(".menos").addEventListener("click", () => alterarQuantidade(index, -passo));
         div.querySelector(".kit-qtd").addEventListener("change", (e) => {
-            // ao alterar manualmente, usa parseInt para vidrarias e parseFloat para reagentes
             const raw = e.target.value;
             const parsed = item.tipo === 'vidraria' ? parseInt(raw, 10) : parseFloat(raw);
             atualizarQuantidadeManual(index, parsed);
@@ -122,8 +117,6 @@ function atualizarKit() {
             maisBtn.disabled = false;
             maisBtn.classList.remove('disabled');
         }
-
-        // Ajusta step/min do input de quantidade conforme o tipo (reagente aceita decimais)
         const inputQtd = div.querySelector('.kit-qtd');
         if (inputQtd) {
             if (item.tipo === 'reagente') {
