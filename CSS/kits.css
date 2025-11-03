@@ -802,8 +802,9 @@ details[open] .seta {
 #notificacao.sucesso {
     background-color: #28a745; 
 }
-
-
+.produto-quantidade {
+  font-weight: 700;
+}
 #notificacao.erro {
     background-color: #BA1A1A;
 }
