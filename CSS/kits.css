@@ -618,8 +618,6 @@ footer .linha-footer {
   transform: scale(1.1); /* Efeito de zoom */
 }
 
-
-
 .kits-scroll {
   flex-grow: 1;
   overflow-y: auto;
@@ -722,7 +720,6 @@ details[open] .seta {
   margin: 5px 0;
 }
 
-
 .botoes {
   display: flex;
   justify-content: flex-end;
@@ -754,7 +751,6 @@ details[open] .seta {
   background-color: #F95B4D;
 }
 
-
 .coluna {
   width: 100%;
   padding: 0 20px;
@@ -764,4 +760,37 @@ details[open] .seta {
 .botoes .botao_excluir {
   width: auto;
   margin-left: 0;
+}
+
+#notificacao {
+    position: fixed; 
+    top: 20px;
+    right: 20px;
+    padding: 16px 24px;
+    border-radius: 8px;
+    font-size: 16px;
+    font-weight: 500;
+    color: white;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+    z-index: 1001;
+    
+ 
+    opacity: 0;
+    transform: translateX(150%);
+
+    transition: transform 0.5s ease-out, opacity 0.5s ease-out;
+}
+#notificacao.show {
+    opacity: 1;
+    transform: translateX(0);
+}
+
+
+#notificacao.sucesso {
+    background-color: #28a745; 
+}
+
+
+#notificacao.erro {
+    background-color: #BA1A1A;
 }

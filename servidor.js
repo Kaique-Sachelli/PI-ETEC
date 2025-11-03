@@ -120,5 +120,43 @@ app.post('/usuarios/atualizar', async (req, res) => {
   }
 });
 
+//buscar Reagentes
+app.get('/reagentes', async (req, res) => {
+  try {
+    const [rows] = await pool.query(
+      'SELECT nomeReagente,quantidade FROM Reagentes'
+    )
+    res.json({
+      sucesso: true,
+      reagentes: rows
+    })
+  } catch (error) {
+    res.json({
+      sucesso: false,
+      mensagem: ('Não foi possivel encontrar reagentes' + error.message)
+    })
+  }
+})
+
+//buscar vidrarias
+app.get('/vidrarias', async (req, res) => {
+  try {
+    const [rows] = await pool.query(
+      'SELECT nomeVidraria,capacidade,quantidade FROM Vidrarias'
+    )
+    res.json({
+      sucesso: true,
+      vidrarias: rows
+    })
+  } catch (error) {
+    res.json({
+      sucesso: false,
+      mensagem: ('Não foi possivel encontrar vidrarias' + error.message)
+    })
+  }
+})
+
+
+
 const PORTA = 3000;
 app.listen(PORTA, () => console.log(`Servidor rodando na porta ${PORTA}`));
