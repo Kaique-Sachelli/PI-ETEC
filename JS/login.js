@@ -21,6 +21,23 @@ document.getElementById('formLogin').addEventListener('submit', async (e) => {
     } catch (erro) {
         console.error('Erro ao tentar fazer login:', erro);
     }
+
+    // let tipoUsuarioLogado;
+
+    // Simulação de verificação (substitua pela lógica real)
+    // if (username === 'professor' && password === 'senha') {
+    //     tipoUsuarioLogado = 'professor';
+    // } else if (username === 'tecnico' && password === 'senha') {
+    //     tipoUsuarioLogado = 'tecnico';
+    // } else if (username === 'administrador' && password === 'senha') {
+    //     tipoUsuarioLogado = 'adm';
+    // } else {
+    //     alert('Usuário ou senha inválidos');
+    //     return;
+    // }
+
+    // Chama a função para verificar o tipo de usuário
+    // verificarTipoUsuario(tipoUsuarioLogado);
 });
 
 
@@ -39,3 +56,31 @@ function toggleSenha() {
         icon.classList.add("fa-eye-slash");
     }
 }
+
+
+// Função para mostrar a seção correta com base no tipo de usuário
+
+// function verificarTipoUsuario(tipoUsuario) {
+
+    // Esconder todas as seções inicialmente
+    
+    // document.querySelectorAll('.professor, .tecnico, .adm').forEach(section => {
+    //     section.style.display = 'none';
+    // });
+
+    // Mostrar a seção correspondente ao tipo de usuário
+
+//     if (tipoUsuario === 'professor') {
+//         document.querySelectorAll('.professor').forEach(section => {
+//             section.style.display = 'block';
+//         });
+//     } else if (tipoUsuario === 'tecnico') {
+//         document.querySelectorAll('.tecnico').forEach(section => {
+//             section.style.display = 'block';
+//         });
+//     } else if (tipoUsuario === 'adm') {
+//         document.querySelectorAll('.adm').forEach(section => {
+//             section.style.display = 'block';
+//         });
+//     }
+// }
