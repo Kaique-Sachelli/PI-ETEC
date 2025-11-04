@@ -1,3 +1,5 @@
+import { mostrarNotificao } from "./notificacao.js";
+
 //função para carregar a página e executar métodos
 document.addEventListener('DOMContentLoaded', function () {
    carregarUsuarios()
@@ -124,23 +126,6 @@ document.getElementById("alterarForm").addEventListener("submit", async (e) => {
    }
 })
 
-// função para notificação
-const notificação = document.getElementById('notificacao')
-let timerNotificacao = null;
-
-function mostrarNotificao(mensagem, tipo) {
-   clearTimeout(timerNotificacao)
-
-   notificação.textContent = mensagem;
-   notificação.className = ''
-   notificação.classList.add(tipo)
-
-   notificação.classList.add('show')
-
-   timerNotificacao = setTimeout(() => {
-      notificação.classList.remove('show')
-   }, 2000)
-}
 // Função para alternar a visibilidade da senha
 document.addEventListener('DOMContentLoaded', function () {
    const toggleButtons = document.querySelectorAll('.toggle-password');
