@@ -1,4 +1,3 @@
-const idUsuario = require('login.js')
 let kitSelecionado = [];
 
 function adicionarAoKit(elemento) {
@@ -20,7 +19,7 @@ function adicionarAoKit(elemento) {
         : parseFloat(elemento.dataset.estoque) || 0;
     const passoInicial = tipoElemento === 'reagente' ? 0.1 : 1;
     if (produtoExistente) {
-        alert("Este produto já foi adicionado ao kit");
+        mostrarNotificao("Este produto já foi adicionado ao kit",'erro');
         return;
     }
     kitSelecionado.push({ nome: nomeProduto, imagem: imagemProduto, quantidade: passoInicial, estoqueMax: estoque, tipo: tipoElemento});
