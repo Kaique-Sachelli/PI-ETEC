@@ -337,6 +337,19 @@ button {
   background-color: #858585 !important;
 }
 
+.btn-cancelado {
+  background-color: #D32719 !important;
+  border-radius: 5px; 
+}
+
+.btn-cancelado:hover {
+  transform: scale(1.02);
+}
+
+.btn-cancelado:active {
+  background-color: #F95B4D;
+}
+
 .btn:hover {
   opacity: 0.9;
   transform: scale(1.03);
