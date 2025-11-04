@@ -40,7 +40,7 @@ body {
 }
 
 .logo-sp {
-  width: 200px;
+  width: 150px;
   height: auto;
   margin-top: 10px;
   margin-left: 20px;
@@ -95,21 +95,6 @@ body {
   height: 2px;
   background-color: black;
   margin: 0 auto;
-}
-
-.logo-etec {
-  width: 150px;
-  height: auto;
-}
-
-.logo-sp {
-  width: 150px;
-  height: auto;
-  font-family: 'Roboto', sans-serif;
-  background-color: white;
-  margin: 0; 
-  padding: 0; 
-  font-weight: normal;
 }
 
 .navbar {
