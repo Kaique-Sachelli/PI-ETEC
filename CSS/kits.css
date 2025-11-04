@@ -19,7 +19,7 @@ body {
   color: black;
   margin: 0;
   text-align: center;
-  font-family: 'Roboto-Slab', serif;
+  font-family: 'Roboto Slab', serif;
   font-weight: normal !important;
 }
 
@@ -27,7 +27,7 @@ body {
   font-size: 48px;
   color: #333;
   margin: 5px 0 10px;
-  font-family: 'Roboto-Slab', serif;
+  font-family: 'Roboto Slab', serif;
 }
 
 .linha-preta {
@@ -133,6 +133,46 @@ body {
 .container-principal .row {
   display: flexbox;
   justify-content: space-around;
+}
+
+/* Botões Cadastrar / Alterar */
+.selecionar-funcao {
+  display: inline-flex;
+  background-color: #f2f2f2;
+  border-radius: 12px;
+  padding: 4px;
+  gap: 4px;
+  list-style: none;
+  margin-bottom: 20px;
+}
+
+.submenu-link {
+  background-color: #f0f0f0;
+  border: none;
+  background: transparent;
+  padding: 8px 20px;
+  border-radius: 8px;
+  cursor: pointer;
+  font-size: 16px;
+  font-family: 'Roboto', sans-serif;
+  color: #333;
+  transition: all 0.25s ease;
+}
+
+.submenu-link:hover {
+  background-color: #e5e5e5;
+}
+
+.submenu-link.ativo {
+  background-color: white;
+  box-shadow: 0 2px 46px rgba(0,0,0,0.15);
+  color: #000;
+  font-weight: bold;
+  transition: all 0.25s ease;
+}
+
+.submenu-link.ativo:hover{
+  background-color: #e5e5e5;
 }
 
 .container-produtos {
@@ -706,7 +746,7 @@ details[open] .seta {
 }
 
 .detalhes-box h4 {
-  font-family: 'Roboto-Slab', serif;
+  font-family: 'Roboto Slab', serif;
   color: #005c6d;
   margin-bottom: 8px;
 }
@@ -766,6 +806,10 @@ details[open] .seta {
 .botoes .botao_excluir {
   width: auto;
   margin-left: 0;
+}
+
+#containerMeusKits {
+  display: none;
 }
 
 #notificacao {

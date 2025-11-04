@@ -19,7 +19,7 @@ body {
   color: black;
   margin: 0;
   text-align: center;
-  font-family: 'Roboto-Slab', serif;
+  font-family: 'Roboto Slab', serif;
   font-weight: normal !important;
 }
 
@@ -27,7 +27,7 @@ body {
   font-size: 48px;
   color: #333;
   margin: 5px 0 10px;
-  font-family: 'Roboto-Slab', serif;
+  font-family: 'Roboto Slab', serif;
 }
 
 .linha-preta {
@@ -130,50 +130,61 @@ body {
 }
 
 /* Botões Cadastrar / Alterar */
-.container-botoes {
-  background-color: #dcdcdc;
-  display: flex;
-  justify-content: space-between;
-  border: #000000 solid 1px;
+.selecionar-funcao {
+  display: inline-flex;
+  background-color: #f2f2f2;
+  border-radius: 12px;
+  padding: 4px;
+  gap: 4px;
+  list-style: none;
+  margin-bottom: 20px;
+}
+
+.submenu-link {
+  background-color: #f0f0f0;
+  border: none;
+  background: transparent;
+  padding: 8px 20px;
   border-radius: 8px;
-  padding: 5px !important;
-  margin-bottom: 16px;
+  cursor: pointer;
+  font-size: 16px;
+  font-family: 'Roboto', sans-serif;
+  color: #333;
+  transition: all 0.25s ease;
 }
 
-.container-botoes .cadastrar,
-.container-botoes .alterar {
-  background-color: inherit;
-  width: 48%;
-  border: #dcdcdc solid 1px;
-  padding: 10px;
+.submenu-link:hover {
+  background-color: #e5e5e5;
 }
 
-.container-botoes .cadastrar:hover,
-.container-botoes .alterar:hover {
-  background-color: #fff;
-  border: #000000 solid 1px;
-  border-radius: 8px;
+.submenu-link.ativo {
+  background-color: white;
+  box-shadow: 0 2px 46px rgba(0,0,0,0.15);
+  color: #000;
+  font-weight: bold;
+  transition: all 0.25s ease;
 }
 
-.container_cadastro {
+.submenu-link.ativo:hover{
+  background-color: #e5e5e5;
+}
+
+.container-cadastro {
   background-color: #ffffff;
   border-radius: 10px;
   padding: 25px;
-  display: flexbox;
-  flex-direction: column;
+  display: block;
   align-items: center;
   box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
   margin-bottom: 20px;
   font-family: 'Roboto', sans-serif;
 }
 
-.container_alterar {
+.container-alterar {
   background-color: #ffffff;
   border-radius: 10px;
   padding: 25px;
-  display: flexbox;
-  flex-direction: column;
-  align-items: center;
+  display: none;
   box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
   margin-bottom: 20px;
   font-family: 'Roboto', sans-serif;
