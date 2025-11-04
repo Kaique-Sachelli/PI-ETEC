@@ -424,6 +424,9 @@ details[open] .seta {
     overflow-y: auto;  /* scroll */
     flex-grow: 1;
     padding: 10px;
+    max-height: 250px;
+    border-top: 1px solid #ddd;
+    border-bottom: 1px solid #ddd;
 }
 
 .kit-item {
