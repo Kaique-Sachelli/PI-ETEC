@@ -1,4 +1,6 @@
 // Código do login
+import { mostrarNotificao } from "./notificacao.js";
+
 document.getElementById('botaoLogin').addEventListener('click', async function (e) {
     e.preventDefault();
 
@@ -51,23 +53,6 @@ document.getElementById('botaoLogin').addEventListener('click', async function (
     // Chama a função para verificar o tipo de usuário
     // verificarTipoUsuario(tipoUsuarioLogado);
 });
-//função para notificação
-function mostrarNotificao(mensagem, tipo) {
-    const notificação = document.getElementById('notificacao')
-    let timerNotificacao = null;
-    clearTimeout(timerNotificacao)
-
-    notificação.textContent = mensagem;
-    notificação.className = ''
-    notificação.classList.add(tipo)
-
-    notificação.classList.add('show')
-
-    timerNotificacao = setTimeout(() => {
-        notificação.classList.remove('show')
-    }, 2000)
-}
-
 
 // Código de Mostrar Senha / Ocultar Senha
 function toggleSenha() {
