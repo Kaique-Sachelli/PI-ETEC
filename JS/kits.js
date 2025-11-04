@@ -1,11 +1,12 @@
 let kitSelecionado = [];
+import { mostrarNotificao } from "./notificacao.js";
 
 function adicionarAoKit(elemento) {
     const nomeProduto = elemento.querySelector("p").innerText.trim();
     const imagemProduto = elemento.querySelector("img").getAttribute("src");
     const produtoExistente = kitSelecionado.find(item => item.nome === nomeProduto);
     if (produtoExistente) {
-        alert("Este produto já foi adicionado ao kit");
+        mostrarNotificao("Este produto já foi adicionado ao kit", "erro");
         return;
     }
     kitSelecionado.push({ nome: nomeProduto, imagem: imagemProduto, quantidade: 1 });
@@ -138,22 +139,7 @@ function renderizarItens(itens, container, tipo) {
     });
 }
 
-// função para notificação
-let timerNotificacao = null;
-function mostrarNotificao(mensagem, tipo) {
-    const notificação = document.getElementById('notificacao')
-    clearTimeout(timerNotificacao)
 
-    notificação.textContent = mensagem;
-    notificação.className = ''
-    notificação.classList.add(tipo)
-
-    notificação.classList.add('show')
-
-    timerNotificacao = setTimeout(() => {
-        notificação.classList.remove('show')
-    }, 2000)
-}
 
 function inicializarEventos() {
     const produtos = document.querySelectorAll(".vidraria, .reagente");
