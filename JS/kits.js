@@ -184,4 +184,37 @@ function inicializarEventos() {
     });
 }
 
-
+function alternarVisualizacao(tipo) {
+    const containerCriarKits = document.querySelector("#containerCriarKits");
+    const containerMeusKits = document.querySelector("#containerMeusKits");
+  
+    if (tipo === "meus kits") {
+      modoVisualizacao = "meus kits";
+      containerCriarKits.style.display = "none";
+      containerMeusKits.style.display = "flex";
+    } else {
+      modoVisualizacao = "criar kits";
+      containerCriarKits.style.display = "flex";
+      containerMeusKits.style.display = "none";
+    }
+ }
+ 
+document.addEventListener("DOMContentLoaded", () => {
+    const opcoesFiltro = document.querySelectorAll(".submenu-link");
+    opcoesFiltro.forEach(opcao => {
+        opcao.addEventListener("click", (e) => {
+            e.preventDefault();
+            const texto = opcao.textContent.trim().toLowerCase();
+            let botaoCriarKits = document.getElementById("criarKits")
+            let botaoMeusKits = document.getElementById("meusKits")
+            if (texto.includes("meus kits")) {alternarVisualizacao("meus kits")
+                botaoCriarKits.classList.remove('ativo')
+                botaoMeusKits.classList.add('ativo')
+            };
+            if (texto.includes("criar kits")) {alternarVisualizacao("criar kits")
+                botaoMeusKits.classList.remove('ativo')
+                botaoCriarKits.classList.add('ativo')
+            };
+        });
+    });
+});
