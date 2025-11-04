@@ -2,14 +2,28 @@ let kitSelecionado = [];
 import { mostrarNotificao } from "./notificacao.js";
 
 function adicionarAoKit(elemento) {
-    const nomeProduto = elemento.querySelector("p").innerText.trim();
+    const pElem = elemento.querySelector('p');
+    let nomeProduto = '';
+    if (pElem) {
+        const partes = pElem.innerText.split('\n').map(s => s.trim()).filter(Boolean);
+        const nome = partes[0] || '';
+        const detalhe = partes[1] || '';
+        nomeProduto = detalhe ? `${nome} — ${detalhe}` : nome;
+    } else {
+        nomeProduto = elemento.innerText.trim();
+    }
     const imagemProduto = elemento.querySelector("img").getAttribute("src");
     const produtoExistente = kitSelecionado.find(item => item.nome === nomeProduto);
+    const tipoElemento = elemento.dataset.tipo;
+    const estoque = tipoElemento === 'vidraria'
+        ? parseInt(elemento.dataset.estoque, 10) || 0
+        : parseFloat(elemento.dataset.estoque) || 0;
+    const passoInicial = tipoElemento === 'reagente' ? 0.1 : 1;
     if (produtoExistente) {
         mostrarNotificao("Este produto já foi adicionado ao kit", "erro");
         return;
     }
-    kitSelecionado.push({ nome: nomeProduto, imagem: imagemProduto, quantidade: 1 });
+    kitSelecionado.push({ nome: nomeProduto, imagem: imagemProduto, quantidade: passoInicial, estoqueMax: estoque, tipo: tipoElemento});
     atualizarKit();
 }
 
@@ -20,19 +34,46 @@ function removerDoKit(index) {
 
 function alterarQuantidade(index, delta) {
     const item = kitSelecionado[index];
-    const novaQtd = item.quantidade + delta;
-    if (novaQtd >= 1) {
-        item.quantidade = novaQtd;
-        atualizarKit();
+    const step = item.tipo === 'reagente' ? 0.1 : 1;
+    let novaQtd = item.quantidade + delta;
+    if (item.tipo === 'reagente') {
+        novaQtd = parseFloat(novaQtd.toFixed(1));
+    } else {
+        novaQtd = Math.round(novaQtd);
     }
+    const min = item.tipo === 'reagente' ? step : 1;
+    if (novaQtd < min) return;
+    if (item.estoqueMax !== undefined && novaQtd > item.estoqueMax) {
+        return;
+    }
+    item.quantidade = novaQtd;
+    atualizarKit();
 }
 
 function atualizarQuantidadeManual(index, novaQtd) {
-    if (novaQtd <= 0 || isNaN(novaQtd)) {
+    if (isNaN(novaQtd)) {
         alert("Quantidade inválida!");
         return;
     }
-    kitSelecionado[index].quantidade = novaQtd;
+    const item = kitSelecionado[index];
+    const step = item.tipo === 'reagente' ? 0.1 : 1;
+    const min = item.tipo === 'reagente' ? step : 1;
+    if (item.tipo === 'reagente') {
+        novaQtd = parseFloat(novaQtd);
+        novaQtd = parseFloat(novaQtd.toFixed(1));
+    } else {
+        novaQtd = Math.round(novaQtd);
+    }
+    if (novaQtd < min) {
+        alert("Quantidade inválida!");
+        return;
+    }
+    if (item.estoqueMax !== undefined && novaQtd > item.estoqueMax) {
+        mostrarNotificao('Quantidade ajustada para o máximo disponível no estoque.', 'erro');
+        item.quantidade = item.estoqueMax;
+    } else {
+        item.quantidade = novaQtd;
+    }
     atualizarKit();
 }
 
@@ -56,22 +97,45 @@ function atualizarKit() {
 
             <div class="kit-qtd-container">
                 <button class="qtd-btn mais">+</button>
-                <input type="number" min="1" value="${item.quantidade}" class="kit-qtd" title="Quantidade">
+                <input type="number" min="1" value="${item.tipo === 'reagente' ? item.quantidade.toFixed(1) : item.quantidade}" class="kit-qtd" title="Quantidade">
                 <button class="qtd-btn menos">−</button>
             </div>
 
             <button class="remover-item">&times;</button>
         `;
 
-        div.querySelector(".mais").addEventListener("click", () => alterarQuantidade(index, +1));
-        div.querySelector(".menos").addEventListener("click", () => alterarQuantidade(index, -1));
+
+    const passo = item.tipo === 'reagente' ? 0.1 : 1;
+    div.querySelector(".mais").addEventListener("click", () => alterarQuantidade(index, passo));
+    div.querySelector(".menos").addEventListener("click", () => alterarQuantidade(index, -passo));
         div.querySelector(".kit-qtd").addEventListener("change", (e) => {
-            atualizarQuantidadeManual(index, parseInt(e.target.value, 10));
+            const raw = e.target.value;
+            const parsed = item.tipo === 'vidraria' ? parseInt(raw, 10) : parseFloat(raw);
+            atualizarQuantidadeManual(index, parsed);
         });
 
         div.querySelector(".remover-item").addEventListener("click", () => removerDoKit(index));
 
         listaContainer.appendChild(div);
+        // Desabilita o botão '+' se atingiu o estoque máximo
+        const maisBtn = div.querySelector('.mais');
+        if (item.estoqueMax !== undefined && Number(item.quantidade) >= Number(item.estoqueMax)) {
+            maisBtn.disabled = true;
+            maisBtn.classList.add('disabled');
+        } else {
+            maisBtn.disabled = false;
+            maisBtn.classList.remove('disabled');
+        }
+        const inputQtd = div.querySelector('.kit-qtd');
+        if (inputQtd) {
+            if (item.tipo === 'reagente') {
+                inputQtd.setAttribute('step', '0.1');
+                inputQtd.setAttribute('min', '0.1');
+            } else {
+                inputQtd.setAttribute('step', '1');
+                inputQtd.setAttribute('min', '1');
+            }
+        }
     });
     const addIcon = document.querySelector(".add-icon");
     if (addIcon) addIcon.style.display = kitSelecionado.length > 0 ? "none" : "block";
@@ -131,8 +195,13 @@ function renderizarItens(itens, container, tipo) {
         }
         btn.innerHTML = `
             <img src="../Img/${imgNome}" alt="${nome}" class="${tipo}-img">
-            <p> ${nome} <br> ${detalhe} <br> ${quantidade}</p>
+            <p> ${nome} <br> ${detalhe} <br> <span class="produto-quantidade">${quantidade}</span></p>
         `;
+        // armazena o tipo e o número do estoque no dataset para facilitar verificações
+        btn.dataset.tipo = tipo;
+        btn.dataset.estoque = tipo === 'vidraria'
+            ? (parseInt(item.quantidade, 10) || 0)
+            : (parseFloat(item.quantidade) || 0);
         btn.addEventListener("click", () => adicionarAoKit(btn));
 
         container.appendChild(btn);
@@ -168,6 +237,11 @@ function inicializarEventos() {
         }
         console.log(kitFinal.nomeKit)
     });
+//função para salvar o kit
+async function salvaKit(kit) {
+
+
+}
 }
 
 

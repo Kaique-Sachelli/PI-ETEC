@@ -19,6 +19,8 @@ document.getElementById('botaoLogin').addEventListener('click', async function (
             campoSenha = document.getElementById('senhaLogin')
             if (dados.sucesso) {
                 mostrarNotificao(dados.mensagem,'sucesso')
+                idUsuario = dados.idUsuario
+                module.senha = idUsuario
                 setTimeout(() => {
                     window.location.href = '../HTML/inicio.html';
                 }, 1500);

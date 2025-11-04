@@ -506,6 +506,19 @@ details[open] .seta {
     transform: scale(1.1);
 }
 
+/* Estado desabilitado do botão de quantidade (+) */
+.qtd-btn.disabled,
+.qtd-btn:disabled {
+  color: #999 !important;
+  cursor: not-allowed !important;
+  transform: none !important;
+  opacity: 0.7;
+}
+
+.qtd-btn:disabled:hover {
+  transform: none;
+}
+
 .kit-qtd {
     width: 40px;
     text-align: center;
@@ -782,8 +795,9 @@ details[open] .seta {
 #notificacao.sucesso {
     background-color: #28a745; 
 }
-
-
+.produto-quantidade {
+  font-weight: 700;
+}
 #notificacao.erro {
     background-color: #BA1A1A;
 }
