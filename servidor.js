@@ -1,5 +1,6 @@
 const express = require('express');
 const bodyParser = require('body-parser');
+const jwt = require('jsonwebtoken')
 const cors = require('cors');
 const pool = require('../PI-ETEC/JS/conexao.js');
 
@@ -7,6 +8,30 @@ const app = express();
 app.use(cors());
 app.use(bodyParser.json());
 app.use(express.static('public'));
+const JWT_SECRET = "chave-secreta"
+
+// Middleware para verificar o token JWT
+function verificarToken(req, res, next) {
+  const authHeader = req.headers['authorization'] || req.headers['Authorization'];
+  if (!authHeader) {
+    return res.status(401).json({ sucesso: false, mensagem: 'Token não fornecido.' });
+  }
+
+  let token;
+  if (authHeader.startsWith('Bearer ')) {
+    token = authHeader.slice(7);
+  } else {
+    token = authHeader;
+  }
+
+  try {
+    const decoded = jwt.verify(token, JWT_SECRET);
+    req.usuario = decoded;
+    next();
+  } catch (err) {
+    return res.status(401).json({ sucesso: false, mensagem: 'Token inválido ou expirado.' });
+  }
+}
 
 // login
 app.post('/login', async (req, res) => {
@@ -19,7 +44,20 @@ app.post('/login', async (req, res) => {
     );
 
     if (rows.length > 0) {
-      res.json({ sucesso: true, mensagem: 'Login realizado com sucesso!' });
+      const usuario = rows[0]
+      //popula o token com as informações do usuario
+      const payload = {
+        idUsuario: usuario.idUsuario,
+        nome: usuario.nome,
+        permissao: usuario.permissao
+      }
+      //cria e assina o token
+      const token = jwt.sign(payload, JWT_SECRET, { expiresIn: '2h' }); // Token expira em 1 hora
+      res.json({
+        sucesso: true,
+        mensagem: 'Login realizado com sucesso!',
+        token: token
+      });
     } else {
       res.json({ sucesso: false, mensagem: 'Email ou senha incorretos.' });
     }
@@ -29,7 +67,7 @@ app.post('/login', async (req, res) => {
 });
 
 // cadastro
-app.post('/cadastro', async (req, res) => {
+app.post('/cadastro', verificarToken, async (req, res) => {
   const { nome, email, senha, login } = req.body;
 
   try {
@@ -59,7 +97,7 @@ app.post('/cadastro', async (req, res) => {
 });
 
 // buscar usuários
-app.get('/usuarios', async (req, res) => {
+app.get('/usuarios', verificarToken, async (req, res) => {
   try {
     const [rows] = await pool.query(
       'SELECT idUsuario, nome, permissao FROM usuario'
@@ -79,7 +117,7 @@ app.get('/usuarios', async (req, res) => {
 });
 
 //buscar informação completa do usuário
-app.get('/usuarios/:id', async (req, res) => {
+app.get('/usuarios/:id', verificarToken, async (req, res) => {
   const id = req.params.id
   try {
     const [rows] = await pool.query(
@@ -100,7 +138,7 @@ app.get('/usuarios/:id', async (req, res) => {
 })
 
 //atualiza dados do usuario
-app.post('/usuarios/atualizar', async (req, res) => {
+app.post('/usuarios/atualizar', verificarToken, async (req, res) => {
   const { idUsuario, email, novaSenha, permissao } = req.body;
 
   try {
@@ -121,7 +159,7 @@ app.post('/usuarios/atualizar', async (req, res) => {
 });
 
 //buscar Reagentes
-app.get('/reagentes', async (req, res) => {
+app.get('/reagentes', verificarToken, async (req, res) => {
   try {
     const [rows] = await pool.query(
       'SELECT nomeReagente,quantidade FROM Reagentes'
@@ -139,7 +177,7 @@ app.get('/reagentes', async (req, res) => {
 })
 
 //buscar vidrarias
-app.get('/vidrarias', async (req, res) => {
+app.get('/vidrarias', verificarToken, async (req, res) => {
   try {
     const [rows] = await pool.query(
       'SELECT nomeVidraria,capacidade,quantidade FROM Vidrarias'
