@@ -1,3 +1,5 @@
+// Esse código serve para verificar se o usuário sessionStorage.getItem('idUsuario'); existe se não redireciona para a página de login.
+
 document.addEventListener('DOMContentLoaded', async () => {
   const idUsuario = sessionStorage.getItem('idUsuario');
   if (!idUsuario) {

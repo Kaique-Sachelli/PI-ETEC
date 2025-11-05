@@ -1,5 +1,7 @@
-let kitSelecionado = [];
 import { mostrarNotificao } from "./notificacao.js";
+
+let kitSelecionado = [];
+let modoVisualizacao = "criar kits";
 
 function adicionarAoKit(elemento) {
     const pElem = elemento.querySelector('p');
