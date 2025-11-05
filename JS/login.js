@@ -15,15 +15,12 @@ document.getElementById('botaoLogin').addEventListener('click', async function (
                 body: JSON.stringify({ email, senha })
             });
             const dados = await resposta.json();
-            campoEmail = document.getElementById('emailLogin')
-            campoSenha = document.getElementById('senhaLogin')
             if (dados.sucesso) {
                 mostrarNotificao(dados.mensagem,'sucesso')
-                idUsuario = dados.idUsuario
-                module.senha = idUsuario
+                localStorage.setItem('token', dados.token)
                 setTimeout(() => {
                     window.location.href = '../HTML/inicio.html';
-                }, 1500);
+                }, 1000);
             }
             else{
                 mostrarNotificao(dados.mensagem, 'erro')
