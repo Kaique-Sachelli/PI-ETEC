@@ -9,7 +9,6 @@ let toggleSenha;
 document.addEventListener('DOMContentLoaded', () => {
     document.getElementById('botaoLogin').addEventListener('click', async function (e) {
         e.preventDefault();
-
         const email = document.getElementById('emailLogin').value;
         const senha = document.getElementById('senhaLogin').value;
 
@@ -21,20 +20,17 @@ document.addEventListener('DOMContentLoaded', () => {
                     body: JSON.stringify({ email, senha })
                 });
                 const dados = await resposta.json();
-                campoEmail = document.getElementById('emailLogin')
-                campoSenha = document.getElementById('senhaLogin')
                 if (dados.sucesso) {
-                    mostrarNotificao(dados.mensagem,'sucesso')
-                    idUsuario = dados.idUsuario
-                    sessionStorage.setItem('idUsuario', String(idUsuario))
+                    mostrarNotificao(dados.mensagem, 'sucesso')
+                    localStorage.setItem('token', dados.token)
                     setTimeout(() => {
                         window.location.href = '../HTML/inicio.html';
-                    }, 1500);
+                    }, 1000);
                 }
-                else{
+                else {
                     mostrarNotificao(dados.mensagem, 'erro')
-                        document.getElementById('emailLogin').value = ''
-                        document.getElementById('senhaLogin').value = ''
+                    document.getElementById('emailLogin').value = ''
+                    document.getElementById('senhaLogin').value = ''
 
                 }
             } catch (erro) {
@@ -44,11 +40,11 @@ document.addEventListener('DOMContentLoaded', () => {
             mostrarNotificao('Preencha todos os campos!', 'erro')
         }
 
-        
-});
+
+    });
 
     // Event listener do toggle senha
-    document.querySelector('.toggle-senha').addEventListener('click', function() {
+    document.querySelector('.toggle-senha').addEventListener('click', function () {
         const input = document.getElementById("senhaLogin");
         const icon = document.querySelector(".toggle-senha");
 
