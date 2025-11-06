@@ -1,5 +1,4 @@
 import { mostrarNotificao } from "./notificacao.js";
-
 // Declarei as variaveis antes de qualquer uso. Caso a declaração fique depois da função, os modulos que usam strict mode vão dar erro de referencia.
 
 let modoVisualizacao = "cadastrar";

@@ -22,7 +22,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 const dados = await resposta.json();
                 if (dados.sucesso) {
                     mostrarNotificao(dados.mensagem, 'sucesso')
-                    localStorage.setItem('token', dados.token)
+                    localStorage.setItem('token', dados.token) // cria o token
                     setTimeout(() => {
                         window.location.href = '../HTML/inicio.html';
                     }, 1000);
@@ -34,6 +34,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
                 }
             } catch (erro) {
+                 mostrarNotificao('Erro de conexão com o servidor', 'erro')
                 console.error('Erro ao tentar fazer login:', erro);
             }
         } else {
