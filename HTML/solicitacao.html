@@ -79,6 +79,7 @@
 
     <!-- Container Principal -->
     <div class="container">
+      <h2>Solicitações</h2>
       <!-- Cabeçalho da tabela -->
       <div class="tabela-cabecalho">
         <span>Período</span>
@@ -253,7 +254,72 @@
   </div>
 </div>
 
-  
+
+  <!-- Container de solicitação de produtos -->
+  <div class="containerprodutos " data-role="adm">
+    <div class="container">
+      <h2>Pedido para reposição de estoque</h2>
+      <!-- Cabeçalho da tabela -->
+      <div class="tabela-cabecalho">
+        <span>Data</span>
+        <span></span>
+        <span></span>
+        <span>Status</span>
+        <span>Expandir</span>
+      </div>
+
+      <!-- Linha 1 -->
+      <details class="reposicao">
+        <summary>
+          <div class="linha">
+            <span>11:00 - 13:00</span>
+            <span></span>
+            <span></span>
+            <span class="status pendente">Pendente</span>
+            <i class="bi bi-chevron-down seta">▼</i>
+          </div>
+        </summary>
+
+        <div class="detalhes-box">
+          <div class="row">
+            <div class="coluna col-4">
+              <h4>Dados da Solicitação:</h4>
+              <p><strong>Técnico:</strong> Fábio</p>
+              <p><strong>Data da solicitação:</strong> 12/10/25 - 15h</p>
+            </div>
+
+            <div style="
+            width: 2px;
+            border-right: 2px solid black;
+            margin-right: 20px;
+            height: 150px;">
+            </div>
+
+            <div class="coluna col-4">
+              <h4>Reposição Solicitada:</h4>
+              <ul>
+                <li>Frascos de petróleo 500ml - 1 und.</li>
+                <li>Frascos de petróleo 500ml - 1 und.</li>
+                <li>Frascos de petróleo 300ml - 1 und.</li>
+              </ul>
+            </div>
+              
+          <div style="
+            width: 2px;
+            border-right: 2px solid black;
+            margin-right: 15px;
+            height: 150px;">
+          </div>
+
+            <div class="botoes col-3">
+              <button class="btn btn-pronto">Finalizar</button>
+            </div>
+          </div>
+        </div>
+      </details>
+    </div>
+  </div>
+
 
     <!-- FOOTER -->
     <footer>

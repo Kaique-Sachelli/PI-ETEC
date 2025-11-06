@@ -53,7 +53,7 @@ body {
   border: none;
 }
 
-/* The container <div> - needed to position the dropdown content */
+
 .dropdown {
   position: relative;
   display: inline-block;
@@ -197,6 +197,12 @@ summary::-webkit-details-marker {
   background-color: #e6f9fa;
   border-left: 4px solid #1ac7d4;
 }
+
+.reposicao summary {
+  background-color: #fff5ea;
+  border-left: 4px solid #ffcc00;
+}
+
 .seta {
   transition: transform 0.3s;
   font-size: 18px;
@@ -350,6 +356,14 @@ button {
   align-items: center;
   justify-content: center;
   margin: auto;
+}
+
+.container h2 {
+  font-size: 24px;
+  font-family: 'Roboto Slab', serif;
+  color: #005c6d;
+  text-align: center;
+  margin-top: 20px;
 }
 
 footer {
