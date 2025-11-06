@@ -38,9 +38,8 @@ document.addEventListener('DOMContentLoaded', () => {
             logOut()
         })
     }
-
-
-
+    //verificador de atividade
+    usuarioAtivo();
 });    
 
 export function erroToken() {
@@ -113,11 +112,10 @@ export function getToken() {
     }
 }
 
-
 //função para limpar a memoria do navegador apos logout
 function logOut() {
     localStorage.removeItem("token")
-    mostrarNotificao("Saida realizada com sucesso", "sucesso")
+    mostrarNotificao("Sessão encerrada com sucesso", "sucesso")
     setTimeout(() => {
         window.location.href = "../HTML/login.html"
     }, 1000);
@@ -133,7 +131,7 @@ export function encerrarSessao() {
 
 //função para inatividade
 let timerInatividade;
-const tempoDeInatividade = 15 * 60 * 1000; //15 minutos em milisegundos
+const tempoDeInatividade = 20 * 60 * 1000; //20 minutos em milisegundos
 
 function usuarioAtivo() {
     clearTimeout(timerInatividade);
