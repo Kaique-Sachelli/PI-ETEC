@@ -38,6 +38,9 @@ document.addEventListener('DOMContentLoaded', () => {
             logOut()
         })
     }
+
+
+
 });    
 
 export function erroToken() {
@@ -127,3 +130,19 @@ export function encerrarSessao() {
         window.location.href = "../HTML/login.html"
     }, 1000);
 }
+
+//função para inatividade
+let timerInatividade;
+const tempoDeInatividade = 15 * 60 * 1000; //15 minutos em milisegundos
+
+function usuarioAtivo() {
+    clearTimeout(timerInatividade);
+    timerInatividade = setTimeout(() => {
+        mostrarNotificao("Sessão encerrada por inatividade.", "erro");
+        encerrarSessao()
+    }, tempoDeInatividade);
+}
+const eventosAtividade = ['mousemove', 'mousedown', 'keypress', 'keydown', 'touchstart', 'scroll'];
+eventosAtividade.forEach(evento => {
+    document.addEventListener(evento, usuarioAtivo, true);
+});
