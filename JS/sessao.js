@@ -3,6 +3,7 @@ import { mostrarNotificao } from "./notificacao.js"
 //verifica token sempre que a página for iniciada
 document.addEventListener('DOMContentLoaded', () => {
     const token = localStorage.getItem('token');
+    //logica para verificar o token de todas as paginas que forem carregadas
     if (!token) {
         mostrarNotificao('Sessão inválida. Por favor, faça o login.', "erro");
         setTimeout(() => {
@@ -28,11 +29,12 @@ document.addEventListener('DOMContentLoaded', () => {
         localStorage.removeItem('token');
         mostrarNotificao('Sessão inválida. Por favor, faça o login novamente.', 'erro');
         window.location.href = '../HTML/login.html';
-    }    
+    } 
+    // logica para escutar o botao de sair
     const botaoSair = document.getElementById("botaoSair")
     if (botaoSair) {
         botaoSair.addEventListener('click', (e) => {
-            e.preventDefault;
+            e.preventDefault();
             logOut()
         })
     }
@@ -94,12 +96,33 @@ export function getNomeUsuario() {
     }    
 }    
 
+export function getToken() {
+    try {
+        const token = localStorage.getItem('token')
+        if (!token) {
+            return null
+            
+        } else {
+            return token
+        }
+    } catch{
+        return null
+    }
+}
 
 
 //função para limpar a memoria do navegador apos logout
 function logOut() {
     localStorage.removeItem("token")
     mostrarNotificao("Saida realizada com sucesso", "sucesso")
+    setTimeout(() => {
+        window.location.href = "../HTML/login.html"
+    }, 1000);
+}
+
+//função de  encerramento de sessão
+export function encerrarSessao() {
+    localStorage.removeItem("token")
     setTimeout(() => {
         window.location.href = "../HTML/login.html"
     }, 1000);
