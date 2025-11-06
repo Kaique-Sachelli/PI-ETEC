@@ -52,7 +52,7 @@ app.post('/login', async (req, res) => {
         permissao: usuario.permissao
       }
       //cria e assina o token
-      const token = jwt.sign(payload, JWT_SECRET, { expiresIn: '2h' }); // Token expira em 1 hora
+      const token = jwt.sign(payload, JWT_SECRET, { expiresIn: '1h' }); // Token expira em 1 hora
       res.json({
         sucesso: true,
         mensagem: 'Login realizado com sucesso!',
