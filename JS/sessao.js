@@ -1,5 +1,5 @@
-
 import { mostrarNotificao } from "./notificacao.js"
+
 //verifica token sempre que a página for iniciada
 document.addEventListener('DOMContentLoaded', () => {
     const token = localStorage.getItem('token');
@@ -94,6 +94,42 @@ export function getNomeUsuario() {
     }    
 }    
 
+// Script para filtrar o modo de usar para cada tipo de usuário
+export function applyRoleVisibility() {
+  const permissao = (getPermissaoUsuario() || 'guest').toString().toLowerCase();
+
+  const roleMap = {
+    adm: ['adm','tecnico','professor'],
+    admin: ['adm','tecnico','professor'],
+    administrador: ['adm','tecnico','professor'],
+    tecnico: ['tecnico','professor'],
+    professor: ['professor'],
+    guest: []
+  };
+
+  const allowed = roleMap[permissao] || [];
+
+  // Seleciona todos os elementos marcados ou usa classes como fallback
+  document.querySelectorAll('[data-role], .professor, .tecnico, .adm').forEach(el => {
+    const role = el.dataset.role ? el.dataset.role.toString().toLowerCase() :
+                 (el.classList.contains('adm') ? 'adm' :
+                  el.classList.contains('tecnico') ? 'tecnico' :
+                  el.classList.contains('professor') ? 'professor' : 'all');
+
+    if (role === 'all') {
+      el.style.display = '';
+      return;
+    }
+
+    el.style.display = allowed.includes(role) ? '' : 'none';
+  });
+}
+
+// chama ao carregar a página (colocar dentro do DOMContentLoaded ou após validação do token)
+document.addEventListener('DOMContentLoaded', () => {
+  // aplica visibilidade
+  applyRoleVisibility();
+});
 
 
 //função para limpar a memoria do navegador apos logout
@@ -104,3 +140,4 @@ function logOut() {
         window.location.href = "../HTML/login.html"
     }, 1000);
 }
+
