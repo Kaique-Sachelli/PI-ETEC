@@ -1,4 +1,6 @@
-// import { mostrarNotificao } from "./notificacao.js";
+import { mostrarNotificao } from "./notificacao.js";
+import { encerrarSessao, getToken } from "./sessao.js";
+
 
 let kitSelecionado = [];
 
@@ -86,10 +88,21 @@ async function carregarProdutos() {
     const container = document.querySelector(".produtos-lista");
     if (!container) return;
     try {
+        const token = getToken();
         container.innerHTML = "";
         const [Vidrarias, Reagentes] = await Promise.all([
-            fetch('http://localhost:3000/vidrarias'),
-            fetch('http://localhost:3000/reagentes')
+            fetch('http://localhost:3000/vidrarias',{
+                'method': 'GET',
+                headers: {
+                   'Authorization': `Bearer ${token}`
+                }
+            }),
+            fetch('http://localhost:3000/reagentes',{
+                'method': 'GET',
+                headers: {
+                   'Authorization': `Bearer ${token}`
+                }
+            })
         ]);
         const dadosVidrarias = await Vidrarias.json();
         if (dadosVidrarias.sucesso) {
