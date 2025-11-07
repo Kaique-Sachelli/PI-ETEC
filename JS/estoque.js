@@ -1,3 +1,5 @@
+// import { mostrarNotificao } from "./notificacao.js";
+
 let kitSelecionado = [];
 
 function adicionarAoKit(elemento) {
@@ -75,7 +77,70 @@ function atualizarKit() {
     const addIcon = document.querySelector(".add-icon");
     if (addIcon) addIcon.style.display = kitSelecionado.length > 0 ? "none" : "block";
 }
+
 document.addEventListener("DOMContentLoaded", () => {
-    inicializarEventos()
     carregarProdutos();
 });
+
+async function carregarProdutos() {
+    const container = document.querySelector(".produtos-lista");
+    if (!container) return;
+    try {
+        container.innerHTML = "";
+        const [Vidrarias, Reagentes] = await Promise.all([
+            fetch('http://localhost:3000/vidrarias'),
+            fetch('http://localhost:3000/reagentes')
+        ]);
+        const dadosVidrarias = await Vidrarias.json();
+        if (dadosVidrarias.sucesso) {
+            renderizarItens(dadosVidrarias.vidrarias, container, 'vidraria');
+        }
+        else {
+            mostrarNotificao(dadosVidrarias.mensagem, 'erro')
+        }
+        const dadosReagentes = await Reagentes.json();
+        if (dadosReagentes.sucesso) {
+            renderizarItens(dadosReagentes.reagentes, container, 'reagente');
+        }
+        else {
+            mostrarNotificao(dadosReagentes.mensagem, 'erro')
+        }
+    } catch (error) {
+        console.log(error.message)
+        mostrarNotificao('Não foi possivel carregar o estoque. Tente novamente', "erro")
+
+    }
+}
+
+function renderizarItens(itens, container, tipo) {
+    const imgNome = (tipo === 'vidraria') ? 'Vidraria-img.png' : 'beaker.png';
+
+    itens.forEach(item => {
+        const btn = document.createElement("button");
+        btn.className = `col-lg-3 col-md-4 col-sm-6 ${tipo}`; //
+
+        let nome, detalhe, quantidade;
+
+        if (tipo === 'vidraria') {
+            nome = item.nomeVidraria;
+            detalhe = item.capacidade || '';
+            quantidade = `${item.quantidade} und.`;
+        } else {
+            nome = item.nomeReagente;
+            detalhe = '';
+            quantidade = `${item.quantidade}g`;
+        }
+        btn.innerHTML = `
+            <img src="../Img/${imgNome}" alt="${nome}" class="${tipo}-img">
+            <p> ${nome} <br> ${detalhe} <br> <span class="produto-quantidade">${quantidade}</span></p>
+        `;
+        // armazena o tipo e o número do estoque no dataset para facilitar verificações
+        btn.dataset.tipo = tipo;
+        btn.dataset.estoque = tipo === 'vidraria'
+            ? (parseInt(item.quantidade, 10) || 0)
+            : (parseFloat(item.quantidade) || 0);
+        btn.addEventListener("click", () => adicionarAoKit(btn));
+
+        container.appendChild(btn);
+    });
+}
