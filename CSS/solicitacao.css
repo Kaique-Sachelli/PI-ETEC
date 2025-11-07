@@ -102,16 +102,15 @@ body {
 }
 
 .navbar .secao {
-  list-style-type: none;
-  color: #fff;
-}
-
-.navbar .secao a {
   display: flex;
   justify-content: center;
   align-items: center;
   height: 60px;
   font-family: 'Roboto', sans-serif;
+  border: none;
+  background-color: #B20000;
+  color: #fff;
+  font-weight: normal;
 }
 
 .navbar .secao:hover {
