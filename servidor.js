@@ -244,38 +244,40 @@ app.get("/api/solicitacoes", async (req, res) => {
 });
 
 // atualizar status (KIT PRONTO, CONCLUÍDA, etc.)
-// PUT - Atualizar status da solicitação
 app.put("/api/solicitacoes/:id", async (req, res) => {
   const { id } = req.params;
-  const { status } = req.body;
+  const { status } = req.body || {};
 
-  // Mapeia o status do front para o banco
+  if (!status) {
+    return res.status(400).json({ erro: "Campo 'status' é obrigatório." });
+  }
+
   const mapaStatus = {
-  pendente: "Pendente",
-  aprovado: "Aprovada",
-  cancelado: "Reprovada",
-  finalizado: "Concluida", 
-  
-};
+    pendente: "Pendente",
+    aprovado: "Aprovada",
+    cancelado: "Reprovada",
+    finalizado: "Concluida",
+  };
 
   const statusBanco = mapaStatus[status];
   if (!statusBanco) {
     return res.status(400).json({ erro: "Status inválido" });
   }
 
-  const sql = "UPDATE Solicitacoes SET statusPedido = ? WHERE idSolicitacao = ?";
-
   try {
-    const [result] = await pool.query(sql, [statusBanco, id]);
+    const [result] = await pool.query(
+      "UPDATE Solicitacoes SET statusPedido = ? WHERE idSolicitacao = ?",
+      [statusBanco, id]
+    );
 
     if (result.affectedRows === 0) {
       return res.status(404).json({ erro: "Solicitação não encontrada" });
     }
 
-    res.json({ 
+    res.json({
       sucesso: true,
-      mensagem: "Status atualizado com sucesso!", 
-      status: statusBanco 
+      mensagem: "Status atualizado com sucesso!",
+      status: statusBanco,
     });
   } catch (err) {
     console.error("Erro ao atualizar status:", err);
