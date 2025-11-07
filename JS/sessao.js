@@ -2,7 +2,7 @@
 import { mostrarNotificao } from "./notificacao.js"
 //verifica token sempre que a página for iniciada
 document.addEventListener('DOMContentLoaded', () => {
-    const token = localStorage.getItem('token');
+    const token = sessionStorage.getItem('token');
     //logica para verificar o token de todas as paginas que forem carregadas
     if (!token) {
         mostrarNotificao('Sessão inválida. Por favor, faça o login.', "erro");
@@ -18,7 +18,7 @@ document.addEventListener('DOMContentLoaded', () => {
         const agoraEmSegundos = Math.floor(Date.now() / 1000);
         
         if (payload.exp && payload.exp < agoraEmSegundos) {
-            localStorage.removeItem('token');
+            sessionStorage.removeItem('token');
             mostrarNotificao('Sua sessão expirou. Por favor, faça o login novamente.', "erro");
             window.location.href = '../HTML/login.html';
             return;
@@ -26,7 +26,7 @@ document.addEventListener('DOMContentLoaded', () => {
     } catch (e) {
         // Se o token for inválido, limpa e redireciona para o login
         console.error("Erro ao decodificar o token:", e);
-        localStorage.removeItem('token');
+        sessionStorage.removeItem('token');
         mostrarNotificao('Sessão inválida. Por favor, faça o login novamente.', 'erro');
         window.location.href = '../HTML/login.html';
     } 
@@ -43,7 +43,7 @@ document.addEventListener('DOMContentLoaded', () => {
 });    
 
 export function erroToken() {
-    localStorage.removeItem("token")
+    sessionStorage.removeItem("token")
     mostrarNotificao('Token inválido. Por favor, faça o login.', "erro");
     setTimeout(() => {
         window.location.href = '../HTML/login.html';
@@ -54,7 +54,7 @@ export function erroToken() {
 
 export function getIdUsuario() {
     try {
-        const token = localStorage.getItem('token');
+        const token = sessionStorage.getItem('token');
         if (!token) {
             return null
         } else {
@@ -70,7 +70,7 @@ export function getIdUsuario() {
 
 export function getPermissaoUsuario() {
     try {
-        const token = localStorage.getItem('token');
+        const token = sessionStorage.getItem('token');
         if (!token) {
             return null
         } else {
@@ -85,7 +85,7 @@ export function getPermissaoUsuario() {
 
 export function getNomeUsuario() {
     try {
-        const token = localStorage.getItem('token');
+        const token = sessionStorage.getItem('token');
         if (!token) {
             return null
         } else {
@@ -100,7 +100,7 @@ export function getNomeUsuario() {
 
 export function getToken() {
     try {
-        const token = localStorage.getItem('token')
+        const token = sessionStorage.getItem('token')
         if (!token) {
             return null
             
@@ -114,7 +114,7 @@ export function getToken() {
 
 //função para limpar a memoria do navegador apos logout
 function logOut() {
-    localStorage.removeItem("token")
+    sessionStorage.removeItem("token")
     mostrarNotificao("Sessão encerrada com sucesso", "sucesso")
     setTimeout(() => {
         window.location.href = "../HTML/login.html"
@@ -123,7 +123,7 @@ function logOut() {
 
 //função de  encerramento de sessão
 export function encerrarSessao() {
-    localStorage.removeItem("token")
+    sessionStorage.removeItem("token")
     setTimeout(() => {
         window.location.href = "../HTML/login.html"
     }, 1000);

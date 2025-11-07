@@ -22,7 +22,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 const dados = await resposta.json();
                 if (dados.sucesso) {
                     mostrarNotificao(dados.mensagem, 'sucesso')
-                    localStorage.setItem('token', dados.token) // cria o token
+                    sessionStorage.setItem('token', dados.token) // cria o token
                     setTimeout(() => {
                         window.location.href = '../HTML/inicio.html';
                     }, 1000);
