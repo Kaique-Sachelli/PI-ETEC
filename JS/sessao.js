@@ -98,7 +98,6 @@ export function getNomeUsuario() {
     }    
 }    
 
-<<<<<<< HEAD
 // Script para filtrar o modo de usar para cada tipo de usuário
 export function applyRoleVisibility() {
   const permissao = (getPermissaoUsuario() || 'guest').toString().toLowerCase();
@@ -134,7 +133,6 @@ document.addEventListener('DOMContentLoaded', () => {
   applyRoleVisibility();
 });
 
-=======
 export function getToken() {
     try {
         const token = sessionStorage.getItem('token')
@@ -148,7 +146,6 @@ export function getToken() {
         return null
     }
 }
->>>>>>> Implementação-Token
 
 //função para limpar a memoria do navegador apos logout
 function logOut() {
@@ -159,8 +156,6 @@ function logOut() {
     }, 1000);
 }
 
-<<<<<<< HEAD
-=======
 //função de  encerramento de sessão
 export function encerrarSessao() {
     sessionStorage.removeItem("token")
@@ -184,4 +179,3 @@ const eventosAtividade = ['mousemove', 'mousedown', 'keypress', 'keydown', 'touc
 eventosAtividade.forEach(evento => {
     document.addEventListener(evento, usuarioAtivo, true);
 });
->>>>>>> Implementação-Token

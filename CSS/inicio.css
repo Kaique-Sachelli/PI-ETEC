@@ -10,24 +10,20 @@ body {
 }
 
 .navbar .secao {
-  list-style-type: none;
-  color: #fff;
-}
-
-.navbar .secao a {
   display: flex;
   justify-content: center;
   align-items: center;
   height: 60px;
   font-family: 'Roboto', sans-serif;
+  border: none;
+  background-color: #B20000;
+  color: #fff;
 }
 
 .navbar .secao:hover {
   background-color: #BA1A1A; /* Cor um pouco mais escura ao passar o mouse */
   cursor: pointer;
 }
-
-
 
 .cabecalho h2 {
   font-size: 30px !important;
