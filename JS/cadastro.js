@@ -1,4 +1,6 @@
 import { mostrarNotificao } from "./notificacao.js";
+import { encerrarSessao, getToken } from "./sessao.js";
+
 // Declarei as variaveis antes de qualquer uso. Caso a declaração fique depois da função, os modulos que usam strict mode vão dar erro de referencia.
 
 let modoVisualizacao = "cadastrar";
@@ -23,22 +25,29 @@ document.getElementById("formCadastro").addEventListener("submit", async (e) => 
    const email = document.getElementById("emailCadastro").value
    const senha = document.getElementById("senhaCadastro").value
    const login = document.getElementById("loginCadastro").value
-
    if (nome && email && senha && login) {
       try {
+         const token = getToken()
          const resposta = await fetch('http://localhost:3000/cadastro', {
             method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
+            headers: {
+               'Content-Type': 'application/json',
+               'Authorization': `Bearer ${token}`
+            },
             body: JSON.stringify({ nome, email, senha, login })
          })
-         dados = await resposta.json()
-         if (dados.sucesso) {
-            mostrarNotificao(dados.mensagem, 'sucesso')
-            document.getElementById("formCadastro").reset()
+         if (resposta.status == 403) {
+            mostrarNotificao("Acesso negado, sessão encerrada", "erro");
+            encerrarSessao();
          } else {
-            mostrarNotificao(dados.mensagem, 'erro')
+            dados = await resposta.json()
+            if (dados.sucesso) {
+               mostrarNotificao(dados.mensagem, 'sucesso')
+               document.getElementById("formCadastro").reset()
+            } else {
+               mostrarNotificao(dados.mensagem, 'erro')
+            }
          }
-
       } catch (error) {
          mostrarNotificao("erro ao se conectar com o servidor", error)
          console.error("erro ao se conectar com o servidor", error)
@@ -53,21 +62,31 @@ document.getElementById("formCadastro").addEventListener("submit", async (e) => 
 async function carregarUsuarios() {
    selectUsuarios = document.getElementById("selectAlterar")
    try {
-      const resposta = await fetch('http://localhost:3000/usuarios')
-      const dados = await resposta.json()
-      if (dados.sucesso) {
-         selectUsuarios.innerHTML = '<option value="">Selecione um usuário</option>'
-         dados.usuarios.forEach(usuario => {
-            const option = document.createElement('option')
-            option.value = usuario.idUsuario
-            option.textContent = `${usuario.nome} - ${usuario.permissao}`
-            selectUsuarios.appendChild(option)
-         })
+      const token = getToken()
+      const resposta = await fetch('http://localhost:3000/usuarios', {
+         'method': 'GET',
+         headers: {
+            'Authorization': `Bearer ${token}`
+         }
+      })
+      if (resposta.status == 403) {
+         mostrarNotificao("Acesso negado, sessão encerrada", "erro");
+         encerrarSessao();
       } else {
-         mostrarNotificao('falha ao carregar usuários', 'erro')
-         console.log(dados.mensagem)
+         const dados = await resposta.json()
+         if (dados.sucesso) {
+            selectUsuarios.innerHTML = '<option value="">Selecione um usuário</option>'
+            dados.usuarios.forEach(usuario => {
+               const option = document.createElement('option')
+               option.value = usuario.idUsuario
+               option.textContent = `${usuario.nome} - ${usuario.permissao}`
+               selectUsuarios.appendChild(option)
+            })
+         } else {
+            mostrarNotificao('falha ao carregar usuários', 'erro')
+            console.log(dados.mensagem)
+         }
       }
-
    } catch (error) {
       mostrarNotificao('Erro interno de conexão', 'erro')
       console.log(error)
@@ -86,14 +105,25 @@ usuarioSelecionado.addEventListener('change', async function () {
 //função para preencher os dados do usuário selecionado
 async function dadosUsuario(id) {
    try {
-      const resposta = await fetch(`http://localhost:3000/usuarios/${id}`)
-      const dados = await resposta.json()
-      if (dados.sucesso) {
-         document.getElementById("emailAlterar").value = dados.usuario.email
-         document.getElementById("senhaAlterar").value = "" //retorna a senha vazia por segurança
-         document.getElementById("loginAlterar").value = dados.usuario.permissao
+      const token = getToken()
+      const resposta = await fetch(`http://localhost:3000/usuarios/${id}`, {
+         'method': 'GET',
+         headers: {
+            'Authorization': `Bearer ${token}`
+         }
+      })
+      if (resposta.status == 403) {
+         mostrarNotificao("Acesso negado, sessão encerrada", "erro");
+         encerrarSessao();
       } else {
-         mostrarNotificao(dados.mensagem, "erro")
+         const dados = await resposta.json()
+         if (dados.sucesso) {
+            document.getElementById("emailAlterar").value = dados.usuario.email
+            document.getElementById("senhaAlterar").value = "" //retorna a senha vazia por segurança
+            document.getElementById("loginAlterar").value = dados.usuario.permissao
+         } else {
+            mostrarNotificao(dados.mensagem, "erro")
+         }
       }
    } catch (error) {
       mostrarNotificao('Erro interno de conexão', 'erro')
@@ -102,13 +132,22 @@ async function dadosUsuario(id) {
 }
 //função para armazenar os dados alterados
 async function atualizaUsuario(idUsuario, email, novaSenha, permissao) {
-   resultado = await fetch('http://localhost:3000/usuarios/atualizar', {
+   const token = getToken()
+   const resposta = await fetch('http://localhost:3000/usuarios/atualizar', {
       method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
+      headers: {
+         'Content-Type': 'application/json',
+         'Authorization': `Bearer ${token}`
+      },
       body: JSON.stringify({ email, novaSenha, permissao, idUsuario })
    })
-   dados = await resultado.json()
-   return dados
+   if (resposta.status == 403) {
+      mostrarNotificao("Acesso negado, sessão encerrada", "erro");
+      encerrarSessao();
+   } else {
+      dados = await resposta.json()
+      return dados
+   }
 }
 
 //listener para ouvir o botao de enviar 
@@ -131,9 +170,10 @@ document.getElementById("alterarForm").addEventListener("submit", async (e) => {
          }
       } catch (error) {
          mostrarNotificao('erro ao se conectar com o servidor', 'erro')
+         console.log(error)
       }
    } else {
-      mostrarNotificao('Preencha todos os campos!','erro')
+      mostrarNotificao('Preencha todos os campos!', 'erro')
    }
 })
 
@@ -164,15 +204,15 @@ document.addEventListener('DOMContentLoaded', function () {
 function alternarVisualizacao(tipo) {
    const containerCadastro = document.querySelector(".container-cadastro");
    const containerAlterar = document.querySelector(".container-alterar");
- 
+
    if (tipo === "alterar") {
-     modoVisualizacao = "alterar";
-     containerCadastro.style.display = "none";
-     containerAlterar.style.display = "block";
+      modoVisualizacao = "alterar";
+      containerCadastro.style.display = "none";
+      containerAlterar.style.display = "block";
    } else {
-     modoVisualizacao = "cadastrar";
-     containerCadastro.style.display = "block";
-     containerAlterar.style.display = "none";
+      modoVisualizacao = "cadastrar";
+      containerCadastro.style.display = "block";
+      containerAlterar.style.display = "none";
    }
 }
 
@@ -180,18 +220,20 @@ document.addEventListener("DOMContentLoaded", () => {
    const opcoesFiltro = document.querySelectorAll(".submenu-link");
    opcoesFiltro.forEach(opcao => {
       opcao.addEventListener("click", (e) => {
-      e.preventDefault();
-      const texto = opcao.textContent.trim().toLowerCase();
-      let botaoCadastro = document.getElementById("cadastrar")
-      let botaoAlterar = document.getElementById("alterar")
-      if (texto.includes("alterar")) {alternarVisualizacao("alterar")
-         botaoCadastro.classList.remove('ativo')
-         botaoAlterar.classList.add('ativo')
-      };
-      if (texto.includes("cadastrar")) {alternarVisualizacao("cadastrar")
-         botaoAlterar.classList.remove('ativo')
-         botaoCadastro.classList.add('ativo')
-      };
+         e.preventDefault();
+         const texto = opcao.textContent.trim().toLowerCase();
+         let botaoCadastro = document.getElementById("cadastrar")
+         let botaoAlterar = document.getElementById("alterar")
+         if (texto.includes("alterar")) {
+            alternarVisualizacao("alterar")
+            botaoCadastro.classList.remove('ativo')
+            botaoAlterar.classList.add('ativo')
+         };
+         if (texto.includes("cadastrar")) {
+            alternarVisualizacao("cadastrar")
+            botaoAlterar.classList.remove('ativo')
+            botaoCadastro.classList.add('ativo')
+         };
       });
    });
 });

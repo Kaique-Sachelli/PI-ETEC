@@ -57,7 +57,8 @@ app.post("/login", async (req, res) => {
         permissao: usuario.permissao,
       };
       //cria e assina o token
-      const token = jwt.sign(payload, JWT_SECRET, { expiresIn: "2h" }); // Token expira em 1 hora
+      const token = jwt.sign(payload, JWT_SECRET, { expiresIn: '1h' }); // Token expira em 1 hora
+
       res.json({
         sucesso: true,
         mensagem: "Login realizado com sucesso!",
@@ -74,91 +75,117 @@ app.post("/login", async (req, res) => {
 // cadastro
 app.post("/cadastro", verificarToken, async (req, res) => {
   const { nome, email, senha, login } = req.body;
-
-  try {
-    const [result] = await pool.query(
-      "INSERT INTO usuario (nome, email, senha, permissao) VALUES (?, ?, ?, ?)",
-      [nome, email, senha, login]
-    );
-    res.json({
-      sucesso: true,
-      mensagem: "Usuário cadastrado com sucesso!",
-      id: result.insertId,
-    });
-  } catch (erro) {
-    if (erro.code == "ER_DUP_ENTRY") {
+  const permissaoUsuario = req.usuario.permissao
+  if (permissaoUsuario !== "Administrador") { //segurança com base em permissão
+    return res.status(403).json({ // return para parar a rota
+      sucesso: false,
+    })
+  } else {
+    try {
+      const [result] = await pool.query(
+        'INSERT INTO usuario (nome, email, senha, permissao) VALUES (?, ?, ?, ?)',
+        [nome, email, senha, login]
+      );
       res.json({
-        sucesso: false,
-        mensagem: "Email já cadastrado no sistema",
+        sucesso: true,
+        mensagem: 'Usuário cadastrado com sucesso!',
+        id: result.insertId
       });
-    } else {
-      res.json({
-        sucesso: false,
-        mensagem: "Erro interno: " + erro.message,
-      });
+    } catch (erro) {
+      if (erro.code == 'ER_DUP_ENTRY') {
+        res.json({
+          sucesso: false,
+          mensagem: 'Email já cadastrado no sistema'
+        })
+      } else {
+        res.json({
+          sucesso: false,
+          mensagem: 'Erro interno: ' + erro.message
+        })
+      }
     }
   }
 });
 
 // buscar usuários
-app.get("/usuarios", verificarToken, async (req, res) => {
-  try {
-    const [rows] = await pool.query(
-      "SELECT idUsuario, nome, permissao FROM usuario"
-    );
+app.get('/usuarios', verificarToken, async (req, res) => {
+  const permissaoUsuario = req.usuario.permissao
+  if (permissaoUsuario !== "Administrador") {
+    return res.status(403).json({
+      sucesso: false
+    })
+  } else {
+    try {
+      const [rows] = await pool.query(
+        'SELECT idUsuario, nome, permissao FROM usuario'
+      );
 
-    res.json({
-      sucesso: true,
-      usuarios: rows,
-    });
-  } catch (erro) {
-    res.status(500).json({
-      sucesso: false,
-      mensagem: "Erro ao buscar usuários: " + erro.message,
-    });
+      res.json({
+        sucesso: true,
+        usuarios: rows
+      });
+
+    } catch (erro) {
+      res.status(500).json({
+        sucesso: false,
+        mensagem: 'Erro ao buscar usuários: ' + erro.message
+      });
+    }
   }
 });
 
 //buscar informação completa do usuário
-app.get("/usuarios/:id", verificarToken, async (req, res) => {
-  const id = req.params.id;
-  try {
-    const [rows] = await pool.query(
-      "SELECT email, permissao FROM usuario WHERE idUsuario = ?",
-      [id]
-    );
-    if (rows.length > 0) {
+app.get('/usuarios/:id', verificarToken, async (req, res) => {
+  const permissaoUsuario = req.usuario.permissao
+  if (permissaoUsuario !== "Administrador") {
+    return res.status(403).json({
+      sucesso: false
+    })
+  } else {
+    const id = req.params.id
+    try {
+      const [rows] = await pool.query(
+        'SELECT email, permissao FROM usuario WHERE idUsuario = ?', [id]
+      )
+      if (rows.length > 0) {
+        res.json({
+          sucesso: true,
+          usuario: rows[0]
+        })
+      }
+    } catch (erro) {
       res.json({
-        sucesso: true,
-        usuario: rows[0],
-      });
+        sucesso: false,
+        mensagem: 'Erro ao buscar usuário: ' + erro.message
+      })
     }
-  } catch (erro) {
-    res.json({
-      sucesso: false,
-      mensagem: "Erro ao buscar usuário: " + erro.message,
-    });
   }
 });
 
 //atualiza dados do usuario
 app.post("/usuarios/atualizar", verificarToken, async (req, res) => {
   const { idUsuario, email, novaSenha, permissao } = req.body;
-
-  try {
-    const [result] = await pool.query(
-      "UPDATE usuario SET email = ?, senha = ?, permissao = ? WHERE idUsuario = ?",
-      [email, novaSenha, permissao, idUsuario]
-    );
-    res.json({
-      sucesso: true,
-      mensagem: "Dados atualizados com sucesso!",
-    });
-  } catch (erro) {
-    res.json({
-      sucesso: false,
-      mensagem: "Erro ao atualizar: " + erro.message,
-    });
+  const permissaoUsuario = req.usuario.permissao
+  if (permissaoUsuario !== "Administrador") {
+    return res.status(403).json({
+      sucesso: false
+    })
+   }else {
+     try {
+       const [result] = await pool.query(
+         'UPDATE usuario SET email = ?, senha = ?, permissao = ? WHERE idUsuario = ?',
+         [email, novaSenha, permissao, idUsuario]
+       );
+       res.json({
+         sucesso: true,
+         mensagem: 'Dados atualizados com sucesso!'
+       });
+     } catch (erro) {
+       res.json({
+         sucesso: false,
+         mensagem: 'Erro ao atualizar: ' + erro.message
+       })
+     }
   }
 });
 
