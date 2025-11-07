@@ -251,11 +251,12 @@ app.put("/api/solicitacoes/:id", async (req, res) => {
 
   // Mapeia o status do front para o banco
   const mapaStatus = {
-    pendente: "Pendente",
-    aprovado: "Aprovada",
-    cancelado: "Reprovada",
-    finalizado: "Finalizado",
-  };
+  pendente: "Pendente",
+  aprovado: "Aprovada",
+  cancelado: "Reprovada",
+  finalizado: "Concluida", 
+  
+};
 
   const statusBanco = mapaStatus[status];
   if (!statusBanco) {
@@ -265,7 +266,7 @@ app.put("/api/solicitacoes/:id", async (req, res) => {
   const sql = "UPDATE Solicitacoes SET statusPedido = ? WHERE idSolicitacao = ?";
 
   try {
-    const [result] = await db.query(sql, [statusBanco, id]);
+    const [result] = await pool.query(sql, [statusBanco, id]);
 
     if (result.affectedRows === 0) {
       return res.status(404).json({ erro: "Solicitação não encontrada" });
