@@ -99,9 +99,7 @@ export function applyRoleVisibility() {
   const permissao = (getPermissaoUsuario() || 'guest').toString().toLowerCase();
 
   const roleMap = {
-    adm: ['adm','tecnico','professor','containerprodutos'],
-    admin: ['adm','tecnico','professor','containerprodutos'],
-    administrador: ['adm','tecnico','professor','containerprodutos'],
+    administrador: ['adm','tecnico','professor','containerprodutos', 'btn-pronto'],
     tecnico: ['tecnico','professor'],
     professor: ['professor'],
     guest: []

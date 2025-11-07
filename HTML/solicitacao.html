@@ -55,11 +55,11 @@
       <a onclick="window.location.href='inicio.html'">Início</a>
     </li>
 
-    <li class="col-md-2 col-4 secao" style="background-color: #BA1A1A;" data-role="professor">
+    <li class="col-md-2 col-4 secao" data-role="professor">
       <a onclick="window.location.href='agendamento.html'">Agendamento</a>
     </li>
 
-    <li class="col-md-2 col-4 secao" data-role="tecnico">
+    <li class="col-md-2 col-4 secao" data-role="professor">
       <a onclick="window.location.href='estoque.html'">Estoque</a>
     </li>
 
@@ -67,7 +67,7 @@
       <a onclick="window.location.href='kits.html'">Kits</a>
     </li>
 
-    <li class="col-md-2 col-4 secao" data-role="tecnico">
+    <li class="col-md-2 col-4 secao" style="background-color: #BA1A1A;" data-role="tecnico">
       <a>Solicitações</a>
     </li>
 
@@ -134,7 +134,7 @@
           </div>
 
             <div class="botoes col-3">
-              <button class="btn btn-pronto">Kit Pronto</button>
+              <button class="btn btn-pronto" data-role="tecnico">Kit Pronto</button>
             </div>
           </div>
         </div>
@@ -181,8 +181,8 @@
           </div>
 
             <div class="botoes col-lg-2">
-              <button class="btn btn-devolvido"> Devolver Kit</button>
-              <button class="btn btn-cancelado"> Cancelar </button>
+              <button class="btn btn-devolvido" data-role="tecnico"> Devolver Kit</button>
+              <button class="btn btn-cancelado" data-role="tecnico"> Cancelar </button>
             </div>
           </div>
         </div>
@@ -312,7 +312,7 @@
           </div>
 
             <div class="botoes col-3">
-              <button class="btn btn-pronto">Finalizar</button>
+              <button class="btn btn-pronto" data-role="tecnico">Finalizar</button>
             </div>
           </div>
         </div>
