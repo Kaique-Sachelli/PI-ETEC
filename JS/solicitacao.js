@@ -115,14 +115,13 @@ function statusText(status) {
 function gerarBotoes(status, id) {
   if (status === "pendente") {
     return `
-      <button class="btn btn-pronto" onclick="kitPronto(${id})">Kit Pronto</button>
+      <button class="btn btn-pronto" onclick="kitPronto(${id})">Devolver Kit</button>
       <button class="btn btn-cancelado" onclick="cancelar(${id})">Cancelar</button>
     `;
   }
   if (status === "aprovado") {
     return `
-      <button class="btn btn-devolvido" onclick="finalizar(${id})">Devolver Kit</button>
-      <button class="btn btn-pendente" onclick="voltarPendente(${id})">Voltar a Pendente</button>
+      <button class="btn btn-devolvido" onclick="finalizar(${id})">Kit Pronto</button>
     `;
   }
   if (status === "cancelado") {

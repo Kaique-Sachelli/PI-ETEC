@@ -305,21 +305,21 @@ button {
   transition: all 0.3s ease;
 }
 .btn-pronto {
-  background-color:  #4c7eff !important;
+  background-color:  #949494  !important;
   border-radius: 5px;
 }
 
 .btn-pronto:hover {
-  background-color: #003ee8 !important;
+  background-color: #858585  !important;
 }
 
 .btn-devolvido {
-  background-color: #949494 !important;
+  background-color: #4c7eff!important;
   border-radius: 5px;
 }
 
 .btn-devolvido:hover {
-  background-color: #858585 !important;
+  background-color: #003ee8  !important;
 }
 
 .btn-cancelado {
@@ -339,8 +339,19 @@ button {
   opacity: 0.9;
   transform: scale(1.03);
 }
+.btn-pendente{
+  background-color: #3acf1f !important;
+  border-radius: 5px;
+}
+
+.btn-cancelado:houver{
+  background-color: #4acd51;
+}
+
 .btn-pronto,
-.btn-devolvido {
+.btn-devolvido, 
+.btn-cancelado,
+.btn-pendente {
   width: 150px;  
   height: 50px;  
   padding: 6px 8px !important;  
