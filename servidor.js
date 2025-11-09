@@ -311,6 +311,66 @@ app.put("/api/solicitacoes/:id", async (req, res) => {
     res.status(500).json({ erro: "Erro interno no servidor" });
   }
 });
+// ===============================
+// REPOSIÇÃO DE ESTOQUE
+// ===============================
+app.get("/api/reposicao", verificarToken, async (req, res) => {
+  try {
+    const [rows] = await pool.query(`
+      SELECT 
+        r.idReposicao AS id,
+        u.nome AS usuario,
+        r.status,
+        DATE_FORMAT(r.dataPedido, '%d/%m/%Y %H:%i') AS dataPedido,
+        r.observacao
+      FROM ReposicaoEstoque r
+      JOIN Usuario u ON r.idUsuario = u.idUsuario
+      ORDER BY r.dataPedido DESC
+    `);
+    res.json(rows);
+  } catch (erro) {
+    res.status(500).json({ erro: "Erro ao buscar reposições" });
+  }
+});
 
+app.post("/api/reposicao", verificarToken, async (req, res) => {
+  const { idUsuario, observacao } = req.body;
+  try {
+    const [result] = await pool.query(
+      "INSERT INTO ReposicaoEstoque (idUsuario, observacao) VALUES (?, ?)",
+      [idUsuario, observacao || null]
+    );
+    res.json({
+      sucesso: true,
+      mensagem: "Pedido de reposição criado com sucesso!",
+      id: result.insertId,
+    });
+  } catch (erro) {
+    res.status(500).json({ erro: "Erro ao criar pedido de reposição" });
+  }
+});
+app.put("/api/reposicao/:id", verificarToken, async (req, res) => {
+  const { id } = req.params;
+  const { status } = req.body;
+
+  if (!status) {
+    return res.status(400).json({ erro: "O campo 'status' é obrigatório." });
+  }
+
+  try {
+    const [result] = await pool.query(
+      "UPDATE ReposicaoEstoque SET status = ? WHERE idReposicao = ?",
+      [status, id]
+    );
+
+    if (result.affectedRows === 0) {
+      return res.status(404).json({ erro: "Pedido de reposição não encontrado." });
+    }
+
+    res.json({ sucesso: true, mensagem: "Status atualizado com sucesso!" });
+  } catch (erro) {
+    res.status(500).json({ erro: "Erro ao atualizar status: " + erro.message });
+  }
+});
 const PORTA = 3000;
 app.listen(PORTA, () => console.log(`🚀 Servidor rodando na porta ${PORTA}`));
