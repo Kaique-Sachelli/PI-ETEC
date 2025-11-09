@@ -215,7 +215,9 @@ function carregarReposicoes() {
       <details class="${corStatus(r.status)}">
         <summary>
           <div class="linha">
-            <span>${r.dataPedido}</span><span></span><span></span>
+            <span>${r.dataPedido}</span>
+            <span></span>
+            <span></span>
             <span class="status ${r.status}">${statusText(r.status)}</span>
             <i class="bi bi-chevron-down seta">▼</i>
           </div>
@@ -228,7 +230,8 @@ function carregarReposicoes() {
             </div>
             <div class="botoes col-3">
              ${r.status !== "finalizado" ? 
-              `<button class="btn btn-finalizar" onclick="finalizarReposicao(${r.idReposicao})">Finalizar</button>` : ""}
+              `<button class="btn btn-finalizar" 
+              onclick="finalizarReposicao(${r.idReposicao})">Finalizar</button>` : ""}
             </div>
           </div>
         </div>

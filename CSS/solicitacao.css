@@ -353,6 +353,21 @@ button {
   background-color: #4acd51;
 }
 
+.btn-pronto,
+.btn-devolvido, 
+.btn-cancelado,
+.btn-pendente{
+  width: 150px;  
+  height: 50px;  
+  padding: 6px 8px !important;  
+  font-size: 11px !important;
+  border-radius: 5px !important;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: auto;
+}
+
 .containerprodutos .botoes {
   display: flex;
   justify-content: flex-end; /* empurra o botão pro canto direito */
@@ -377,21 +392,6 @@ button {
 .btn-finalizar:hover {
   background-color: #858585  !important;
 }
-.btn-pronto,
-.btn-devolvido, 
-.btn-cancelado,
-.btn-pendente{
-  width: 150px;  
-  height: 50px;  
-  padding: 6px 8px !important;  
-  font-size: 11px !important;
-  border-radius: 5px !important;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  margin: auto;
-}
-
 .container h2 {
   font-size: 24px;
   font-family: 'Roboto Slab', serif;
