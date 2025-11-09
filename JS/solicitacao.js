@@ -6,7 +6,7 @@ let solicitacoes = [];
 let reposicoes = [];
 
 // -------------------------------
-// 1- UTILITÁRIOS
+// 1 - UTILITÁRIOS
 // -------------------------------
 
 // Mapear status do backend para frontend
@@ -57,7 +57,7 @@ async function atualizarStatusBackend(endpoint, id, novoStatus) {
 }
 
 // -------------------------------
-// 2- SOLICITAÇÕES
+// 2 - SOLICITAÇÕES
 // -------------------------------
 
 // Carrega solicitações do backend
@@ -179,7 +179,7 @@ async function voltarPendente(id) {
 }
 
 // -------------------------------
-// 3- REPOSIÇÕES DE ESTOQUE
+// 3 - REPOSIÇÕES DE ESTOQUE
 // -------------------------------
 
 // Carrega reposições do backend
@@ -259,7 +259,7 @@ async function finalizarReposicao(id) {
 }
 
 // -------------------------------
-// 4️⃣ INICIALIZAÇÃO
+// 4 - INICIALIZAÇÃO
 // -------------------------------
 document.addEventListener("DOMContentLoaded", () => {
   carregarSolicitacoesDoBackend();
