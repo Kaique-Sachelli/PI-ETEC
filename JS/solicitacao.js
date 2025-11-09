@@ -19,7 +19,8 @@ function normalizarStatus(status) {
     Pedido_Realizado: "aprovado",
     "Kit Pronto": "aprovado",
   };
-  const chave = status?.charAt(0).toUpperCase() + status?.slice(1).toLowerCase();
+  const chave =
+    status?.charAt(0).toUpperCase() + status?.slice(1).toLowerCase();
   return mapa[chave] || "pendente";
 }
 
@@ -49,8 +50,7 @@ async function atualizarStatusBackend(endpoint, id, novoStatus) {
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ status: novoStatus }),
     });
-    if (!response.ok) 
-      console.error("Erro ao atualizar status");
+    if (!response.ok) console.error("Erro ao atualizar status");
   } catch (error) {
     console.error("Erro de conexão:", error);
   }
@@ -64,19 +64,48 @@ async function atualizarStatusBackend(endpoint, id, novoStatus) {
 async function carregarSolicitacoesDoBackend() {
   try {
     const response = await fetch(`${API_BASE}/solicitacoes`);
-    if (!response.ok) 
-    throw new Error("Erro ao carregar solicitações");
+    if (!response.ok) throw new Error("Erro ao carregar solicitações");
     const dados = await response.json();
-    solicitacoes = dados.map(s => ({ ...s, status: normalizarStatus(s.statusPedido) }));
-
+    solicitacoes = dados.map((s) => ({
+      ...s,
+      status: normalizarStatus(s.statusPedido),
+    }));
   } catch (error) {
     console.error("Erro:", error);
     // fallback offline
     solicitacoes = [
-      { id: 1, periodo: "Vespertino", horario: "11:00 - 13:00", sala: "LAB1", status: "pendente", professor: "Fábio" },
-      { id: 2, periodo: "Diurno", horario: "14:00 - 17:00", sala: "A06", status: "aprovado", professor: "Ana" },
-      { id: 3, periodo: "Noturno", horario: "19:00 - 22:00", sala: "B04", status: "cancelado", professor: "Marcos" },
-      { id: 4, periodo: "Noturno", horario: "19:00 - 22:00", sala: "B04", status: "finalizado", professor: "Marcos" },
+      {
+        id: 1,
+        periodo: "Vespertino",
+        horario: "11:00 - 13:00",
+        sala: "LAB1",
+        status: "pendente",
+        professor: "Fábio",
+      },
+      {
+        id: 2,
+        periodo: "Diurno",
+        horario: "14:00 - 17:00",
+        sala: "A06",
+        status: "aprovado",
+        professor: "Ana",
+      },
+      {
+        id: 3,
+        periodo: "Noturno",
+        horario: "19:00 - 22:00",
+        sala: "B04",
+        status: "cancelado",
+        professor: "Marcos",
+      },
+      {
+        id: 4,
+        periodo: "Noturno",
+        horario: "19:00 - 22:00",
+        sala: "B04",
+        status: "finalizado",
+        professor: "Marcos",
+      },
     ];
   }
   carregarSolicitacoes();
@@ -94,7 +123,7 @@ function carregarSolicitacoes() {
       <span>Expandir</span>
     </div>
   `;
-  solicitacoes.forEach(s => {
+  solicitacoes.forEach((s) => {
     container.innerHTML += `
       <details class="${corStatus(s.status)}">
         <summary>
@@ -135,14 +164,17 @@ function carregarSolicitacoes() {
 
 // Botões conforme status
 function gerarBotoesSolicitacoes(status, id) {
-  if (status === "pendente") return `
+  if (status === "pendente")
+    return `
     <button class="btn btn-pronto" onclick="kitPronto(${id})">Devolver Kit</button>
     <button class="btn btn-cancelado" onclick="cancelar(${id})">Cancelar</button>`;
 
-  if (status === "aprovado") return `
+  if (status === "aprovado")
+    return `
     <button class="btn btn-devolvido" onclick="finalizar(${id})">Kit Pronto</button>`;
 
-  if (status === "cancelado") return `
+  if (status === "cancelado")
+    return `
     <button class="btn btn-pendente" onclick="voltarPendente(${id})">Reabrir Solicitação</button>`;
 
   return "";
@@ -152,28 +184,28 @@ function gerarBotoesSolicitacoes(status, id) {
 async function cancelar(id) {
   if (!confirm("Deseja cancelar esta solicitação?")) return;
   await atualizarStatusBackend("solicitacoes", id, "cancelado");
-  const s = solicitacoes.find(x => x.id === id);
+  const s = solicitacoes.find((x) => x.id === id);
   if (s) s.status = "cancelado";
   carregarSolicitacoes();
 }
 
 async function kitPronto(id) {
   await atualizarStatusBackend("solicitacoes", id, "aprovado");
-  const s = solicitacoes.find(x => x.id === id);
+  const s = solicitacoes.find((x) => x.id === id);
   if (s) s.status = "aprovado";
   carregarSolicitacoes();
 }
 
 async function finalizar(id) {
   await atualizarStatusBackend("solicitacoes", id, "finalizado");
-  const s = solicitacoes.find(x => x.id === id);
+  const s = solicitacoes.find((x) => x.id === id);
   if (s) s.status = "finalizado";
   carregarSolicitacoes();
 }
 
 async function voltarPendente(id) {
   await atualizarStatusBackend("solicitacoes", id, "pendente");
-  const s = solicitacoes.find(x => x.id === id);
+  const s = solicitacoes.find((x) => x.id === id);
   if (s) s.status = "pendente";
   carregarSolicitacoes();
 }
@@ -182,22 +214,24 @@ async function voltarPendente(id) {
 // 3 - REPOSIÇÕES DE ESTOQUE
 // -------------------------------
 
-// Carrega reposições do backend
 async function carregarReposicoesDoBackend() {
   try {
     const response = await fetch(`${API_BASE}/reposicoes`);
     reposicoes = await response.json();
   } catch (error) {
     console.error("Erro ao carregar reposições:", error);
-    // fallback offline
     reposicoes = [
-      { idReposicao: 1, dataPedido: "2025-10-12 15:00", status: "pendente", tecnico: "Fábio" },
+      {
+        idReposicao: 1,
+        dataPedido: "2025-10-12 15:00",
+        status: "pendente",
+        tecnico: "Fábio",
+      },
     ];
   }
   carregarReposicoes();
 }
 
-// Renderiza reposições no HTML
 function carregarReposicoes() {
   const container = document.querySelector(".containerprodutos .container");
   container.innerHTML = `
@@ -210,7 +244,7 @@ function carregarReposicoes() {
       <span>Expandir</span>
     </div>
   `;
-  reposicoes.forEach(r => {
+  reposicoes.forEach((r) => {
     container.innerHTML += `
       <details class="${corStatus(r.status)}">
         <summary>
@@ -229,9 +263,12 @@ function carregarReposicoes() {
               <p><strong>Técnico:</strong> ${r.tecnico}</p>
             </div>
             <div class="botoes col-3">
-             ${r.status !== "finalizado" ? 
-              `<button class="btn btn-finalizar" 
-              onclick="finalizarReposicao(${r.idReposicao})">Finalizar</button>` : ""}
+             ${
+               r.status !== "finalizado"
+                 ? `<button class="btn btn-finalizar" 
+              onclick="finalizarReposicao(${r.idReposicao})">Finalizar</button>`
+                 : ""
+             }
             </div>
           </div>
         </div>
@@ -240,15 +277,14 @@ function carregarReposicoes() {
   });
 }
 
-// Finaliza reposição
 async function finalizarReposicao(id) {
   try {
     await fetch(`${API_BASE}/reposicoes/${id}`, {
       method: "PUT",
       headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ status: "finalizado" })
+      body: JSON.stringify({ status: "finalizado" }),
     });
-    const r = reposicoes.find(rep => rep.idReposicao === id);
+    const r = reposicoes.find((rep) => rep.idReposicao === id);
     if (r) r.status = "finalizado";
     carregarReposicoes();
     alert("Reposição finalizada com sucesso!");
@@ -259,9 +295,30 @@ async function finalizarReposicao(id) {
 }
 
 // -------------------------------
+// 5 - FILTRO POR STATUS
+// -------------------------------
+
+// Cria os botões de filtro no topo da página
+function criarFiltros() {
+  const containerPai = document.querySelector(".container").parentElement;
+  const filtrosDiv = document.createElement("div");
+  filtrosDiv.className = "filtros-estados";
+  filtrosDiv.innerHTML = `
+    <button onclick="filtrarPorStatus('todos')" class="btn-filtro ativo">Todos</button>
+    <button onclick="filtrarPorStatus('aprovado')" class="btn-filtro">Aprovados</button>
+    <button onclick="filtrarPorStatus('pendente')" class="btn-filtro">Pendentes</button>
+    <button onclick="filtrarPorStatus('cancelado')" class="btn-filtro">Cancelados</button>
+    <button onclick="filtrarPorStatus('finalizado')" class="btn-filtro ">Finalizados</button>
+  `;
+  containerPai.prepend(filtrosDiv);
+}
+
+// -------------------------------
 // 4 - INICIALIZAÇÃO
 // -------------------------------
-document.addEventListener("DOMContentLoaded", () => {
-  carregarSolicitacoesDoBackend();
+
+document.addEventListener("DOMContentLoaded", async () => {
+  await carregarSolicitacoesDoBackend();
+  criarFiltros();
   carregarReposicoesDoBackend();
 });

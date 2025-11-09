@@ -399,7 +399,31 @@ button {
   text-align: center;
   margin-top: 20px;
 }
+.filtro-estados {
+  display: flex;
+  justify-content: center;
+  gap: 10px;
+  margin-top: 20px;
+}
 
+.btn-filtro {
+  background-color: #B20000;
+  color: white;
+  border: none;
+  border-radius: 8px;
+  padding: 10px 20px;
+  cursor: pointer;
+  transition: background-color 0.3s, transform 0.2s;
+}
+
+.btn-filtro:hover {
+  background-color: #8e0000;
+  transform: scale(1.05);
+}
+
+.btn-filtro.ativo {
+  background-color: #4c7eff;
+}
 footer {
   background-color: #000000;
   min-height: 250px;

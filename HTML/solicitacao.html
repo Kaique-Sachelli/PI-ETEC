@@ -65,7 +65,14 @@
       <button class="col-md-2 col-4 secao" data-role="adm" onclick="window.location.href='cadastro.html'">Cadastro</button>
     </div>
 
-
+    <!-- Container dos filtros -->
+    <div class="filtro-estados">
+      <button onclick="filtrarPorStatus('todos')" class="btn-filtro ativo">Todos</button>
+      <button onclick="filtrarPorStatus('aprovado')" class="btn-filtro">Aprovados</button>
+      <button onclick="filtrarPorStatus('pendente')" class="btn-filtro">Pendentes</button>
+      <button onclick="filtrarPorStatus('cancelado')" class="btn-filtro">Cancelados</button>
+      <button onclick="filtrarPorStatus('finalizado')" class="btn-filtro ">Finalizados</button>
+    </div>
     <!-- Container Principal -->
     <div class="container">
       <h2>Solicitações</h2>
@@ -417,7 +424,7 @@
       integrity="sha384-kenU1KFdBIe4zVF0s0G1M5b4hcpxyD9F7jL+jjXkk+Q2h455rYXK/7HAuoJl+0I4"
       crossorigin="anonymous"
     ></script>
-     <script type="module" src="../JS/sessao.js"></script>
+     <script type="module" src="../JS/essao.js"></script>
     <script src="../JS/solicitacao.js"></script>
   </body>
 </html>
