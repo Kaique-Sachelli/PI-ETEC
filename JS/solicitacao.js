@@ -6,7 +6,7 @@ let solicitacoes = [];
 let reposicoes = [];
 
 // -------------------------------
-// 1️⃣ UTILITÁRIOS
+// 1- UTILITÁRIOS
 // -------------------------------
 
 // Mapear status do backend para frontend
@@ -49,23 +49,26 @@ async function atualizarStatusBackend(endpoint, id, novoStatus) {
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ status: novoStatus }),
     });
-    if (!response.ok) console.error("Erro ao atualizar status");
+    if (!response.ok) 
+      console.error("Erro ao atualizar status");
   } catch (error) {
     console.error("Erro de conexão:", error);
   }
 }
 
 // -------------------------------
-// 2️⃣ SOLICITAÇÕES
+// 2- SOLICITAÇÕES
 // -------------------------------
 
 // Carrega solicitações do backend
 async function carregarSolicitacoesDoBackend() {
   try {
     const response = await fetch(`${API_BASE}/solicitacoes`);
-    if (!response.ok) throw new Error("Erro ao carregar solicitações");
+    if (!response.ok) 
+    throw new Error("Erro ao carregar solicitações");
     const dados = await response.json();
     solicitacoes = dados.map(s => ({ ...s, status: normalizarStatus(s.statusPedido) }));
+
   } catch (error) {
     console.error("Erro:", error);
     // fallback offline
@@ -176,7 +179,7 @@ async function voltarPendente(id) {
 }
 
 // -------------------------------
-// 3️⃣ REPOSIÇÕES DE ESTOQUE
+// 3- REPOSIÇÕES DE ESTOQUE
 // -------------------------------
 
 // Carrega reposições do backend
