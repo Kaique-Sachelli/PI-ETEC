@@ -1,4 +1,6 @@
-import { mostrarNotificao } from "./notificacao.js";
+
+import { mostrarNotificao } from "./notificacao.js"
+import { getToken, erroToken } from "./sessao.js"
 
 let kitSelecionado = [];
 let modoVisualizacao = "criar kits";
@@ -21,11 +23,19 @@ function adicionarAoKit(elemento) {
         ? parseInt(elemento.dataset.estoque, 10) || 0
         : parseFloat(elemento.dataset.estoque) || 0;
     const passoInicial = tipoElemento === 'reagente' ? 0.1 : 1;
+    const idProduto = elemento.dataset.idProduto;
     if (produtoExistente) {
         mostrarNotificao("Este produto já foi adicionado ao kit", "erro");
         return;
     }
-    kitSelecionado.push({ nome: nomeProduto, imagem: imagemProduto, quantidade: passoInicial, estoqueMax: estoque, tipo: tipoElemento});
+    kitSelecionado.push({
+        nome: nomeProduto,
+        imagem: imagemProduto,
+        quantidade: passoInicial,
+        estoqueMax: estoque,
+        tipo: tipoElemento,
+        idProduto: idProduto
+    });
     atualizarKit();
 }
 
@@ -107,9 +117,9 @@ function atualizarKit() {
         `;
 
 
-    const passo = item.tipo === 'reagente' ? 0.1 : 1;
-    div.querySelector(".mais").addEventListener("click", () => alterarQuantidade(index, passo));
-    div.querySelector(".menos").addEventListener("click", () => alterarQuantidade(index, -passo));
+        const passo = item.tipo === 'reagente' ? 0.1 : 1;
+        div.querySelector(".mais").addEventListener("click", () => alterarQuantidade(index, passo));
+        div.querySelector(".menos").addEventListener("click", () => alterarQuantidade(index, -passo));
         div.querySelector(".kit-qtd").addEventListener("change", (e) => {
             const raw = e.target.value;
             const parsed = item.tipo === 'vidraria' ? parseInt(raw, 10) : parseFloat(raw);
@@ -152,9 +162,22 @@ async function carregarProdutos() {
     if (!container) return;
     try {
         container.innerHTML = "";
+        const token = getToken();
         const [Vidrarias, Reagentes] = await Promise.all([
-            fetch('http://localhost:3000/vidrarias'),
-            fetch('http://localhost:3000/reagentes')
+            fetch('http://localhost:3000/vidrarias', {
+                method: "GET",
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': `Bearer ${token}`
+                }
+            }),
+            fetch('http://localhost:3000/reagentes', {
+                method: 'GET',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': `Bearer ${token}`
+                }
+            })
         ]);
         const dadosVidrarias = await Vidrarias.json();
         if (dadosVidrarias.sucesso) {
@@ -184,16 +207,18 @@ function renderizarItens(itens, container, tipo) {
         const btn = document.createElement("button");
         btn.className = `col-lg-3 col-md-4 col-sm-6 ${tipo}`; //
 
-        let nome, detalhe, quantidade;
+        let nome, detalhe, quantidade, idProduto;
 
         if (tipo === 'vidraria') {
             nome = item.nomeVidraria;
             detalhe = item.capacidade || '';
             quantidade = `${item.quantidade} und.`;
+            idProduto = item.idVidraria;
         } else {
             nome = item.nomeReagente;
             detalhe = '';
             quantidade = `${item.quantidade}g`;
+            idProduto = item.idReagente;
         }
         btn.innerHTML = `
             <img src="../Img/${imgNome}" alt="${nome}" class="${tipo}-img">
@@ -205,6 +230,7 @@ function renderizarItens(itens, container, tipo) {
             ? (parseInt(item.quantidade, 10) || 0)
             : (parseFloat(item.quantidade) || 0);
         btn.addEventListener("click", () => adicionarAoKit(btn));
+        btn.dataset.idProduto = idProduto;
 
         container.appendChild(btn);
     });
@@ -226,41 +252,31 @@ function inicializarEventos() {
             mostrarNotificao('Nenhum item selecionado!', 'erro')
             return;
         }
-
-        const nomes = kitSelecionado
-            .map(item => `${item.nome} — Quantidade: ${item.quantidade}`)
-            .join("\n• ");
-        alert("Kit finalizado com os seguintes itens:\n\n• " + nomes);
-
         const kitFinal = {
-            nomeKit : nome,
-            descricaoKit : descricao,
-            produtos : kitSelecionado
+            nomeKit: nome,
+            descricaoKit: descricao,
+            produtos: kitSelecionado
         }
-        console.log(kitFinal.nomeKit)
+        //função para salvar o kit
+        salvaKit(kitFinal);
     });
-//função para salvar o kit
-async function salvaKit(kit) {
-
-
-}
 }
 
 function alternarVisualizacao(tipo) {
     const containerCriarKits = document.querySelector("#containerCriarKits");
     const containerMeusKits = document.querySelector("#containerMeusKits");
-  
+
     if (tipo === "meus kits") {
-      modoVisualizacao = "meus kits";
-      containerCriarKits.style.display = "none";
-      containerMeusKits.style.display = "flex";
+        modoVisualizacao = "meus kits";
+        containerCriarKits.style.display = "none";
+        containerMeusKits.style.display = "flex";
     } else {
-      modoVisualizacao = "criar kits";
-      containerCriarKits.style.display = "flex";
-      containerMeusKits.style.display = "none";
+        modoVisualizacao = "criar kits";
+        containerCriarKits.style.display = "flex";
+        containerMeusKits.style.display = "none";
     }
- }
- 
+}
+
 document.addEventListener("DOMContentLoaded", () => {
     const opcoesFiltro = document.querySelectorAll(".submenu-link");
     opcoesFiltro.forEach(opcao => {
@@ -269,14 +285,52 @@ document.addEventListener("DOMContentLoaded", () => {
             const texto = opcao.textContent.trim().toLowerCase();
             let botaoCriarKits = document.getElementById("criarKits")
             let botaoMeusKits = document.getElementById("meusKits")
-            if (texto.includes("meus kits")) {alternarVisualizacao("meus kits")
+            if (texto.includes("meus kits")) {
+                alternarVisualizacao("meus kits")
                 botaoCriarKits.classList.remove('ativo')
                 botaoMeusKits.classList.add('ativo')
             };
-            if (texto.includes("criar kits")) {alternarVisualizacao("criar kits")
+            if (texto.includes("criar kits")) {
+                alternarVisualizacao("criar kits")
                 botaoMeusKits.classList.remove('ativo')
                 botaoCriarKits.classList.add('ativo')
             };
         });
     });
 });
+
+//Função de salvar kits
+async function salvaKit(kit) {
+    const token = getToken();
+    if (!token) {
+        erroToken();
+        return;
+    } else {
+        try {
+            const resposta = await fetch('http://localhost:3000/kits/salvar', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': `Bearer ${token}`
+                },
+                body: JSON.stringify(kit)
+            })
+            const dados = await resposta.json();
+            if (dados.sucesso) {
+                mostrarNotificao(dados.mensagem, 'sucesso')
+                kitSelecionado.length = 0;
+                atualizarKit();
+                jdocument.getElementById('nomeKit').value = ''
+                document.getElementById('descricaoKit').value = ''
+            } else {
+                mostrarNotificao(dados.mensagem, 'erro')
+                console.log(dados.erro)
+            }
+        } catch (error) {
+            mostrarNotificao('Não foi possivel salvar o kit. Erro de conexão', 'erro')
+            console.log(error.message)
+        }
+
+    }
+
+}
