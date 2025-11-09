@@ -154,49 +154,112 @@ function atualizarKit() {
 }
 document.addEventListener("DOMContentLoaded", () => {
     inicializarEventos()
-    carregarProdutos();
+    carregarProdutos('todos'); //inicia a pagina com todos os produtos em display
+    const linksFiltro = document.querySelectorAll(".filtro .submenu-link");
+    linksFiltro.forEach(link => {
+        link.addEventListener("click", (e) => {
+            e.preventDefault();
+            const filtro = e.target.getAttribute('data-filtro'); 
+            if (filtro) {
+                carregarProdutos(filtro);
+            }
+        });
+    });
+    const opcoesFiltro = document.querySelectorAll(".selecionar-funcao .submenu-link");
+    opcoesFiltro.forEach(opcao => {
+        opcao.addEventListener("click", (e) => {
+            e.preventDefault();
+            const texto = opcao.textContent.trim().toLowerCase();
+            let botaoCriarKits = document.getElementById("criarKits")
+            let botaoMeusKits = document.getElementById("meusKits")
+            if (texto.includes("meus kits")) {
+                alternarVisualizacao("meus kits")
+                botaoCriarKits.classList.remove('ativo')
+                botaoMeusKits.classList.add('ativo')
+            };
+            if (texto.includes("criar kits")) {
+                alternarVisualizacao("criar kits")
+                botaoMeusKits.classList.remove('ativo')
+                botaoCriarKits.classList.add('ativo')
+            };
+        });
+    });
 });
 
-async function carregarProdutos() {
+async function carregarProdutos(filtro) {
     const container = document.querySelector(".produtos-lista");
     if (!container) return;
     try {
         container.innerHTML = "";
         const token = getToken();
-        const [Vidrarias, Reagentes] = await Promise.all([
-            fetch('http://localhost:3000/vidrarias', {
+        if (filtro == "todos") {
+            //carrega todos os produtos
+            const [Vidrarias, Reagentes] = await Promise.all([
+                fetch('http://localhost:3000/vidrarias', {
+                    method: "GET",
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Authorization': `Bearer ${token}`
+                    }
+                }),
+                fetch('http://localhost:3000/reagentes', {
+                    method: 'GET',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Authorization': `Bearer ${token}`
+                    }
+                })
+            ]);
+            const dadosVidrarias = await Vidrarias.json();
+            if (dadosVidrarias.sucesso) {
+                renderizarItens(dadosVidrarias.vidrarias, container, 'vidraria');
+            }
+            else {
+                mostrarNotificao(dadosVidrarias.mensagem, 'erro')
+            }
+            const dadosReagentes = await Reagentes.json();
+            if (dadosReagentes.sucesso) {
+                renderizarItens(dadosReagentes.reagentes, container, 'reagente');
+            }
+            else {
+                mostrarNotificao(dadosReagentes.mensagem, 'erro')
+            }
+        } else if (filtro == 'vidraria') {
+            //carrega apenas vidrarias
+            const Vidrarias = await fetch('http://localhost:3000/vidrarias', {
                 method: "GET",
                 headers: {
                     'Content-Type': 'application/json',
                     'Authorization': `Bearer ${token}`
                 }
-            }),
-            fetch('http://localhost:3000/reagentes', {
+            })
+            const dadosVidrarias = await Vidrarias.json();
+            if (dadosVidrarias.sucesso) {
+                renderizarItens(dadosVidrarias.vidrarias, container, 'vidraria');
+            }
+            else {
+                mostrarNotificao(dadosVidrarias.mensagem, 'erro')
+            }
+
+        } else if (filtro == "reagente") {
+            const Reagentes = await fetch('http://localhost:3000/reagentes', {
                 method: 'GET',
                 headers: {
                     'Content-Type': 'application/json',
                     'Authorization': `Bearer ${token}`
                 }
             })
-        ]);
-        const dadosVidrarias = await Vidrarias.json();
-        if (dadosVidrarias.sucesso) {
-            renderizarItens(dadosVidrarias.vidrarias, container, 'vidraria');
-        }
-        else {
-            mostrarNotificao(dadosVidrarias.mensagem, 'erro')
-        }
-        const dadosReagentes = await Reagentes.json();
-        if (dadosReagentes.sucesso) {
-            renderizarItens(dadosReagentes.reagentes, container, 'reagente');
-        }
-        else {
-            mostrarNotificao(dadosReagentes.mensagem, 'erro')
+            const dadosReagentes = await Reagentes.json();
+            if (dadosReagentes.sucesso) {
+                renderizarItens(dadosReagentes.reagentes, container, 'reagente');
+            }
+            else {
+                mostrarNotificao(dadosReagentes.mensagem, 'erro')
+            }
         }
     } catch (error) {
         console.log(error.message)
         mostrarNotificao('Não foi possivel carregar o estoque. Tente novamente', "erro")
-
     }
 }
 
@@ -276,29 +339,6 @@ function alternarVisualizacao(tipo) {
         containerMeusKits.style.display = "none";
     }
 }
-
-document.addEventListener("DOMContentLoaded", () => {
-    const opcoesFiltro = document.querySelectorAll(".submenu-link");
-    opcoesFiltro.forEach(opcao => {
-        opcao.addEventListener("click", (e) => {
-            e.preventDefault();
-            const texto = opcao.textContent.trim().toLowerCase();
-            let botaoCriarKits = document.getElementById("criarKits")
-            let botaoMeusKits = document.getElementById("meusKits")
-            if (texto.includes("meus kits")) {
-                alternarVisualizacao("meus kits")
-                botaoCriarKits.classList.remove('ativo')
-                botaoMeusKits.classList.add('ativo')
-            };
-            if (texto.includes("criar kits")) {
-                alternarVisualizacao("criar kits")
-                botaoMeusKits.classList.remove('ativo')
-                botaoCriarKits.classList.add('ativo')
-            };
-        });
-    });
-});
-
 //Função de salvar kits
 async function salvaKit(kit) {
     const token = getToken();
@@ -320,7 +360,7 @@ async function salvaKit(kit) {
                 mostrarNotificao(dados.mensagem, 'sucesso')
                 kitSelecionado.length = 0;
                 atualizarKit();
-                jdocument.getElementById('nomeKit').value = ''
+                document.getElementById('nomeKit').value = ''
                 document.getElementById('descricaoKit').value = ''
             } else {
                 mostrarNotificao(dados.mensagem, 'erro')
