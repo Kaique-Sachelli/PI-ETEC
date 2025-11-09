@@ -204,7 +204,11 @@ function carregarReposicoes() {
   container.innerHTML = `
     <h2>Pedido para reposição de estoque</h2>
     <div class="tabela-cabecalho">
-      <span>Data</span><span></span><span></span><span>Status</span><span>Expandir</span>
+      <span>Data</span>
+      <span></span>
+      <span></span>
+      <span>Status</span>
+      <span>Expandir</span>
     </div>
   `;
   reposicoes.forEach(r => {
@@ -224,7 +228,8 @@ function carregarReposicoes() {
               <p><strong>Técnico:</strong> ${r.tecnico}</p>
             </div>
             <div class="botoes col-3">
-              ${r.status !== "finalizado" ? `<button class="btn btn-pronto" onclick="finalizarReposicao(${r.idReposicao})">Finalizar</button>` : ""}
+              ${r.status !== "finalizado" ? `<button class="btn btn-pronto" onclick="finalizarReposicao
+                (${r.idReposicao})">Finalizar</button>` : ""}
             </div>
           </div>
         </div>
