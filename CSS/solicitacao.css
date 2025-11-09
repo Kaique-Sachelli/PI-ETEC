@@ -353,10 +353,34 @@ button {
   background-color: #4acd51;
 }
 
+.containerprodutos .botoes {
+  display: flex;
+  justify-content: flex-end; /* empurra o botão pro canto direito */
+  width: 65%; /* garante que ocupe toda a largura */
+  margin-top: 10px;
+  height: 50%;
+}
+
+/* Aparência do botão "Finalizar" */
+.btn-finalizar {
+  background-color: #949494  !important;
+  font-weight: bold;
+  border: none;
+  border-radius: 8px;
+  padding: 8px 16px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+  cursor: pointer;
+  transition: 0.2s;
+  margin-left: 75%;
+}
+
+.btn-finalizar:hover {
+  background-color: #858585  !important;
+}
 .btn-pronto,
 .btn-devolvido, 
 .btn-cancelado,
-.btn-pendente {
+.btn-pendente{
   width: 150px;  
   height: 50px;  
   padding: 6px 8px !important;  

@@ -192,7 +192,6 @@ async function carregarReposicoesDoBackend() {
     // fallback offline
     reposicoes = [
       { idReposicao: 1, dataPedido: "2025-10-12 15:00", status: "pendente", tecnico: "Fábio" },
-      { idReposicao: 2, dataPedido: "2025-10-13 10:00", status: "pendente", tecnico: "Ana" }
     ];
   }
   carregarReposicoes();
@@ -228,8 +227,8 @@ function carregarReposicoes() {
               <p><strong>Técnico:</strong> ${r.tecnico}</p>
             </div>
             <div class="botoes col-3">
-              ${r.status !== "finalizado" ? `<button class="btn btn-pronto" onclick="finalizarReposicao
-                (${r.idReposicao})">Finalizar</button>` : ""}
+             ${r.status !== "finalizado" ? 
+              `<button class="btn btn-finalizar" onclick="finalizarReposicao(${r.idReposicao})">Finalizar</button>` : ""}
             </div>
           </div>
         </div>
