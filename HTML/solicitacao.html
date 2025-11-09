@@ -65,15 +65,34 @@
       <button class="col-md-2 col-4 secao" data-role="adm" onclick="window.location.href='cadastro.html'">Cadastro</button>
     </div>
 
-    <!-- Container dos filtros -->
-    <div class="filtro-estados">
-      <button onclick="filtrarPorStatus('todos')" class="btn-filtro ativo">Todos</button>
-      <button onclick="filtrarPorStatus('aprovado')" class="btn-filtro">Aprovados</button>
-      <button onclick="filtrarPorStatus('pendente')" class="btn-filtro">Pendentes</button>
-      <button onclick="filtrarPorStatus('cancelado')" class="btn-filtro">Cancelados</button>
-      <button onclick="filtrarPorStatus('finalizado')" class="btn-filtro ">Finalizados</button>
-    </div>
-    <!-- Container Principal -->
+
+
+    
+<ul class="filtro">
+  <li class="item">
+    <a href="#" class="link">
+      <span>Filtros</span>
+    </a>
+    <ul class="submenu">
+      <li class="submenu-item">
+        <a href="#" class="submenu-link" onclick="filtrarPorStatus('todos')">Todos</a>
+      </li>
+      <li class="submenu-item">
+        <a href="#" class="submenu-link" onclick="filtrarPorStatus('aprovado')">Aprovados</a>
+      </li>
+      <li class="submenu-item">
+        <a href="#" class="submenu-link" onclick="filtrarPorStatus('pendente')">Pendentes</a>
+      </li>
+      <li class="submenu-item">
+        <a href="#" class="submenu-link" onclick="filtrarPorStatus('cancelado')">Cancelados</a>
+      </li>
+      <li class="submenu-item">
+        <a href="#" class="submenu-link" onclick="filtrarPorStatus('finalizado')">Finalizados</a>
+      </li>
+    </ul>
+  </li>
+</ul>
+    
     <div class="container">
       <h2>Solicitações</h2>
       <!-- Cabeçalho da tabela -->

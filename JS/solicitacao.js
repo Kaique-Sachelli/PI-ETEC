@@ -298,20 +298,69 @@ async function finalizarReposicao(id) {
 // 5 - FILTRO POR STATUS
 // -------------------------------
 
-// Cria os botões de filtro no topo da página
-function criarFiltros() {
-  const containerPai = document.querySelector(".container").parentElement;
-  const filtrosDiv = document.createElement("div");
-  filtrosDiv.className = "filtros-estados";
-  filtrosDiv.innerHTML = `
-    <button onclick="filtrarPorStatus('todos')" class="btn-filtro ativo">Todos</button>
-    <button onclick="filtrarPorStatus('aprovado')" class="btn-filtro">Aprovados</button>
-    <button onclick="filtrarPorStatus('pendente')" class="btn-filtro">Pendentes</button>
-    <button onclick="filtrarPorStatus('cancelado')" class="btn-filtro">Cancelados</button>
-    <button onclick="filtrarPorStatus('finalizado')" class="btn-filtro ">Finalizados</button>
+
+
+//Função principal do filtro
+function filtrarPorStatus(status){
+  const botoes = document.querySelectorAll(".btn-filtro");
+  botoes.forEach(btn => btn.classList.remove("ativo"));
+  const btnAtivo = [...botoes].find(b => b.textContent.toLowerCase().includes(status));
+  if (btnAtivo) 
+    btnAtivo.classList.add("ativo");
+
+  let filtradas = solicitacoes;
+  if(status !== "todos"){
+    filtradas = solicitacoes.filter(s => s.status === status)
+  }
+  const container = document.querySelector(".container");
+  container.innerHTML=`
+    <div class="tabela-cabecalho">
+      <span>Período</span>
+      <span>Horário</span>
+      <span>Sala</span>
+      <span>Status</span>
+      <span>Expandir</span>
+    </div>
   `;
-  containerPai.prepend(filtrosDiv);
+  filtradas.forEach(s => {
+    container.innerHTML += `
+      <details class="${corStatus(s.status)}">
+        <summary>
+          <div class="linha">
+            <span>${s.periodo}</span>
+            <span>${s.horario}</span>
+            <span>${s.sala}</span>
+            <span class="status ${s.status}">${statusText(s.status)}</span>
+            <i class="bi bi-chevron-down seta">▼</i>
+          </div>
+        </summary>
+        <div class="detalhes-box">
+          <div class="row w-100">
+            <div class="coluna col-4">
+              <h4>Dados da Solicitação:</h4>
+              <p><strong>Professor:</strong> ${s.professor}</p>
+              <p><strong>Sala:</strong> ${s.sala}</p>
+              <p><strong>Data:</strong> ${s.dataSolicitacao || "--/--/--"}</p>
+            </div>
+            <div style="width:2px;border-right:2px solid black;height:150px;"></div>
+            <div class="coluna col-4">
+              <h4>Produtos Solicitados:</h4>
+              <ul>
+                <li>Item Exemplo - 1 und.</li>
+                <li>Item Exemplo - 2 und.</li>
+              </ul>
+            </div>
+            <div style="width:2px;border-right:2px solid black;height:150px;"></div>
+            <div class="botoes col-3">
+              ${gerarBotoesSolicitacoes(s.status, s.id)}
+            </div>
+          </div>
+        </div>
+      </details>
+    `;
+  });
 }
+
 
 // -------------------------------
 // 4 - INICIALIZAÇÃO

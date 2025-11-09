@@ -367,31 +367,82 @@ button {
   justify-content: center;
   margin: auto;
 }
-
-.containerprodutos .botoes {
-  display: flex;
-  justify-content: flex-end; /* empurra o botão pro canto direito */
-  width: 65%; /* garante que ocupe toda a largura */
-  margin-top: 10px;
-  height: 50%;
+/* 🌐 Container principal do menu */
+.filtro {
+  list-style: none;
+  margin: 20px 0;
+  padding: 0;
+  position: relative;
+  display: inline-block;
+  font-family: "Poppins", sans-serif;
 }
 
-/* Aparência do botão "Finalizar" */
-.btn-finalizar {
-  background-color: #949494  !important;
-  font-weight: bold;
-  border: none;
+/* 🔽 Item principal (botão Filtros) */
+.filtro .item {
+  position: relative;
+}
+
+.filtro .link {
+  display: block;
+  background-color: #b30000; /* vermelho escuro (igual seu topo Etec) */
+  color: #fff;
+  padding: 10px 20px;
   border-radius: 8px;
-  padding: 8px 16px;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
-  cursor: pointer;
-  transition: 0.2s;
-  margin-left: 75%;
+  text-decoration: none;
+  font-weight: 500;
+  transition: background 0.3s ease;
 }
 
-.btn-finalizar:hover {
-  background-color: #858585  !important;
+.filtro .link:hover {
+  background-color: #990000;
 }
+
+/* 🔽 Submenu escondido por padrão */
+.filtro .submenu {
+  display: none;
+  position: absolute;
+  top: 45px;
+  left: 0;
+  background-color: white;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  min-width: 180px;
+  z-index: 1000;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+/* 🔽 Mostrar submenu ao passar o mouse */
+.filtro .item:hover .submenu {
+  display: block;
+}
+
+/* 🔽 Itens do submenu */
+.filtro .submenu-item {
+  list-style: none;
+}
+
+.filtro .submenu-link {
+  display: block;
+  padding: 10px 15px;
+  color: #333;
+  text-decoration: none;
+  transition: background 0.3s ease, color 0.3s ease;
+}
+
+/* 🎨 Hover dos itens */
+.filtro .submenu-link:hover {
+  background-color: #b30000;
+  color: white;
+}
+
+/* 🔵 Botão ativo (status selecionado) */
+.submenu-link.ativo {
+  background-color: #007bff;
+  color: white;
+}
+
+
+
 .container h2 {
   font-size: 24px;
   font-family: 'Roboto Slab', serif;
@@ -399,7 +450,8 @@ button {
   text-align: center;
   margin-top: 20px;
 }
-.filtro-estados {
+
+.filtros-status {
   display: flex;
   justify-content: center;
   gap: 10px;
