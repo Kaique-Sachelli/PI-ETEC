@@ -1,5 +1,5 @@
 // Código do login
-import { mostrarNotificao } from "./notificacao.js";
+import { mostrarNotificacao } from "./notificacao.js";
 
 let campoEmail;
 let campoSenha;
@@ -21,24 +21,24 @@ document.addEventListener('DOMContentLoaded', () => {
                 });
                 const dados = await resposta.json();
                 if (dados.sucesso) {
-                    mostrarNotificao(dados.mensagem, 'sucesso')
+                    mostrarNotificacao(dados.mensagem, 'sucesso')
                     sessionStorage.setItem('token', dados.token) // cria o token
                     setTimeout(() => {
                         window.location.href = '../HTML/inicio.html';
                     }, 1000);
                 }
                 else {
-                    mostrarNotificao(dados.mensagem, 'erro')
+                    mostrarNotificacao(dados.mensagem, 'erro')
                     document.getElementById('emailLogin').value = ''
                     document.getElementById('senhaLogin').value = ''
 
                 }
             } catch (erro) {
-                 mostrarNotificao('Erro de conexão com o servidor', 'erro')
+                 mostrarNotificacao('Erro de conexão com o servidor', 'erro')
                 console.error('Erro ao tentar fazer login:', erro);
             }
         } else {
-            mostrarNotificao('Preencha todos os campos!', 'erro')
+            mostrarNotificacao('Preencha todos os campos!', 'erro')
         }
 
 

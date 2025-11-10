@@ -1,4 +1,4 @@
-import { mostrarNotificao } from "./notificacao.js"
+import { mostrarNotificacao } from "./notificacao.js"
 import { getToken, erroToken } from "./sessao.js"
 
 let kitSelecionado = [];
@@ -24,7 +24,7 @@ function adicionarAoKit(elemento) {
     const passoInicial = tipoElemento === 'reagente' ? 0.1 : 1;
     const idProduto = elemento.dataset.idProduto;
     if (produtoExistente) {
-        mostrarNotificao("Este produto já foi adicionado ao kit", "erro");
+        mostrarNotificacao("Este produto já foi adicionado ao kit", "erro");
         return;
     }
     kitSelecionado.push({
@@ -80,7 +80,7 @@ function atualizarQuantidadeManual(index, novaQtd) {
         return;
     }
     if (item.estoqueMax !== undefined && novaQtd > item.estoqueMax) {
-        mostrarNotificao('Quantidade ajustada para o máximo disponível no estoque.', 'erro');
+        mostrarNotificacao('Quantidade ajustada para o máximo disponível no estoque.', 'erro');
         item.quantidade = item.estoqueMax;
     } else {
         item.quantidade = novaQtd;
@@ -214,14 +214,14 @@ async function carregarProdutos(filtro) {
                 renderizarItens(dadosVidrarias.vidrarias, container, 'vidraria');
             }
             else {
-                mostrarNotificao(dadosVidrarias.mensagem, 'erro')
+                mostrarNotificacao(dadosVidrarias.mensagem, 'erro')
             }
             const dadosReagentes = await Reagentes.json();
             if (dadosReagentes.sucesso) {
                 renderizarItens(dadosReagentes.reagentes, container, 'reagente');
             }
             else {
-                mostrarNotificao(dadosReagentes.mensagem, 'erro')
+                mostrarNotificacao(dadosReagentes.mensagem, 'erro')
             }
         } else if (filtro == 'vidraria') {
             //carrega apenas vidrarias
@@ -237,7 +237,7 @@ async function carregarProdutos(filtro) {
                 renderizarItens(dadosVidrarias.vidrarias, container, 'vidraria');
             }
             else {
-                mostrarNotificao(dadosVidrarias.mensagem, 'erro')
+                mostrarNotificacao(dadosVidrarias.mensagem, 'erro')
             }
 
         } else if (filtro == "reagente") {
@@ -253,12 +253,12 @@ async function carregarProdutos(filtro) {
                 renderizarItens(dadosReagentes.reagentes, container, 'reagente');
             }
             else {
-                mostrarNotificao(dadosReagentes.mensagem, 'erro')
+                mostrarNotificacao(dadosReagentes.mensagem, 'erro')
             }
         }
     } catch (error) {
         console.log(error.message)
-        mostrarNotificao('Não foi possivel carregar o estoque. Tente novamente', "erro")
+        mostrarNotificacao('Não foi possivel carregar o estoque. Tente novamente', "erro")
     }
 }
 
@@ -311,7 +311,7 @@ function inicializarEventos() {
         const nome = document.getElementById('nomeKit').value
         const descricao = document.getElementById('descricaoKit').value
         if (kitSelecionado.length === 0) {
-            mostrarNotificao('Nenhum item selecionado!', 'erro')
+            mostrarNotificacao('Nenhum item selecionado!', 'erro')
             return;
         }
         const kitFinal = {
@@ -356,17 +356,17 @@ async function salvaKit(kit) {
             })
             const dados = await resposta.json();
             if (dados.sucesso) {
-                mostrarNotificao(dados.mensagem, 'sucesso')
+                mostrarNotificacao(dados.mensagem, 'sucesso')
                 kitSelecionado.length = 0;
                 atualizarKit();
                 document.getElementById('nomeKit').value = ''
                 document.getElementById('descricaoKit').value = ''
             } else {
-                mostrarNotificao(dados.mensagem, 'erro')
+                mostrarNotificacao(dados.mensagem, 'erro')
                 console.log(dados.erro)
             }
         } catch (error) {
-            mostrarNotificao('Não foi possivel salvar o kit. Erro de conexão', 'erro')
+            mostrarNotificacao('Não foi possivel salvar o kit. Erro de conexão', 'erro')
             console.log(error.message)
         }
     }

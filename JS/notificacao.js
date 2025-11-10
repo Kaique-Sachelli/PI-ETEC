@@ -1,4 +1,4 @@
-export function mostrarNotificao(mensagem, tipo) {
+export function mostrarNotificacao(mensagem, tipo) {
     let timerNotificacao = null;
     const notificação = document.getElementById('notificacao')
     clearTimeout(timerNotificacao)

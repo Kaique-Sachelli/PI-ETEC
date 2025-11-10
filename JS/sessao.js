@@ -1,11 +1,11 @@
-import { mostrarNotificao } from "./notificacao.js"
+import { mostrarNotificacao } from "./notificacao.js"
 
 //verifica token sempre que a página for iniciada
 document.addEventListener('DOMContentLoaded', () => {
     const token = sessionStorage.getItem('token');
     //logica para verificar o token de todas as paginas que forem carregadas
     if (!token) {
-        mostrarNotificao('Sessão inválida. Por favor, faça o login.', "erro");
+        mostrarNotificacao('Sessão inválida. Por favor, faça o login.', "erro");
         setTimeout(() => {
             window.location.href = '../HTML/login.html';
         }, 1000);
@@ -19,7 +19,7 @@ document.addEventListener('DOMContentLoaded', () => {
         
         if (payload.exp && payload.exp < agoraEmSegundos) {
             sessionStorage.removeItem('token');
-            mostrarNotificao('Sua sessão expirou. Por favor, faça o login novamente.', "erro");
+            mostrarNotificacao('Sua sessão expirou. Por favor, faça o login novamente.', "erro");
             window.location.href = '../HTML/login.html';
             return;
         }    
@@ -27,7 +27,7 @@ document.addEventListener('DOMContentLoaded', () => {
         // Se o token for inválido, limpa e redireciona para o login
         console.error("Erro ao decodificar o token:", e);
         sessionStorage.removeItem('token');
-        mostrarNotificao('Sessão inválida. Por favor, faça o login novamente.', 'erro');
+        mostrarNotificacao('Sessão inválida. Por favor, faça o login novamente.', 'erro');
         window.location.href = '../HTML/login.html';
     } 
     // logica para escutar o botao de sair
@@ -44,7 +44,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
 export function erroToken() {
     sessionStorage.removeItem("token")
-    mostrarNotificao('Token inválido. Por favor, faça o login.', "erro");
+    mostrarNotificacao('Token inválido. Por favor, faça o login.', "erro");
     setTimeout(() => {
         window.location.href = '../HTML/login.html';
     }, 1000);    
@@ -150,7 +150,7 @@ export function getToken() {
 //função para limpar a memoria do navegador apos logout
 function logOut() {
     sessionStorage.removeItem("token")
-    mostrarNotificao("Sessão encerrada com sucesso", "sucesso")
+    mostrarNotificacao("Sessão encerrada com sucesso", "sucesso")
     setTimeout(() => {
         window.location.href = "../HTML/login.html"
     }, 1000);
@@ -171,7 +171,7 @@ const tempoDeInatividade = 20 * 60 * 1000; //20 minutos em milisegundos
 function usuarioAtivo() {
     clearTimeout(timerInatividade);
     timerInatividade = setTimeout(() => {
-        mostrarNotificao("Sessão encerrada por inatividade.", "erro");
+        mostrarNotificacao("Sessão encerrada por inatividade.", "erro");
         encerrarSessao()
     }, tempoDeInatividade);
 }

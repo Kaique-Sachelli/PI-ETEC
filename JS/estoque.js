@@ -1,4 +1,4 @@
-import { mostrarNotificao } from "./notificacao.js";
+import { mostrarNotificacao } from "./notificacao.js";
 import { encerrarSessao, getToken } from "./sessao.js";
 
 
@@ -123,14 +123,14 @@ async function carregarProdutos(filtro) {
                 renderizarItens(dadosVidrarias.vidrarias, container, 'vidraria');
             }
             else {
-                mostrarNotificao(dadosVidrarias.mensagem, 'erro')
+                mostrarNotificacao(dadosVidrarias.mensagem, 'erro')
             }
             const dadosReagentes = await Reagentes.json();
             if (dadosReagentes.sucesso) {
                 renderizarItens(dadosReagentes.reagentes, container, 'reagente');
             }
             else {
-                mostrarNotificao(dadosReagentes.mensagem, 'erro')
+                mostrarNotificacao(dadosReagentes.mensagem, 'erro')
             }
         } else if (filtro == 'disponiveis') {
             const [Vidrarias, Reagentes] = await Promise.all([
@@ -152,19 +152,19 @@ async function carregarProdutos(filtro) {
                 renderizarItens(dadosVidrarias.vidrarias, container, 'vidraria');
             }
             else {
-                mostrarNotificao(dadosVidrarias.mensagem, 'erro')
+                mostrarNotificacao(dadosVidrarias.mensagem, 'erro')
             }
             const dadosReagentes = await Reagentes.json();
             if (dadosReagentes.sucesso) {
                 renderizarItens(dadosReagentes.reagentes, container, 'reagente');
             }
             else {
-                mostrarNotificao(dadosReagentes.mensagem, 'erro')
+                mostrarNotificacao(dadosReagentes.mensagem, 'erro')
             }    
         }
     } catch (error) {
         console.log(error.message)
-        mostrarNotificao('Não foi possivel carregar o estoque. Tente novamente', "erro")
+        mostrarNotificacao('Não foi possivel carregar o estoque. Tente novamente', "erro")
     }
 }
 

@@ -1,4 +1,4 @@
-// import { mostrarNotificao } from "./notificacao.js";
+// import { mostrarNotificacao } from "./notificacao.js";
 
 let dataAtual = new Date();
 let modoVisualizacao = "mes";

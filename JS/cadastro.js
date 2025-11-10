@@ -1,4 +1,4 @@
-import { mostrarNotificao } from "./notificacao.js";
+import { mostrarNotificacao } from "./notificacao.js";
 import { encerrarSessao, getToken } from "./sessao.js";
 
 // Declarei as variaveis antes de qualquer uso. Caso a declaração fique depois da função, os modulos que usam strict mode vão dar erro de referencia.
@@ -37,24 +37,24 @@ document.getElementById("formCadastro").addEventListener("submit", async (e) => 
             body: JSON.stringify({ nome, email, senha, login })
          })
          if (resposta.status == 403) {
-            mostrarNotificao("Acesso negado, sessão encerrada", "erro");
+            mostrarNotificacao("Acesso negado, sessão encerrada", "erro");
             encerrarSessao();
          } else {
             dados = await resposta.json()
             if (dados.sucesso) {
-               mostrarNotificao(dados.mensagem, 'sucesso')
+               mostrarNotificacao(dados.mensagem, 'sucesso')
                document.getElementById("formCadastro").reset()
             } else {
-               mostrarNotificao(dados.mensagem, 'erro')
+               mostrarNotificacao(dados.mensagem, 'erro')
             }
          }
       } catch (error) {
-         mostrarNotificao("erro ao se conectar com o servidor", error)
+         mostrarNotificacao("erro ao se conectar com o servidor", error)
          console.error("erro ao se conectar com o servidor", error)
       }
    }
    else {
-      mostrarNotificao("Preencha todos os campos!", 'erro')
+      mostrarNotificacao("Preencha todos os campos!", 'erro')
    }
 })
 
@@ -70,7 +70,7 @@ async function carregarUsuarios() {
          }
       })
       if (resposta.status == 403) {
-         mostrarNotificao("Acesso negado, sessão encerrada", "erro");
+         mostrarNotificacao("Acesso negado, sessão encerrada", "erro");
          encerrarSessao();
       } else {
          const dados = await resposta.json()
@@ -83,12 +83,12 @@ async function carregarUsuarios() {
                selectUsuarios.appendChild(option)
             })
          } else {
-            mostrarNotificao('falha ao carregar usuários', 'erro')
+            mostrarNotificacao('falha ao carregar usuários', 'erro')
             console.log(dados.mensagem)
          }
       }
    } catch (error) {
-      mostrarNotificao('Erro interno de conexão', 'erro')
+      mostrarNotificacao('Erro interno de conexão', 'erro')
       console.log(error)
    }
 }
@@ -113,7 +113,7 @@ async function dadosUsuario(id) {
          }
       })
       if (resposta.status == 403) {
-         mostrarNotificao("Acesso negado, sessão encerrada", "erro");
+         mostrarNotificacao("Acesso negado, sessão encerrada", "erro");
          encerrarSessao();
       } else {
          const dados = await resposta.json()
@@ -122,11 +122,11 @@ async function dadosUsuario(id) {
             document.getElementById("senhaAlterar").value = "" //retorna a senha vazia por segurança
             document.getElementById("loginAlterar").value = dados.usuario.permissao
          } else {
-            mostrarNotificao(dados.mensagem, "erro")
+            mostrarNotificacao(dados.mensagem, "erro")
          }
       }
    } catch (error) {
-      mostrarNotificao('Erro interno de conexão', 'erro')
+      mostrarNotificacao('Erro interno de conexão', 'erro')
       console.log(error)
    }
 }
@@ -142,7 +142,7 @@ async function atualizaUsuario(idUsuario, email, novaSenha, permissao) {
       body: JSON.stringify({ email, novaSenha, permissao, idUsuario })
    })
    if (resposta.status == 403) {
-      mostrarNotificao("Acesso negado, sessão encerrada", "erro");
+      mostrarNotificacao("Acesso negado, sessão encerrada", "erro");
       encerrarSessao();
    } else {
       dados = await resposta.json()
@@ -161,19 +161,19 @@ document.getElementById("alterarForm").addEventListener("submit", async (e) => {
       try {
          dados = await atualizaUsuario(idUsuario, email, senha, permissao)
          if (dados.sucesso) {
-            mostrarNotificao(dados.mensagem, 'sucesso')
+            mostrarNotificacao(dados.mensagem, 'sucesso')
             document.getElementById("alterarForm").reset()
             carregarUsuarios() //refresh nos usuários do banco
          } else {
-            mostrarNotificao(dados.mensagem, 'erro')
+            mostrarNotificacao(dados.mensagem, 'erro')
             console.log(dados.mensagem, 'erro')
          }
       } catch (error) {
-         mostrarNotificao('erro ao se conectar com o servidor', 'erro')
+         mostrarNotificacao('erro ao se conectar com o servidor', 'erro')
          console.log(error)
       }
    } else {
-      mostrarNotificao('Preencha todos os campos!', 'erro')
+      mostrarNotificacao('Preencha todos os campos!', 'erro')
    }
 })
 
