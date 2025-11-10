@@ -170,22 +170,22 @@ app.post("/usuarios/atualizar", verificarToken, async (req, res) => {
     return res.status(403).json({
       sucesso: false
     })
-   }else {
-     try {
-       const [result] = await pool.query(
-         'UPDATE usuario SET email = ?, senha = ?, permissao = ? WHERE idUsuario = ?',
-         [email, novaSenha, permissao, idUsuario]
-       );
-       res.json({
-         sucesso: true,
-         mensagem: 'Dados atualizados com sucesso!'
-       });
-     } catch (erro) {
-       res.json({
-         sucesso: false,
-         mensagem: 'Erro ao atualizar: ' + erro.message
-       })
-     }
+  } else {
+    try {
+      const [result] = await pool.query(
+        'UPDATE usuario SET email = ?, senha = ?, permissao = ? WHERE idUsuario = ?',
+        [email, novaSenha, permissao, idUsuario]
+      );
+      res.json({
+        sucesso: true,
+        mensagem: 'Dados atualizados com sucesso!'
+      });
+    } catch (erro) {
+      res.json({
+        sucesso: false,
+        mensagem: 'Erro ao atualizar: ' + erro.message
+      })
+    }
   }
 });
 
@@ -193,7 +193,7 @@ app.post("/usuarios/atualizar", verificarToken, async (req, res) => {
 app.get("/reagentes", verificarToken, async (req, res) => {
   try {
     const [rows] = await pool.query(
-      "SELECT nomeReagente,quantidade FROM Reagentes WHERE quantidade > 0"
+      "SELECT idReagente, nomeReagente,quantidade FROM Reagentes WHERE quantidade > 0"
     );
     res.json({
       sucesso: true,
@@ -211,7 +211,7 @@ app.get("/reagentes", verificarToken, async (req, res) => {
 app.get("/vidrarias", verificarToken, async (req, res) => {
   try {
     const [rows] = await pool.query(
-      "SELECT nomeVidraria,capacidade,quantidade FROM Vidrarias WHERE quantidade > 0"
+      "SELECT idVidraria,nomeVidraria,capacidade,quantidade FROM Vidrarias WHERE quantidade > 0"
     );
     res.json({
       sucesso: true,
@@ -368,7 +368,6 @@ app.get("/api/reposicao", verificarToken, async (req, res) => {
     res.status(500).json({ erro: "Erro ao buscar reposições" });
   }
 });
-
 app.post("/api/reposicao", verificarToken, async (req, res) => {
   const { idUsuario, observacao } = req.body;
   try {
@@ -408,5 +407,51 @@ app.put("/api/reposicao/:id", verificarToken, async (req, res) => {
     res.status(500).json({ erro: "Erro ao atualizar status: " + erro.message });
   }
 });
+//salvar kit
+app.post('/kits/salvar', verificarToken, async (req, res) => {
+  const idUsuario = req.usuario.idUsuario;
+  const { nomeKit, descricaoKit, produtos } = req.body;
+
+  if (!nomeKit || !produtos || produtos.length === 0) {
+    res.json({ sucesso: false, mensagem: 'Nome ou Produtos do kit faltando' })
+  }
+  let connection;
+  try {
+    connection = await pool.getConnection() // usa transação para garantir que nao haja kits fantamas
+    await connection.beginTransaction();
+    const [resultKit] = await connection.query(
+      'INSERT INTO Kits (idUsuario, nome, descrição) VALUES (?, ?, ?)',
+      [idUsuario, nomeKit, descricaoKit || null] //null se a descrição não vir
+    )
+    const idKit = resultKit.insertId;
+    for (const produto of produtos) {
+      if (produto.tipo == 'vidraria') {
+        await connection.query(
+          'INSERT INTO Kits_Vidrarias (idKit, idVidraria, quantidade) VALUES (?, ?, ?)',
+          [idKit, produto.idProduto, produto.quantidade]
+        )
+      } else if (produto.tipo == 'reagente') {
+        await connection.query(
+          'INSERT INTO Kits_Reagentes(idKit, idReagente, quantidade) VALUES(?, ?, ?)',
+          [idKit, produto.idProduto, produto.quantidade]
+        )
+      }
+    }
+    await connection.commit(); //salva a operação se TODOS os loops funcionarem
+    res.json({
+      sucesso: true,
+      mensagem: 'Kit salvo com sucesso!'
+    })
+  } catch (error) {
+    if (connection) await connection.rollback()
+    res.status(500).json({
+      sucesso: false,
+      mensagem: 'Houve um erro ao salvar o kit',
+      erro: error.message
+    })
+  }finally{
+    if(connection) connection.release(); //depois de toda operação libera a conexão
+  }
+})
 const PORTA = 3000;
 app.listen(PORTA, () => console.log(`🚀 Servidor rodando na porta ${PORTA}`));
