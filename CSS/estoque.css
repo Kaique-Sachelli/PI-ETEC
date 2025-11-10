@@ -157,6 +157,46 @@ body {
   border-bottom: 1px solid #ddd;
 }
 
+.vidraria, .reagente {
+  background-color: #fff;
+  border: 1px solid #e0e0e0;
+  border-radius: 10px;
+  padding: 10px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  width: 100%;          
+  aspect-ratio: 1 / 1;  
+  max-width: 120px;     
+  cursor: pointer;
+  transition: all 0.2s ease;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+}
+
+.vidraria:hover {
+  transform: scale(1.03);
+  box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+}
+
+.reagente:hover {
+  transform: scale(1.03);
+  box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+}
+
+.vidraria-img, .reagente-img {
+  width: 40px;
+  height: auto;
+  margin-bottom: 8px;
+}
+
+.vidraria, .reagente p {
+  font-size: 13px;
+  color: #333;
+  text-align: center;
+  line-height: 1.2;
+}
+
 .container-item {
   background-color: #fff;
   border: 1px solid #e0e0e0;
@@ -198,7 +238,7 @@ body {
   position: sticky;
   top: 0;
   z-index: 2;
-  padding: 15px;
+  padding: 5px 15px;
   text-align: center;
   align-self: flex-start;
   width: 100%;
@@ -211,6 +251,7 @@ body {
     font-family: 'Roboto Slab', serif;
     font-size: 32px !important;
     text-align: center;
+    margin-bottom: 10px;
 }
 
 .produtos-header-linha {
@@ -489,7 +530,7 @@ text-align: center;
   padding: 2px;
 }
 
-.solicitacao-container {
+.kit-container {
     background-color: #ffffff; 
     border-radius: 10px;     
     width: 250px;
@@ -545,20 +586,6 @@ text-align: center;
     flex-grow: 1;
 }
 
-.remover-item {
-    background-color: transparent;
-    border: none;
-    font-size: 1.2rem;
-    font-weight: bold;
-    cursor: pointer;
-    color: #ff4c4c;
-    transition: transform 0.2s;
-}
-
-.remover-item:hover {
-    transform: scale(1.2);
-}
-
 .solicitacao-title {
     color: #005c6d;
     margin: 0;
@@ -571,6 +598,52 @@ text-align: center;
     font-size: 5em;  
     font-weight: 300; 
     color: #555;
+}
+
+.qtd-btn {
+  background-color: transparent;
+  border: none;
+  font-size: 1.2rem;
+  cursor: pointer;
+  color: #333;
+  transition: transform 0.2s;
+}
+
+.qtd-btn:hover {
+  transform: scale(1.1);
+}
+
+/* Estado desabilitado do botão de quantidade (+) */
+.qtd-btn.disabled,
+.qtd-btn:disabled {
+color: #999 !important;
+cursor: not-allowed !important;
+transform: none !important;
+opacity: 0.7;
+}
+
+.qtd-btn:disabled:hover {
+transform: none;
+}
+
+.kit-qtd {
+  width: 40px;
+  text-align: center;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  padding: 2px;
+}
+
+/* O código abaixo foi feito com IA para tirar o seletor padrão dos navegadores: Chrome, Safari e Firefox */
+
+.kit-qtd::-webkit-inner-spin-button,
+.kit-qtd::-webkit-outer-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+.kit-qtd[type=number] {
+  -moz-appearance: textfield;
 }
 
 .botoes {
