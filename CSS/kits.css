@@ -360,7 +360,7 @@ details[open] .seta {
   border-radius: 16px 16px 0 0;
 }
 
-.filtro .item:hover .link::after {
+.filtro .item:hover .link::after {  
   transform: scaleX(1);
   transform-origin: right;
 }

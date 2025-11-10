@@ -68,28 +68,31 @@
 
 
     
-<ul class="filtro">
-  <li class="item">
-    <a href="#" class="link">
-      <span>Filtros</span>
-    </a>
-    <ul class="submenu">
-      <li class="submenu-item">
-        <a href="#" class="submenu-link" onclick="filtrarPorStatus('todos')">Todos</a>
-      </li>
-      <li class="submenu-item">
-        <a href="#" class="submenu-link" onclick="filtrarPorStatus('aprovado')">Pendente/Aprovados</a>
-      </li>
-      <li class="submenu-item">
-        <a href="#" class="submenu-link" onclick="filtrarPorStatus('cancelado')">Cancelados/Finalizados</a>
-      </li>
+    <h2 style="margin-left: 25px; margin-top: 25px;">Solicitações</h2>
 
-    </ul>
-  </li>
-</ul>
+    <!-- 🔽 CONTAINER DO FILTRO -->
+    <div class="container-filtro">
+      <ul class="filtro">
+        <li class="item">
+          <a href="#" class="link">
+            <span>Filtros</span>
+          </a>
+          <ul class="submenu">
+            <li class="submenu-item">
+              <a href="#" class="submenu-link" onclick="filtrarPorStatus('todos')">Todos</a>
+            </li>
+            <li class="submenu-item">
+              <a href="#" class="submenu-link" onclick="filtrarPorStatus('aprovado')">Pendentes / Aprovados</a>
+            </li>
+            <li class="submenu-item">
+              <a href="#" class="submenu-link" onclick="filtrarPorStatus('cancelado')">Cancelados / Finalizados</a>
+            </li>
+          </ul>
+        </li>
+      </ul>
+    </div>
     
-    <div class="container">
-      <h2>Solicitações</h2>
+    <div class="container"> 
       <!-- Cabeçalho da tabela -->
       <div class="tabela-cabecalho">
         <span>Período</span>
@@ -265,7 +268,7 @@
       </div>
     </details>
   </div>
-</div>
+
 
 
   <!-- Container de solicitação de produtos -->
@@ -438,7 +441,7 @@
       integrity="sha384-kenU1KFdBIe4zVF0s0G1M5b4hcpxyD9F7jL+jjXkk+Q2h455rYXK/7HAuoJl+0I4"
       crossorigin="anonymous"
     ></script>
-     <script type="module" src="../JS/sessao.js"></script>
+     <script type="module" src="../JS/essao.js"></script>
     <script src="../JS/solicitacao.js"></script>
   </body>
 </html>   

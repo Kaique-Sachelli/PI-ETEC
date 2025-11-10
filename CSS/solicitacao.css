@@ -392,19 +392,24 @@ justify-content: center;
 margin: auto;
 }
 
-/* 🌐 Container principal do menu */
-.filtro {
-  font-size: 16px;
-  line-height: 1.6;
-  color: #000000;
-  width: fit-content;
+.container-filtro {
   display: flex;
+  justify-content: flex-end;
+  position: relative;
+  top: 10px; /* distancia abaixo do título */
+  margin-bottom: 25px;
+  /* 🧭 Ajuste fino pra alinhar com “Expandir” */
+  margin-right: 115px; /* ajuste horizontal — altere esse valor se necessário */
+  z-index: 1000;
+}
+
+/* 🔹 Ajustes visuais */
+.filtro {
+  font-size: 18px;
+  color: #000;
   list-style: none;
   padding: 0;
-  margin-bottom: 20px;
-  margin-left: 85%;
-  margin-top: 20px;
-  margin-right: 30px;
+  margin: 0;
 }
 
 .filtro a {
@@ -414,21 +419,22 @@ margin: auto;
   font-size: inherit;
   line-height: inherit;
 }
+
 .filtro .link {
-  position: relative;
-  display: flex;
-  align-items: center;
-  justify-content: center;
   gap: 12px;
-  padding: 16px 50px; /* 🔼 Aumenta o tamanho */
-  font-size: 20px; /* 🔼 Letras maiores */
-  border-radius: 16px;
   overflow: hidden;
   transition: all 0.48s cubic-bezier(0.23, 1, 0.32, 1);
-  border: 1px solid #aaa;
-  background-color: #fff;
+  border: 1px solid #ddd;
+  padding: 15px 45px;  /* 🔸 antes era 12px 36px → ligeiramente maior */
+  font-size: 17px;     /* 🔸 aumenta a fonte */
+  border-radius: 18px; /* bordas mais suaves */
 }
 
+.filtro .link:hover {
+  background-color: #e0f4f7;
+}
+
+/* Efeito hover */
 .filtro .link::after {
   content: "";
   position: absolute;
@@ -440,13 +446,14 @@ margin: auto;
   z-index: -1;
   transform: scaleX(0);
   transform-origin: left;
-  transition: transform 0.48s cubic-bezier(0.23, 1, 0.32, 1);
+  transition: transform 0.4s ease;
 }
 
 .filtro .item {
   position: relative;
   
 }
+
 .filtro .item .submenu {
   display: flex;
   flex-direction: column;
@@ -465,7 +472,7 @@ margin: auto;
   z-index: 1;
   pointer-events: none;
   list-style: none;
-  padding: 0;
+  padding:0px;
   background-color: white;
 }
 
@@ -475,17 +482,11 @@ margin: auto;
   transform: translateY(0);
   pointer-events: auto;
   border-top: transparent;
-  border-color: #ddd;
 }
 
 .filtro .item:hover .link {
-  color: #000000;
-  border-radius: 16px 16px 0 0;
-}
-
-.filtro .item:hover .link::after {
-  transform: scaleX(1);
-  transform-origin: right;
+  color: #000;
+  border-radius: 18px 18px 0 0;
 }
 
 .filtro .submenu-item {
@@ -494,18 +495,20 @@ margin: auto;
 
 .filtro .submenu-link {
   display: block;
-  padding: 10px;
+  padding: 12px;
   text-align: center;
   color: #000;
+  font-weight: 500;
   text-decoration: none;
   transition: background 0.3s;
 }
 
 .filtro .submenu-link:hover {
-  background-color: #f0f0f0;
+  background-color: #e0f4f7;
 }
 
-.container h2 {
+
+h2 {
 font-size: 24px;
 font-family: 'Roboto Slab', serif;
 color: #005c6d;
