@@ -3,6 +3,8 @@ const bodyParser = require("body-parser");
 const jwt = require("jsonwebtoken");
 const cors = require("cors");
 const pool = require("../PI-ETEC/JS/conexao.js");
+const bcrypt = require('bcrypt');
+const saltrounds = 10;
 
 const app = express();
 app.use(cors());
@@ -44,28 +46,32 @@ app.post("/login", async (req, res) => {
 
   try {
     const [rows] = await pool.query(
-      "SELECT * FROM usuario WHERE email = ? AND senha = ?",
-      [email, senha]
+      "SELECT * FROM usuario WHERE email = ?",
+      [email]
     );
 
     if (rows.length > 0) {
       const usuario = rows[0];
-      //popula o token com as informações do usuario
-      const payload = {
-        idUsuario: usuario.idUsuario,
-        nome: usuario.nome,
-        permissao: usuario.permissao,
-      };
-      //cria e assina o token
-      const token = jwt.sign(payload, JWT_SECRET, { expiresIn: '1h' }); // Token expira em 1 hora
-
-      res.json({
-        sucesso: true,
-        mensagem: "Login realizado com sucesso!",
-        token: token,
-      });
+      const match = await bcrypt.compare(senha, usuario.senha);
+      if (match) {
+        //popula o token com as informações do usuario
+        const payload = {
+          idUsuario: usuario.idUsuario,
+          nome: usuario.nome,
+          permissao: usuario.permissao
+        };
+        //cria e assina o token
+        const token = jwt.sign(payload, JWT_SECRET, { expiresIn: '1h' }); // Token expira em 1 hora
+        res.json({
+          sucesso: true,
+          mensagem: "Login realizado com sucesso!",
+          token: token,
+        });        
+      } else {
+        res.json({ sucesso: false, mensagem: "Email ou senha incorretos." });        
+      }
     } else {
-      res.json({ sucesso: false, mensagem: "Email ou senha incorretos." });
+        res.json({ sucesso: false, mensagem: "Email ou senha incorretos." });        
     }
   } catch (erro) {
     res.status(500).json({ erro: erro.message });
@@ -82,9 +88,10 @@ app.post("/cadastro", verificarToken, async (req, res) => {
     })
   } else {
     try {
+      const hashSenha = await bcrypt.hash(senha, saltrounds) //Não salva mais senhas em texto puro
       const [result] = await pool.query(
         'INSERT INTO usuario (nome, email, senha, permissao) VALUES (?, ?, ?, ?)',
-        [nome, email, senha, login]
+        [nome, email, hashSenha, login]
       );
       res.json({
         sucesso: true,
@@ -170,22 +177,23 @@ app.post("/usuarios/atualizar", verificarToken, async (req, res) => {
     return res.status(403).json({
       sucesso: false
     })
-  } else {
+   }else {
     try {
-      const [result] = await pool.query(
-        'UPDATE usuario SET email = ?, senha = ?, permissao = ? WHERE idUsuario = ?',
-        [email, novaSenha, permissao, idUsuario]
-      );
-      res.json({
-        sucesso: true,
-        mensagem: 'Dados atualizados com sucesso!'
-      });
-    } catch (erro) {
-      res.json({
-        sucesso: false,
-        mensagem: 'Erro ao atualizar: ' + erro.message
-      })
-    }
+      const hashSenha = await bcrypt.hash(novaSenha, saltrounds) //Não salva mais senhas em texto puro
+       const [result] = await pool.query(
+         'UPDATE usuario SET email = ?, senha = ?, permissao = ? WHERE idUsuario = ?',
+         [email, hashSenha, permissao, idUsuario]
+       );
+       res.json({
+         sucesso: true,
+         mensagem: 'Dados atualizados com sucesso!'
+       });
+     } catch (erro) {
+       res.json({
+         sucesso: false,
+         mensagem: 'Erro ao atualizar: ' + erro.message
+       })
+     }
   }
 });
 

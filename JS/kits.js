@@ -369,7 +369,5 @@ async function salvaKit(kit) {
             mostrarNotificao('Não foi possivel salvar o kit. Erro de conexão', 'erro')
             console.log(error.message)
         }
-
     }
-
 }
