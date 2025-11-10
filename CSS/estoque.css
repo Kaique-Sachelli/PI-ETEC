@@ -530,7 +530,7 @@ text-align: center;
   padding: 2px;
 }
 
-.solicitacao-container {
+.kit-container {
     background-color: #ffffff; 
     border-radius: 10px;     
     width: 250px;
@@ -586,20 +586,6 @@ text-align: center;
     flex-grow: 1;
 }
 
-.remover-item {
-    background-color: transparent;
-    border: none;
-    font-size: 1.2rem;
-    font-weight: bold;
-    cursor: pointer;
-    color: #ff4c4c;
-    transition: transform 0.2s;
-}
-
-.remover-item:hover {
-    transform: scale(1.2);
-}
-
 .solicitacao-title {
     color: #005c6d;
     margin: 0;
@@ -612,6 +598,52 @@ text-align: center;
     font-size: 5em;  
     font-weight: 300; 
     color: #555;
+}
+
+.qtd-btn {
+  background-color: transparent;
+  border: none;
+  font-size: 1.2rem;
+  cursor: pointer;
+  color: #333;
+  transition: transform 0.2s;
+}
+
+.qtd-btn:hover {
+  transform: scale(1.1);
+}
+
+/* Estado desabilitado do botão de quantidade (+) */
+.qtd-btn.disabled,
+.qtd-btn:disabled {
+color: #999 !important;
+cursor: not-allowed !important;
+transform: none !important;
+opacity: 0.7;
+}
+
+.qtd-btn:disabled:hover {
+transform: none;
+}
+
+.kit-qtd {
+  width: 40px;
+  text-align: center;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  padding: 2px;
+}
+
+/* O código abaixo foi feito com IA para tirar o seletor padrão dos navegadores: Chrome, Safari e Firefox */
+
+.kit-qtd::-webkit-inner-spin-button,
+.kit-qtd::-webkit-outer-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+.kit-qtd[type=number] {
+  -moz-appearance: textfield;
 }
 
 .botoes {
