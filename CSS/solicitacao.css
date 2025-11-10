@@ -394,78 +394,116 @@ margin: auto;
 
 /* 🌐 Container principal do menu */
 .filtro {
+  font-size: 16px;
+  line-height: 1.6;
+  color: #000000;
+  width: fit-content;
+  display: flex;
   list-style: none;
-  margin: 20px 0;
   padding: 0;
-  position: relative;
-  display: inline-block;
-  font-family: "Poppins", sans-serif;
+  margin-bottom: 20px;
+  margin-left: 85%;
+  margin-top: 20px;
+  margin-right: 30px;
 }
 
-/* 🔽 Item principal (botão Filtros) */
+.filtro a {
+  text-decoration: none;
+  color: inherit;
+  font-family: inherit;
+  font-size: inherit;
+  line-height: inherit;
+}
+.filtro .link {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  padding: 16px 50px; /* 🔼 Aumenta o tamanho */
+  font-size: 20px; /* 🔼 Letras maiores */
+  border-radius: 16px;
+  overflow: hidden;
+  transition: all 0.48s cubic-bezier(0.23, 1, 0.32, 1);
+  border: 1px solid #aaa;
+  background-color: #fff;
+}
+
+.filtro .link::after {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: #ffffff;
+  z-index: -1;
+  transform: scaleX(0);
+  transform-origin: left;
+  transition: transform 0.48s cubic-bezier(0.23, 1, 0.32, 1);
+}
+
 .filtro .item {
   position: relative;
+  
 }
-
-.filtro .link {
-  display: block;
-  background-color: #b30000; /* vermelho escuro (igual seu topo Etec) */
-  color: #fff;
-  padding: 10px 20px;
-  border-radius: 8px;
-  text-decoration: none;
-  font-weight: 500;
-  transition: background 0.3s ease;
-}
-
-.filtro .link:hover {
-  background-color: #990000;
-}
-
-/* 🔽 Submenu escondido por padrão */
-.filtro .submenu {
-  display: none;
+.filtro .item .submenu {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
   position: absolute;
-  top: 45px;
+  top: 100%;
+  border-radius: 0 0 16px 16px;
   left: 0;
-  background-color: white;
-  border: 1px solid #ccc;
-  border-radius: 8px;
-  min-width: 180px;
-  z-index: 1000;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-}
-
-/* 🔽 Mostrar submenu ao passar o mouse */
-.filtro .item:hover .submenu {
-  display: block;
-}
-
-/* 🔽 Itens do submenu */
-.filtro .submenu-item {
+  width: 100%;
+  overflow: hidden;
+  border: 1px solid #000000;
+  opacity: 0;
+  visibility: hidden;
+  transform: translateY(-12px);
+  transition: all 0.48s cubic-bezier(0.23, 1, 0.32, 1);
+  z-index: 1;
+  pointer-events: none;
   list-style: none;
+  padding: 0;
+  background-color: white;
+}
+
+.filtro .item:hover .submenu {
+  opacity: 1;
+  visibility: visible;
+  transform: translateY(0);
+  pointer-events: auto;
+  border-top: transparent;
+  border-color: #ddd;
+}
+
+.filtro .item:hover .link {
+  color: #000000;
+  border-radius: 16px 16px 0 0;
+}
+
+.filtro .item:hover .link::after {
+  transform: scaleX(1);
+  transform-origin: right;
+}
+
+.filtro .submenu-item {
+  width: 100%;
 }
 
 .filtro .submenu-link {
   display: block;
-  padding: 10px 15px;
-  color: #333;
+  padding: 10px;
+  text-align: center;
+  color: #000;
   text-decoration: none;
-  transition: background 0.3s ease, color 0.3s ease;
+  transition: background 0.3s;
 }
 
-/* 🎨 Hover dos itens */
 .filtro .submenu-link:hover {
-  background-color: #b30000;
-  color: white;
+  background-color: #f0f0f0;
 }
-
-/* 🔵 Botão ativo (status selecionado) */
-.submenu-link.ativo {
-  background-color: #007bff;
-  color: white;
-}
-
 
 .container h2 {
 font-size: 24px;
