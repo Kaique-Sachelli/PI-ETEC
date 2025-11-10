@@ -81,47 +81,90 @@ function atualizarKit() {
 }
 
 document.addEventListener("DOMContentLoaded", () => {
-    carregarProdutos();
+    carregarProdutos("indisponiveis"); //inicia a pagina com todos os produtos indisponiveis em display
+    const linksFiltro = document.querySelectorAll(".filtro .submenu-link");
+    linksFiltro.forEach(link => {
+        link.addEventListener("click", (e) => {
+            e.preventDefault();
+            const filtro = e.target.getAttribute('data-filtro'); 
+            if (filtro) {
+                carregarProdutos(filtro);
+            }
+        });
+    });
 });
 
-async function carregarProdutos() {
+async function carregarProdutos(filtro) {
     const container = document.querySelector(".produtos-lista");
     if (!container) return;
     try {
-        const token = getToken();
         container.innerHTML = "";
-        const [Vidrarias, Reagentes] = await Promise.all([
-            fetch('http://localhost:3000/vidrarias',{
-                'method': 'GET',
-                headers: {
-                   'Authorization': `Bearer ${token}`
-                }
-            }),
-            fetch('http://localhost:3000/reagentes',{
-                'method': 'GET',
-                headers: {
-                   'Authorization': `Bearer ${token}`
-                }
-            })
-        ]);
-        const dadosVidrarias = await Vidrarias.json();
-        if (dadosVidrarias.sucesso) {
-            renderizarItens(dadosVidrarias.vidrarias, container, 'vidraria');
-        }
-        else {
-            mostrarNotificao(dadosVidrarias.mensagem, 'erro')
-        }
-        const dadosReagentes = await Reagentes.json();
-        if (dadosReagentes.sucesso) {
-            renderizarItens(dadosReagentes.reagentes, container, 'reagente');
-        }
-        else {
-            mostrarNotificao(dadosReagentes.mensagem, 'erro')
+        const token = getToken();
+        if (filtro == "indisponiveis") {
+            //carrega todos os produtos
+            const [Vidrarias, Reagentes] = await Promise.all([
+                fetch('http://localhost:3000/vidrarias/indisponiveis', {
+                    method: "GET",
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Authorization': `Bearer ${token}`
+                    }
+                }),
+                fetch('http://localhost:3000/reagentes/indisponiveis', {
+                    method: 'GET',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Authorization': `Bearer ${token}`
+                    }
+                })
+            ]);
+            const dadosVidrarias = await Vidrarias.json();
+            if (dadosVidrarias.sucesso) {
+                renderizarItens(dadosVidrarias.vidrarias, container, 'vidraria');
+            }
+            else {
+                mostrarNotificao(dadosVidrarias.mensagem, 'erro')
+            }
+            const dadosReagentes = await Reagentes.json();
+            if (dadosReagentes.sucesso) {
+                renderizarItens(dadosReagentes.reagentes, container, 'reagente');
+            }
+            else {
+                mostrarNotificao(dadosReagentes.mensagem, 'erro')
+            }
+        } else if (filtro == 'disponiveis') {
+            const [Vidrarias, Reagentes] = await Promise.all([
+                fetch('http://localhost:3000/vidrarias',{
+                    'method': 'GET',
+                    headers: {
+                       'Authorization': `Bearer ${token}`
+                    }
+                }),
+                fetch('http://localhost:3000/reagentes',{
+                    'method': 'GET',
+                    headers: {
+                       'Authorization': `Bearer ${token}`
+                    }
+                })
+            ]);
+            const dadosVidrarias = await Vidrarias.json();
+            if (dadosVidrarias.sucesso) {
+                renderizarItens(dadosVidrarias.vidrarias, container, 'vidraria');
+            }
+            else {
+                mostrarNotificao(dadosVidrarias.mensagem, 'erro')
+            }
+            const dadosReagentes = await Reagentes.json();
+            if (dadosReagentes.sucesso) {
+                renderizarItens(dadosReagentes.reagentes, container, 'reagente');
+            }
+            else {
+                mostrarNotificao(dadosReagentes.mensagem, 'erro')
+            }    
         }
     } catch (error) {
         console.log(error.message)
         mostrarNotificao('Não foi possivel carregar o estoque. Tente novamente', "erro")
-
     }
 }
 
