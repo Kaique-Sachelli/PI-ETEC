@@ -5,6 +5,8 @@ body {
     padding: 0; /* Remove paddings do body */
 }
 
+
+/* Começo do código cabecalho */
 .cabecalho h2 {
   font-size: 30px !important;
   color: black;
@@ -47,15 +49,16 @@ body {
   margin-top: 10px;
   margin-left: 20px;
 }
+/* Fim do código cabecalho */
 
-/* Dropdown Button */
+
+/* Começo do código icone do usuário + botão de sair */
 .dropbtn {
   padding: 16px;
   font-size: 16px;
   border: none;
 }
 
-/* The container <div> - needed to position the dropdown content */
 .dropdown {
   position: relative;
   display: inline-block;
@@ -72,7 +75,6 @@ body {
   height: auto;
 }
 
-/* Dropdown Content (Hidden by Default) */
 .dropdown-content {
   display: none;
   position: absolute;
@@ -82,7 +84,6 @@ body {
   right: 0;
 }
 
-/* Links inside the dropdown */
 .dropdown-content a {
   color: black;
   padding: 15px 40px;
@@ -90,18 +91,13 @@ body {
   display: block;
 }
 
-/* Show the dropdown menu on hover */
 .dropdown:hover .dropdown-content {
   display: block;
 }
+/* Fim do código icone do usuário */
 
-.linha-preta {
-  width: 60%;
-  height: 2px;
-  background-color: black;
-  margin: 0 auto;
-}
 
+/* Início código navbar */
 .navbar {
   background-color: #B20000;
 }
@@ -121,7 +117,10 @@ body {
   background-color: #BA1A1A; /* Cor um pouco mais escura ao passar o mouse */
   cursor: pointer;
 }
+/* Fim do código navbar */
 
+
+/* ------Texto principal------ */
 .container-principal {
   width: 100%;
   height: auto;
@@ -132,8 +131,10 @@ body {
   display: flexbox;
   justify-content: space-around;
 }
+/* ------ Fim do código do texto------ */
 
-/* Botões Cadastrar / Alterar */
+
+/* Começo co código visualização única */
 .selecionar-funcao {
   display: inline-flex;
   background-color: #f2f2f2;
@@ -173,6 +174,13 @@ body {
   background-color: #e5e5e5;
 }
 
+#containerMeusKits {
+  display: none;
+}
+/* Fim do código visualização única */
+
+
+/* Início do código dos produtos */
 .container-produtos {
   background-color: #ffffff;
   align-items: end;
@@ -241,7 +249,6 @@ body {
   line-height: 1.2;
 }
 
-/* Cabeçalho fixo */
 .produtos-header {
   background-color: #ffffff;
   position: sticky;
@@ -264,10 +271,10 @@ body {
 
 .produtos-header-linha {
   display: flex;
-  justify-content: space-between; /* um em cada extremo */
-  align-items: center;            /* centraliza verticalmente */
+  justify-content: space-between;
+  align-items: center;
   width: 100%;
-  margin-top: 10px;               /* espaço abaixo do título */
+  margin-top: 10px;
 }
 
 .filtro {
@@ -383,39 +390,39 @@ details[open] .seta {
 }
 
 .barra-pesquisa{
-    display: flex;
-    line-height: 28px;
-    align-items: center;
-    position: relative;
-    max-width: 190px;
+  display: flex;
+  line-height: 28px;
+  align-items: center;
+  position: relative;
+  max-width: 190px;
 }
 
 .input {
- width: 100%;
- height: 40px;
- line-height: 28px;
- padding: 0 1rem;
- padding-left: 2.5rem;
- border: 2px solid transparent;
- border-radius: 8px;
- outline: none;
- background-color: #f8f8f8;
- color: #0d0c22;
- transition: .3s ease;
+  width: 100%;
+  height: 40px;
+  line-height: 28px;
+  padding: 0 1rem;
+  padding-left: 2.5rem;
+  border: 2px solid transparent;
+  border-radius: 8px;
+  outline: none;
+  background-color: #f8f8f8;
+  color: #0d0c22;
+  transition: .3s ease;
 }
 
 .input::placeholder {
- color: #9e9ea7;
+  color: #9e9ea7;
 }
 
 .input:focus {
-  border-color: #b20000; /* 🔹 destaque ao focar */
+  border-color: #b20000;
   box-shadow: 0 0 5px rgba(178, 0, 0, 0.3);
 }
 
 .descricao {
- padding: 10px;
- width: 100%;
+  padding: 10px;
+  width: 100%;
 }
 
 .input-kit {
@@ -434,7 +441,6 @@ details[open] .seta {
   box-shadow: 0 0 5px rgba(178, 0, 0, 0.3);
 }
 
-
 .icon {
  position: absolute;
  left: 1rem;
@@ -443,70 +449,72 @@ details[open] .seta {
  height: 1rem;
 }
 
+
+/* Começo do código Container Kit */
 .kit-container {
-    background-color: #ffffff; 
-    border-radius: 10px;        
-    padding: 25px; 
-    display: flex;
-    flex-direction: column; 
-    justify-content: space-between; 
-    align-items: center;
-    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
-    overflow: hidden;
-    font-family: 'Roboto', sans-serif;
+  background-color: #ffffff; 
+  border-radius: 10px;        
+  padding: 25px; 
+  display: flex;
+  flex-direction: column; 
+  justify-content: space-between; 
+  align-items: center;
+  box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+  overflow: hidden;
+  font-family: 'Roboto', sans-serif;
 }
 
 .kit-lista {
-    width: 100%;
-    margin-top: 10px;
-    overflow-y: auto;  /* scroll */
-    flex-grow: 1;
-    padding: 10px;
-    max-height: 250px;
-    border-top: 1px solid #ddd;
-    border-bottom: 1px solid #ddd;
+  width: 100%;
+  margin-top: 10px;
+  overflow-y: auto;  /* scroll */
+  flex-grow: 1;
+  padding: 10px;
+  max-height: 250px;
+  border-top: 1px solid #ddd;
+  border-bottom: 1px solid #ddd;
 }
 
 .kit-item {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    gap: 10px;
-    margin-bottom: 8px;
-    width: 100%;
-    padding: 5px 10px;
-    background-color: #fff;
-    border: 1px solid #ccc; 
-    border-radius: 8px;
-    box-shadow: 0 1px 3px rgba(0,0,0,0.1);
-    flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  margin-bottom: 8px;
+  width: 100%;
+  padding: 5px 10px;
+  background-color: #fff;
+  border: 1px solid #ccc; 
+  border-radius: 8px;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+  flex-shrink: 0;
 }
 
 .kit-img {
-    width: 40px;
-    height: 40px;
-    object-fit: cover;
-    border-radius: 6px;
+  width: 40px;
+  height: 40px;
+  object-fit: cover;
+  border-radius: 6px;
 }
 
 .kit-nome {
-    font-size: 0.9rem;
-    color: #333;
-    flex-grow: 1;
+  font-size: 0.9rem;
+  color: #333;
+  flex-grow: 1;
 }
 
 .remover-item {
-    background-color: transparent;
-    border: none;
-    font-size: 1.2rem;
-    font-weight: bold;
-    cursor: pointer;
-    color: #ff4c4c;
-    transition: transform 0.2s;
+  background-color: transparent;
+  border: none;
+  font-size: 1.2rem;
+  font-weight: bold;
+  cursor: pointer;
+  color: #ff4c4c;
+  transition: transform 0.2s;
 }
 
 .remover-item:hover {
-    transform: scale(1.2);
+  transform: scale(1.2);
 }
 
 .kit-title {
@@ -518,33 +526,31 @@ details[open] .seta {
 }
 
 .add-icon {
-    font-size: 5em;  
-    font-weight: 300; 
-    color: #555;
+  font-size: 5em;  
+  font-weight: 300; 
+  color: #555;
 }
 
-
 .kit-qtd-container {
-    display: flex;
-    align-items: center;
-    gap: 10px; /* Espaçamento entre os elementos */
-    margin: 0 5px; /* Margem nas laterais */
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin: 0 5px;
 }
 
 .qtd-btn {
-    background-color: transparent;
-    border: none;
-    font-size: 1.2rem;
-    cursor: pointer;
-    color: #333;
-    transition: transform 0.2s;
+  background-color: transparent;
+  border: none;
+  font-size: 1.2rem;
+  cursor: pointer;
+  color: #333;
+  transition: transform 0.2s;
 }
 
 .qtd-btn:hover {
-    transform: scale(1.1);
+  transform: scale(1.1);
 }
 
-/* Estado desabilitado do botão de quantidade (+) */
 .qtd-btn.disabled,
 .qtd-btn:disabled {
   color: #999 !important;
@@ -558,38 +564,36 @@ details[open] .seta {
 }
 
 .kit-qtd {
-    width: 40px;
-    text-align: center;
-    border: 1px solid #ccc;
-    border-radius: 4px;
-    padding: 2px;
+  width: 40px;
+  text-align: center;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  padding: 2px;
 }
 
 /* O código abaixo foi feito com IA para tirar o seletor padrão dos navegadores: Chrome, Safari e Firefox */
-
 .kit-qtd::-webkit-inner-spin-button,
 .kit-qtd::-webkit-outer-spin-button {
-    -webkit-appearance: none;
-    margin: 0;
+  -webkit-appearance: none;
+  margin: 0;
 }
 
 .kit-qtd[type=number] {
-    -moz-appearance: textfield;
+  -moz-appearance: textfield;
 }
-
 /* Fim do código da IA */
 
 .finalizar-button {
-    background-color: #3ACF1F;
-    color: #ffffff;
-    border: none;
-    border-radius: 8px;
-    padding: 15px;
-    width: 95%;
-    font-size: 1.2em;
-    font-weight: 500;
-    cursor: pointer; 
-    transition: background-color 0.3s; 
+  background-color: #3ACF1F;
+  color: #ffffff;
+  border: none;
+  border-radius: 8px;
+  padding: 15px;
+  width: 95%;
+  font-size: 1.2em;
+  font-weight: 500;
+  cursor: pointer; 
+  transition: background-color 0.3s; 
 }
 
 .finalizar-button:hover {
@@ -599,69 +603,10 @@ details[open] .seta {
 .finalizar-button:active {
   background-color: #80E96D;
 }
+/* Fim do código Container Kit */
 
-footer {
-  background-color: #000000;
-  min-height: 250px;
-  padding: 30px;
-  margin-top: 100px !important;
-  font-family: 'Roboto', sans-serif;
-}
 
-footer .row {
-  display: flexbox;
-  justify-content: space-around;
-}
-
-footer .secao {
-  min-height: 150px;
-  min-width: 230px;
-}
-
-footer h3 {
-  font-family: 'Roboto Slab', serif;
-  font-size: x-large;
-  color: #fff;
-  margin-bottom: 20px;
-}
-
-footer .texto {
-  color: rgb(191, 191, 191);
-}
-
-footer .secao .icones {
-  font-size: 30px;
-  margin-top: 10px;
-}
-
-footer .linha-footer {
-  width: 70%;
-  height: 2px;
-  margin: 30px auto;
-  background-color: rgb(128, 128, 128);
-}
-
-.icones {
-  display: flex;
-  gap: 15px;
-  margin-top: 10px;
-}
-
-.icones a {
-  text-decoration: none; /* Remove o sublinhado dos links */
-}
-
-.icones-rede {
-  width: 40px;
-  height: 40px;
-  object-fit: contain; /* Redimensiona a imagem para caber no contêiner */
-  transition: transform 0.3s;
-}
-
-.icones-rede:hover {
-  transform: scale(1.1); /* Efeito de zoom */
-}
-
+/* Começo do código meus kits */
 .kits-scroll {
   flex-grow: 1;
   overflow-y: auto;
@@ -699,7 +644,6 @@ summary::-webkit-details-marker {
   display: none;
 }
 
-/* Cores principais das linhas */
 .verde summary {
   background-color: #ffffff;
   border-left: 4px solid #ddd;
@@ -721,7 +665,6 @@ details[open] .seta {
   transform: rotate(180deg);
 }
 
-/* Caixa de detalhes */
 .detalhes-box {
   background-color: #f5f5f5;
   border-radius: 10px;
@@ -805,41 +748,105 @@ details[open] .seta {
   width: auto;
   margin-left: 0;
 }
+/* Fim do código meus kits */
 
-#containerMeusKits {
-  display: none;
+
+/* Começo do código footer */
+footer {
+  background-color: #000000;
+  min-height: 250px;
+  padding: 30px;
+  margin-top: 100px !important;
+  font-family: 'Roboto', sans-serif;
 }
 
+footer .row {
+  display: flexbox;
+  justify-content: space-around;
+}
+
+footer .secao {
+  min-height: 150px;
+  min-width: 230px;
+}
+
+footer h3 {
+  font-family: 'Roboto Slab', serif;
+  font-size: x-large;
+  color: #fff;
+  margin-bottom: 20px;
+}
+
+footer .texto {
+  color: rgb(191, 191, 191);
+}
+
+footer .secao .icones {
+  font-size: 30px;
+  margin-top: 10px;
+}
+
+footer .linha-footer {
+  width: 70%;
+  height: 2px;
+  margin: 30px auto;
+  background-color: rgb(128, 128, 128);
+}
+
+.icones {
+  display: flex;
+  gap: 15px;
+  margin-top: 10px;
+}
+
+.icones a {
+  text-decoration: none; /* Remove o sublinhado dos links */
+}
+
+.icones-rede {
+  width: 40px;
+  height: 40px;
+  object-fit: contain; /* Redimensiona a imagem para caber no contêiner */
+  transition: transform 0.3s;
+}
+
+.icones-rede:hover {
+  transform: scale(1.1);
+}
+/* Fim do código footer */
+
+
+/* Começo do código notificação */
 #notificacao {
-    position: fixed; 
-    top: 20px;
-    right: 20px;
-    padding: 16px 24px;
-    border-radius: 8px;
-    font-size: 16px;
-    font-weight: 500;
-    color: white;
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
-    z-index: 1001;
-    
- 
-    opacity: 0;
-    transform: translateX(150%);
-
-    transition: transform 0.5s ease-out, opacity 0.5s ease-out;
+  position: fixed; 
+  top: 20px;
+  right: 20px;
+  padding: 16px 24px;
+  border-radius: 8px;
+  font-size: 16px;
+  font-weight: 500;
+  color: white;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+  z-index: 1001;
+  opacity: 0;
+  transform: translateX(150%);
+  transition: transform 0.5s ease-out, opacity 0.5s ease-out;
 }
+
 #notificacao.show {
-    opacity: 1;
-    transform: translateX(0);
+  opacity: 1;
+  transform: translateX(0);
 }
-
 
 #notificacao.sucesso {
-    background-color: #28a745; 
+  background-color: #28a745; 
 }
+
 .produto-quantidade {
   font-weight: 700;
 }
+
 #notificacao.erro {
-    background-color: #BA1A1A;
+  background-color: #BA1A1A;
 }
+/* Fim do código notificação */
