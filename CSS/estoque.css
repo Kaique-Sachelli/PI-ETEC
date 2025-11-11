@@ -114,7 +114,7 @@ body {
 }
 
 .navbar .secao:hover {
-  background-color: #BA1A1A; /* Cor um pouco mais escura ao passar o mouse */
+  background-color: #7e0000; /* Cor um pouco mais escura ao passar o mouse */
   cursor: pointer;
 }
 
