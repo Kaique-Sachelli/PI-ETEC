@@ -66,7 +66,15 @@
 
     <!-- Container principal -->
     <div class="container-principal mt-2 p-5">
+
+        <!-- Visualização única -->
+        <ul class="selecionar-funcao">
+            <li><button id="solicitar" class="submenu-link ativo">Solicitar</button></li>
+            <li><button id="gerenciar" class="submenu-link">Gerenciar</button></li>
+        </ul>
+
         <div id="notificacao">notificacao</div>
+
         <div class="row">
 
 
@@ -123,14 +131,24 @@
 
             <!-- Divisoria entre o container produtos e o container produtos indisponíveis -->
 
-            <!-- Container solicitar reposição estoque -->
-            <div class="kit-container col-lg-5 col-md-12 col-sm-12 ">
+            <!-- Container solicitar reposição de estoque -->
+            <div class="kit-container-solicitar col-lg-5 col-md-12 col-sm-12" id="containerSolicitar">
                 <h2 class="solicitacao-title">Solicitar material</h2>
                 <div class="descricao">
                     <p class="mt-4"> Descrição (opcional): </p>
                     <input class="input-kit" type="text" id="descricaoKit">
                 </div>
-                <div class="kit-lista"></div>
+                <div class="kit-lista-solicitar"></div>
+                <div class="botoes">
+                    <button class="confirmar-button">Confirmar</button>
+                    <button class="cancelar-button">Cancelar</button>
+                </div>
+            </div>
+
+            <!-- Container gerenciar estoque -->
+            <div class="kit-container-gerenciar col-lg-5 col-md-12 col-sm-12" id="containerGerenciar">
+                <h2 class="solicitacao-title">Gerenciar estoque</h2>
+                <div class="kit-lista-gerenciar"></div>
                 <div class="botoes">
                     <button class="confirmar-button">Confirmar</button>
                     <button class="cancelar-button">Cancelar</button>

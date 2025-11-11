@@ -3,22 +3,25 @@ import { encerrarSessao, getToken } from "./sessao.js";
 
 
 let kitSelecionado = [];
+let modoVisualizacao = "solicitar";
 
 function adicionarAoKit(elemento) {
     const nomeProduto = elemento.querySelector("p").innerText.trim();
     const imagemProduto = elemento.querySelector("img").getAttribute("src");
     const produtoExistente = kitSelecionado.find(item => item.nome === nomeProduto);
     if (produtoExistente) {
-        alert("Este produto já foi adicionado ao kit");
+        mostrarNotificacao("Este produto já foi adicionado ao kit", "erro");
         return;
     }
     kitSelecionado.push({ nome: nomeProduto, imagem: imagemProduto, quantidade: 1 });
-    atualizarKit();
+    solicitarMaterial();
+    gerenciarEstoque()
 }
 
 function removerDoKit(index) {
     kitSelecionado.splice(index, 1);
-    atualizarKit();
+    solicitarMaterial();
+    gerenciarEstoque()
 }
 
 function alterarQuantidade(index, delta) {
@@ -26,25 +29,68 @@ function alterarQuantidade(index, delta) {
     const novaQtd = item.quantidade + delta;
     if (novaQtd >= 1) {
         item.quantidade = novaQtd;
-        atualizarKit();
+        solicitarMaterial();
+        gerenciarEstoque()
     }
 }
 
 function atualizarQuantidadeManual(index, novaQtd) {
     if (novaQtd <= 0 || isNaN(novaQtd)) {
-        alert("Quantidade inválida!");
+        mostrarNotificacao("Quantidade inválida!", "erro");
         return;
     }
     kitSelecionado[index].quantidade = novaQtd;
-    atualizarKit();
+    solicitarMaterial();
+    gerenciarEstoque()
 }
 
-function atualizarKit() {
-    const kitContainer = document.querySelector(".kit-container");
-    let listaContainer = kitContainer.querySelector(".kit-lista");
+function solicitarMaterial() {
+    const kitContainer = document.querySelector(".kit-container-solicitar");
+    let listaContainer = kitContainer.querySelector(".kit-lista-solicitar");
     if (!listaContainer) {
         listaContainer = document.createElement("div");
-        listaContainer.classList.add("kit-lista");
+        listaContainer.classList.add("kit-lista-solicitar");
+        kitContainer.insertBefore(listaContainer, kitContainer.querySelector(".finalizar-button"));
+    }
+    listaContainer.innerHTML = "";
+
+    kitSelecionado.forEach((item, index) => {
+        const div = document.createElement("div");
+        div.classList.add("kit-item");
+
+        div.innerHTML = `
+            <img src="${item.imagem}" alt="${item.nome}" class="kit-img">
+            <span class="kit-nome">${item.nome}</span>
+
+            <div class="kit-qtd-container">
+                <button class="qtd-btn mais">+</button>
+                <input type="number" min="1" value="${item.quantidade}" class="kit-qtd" title="Quantidade">
+                <button class="qtd-btn menos">−</button>
+            </div>
+
+            <button class="remover-item">&times;</button>
+        `;
+
+        div.querySelector(".mais").addEventListener("click", () => alterarQuantidade(index, +1));
+        div.querySelector(".menos").addEventListener("click", () => alterarQuantidade(index, -1));
+        div.querySelector(".kit-qtd").addEventListener("change", (e) => {
+            atualizarQuantidadeManual(index, parseInt(e.target.value, 10));
+        });
+
+        div.querySelector(".remover-item").addEventListener("click", () => removerDoKit(index));
+
+        listaContainer.appendChild(div);
+    });
+    const addIcon = document.querySelector(".add-icon");
+    if (addIcon) addIcon.style.display = kitSelecionado.length > 0 ? "none" : "block";
+}
+
+function gerenciarEstoque() {
+    const kitContainer = document.querySelector(".kit-container-gerenciar");
+    let listaContainer = kitContainer.querySelector(".kit-lista-gerenciar");
+    if (!listaContainer) {
+        listaContainer = document.createElement("div");
+        listaContainer.classList.add("kit-lista-gerenciar");
         kitContainer.insertBefore(listaContainer, kitContainer.querySelector(".finalizar-button"));
     }
     listaContainer.innerHTML = "";
@@ -89,6 +135,11 @@ document.addEventListener("DOMContentLoaded", () => {
             const filtro = e.target.getAttribute('data-filtro'); 
             if (filtro) {
                 carregarProdutos(filtro);
+            }
+            if (filtro == "indisponiveis") {
+                document.querySelector(".produtos-title").innerHTML = "Produtos indisponíveis"
+            } else if (filtro == "disponiveis") {
+                document.querySelector(".produtos-title").innerHTML = "Produtos disponíveis"
             }
         });
     });
@@ -207,3 +258,58 @@ function renderizarItens(itens, container, tipo) {
         container.appendChild(btn);
     });
 }
+
+// Visualização Única
+function alternarVisualizacao(tipo) {
+    const containerSolicitar = document.querySelector("#containerSolicitar");
+    const containerGerenciar = document.querySelector("#containerGerenciar");
+
+    if (tipo === "gerenciar") {
+        modoVisualizacao = "gerenciar";
+        containerSolicitar.style.display = "none";
+        containerGerenciar.style.display = "flex";
+    } else {
+        modoVisualizacao = "solicitar";
+        containerSolicitar.style.display = "flex";
+        containerGerenciar.style.display = "none";
+    }
+}
+
+document.addEventListener("DOMContentLoaded", () => {
+    const opcoesFiltro = document.querySelectorAll(".submenu-link");
+    opcoesFiltro.forEach(opcao => {
+        opcao.addEventListener("click", (e) => {
+            e.preventDefault();
+            const texto = opcao.textContent.trim().toLowerCase();
+            let botaoSolicitar = document.getElementById("solicitar")
+            let botaoGerenciar = document.getElementById("gerenciar")
+            if (texto.includes("gerenciar")) {
+                alternarVisualizacao("gerenciar")
+                botaoSolicitar.classList.remove('ativo')
+                botaoGerenciar.classList.add('ativo')
+                kitSelecionado = []
+                document.querySelector(".kit-lista-gerenciar").innerHTML = ""
+            };
+            if (texto.includes("solicitar")) {
+                alternarVisualizacao("solicitar")
+                botaoGerenciar.classList.remove('ativo')
+                botaoSolicitar.classList.add('ativo')
+                kitSelecionado = []
+                document.querySelector(".kit-lista-solicitar").innerHTML = ""
+            };
+        });
+    });
+});
+
+document.querySelectorAll('.cancelar-button').forEach(button => {
+    button.addEventListener('click', () => {
+        if (kitSelecionado.length == 0) {
+            return
+        } else {
+            kitSelecionado = [];
+            document.querySelector('.kit-lista-solicitar').innerHTML = ""
+            document.querySelector('.kit-lista-gerenciar').innerHTML = ""
+            mostrarNotificacao("Processo encerrado, materiais removidos", "sucesso");
+        }
+    });
+});
