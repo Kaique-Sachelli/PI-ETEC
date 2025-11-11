@@ -10,7 +10,7 @@ function adicionarAoKit(elemento) {
     const imagemProduto = elemento.querySelector("img").getAttribute("src");
     const produtoExistente = kitSelecionado.find(item => item.nome === nomeProduto);
     if (produtoExistente) {
-        alert("Este produto já foi adicionado ao kit");
+        mostrarNotificacao("Este produto já foi adicionado ao kit", "erro");
         return;
     }
     kitSelecionado.push({ nome: nomeProduto, imagem: imagemProduto, quantidade: 1 });
@@ -36,7 +36,7 @@ function alterarQuantidade(index, delta) {
 
 function atualizarQuantidadeManual(index, novaQtd) {
     if (novaQtd <= 0 || isNaN(novaQtd)) {
-        alert("Quantidade inválida!");
+        mostrarNotificacao("Quantidade inválida!", "erro");
         return;
     }
     kitSelecionado[index].quantidade = novaQtd;
