@@ -3,6 +3,7 @@ import { encerrarSessao, getToken } from "./sessao.js";
 
 
 let kitSelecionado = [];
+let modoVisualizacao = "solicitar";
 
 function adicionarAoKit(elemento) {
     const nomeProduto = elemento.querySelector("p").innerText.trim();
@@ -200,3 +201,41 @@ function renderizarItens(itens, container, tipo) {
         container.appendChild(btn);
     });
 }
+
+// Visualização Única
+function alternarVisualizacao(tipo) {
+    const containerSolicitar = document.querySelector("#containerSolicitar");
+    const containerGerenciar = document.querySelector("#containerGerenciar");
+
+    if (tipo === "gerenciar") {
+        modoVisualizacao = "gerenciar";
+        containerSolicitar.style.display = "none";
+        containerGerenciar.style.display = "flex";
+    } else {
+        modoVisualizacao = "solicitar";
+        containerSolicitar.style.display = "flex";
+        containerGerenciar.style.display = "none";
+    }
+}
+
+document.addEventListener("DOMContentLoaded", () => {
+    const opcoesFiltro = document.querySelectorAll(".submenu-link");
+    opcoesFiltro.forEach(opcao => {
+        opcao.addEventListener("click", (e) => {
+            e.preventDefault();
+            const texto = opcao.textContent.trim().toLowerCase();
+            let botaoSolicitar = document.getElementById("solicitar")
+            let botaoGerenciar = document.getElementById("gerenciar")
+            if (texto.includes("gerenciar")) {
+                alternarVisualizacao("gerenciar")
+                botaoSolicitar.classList.remove('ativo')
+                botaoGerenciar.classList.add('ativo')
+            };
+            if (texto.includes("solicitar")) {
+                alternarVisualizacao("solicitar")
+                botaoGerenciar.classList.remove('ativo')
+                botaoSolicitar.classList.add('ativo')
+            };
+        });
+    });
+});
