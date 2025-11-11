@@ -14,12 +14,14 @@ function adicionarAoKit(elemento) {
         return;
     }
     kitSelecionado.push({ nome: nomeProduto, imagem: imagemProduto, quantidade: 1 });
-    atualizarKit();
+    solicitarMaterial();
+    gerenciarEstoque()
 }
 
 function removerDoKit(index) {
     kitSelecionado.splice(index, 1);
-    atualizarKit();
+    solicitarMaterial();
+    gerenciarEstoque()
 }
 
 function alterarQuantidade(index, delta) {
@@ -27,7 +29,8 @@ function alterarQuantidade(index, delta) {
     const novaQtd = item.quantidade + delta;
     if (novaQtd >= 1) {
         item.quantidade = novaQtd;
-        atualizarKit();
+        solicitarMaterial();
+        gerenciarEstoque()
     }
 }
 
@@ -37,15 +40,57 @@ function atualizarQuantidadeManual(index, novaQtd) {
         return;
     }
     kitSelecionado[index].quantidade = novaQtd;
-    atualizarKit();
+    solicitarMaterial();
+    gerenciarEstoque()
 }
 
-function atualizarKit() {
-    const kitContainer = document.querySelector(".kit-container");
-    let listaContainer = kitContainer.querySelector(".kit-lista");
+function solicitarMaterial() {
+    const kitContainer = document.querySelector(".kit-container-solicitar");
+    let listaContainer = kitContainer.querySelector(".kit-lista-solicitar");
     if (!listaContainer) {
         listaContainer = document.createElement("div");
-        listaContainer.classList.add("kit-lista");
+        listaContainer.classList.add("kit-lista-solicitar");
+        kitContainer.insertBefore(listaContainer, kitContainer.querySelector(".finalizar-button"));
+    }
+    listaContainer.innerHTML = "";
+
+    kitSelecionado.forEach((item, index) => {
+        const div = document.createElement("div");
+        div.classList.add("kit-item");
+
+        div.innerHTML = `
+            <img src="${item.imagem}" alt="${item.nome}" class="kit-img">
+            <span class="kit-nome">${item.nome}</span>
+
+            <div class="kit-qtd-container">
+                <button class="qtd-btn mais">+</button>
+                <input type="number" min="1" value="${item.quantidade}" class="kit-qtd" title="Quantidade">
+                <button class="qtd-btn menos">−</button>
+            </div>
+
+            <button class="remover-item">&times;</button>
+        `;
+
+        div.querySelector(".mais").addEventListener("click", () => alterarQuantidade(index, +1));
+        div.querySelector(".menos").addEventListener("click", () => alterarQuantidade(index, -1));
+        div.querySelector(".kit-qtd").addEventListener("change", (e) => {
+            atualizarQuantidadeManual(index, parseInt(e.target.value, 10));
+        });
+
+        div.querySelector(".remover-item").addEventListener("click", () => removerDoKit(index));
+
+        listaContainer.appendChild(div);
+    });
+    const addIcon = document.querySelector(".add-icon");
+    if (addIcon) addIcon.style.display = kitSelecionado.length > 0 ? "none" : "block";
+}
+
+function gerenciarEstoque() {
+    const kitContainer = document.querySelector(".kit-container-gerenciar");
+    let listaContainer = kitContainer.querySelector(".kit-lista-gerenciar");
+    if (!listaContainer) {
+        listaContainer = document.createElement("div");
+        listaContainer.classList.add("kit-lista-gerenciar");
         kitContainer.insertBefore(listaContainer, kitContainer.querySelector(".finalizar-button"));
     }
     listaContainer.innerHTML = "";
