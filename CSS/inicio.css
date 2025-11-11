@@ -1,10 +1,57 @@
 body {
-    font-family: 'Roboto', sans-serif;
-    background-color: white;
-    margin: 0; /* Remove margens do body */
-    padding: 0; /* Remove paddings do body */
+  font-family: 'Roboto', sans-serif;
+  background-color: white;
+  margin: 0; /* Remove margens do body */
+  padding: 0; /* Remove paddings do body */
 }
 
+
+/* Começo do código icone do usuário + botão de sair */
+.dropbtn {
+  padding: 16px;
+  font-size: 16px;
+  border: none;
+}
+
+.dropdown {
+  position: relative;
+  display: inline-block;
+}
+
+.dropdown .dropbtn {
+  background-color: transparent;
+  border: none;
+  cursor: pointer;
+}
+
+.dropdown .dropbtn img {
+  width: 50px;
+  height: auto;
+}
+
+.dropdown-content {
+  display: none;
+  position: absolute;
+  background-color: #f1f1f1;
+  box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+  z-index: 1;
+  right: 0;
+}
+
+.dropdown-content a {
+  color: black;
+  padding: 15px 40px;
+  text-decoration: none;
+  display: block;
+}
+
+.dropdown:hover .dropdown-content {
+  display: block;
+}
+/* Fim do código icone do usuário */
+
+
+/* Início código navbar */
 .navbar {
   background-color: #B20000;
 }
@@ -24,7 +71,10 @@ body {
   background-color: #BA1A1A; /* Cor um pouco mais escura ao passar o mouse */
   cursor: pointer;
 }
+/* Fim do código navbar */
 
+
+/* Início do código do cabeçalho */
 .cabecalho h2 {
   font-size: 30px !important;
   color: black;
@@ -67,32 +117,36 @@ body {
   margin-top: 10px;
   margin-left: 20px;
 }
+/* Fim do código do cabeçalho */
+
 
 /* ------Texto principal------ */
 .container-principal .row {
-    display: flexbox;
-    justify-content: space-around;
+  display: flexbox;
+  justify-content: space-around;
 }
 
 .texto .titulo {
-    font-size: 36px;
-    font-family: 'Roboto Slab', serif;
-    color: #005c6d;
-    text-align: left;
+  font-size: 36px;
+  font-family: 'Roboto Slab', serif;
+  color: #005c6d;
+  text-align: left;
 }
 
 .texto .subtitulo {
-    font-size: 24px;
-    font-family: 'Roboto Slab', serif;
-    color: #005c6d;
-    text-align: left;
+  font-size: 24px;
+  font-family: 'Roboto Slab', serif;
+  color: #005c6d;
+  text-align: left;
 }
 
 p {
-    font-size: 16px;
-    font-family: 'Roboto', sans-serif;
-    color: #666;
+  font-size: 16px;
+  font-family: 'Roboto', sans-serif;
+  color: #666;
 }
+/* ------ Fim do código do texto ------ */
+
 
 /* Como usar professor */
 .professor {
@@ -118,10 +172,10 @@ p {
 }
 
 .container-professor h1 {
-    font-size: 24px;
-    font-family: 'Roboto Slab', serif;
-    color: #005c6d;
-    text-align: left;
+  font-size: 24px;
+  font-family: 'Roboto Slab', serif;
+  color: #005c6d;
+  text-align: left;
 }
 .container-professor h2 {
   font-size: 16px;
@@ -130,6 +184,7 @@ p {
   font-weight: 400;
 }
 /* Fim do css como usar professor */
+
 
 /* Como usar tecnico */
 .tecnico {
@@ -155,10 +210,10 @@ p {
 }
 
 .container-tecnico h1 {
-    font-size: 24px;
-    font-family: 'Roboto Slab', serif;
-    color: #005c6d;
-    text-align: left;
+  font-size: 24px;
+  font-family: 'Roboto Slab', serif;
+  color: #005c6d;
+  text-align: left;
 }
 .container-tecnico h2 {
   font-size: 16px;
@@ -167,6 +222,7 @@ p {
   font-weight: 400;
 }
 /* Fim do css do tecnico */
+
 
 /* Como usar adm */
 .adm {
@@ -192,10 +248,10 @@ p {
 }
 
 .container-adm h1 {
-    font-size: 24px;
-    font-family: 'Roboto Slab', serif;
-    color: #005c6d;
-    text-align: left;
+  font-size: 24px;
+  font-family: 'Roboto Slab', serif;
+  color: #005c6d;
+  text-align: left;
 }
 .container-adm h2 {
   font-size: 16px;
@@ -205,6 +261,8 @@ p {
 }
 /* Fim do css do adm */
 
+
+/* Começo do código do footer */
 footer {
   background-color: #000000;
   min-height: 250px;
@@ -266,48 +324,10 @@ footer .linha-footer {
 .icones-rede:hover {
   transform: scale(1.1); /* Efeito de zoom */
 }
+/* Fim do código do footer */
 
-.dropbtn {
-  padding: 16px;
-  font-size: 16px;
-  border: none;
-}
 
-.dropdown {
-  position: relative;
-  display: inline-block;
-}
-
-.dropdown .dropbtn {
-  background-color: transparent;
-  border: none;
-  cursor: pointer;
-}
-
-.dropdown .dropbtn img {
-  width: 50px;
-  height: auto;
-}
-
-.dropdown-content {
-  display: none;
-  position: absolute;
-  background-color: #f1f1f1;
-  box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
-  z-index: 1;
-  right: 0;
-}
-
-.dropdown-content a {
-  color: black;
-  padding: 15px 40px;
-  text-decoration: none;
-  display: block;
-}
-
-.dropdown:hover .dropdown-content {
-  display: block;
-}
+/* Começo do código da notificação */
 #notificacao {
     position: fixed; 
     top: 20px;
@@ -343,3 +363,4 @@ footer .linha-footer {
 #notificacao.erro {
     background-color: #BA1A1A;
 }
+/* Fim do código da notificação */
