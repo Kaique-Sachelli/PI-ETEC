@@ -10,7 +10,7 @@ body {
   color: black;
   margin: 0;
   text-align: center;
-  font-family: Verdana, sans-serif;
+  font-family: 'Roboto Slab', serif;
   font-weight: normal !important;
 }
 
@@ -225,9 +225,18 @@ body {
   background-color: #e5e5e5;
 }
 
-.dias-semana {
+.dias-mes {
   display: grid;
   grid-template-columns: repeat(7, 1fr);
+  text-align: center;
+  font-weight: 600;
+  color: #333;
+  margin-bottom: 10px;
+}
+
+.dias-semana {
+  display: grid;
+  grid-template-columns: repeat(6, 1fr);
   text-align: center;
   font-weight: 600;
   color: #333;
@@ -243,7 +252,6 @@ body {
 
 .dias div {
   padding: 20px 0;
-  cursor: pointer;
   transition: background 0.2s, color 0.2s;
   border: 1px solid #bfbfbf;
   border-radius: 3px;
@@ -252,6 +260,17 @@ body {
 .dias div:hover {
   background: #00D8E8; /* Azul */
   color: #000;
+  cursor: pointer;
+}
+
+.dias .vazio {
+  border: none;
+  background-color: transparent;
+}
+
+.dias .vazio:hover {
+  background-color: transparent;
+  cursor: default;
 }
 
 .container-semana {
@@ -276,7 +295,7 @@ body {
 
 .semana {
   display: grid;
-  grid-template-columns: repeat(7, 1fr);
+  grid-template-columns: repeat(6, 1fr);
   text-align: center;
   gap: 1px;
 }
