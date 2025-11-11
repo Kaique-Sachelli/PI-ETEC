@@ -288,3 +288,11 @@ document.addEventListener("DOMContentLoaded", () => {
         });
     });
 });
+
+document.querySelectorAll('.cancelar-button').forEach(button => {
+    button.addEventListener('click', () => {
+    kitSelecionado = [];
+    document.querySelector('.kit-lista-solicitar').innerHTML = ""
+    document.querySelector('.kit-lista-gerenciar').innerHTML = ""
+    });
+});
