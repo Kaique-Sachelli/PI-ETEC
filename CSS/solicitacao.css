@@ -118,6 +118,10 @@ background-color: #7e0000; /* Cor um pouco mais escura ao passar o mouse */
 cursor: pointer;
 }
 
+.navbar .secao:active {
+  background-color: #BA1A1A;
+}
+
 .container-solicitacao {
   text-align: center;
   margin: 30px 0;

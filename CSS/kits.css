@@ -122,6 +122,10 @@ body {
   cursor: pointer;
 }
 
+.navbar .secao:active {
+  background-color: #BA1A1A;
+}
+
 .container-principal {
   width: 100%;
   height: auto;

@@ -25,6 +25,10 @@ body {
   cursor: pointer;
 }
 
+.navbar .secao:active {
+  background-color: #BA1A1A;
+}
+
 .cabecalho h2 {
   font-size: 30px !important;
   color: black;
