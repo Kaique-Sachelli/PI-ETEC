@@ -5,6 +5,8 @@ body {
   padding: 0; /* Remove paddings do body */
 }
 
+
+/* Começo do código do cabecalho */
 .cabecalho h2 {
   font-size: 30px !important;
   color: black;
@@ -12,28 +14,6 @@ body {
   text-align: center;
   font-family: 'Roboto Slab', serif;
   font-weight: normal !important;
-}
-
-.titulo-header h1 {
-  font-size: 48px;
-  color: black;
-  margin: 0;
-  text-align: center;
-  font-family: 'Roboto Slab', serif;
-  font-weight: normal !important;
-}
-
-.titulo-header h2 {
-  font-size: 48px;
-  color: #333;
-  margin: 5px 0 10px;
-  font-family: 'Roboto Slab', serif;
-}
-
-.linha-preta {
-  height: 2px;
-  background-color: black;
-  margin: 0 auto;
 }
 
 .logo-etec {
@@ -48,14 +28,22 @@ body {
   margin-left: 20px;
 }
 
-/* Dropdown Button */
+.linha-preta {
+  width: 60%;
+  height: 2px;
+  background-color: black;
+  margin: 0 auto;
+}
+/* Fim do código do cabecalho */
+
+
+/* Começo do código icone do usuário + botão de sair */
 .dropbtn {
   padding: 16px;
   font-size: 16px;
   border: none;
 }
 
-/* The container <div> - needed to position the dropdown content */
 .dropdown {
   position: relative;
   display: inline-block;
@@ -72,7 +60,6 @@ body {
   height: auto;
 }
 
-/* Dropdown Content (Hidden by Default) */
 .dropdown-content {
   display: none;
   position: absolute;
@@ -82,7 +69,6 @@ body {
   right: 0;
 }
 
-/* Links inside the dropdown */
 .dropdown-content a {
   color: black;
   padding: 15px 40px;
@@ -90,18 +76,13 @@ body {
   display: block;
 }
 
-/* Show the dropdown menu on hover */
 .dropdown:hover .dropdown-content {
   display: block;
 }
+/* Fim do código icone do usuário + botão de sair */
 
-.linha-preta {
-  width: 60%;
-  height: 2px;
-  background-color: black;
-  margin: 0 auto;
-}
 
+/* Começo do código da navbar */
 .navbar {
   background-color: #B20000;
 }
@@ -125,6 +106,8 @@ body {
 .navbar .secao:active {
   background-color: #BA1A1A;
 }
+/* Fim do código da navbar */
+
 
 .container-principal {
   display: flex;
@@ -159,7 +142,7 @@ body {
   font-family: 'Roboto Slab', serif;
   color: #005c6d;
 }
-/* posiciona as setas nas laterais */
+
 .mes-header .seta:first-child {
   position: absolute;
   left: 20px;
@@ -316,6 +299,52 @@ body {
     background: #00D8E8; /* Azul */
 }
 
+.bloco-horarios {
+  background-color: #ffffff;
+  border-radius: 10px;
+  box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+  padding: 20px;
+  font-family: 'Roboto', sans-serif;
+}
+
+.form-label {
+  font-weight: bold;
+  color: #333;
+}
+
+.form-select:focus {
+  outline: none !important;
+  border-color: #b20000 !important;
+  box-shadow: 0 0 5px #ba1a1a !important;
+  transition: all 0.2s ease-in-out;
+}
+
+.bloco-horarios button {
+  background-color: #3ACF1F;
+  color: #fff;
+}
+
+.bloco-horarios button:hover {
+  background-color: #3ACF1F;
+  color: #fff;
+  transform: scale(1.02);
+}
+
+.bloco-horarios button:active {
+  background-color: #80E96D !important; 
+  color: #fff !important;
+}
+
+.container-semana {
+  display: none;
+}
+
+.bloco-periodo {
+  display: none;
+}
+
+
+/* Começo do código do footer */
 footer {
   background-color: #000000;
   min-height: 250px;
@@ -364,94 +393,49 @@ footer .linha-footer {
 }
 
 .icones a {
-  text-decoration: none; /* Remove o sublinhado dos links */
+  text-decoration: none;
 }
 
 .icones-rede {
   width: 40px;
   height: 40px;
-  object-fit: contain; /* Redimensiona a imagem para caber no contêiner */
+  object-fit: contain;
   transition: transform 0.3s;
 }
 
 .icones-rede:hover {
-  transform: scale(1.1); /* Efeito de zoom */
+  transform: scale(1.1);
 }
+/* Fim do código do footer */
 
-.bloco-horarios {
-  background-color: #ffffff;
-  border-radius: 10px;
-  box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
-  padding: 20px;
-  font-family: 'Roboto', sans-serif;
-}
 
-.form-label {
-  font-weight: bold;
-  color: #333;
-}
-
-.form-select:focus {
-  outline: none !important;
-  border-color: #b20000 !important;
-  box-shadow: 0 0 5px #ba1a1a !important;
-  transition: all 0.2s ease-in-out;
-}
-
-.bloco-horarios button {
-  background-color: #3ACF1F;
-  color: #fff;
-}
-
-.bloco-horarios button:hover {
-  background-color: #3ACF1F;
-  color: #fff;
-  transform: scale(1.02);
-}
-
-.bloco-horarios button:active {
-  background-color: #80E96D !important; 
-  color: #fff !important;
-}
-
-.container-semana {
-  display: none;
-}
-
-.bloco-periodo {
-  display: none;
-}
+/* Começo do código da notificação */
 #notificacao {
-    position: fixed; 
-    top: 20px;
-    right: 20px;
-    padding: 16px 24px;
-    border-radius: 8px;
-    font-size: 16px;
-    font-weight: 500;
-    color: white;
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
-    z-index: 1001;
-    
- 
-    opacity: 0;
-    transform: translateX(150%);
-    
-    /* Animação suave */
-    transition: transform 0.5s ease-out, opacity 0.5s ease-out;
+  position: fixed; 
+  top: 20px;
+  right: 20px;
+  padding: 16px 24px;
+  border-radius: 8px;
+  font-size: 16px;
+  font-weight: 500;
+  color: white;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+  z-index: 1001;
+  opacity: 0;
+  transform: translateX(150%);
+  transition: transform 0.5s ease-out, opacity 0.5s ease-out;
 }
 
 #notificacao.show {
-    opacity: 1;
-    transform: translateX(0);
+  opacity: 1;
+  transform: translateX(0);
 }
-
 
 #notificacao.sucesso {
-    background-color: #28a745; 
+  background-color: #28a745; 
 }
-
 
 #notificacao.erro {
-    background-color: #BA1A1A;
+  background-color: #BA1A1A;
 }
+/* Fim do código da notificação */
