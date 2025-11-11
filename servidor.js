@@ -3,8 +3,6 @@ const bodyParser = require("body-parser");
 const jwt = require("jsonwebtoken");
 const cors = require("cors");
 const pool = require("../PI-ETEC/JS/conexao.js");
-const bcrypt = require('bcrypt');
-const saltrounds = 10;
 
 const app = express();
 app.use(cors());
@@ -46,32 +44,28 @@ app.post("/login", async (req, res) => {
 
   try {
     const [rows] = await pool.query(
-      "SELECT * FROM usuario WHERE email = ?",
-      [email]
+      "SELECT * FROM usuario WHERE email = ? AND senha = ?",
+      [email, senha]
     );
 
     if (rows.length > 0) {
       const usuario = rows[0];
-      const match = await bcrypt.compare(senha, usuario.senha);
-      if (match) {
-        //popula o token com as informações do usuario
-        const payload = {
-          idUsuario: usuario.idUsuario,
-          nome: usuario.nome,
-          permissao: usuario.permissao
-        };
-        //cria e assina o token
-        const token = jwt.sign(payload, JWT_SECRET, { expiresIn: '1h' }); // Token expira em 1 hora
-        res.json({
-          sucesso: true,
-          mensagem: "Login realizado com sucesso!",
-          token: token,
-        });        
-      } else {
-        res.json({ sucesso: false, mensagem: "Email ou senha incorretos." });        
-      }
+      //popula o token com as informações do usuario
+      const payload = {
+        idUsuario: usuario.idUsuario,
+        nome: usuario.nome,
+        permissao: usuario.permissao,
+      };
+      //cria e assina o token
+      const token = jwt.sign(payload, JWT_SECRET, { expiresIn: '1h' }); // Token expira em 1 hora
+
+      res.json({
+        sucesso: true,
+        mensagem: "Login realizado com sucesso!",
+        token: token,
+      });
     } else {
-        res.json({ sucesso: false, mensagem: "Email ou senha incorretos." });        
+      res.json({ sucesso: false, mensagem: "Email ou senha incorretos." });
     }
   } catch (erro) {
     res.status(500).json({ erro: erro.message });
@@ -88,10 +82,9 @@ app.post("/cadastro", verificarToken, async (req, res) => {
     })
   } else {
     try {
-      const hashSenha = await bcrypt.hash(senha, saltrounds) //Não salva mais senhas em texto puro
       const [result] = await pool.query(
         'INSERT INTO usuario (nome, email, senha, permissao) VALUES (?, ?, ?, ?)',
-        [nome, email, hashSenha, login]
+        [nome, email, senha, login]
       );
       res.json({
         sucesso: true,
@@ -178,11 +171,10 @@ app.post("/usuarios/atualizar", verificarToken, async (req, res) => {
       sucesso: false
     })
    }else {
-    try {
-      const hashSenha = await bcrypt.hash(novaSenha, saltrounds) //Não salva mais senhas em texto puro
+     try {
        const [result] = await pool.query(
          'UPDATE usuario SET email = ?, senha = ?, permissao = ? WHERE idUsuario = ?',
-         [email, hashSenha, permissao, idUsuario]
+         [email, novaSenha, permissao, idUsuario]
        );
        res.json({
          sucesso: true,
@@ -201,7 +193,7 @@ app.post("/usuarios/atualizar", verificarToken, async (req, res) => {
 app.get("/reagentes", verificarToken, async (req, res) => {
   try {
     const [rows] = await pool.query(
-      "SELECT idReagente, nomeReagente,quantidade FROM Reagentes WHERE quantidade > 0"
+      "SELECT nomeReagente,quantidade FROM Reagentes"
     );
     res.json({
       sucesso: true,
@@ -219,7 +211,7 @@ app.get("/reagentes", verificarToken, async (req, res) => {
 app.get("/vidrarias", verificarToken, async (req, res) => {
   try {
     const [rows] = await pool.query(
-      "SELECT idVidraria,nomeVidraria,capacidade,quantidade FROM Vidrarias WHERE quantidade > 0"
+      "SELECT nomeVidraria,capacidade,quantidade FROM Vidrarias"
     );
     res.json({
       sucesso: true,
@@ -232,42 +224,6 @@ app.get("/vidrarias", verificarToken, async (req, res) => {
     });
   }
 });
-//buscar Reagentes indisponiveis
-app.get("/reagentes/indisponiveis", verificarToken, async (req, res) => {
-  try {
-    const [rows] = await pool.query(
-      "SELECT nomeReagente,quantidade FROM Reagentes WHERE quantidade <= 0"
-    );
-    res.json({
-      sucesso: true,
-      reagentes: rows,
-    });
-  } catch (error) {
-    res.json({
-      sucesso: false,
-      mensagem: "Não foi possivel encontrar reagentes" + error.message,
-    });
-  }
-});
-
-//buscar vidrarias indisponiveis
-app.get("/vidrarias/indisponiveis", verificarToken, async (req, res) => {
-  try {
-    const [rows] = await pool.query(
-      "SELECT nomeVidraria,capacidade,quantidade FROM Vidrarias WHERE quantidade <= 0"
-    );
-    res.json({
-      sucesso: true,
-      vidrarias: rows,
-    });
-  } catch (error) {
-    res.json({
-      sucesso: false,
-      mensagem: "Não foi possivel encontrar vidrarias" + error.message,
-    });
-  }
-});
-
 // criar nova solicitação
 app.post("/solicitacoes", verificarToken, async (req, res) => {
   const { idUsuario, observacao } = req.body;
@@ -376,6 +332,7 @@ app.get("/api/reposicao", verificarToken, async (req, res) => {
     res.status(500).json({ erro: "Erro ao buscar reposições" });
   }
 });
+
 app.post("/api/reposicao", verificarToken, async (req, res) => {
   const { idUsuario, observacao } = req.body;
   try {
@@ -415,51 +372,5 @@ app.put("/api/reposicao/:id", verificarToken, async (req, res) => {
     res.status(500).json({ erro: "Erro ao atualizar status: " + erro.message });
   }
 });
-//salvar kit
-app.post('/kits/salvar', verificarToken, async (req, res) => {
-  const idUsuario = req.usuario.idUsuario;
-  const { nomeKit, descricaoKit, produtos } = req.body;
-
-  if (!nomeKit || !produtos || produtos.length === 0) {
-    res.json({ sucesso: false, mensagem: 'Nome ou Produtos do kit faltando' })
-  }
-  let connection;
-  try {
-    connection = await pool.getConnection() // usa transação para garantir que nao haja kits fantamas
-    await connection.beginTransaction();
-    const [resultKit] = await connection.query(
-      'INSERT INTO Kits (idUsuario, nome, descrição) VALUES (?, ?, ?)',
-      [idUsuario, nomeKit, descricaoKit || null] //null se a descrição não vir
-    )
-    const idKit = resultKit.insertId;
-    for (const produto of produtos) {
-      if (produto.tipo == 'vidraria') {
-        await connection.query(
-          'INSERT INTO Kits_Vidrarias (idKit, idVidraria, quantidade) VALUES (?, ?, ?)',
-          [idKit, produto.idProduto, produto.quantidade]
-        )
-      } else if (produto.tipo == 'reagente') {
-        await connection.query(
-          'INSERT INTO Kits_Reagentes(idKit, idReagente, quantidade) VALUES(?, ?, ?)',
-          [idKit, produto.idProduto, produto.quantidade]
-        )
-      }
-    }
-    await connection.commit(); //salva a operação se TODOS os loops funcionarem
-    res.json({
-      sucesso: true,
-      mensagem: 'Kit salvo com sucesso!'
-    })
-  } catch (error) {
-    if (connection) await connection.rollback()
-    res.status(500).json({
-      sucesso: false,
-      mensagem: 'Houve um erro ao salvar o kit',
-      erro: error.message
-    })
-  }finally{
-    if(connection) connection.release(); //depois de toda operação libera a conexão
-  }
-})
 const PORTA = 3000;
 app.listen(PORTA, () => console.log(`🚀 Servidor rodando na porta ${PORTA}`));
