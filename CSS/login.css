@@ -8,6 +8,8 @@ body {
   background-image: url('../Img/Background.png');
 }
 
+
+/* Começo do código do logo */
 .logo {
   position: absolute; 
   top: 10px; 
@@ -15,7 +17,10 @@ body {
   width: 100px; 
   height: auto;
 }
+/* Fim do código do logo */
 
+
+/* Começo do código do container */
 .container-principal {
   width: 100%;
   height: auto;
@@ -29,7 +34,6 @@ body {
 }
 
 .container-login {
-  /* Bloco do formulário de login */
   max-width: 350px; 
   background: #ffffff;
   border-radius: 40px;
@@ -39,7 +43,6 @@ body {
 }
 
 .container-login h1 {
-  /* Título "Área de Login" */
   text-align: center; 
   font-family: 'Roboto Slab', serif;
   font-size: 30px; 
@@ -61,23 +64,11 @@ body {
 .container-login .email:focus {
     outline: none;
 }
+/* Fim do código do container */
 
-.container-login .esqueceu-senha {
-  display: block;
-  margin-top: 10px;
-  margin-left: 10px;
-}
 
-.container-login .esqueceu-senha a {
-  /* Esqueçeu a senha? */
-  font-size: 15px;
-  font-family: 'Roboto', sans-serif;
-  color: #000000;
-  text-decoration: none;
-}
-
+/* Começo do código do botão entrar */
 .container-login .botao-entrar{
-  /* Botão de entrar */
   display: block;
   width: 100%;
   font-family: 'Roboto', sans-serif !important;
@@ -102,6 +93,15 @@ body {
 .container-login .botao-entrar:active {
   background-color: #80E96D;
 }
+/* Fim do código do botao entrar */
+
+
+/* Começo do código esqueceu senha */
+.container-login .esqueceu-senha {
+  display: block;
+  margin-top: 10px;
+  margin-left: 10px;
+}
 
 .container-login .esqueceu-senha {
   display: block;
@@ -109,6 +109,16 @@ body {
   margin-left: 10px;
 }
 
+.container-login .esqueceu-senha a {
+  font-size: 15px;
+  font-family: 'Roboto', sans-serif;
+  color: #000000;
+  text-decoration: none;
+}
+/* Fim do código esqueceu senha */
+
+
+/* Começo do código de mostrar senha */
 .mostrar {
   width: 100%;
   background: white;
@@ -126,7 +136,7 @@ body {
   outline: none;
   border-inline: 2px solid #FF161F;
 }
-/* Ícone olho */
+
 .mostrar-container {
   position: relative;
   width: 100%;
@@ -146,39 +156,36 @@ body {
 .toggle-senha:hover {
   color: #FF161F;
 }
+/* Fim do código de mostrar senha */
 
+
+/* Começo do código da notificação */
 #notificacao {
-    position: fixed; 
-    top: 20px;
-    right: 20px;
-    padding: 16px 24px;
-    border-radius: 8px;
-    font-size: 16px;
-    font-weight: 500;
-    color: white;
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
-    z-index: 1001;
-    
- 
-    opacity: 0;
-    transform: translateX(150%);
-    
-    /* Animação suave */
-    transition: transform 0.5s ease-out, opacity 0.5s ease-out;
+  position: fixed; 
+  top: 20px;
+  right: 20px;
+  padding: 16px 24px;
+  border-radius: 8px;
+  font-size: 16px;
+  font-weight: 500;
+  color: white;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+  z-index: 1001;
+  opacity: 0;
+  transform: translateX(150%);
+  transition: transform 0.5s ease-out, opacity 0.5s ease-out;
 }
-
 
 #notificacao.show {
-    opacity: 1;
-    transform: translateX(0);
+  opacity: 1;
+  transform: translateX(0);
 }
-
 
 #notificacao.sucesso {
-    background-color: #28a745; 
+  background-color: #28a745; 
 }
-
 
 #notificacao.erro {
-    background-color: #BA1A1A;
+  background-color: #BA1A1A;
 }
+/* Fim do código da notificação */
