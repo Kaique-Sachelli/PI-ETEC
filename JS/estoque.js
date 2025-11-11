@@ -136,6 +136,11 @@ document.addEventListener("DOMContentLoaded", () => {
             if (filtro) {
                 carregarProdutos(filtro);
             }
+            if (filtro == "indisponiveis") {
+                document.querySelector(".produtos-title").innerHTML = "Produtos indisponíveis"
+            } else if (filtro == "disponiveis") {
+                document.querySelector(".produtos-title").innerHTML = "Produtos disponíveis"
+            }
         });
     });
 });
@@ -294,5 +299,6 @@ document.querySelectorAll('.cancelar-button').forEach(button => {
     kitSelecionado = [];
     document.querySelector('.kit-lista-solicitar').innerHTML = ""
     document.querySelector('.kit-lista-gerenciar').innerHTML = ""
+    mostrarNotificacao("Processo encerrado, materiais removidos", "sucesso");
     });
 });
