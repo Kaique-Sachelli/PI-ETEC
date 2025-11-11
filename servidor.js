@@ -3,8 +3,6 @@ const bodyParser = require("body-parser");
 const jwt = require("jsonwebtoken");
 const cors = require("cors");
 const pool = require("../PI-ETEC/JS/conexao.js");
-const bcrypt = require('bcrypt');
-const saltrounds = 10;
 
 const app = express();
 app.use(cors());
@@ -46,8 +44,8 @@ app.post("/login", async (req, res) => {
 
   try {
     const [rows] = await pool.query(
-      "SELECT * FROM usuario WHERE email = ?",
-      [email]
+      "SELECT * FROM usuario WHERE email = ? AND senha = ?",
+      [email, senha]
     );
 
     if (rows.length > 0) {
@@ -88,10 +86,9 @@ app.post("/cadastro", verificarToken, async (req, res) => {
     })
   } else {
     try {
-      const hashSenha = await bcrypt.hash(senha, saltrounds) //Não salva mais senhas em texto puro
       const [result] = await pool.query(
         'INSERT INTO usuario (nome, email, senha, permissao) VALUES (?, ?, ?, ?)',
-        [nome, email, hashSenha, login]
+        [nome, email, senha, login]
       );
       res.json({
         sucesso: true,
@@ -201,7 +198,7 @@ app.post("/usuarios/atualizar", verificarToken, async (req, res) => {
 app.get("/reagentes", verificarToken, async (req, res) => {
   try {
     const [rows] = await pool.query(
-      "SELECT idReagente, nomeReagente,quantidade FROM Reagentes WHERE quantidade > 0"
+      "SELECT nomeReagente,quantidade FROM Reagentes"
     );
     res.json({
       sucesso: true,
@@ -219,7 +216,7 @@ app.get("/reagentes", verificarToken, async (req, res) => {
 app.get("/vidrarias", verificarToken, async (req, res) => {
   try {
     const [rows] = await pool.query(
-      "SELECT idVidraria,nomeVidraria,capacidade,quantidade FROM Vidrarias WHERE quantidade > 0"
+      "SELECT nomeVidraria,capacidade,quantidade FROM Vidrarias"
     );
     res.json({
       sucesso: true,
@@ -232,42 +229,6 @@ app.get("/vidrarias", verificarToken, async (req, res) => {
     });
   }
 });
-//buscar Reagentes indisponiveis
-app.get("/reagentes/indisponiveis", verificarToken, async (req, res) => {
-  try {
-    const [rows] = await pool.query(
-      "SELECT nomeReagente,quantidade FROM Reagentes WHERE quantidade <= 0"
-    );
-    res.json({
-      sucesso: true,
-      reagentes: rows,
-    });
-  } catch (error) {
-    res.json({
-      sucesso: false,
-      mensagem: "Não foi possivel encontrar reagentes" + error.message,
-    });
-  }
-});
-
-//buscar vidrarias indisponiveis
-app.get("/vidrarias/indisponiveis", verificarToken, async (req, res) => {
-  try {
-    const [rows] = await pool.query(
-      "SELECT nomeVidraria,capacidade,quantidade FROM Vidrarias WHERE quantidade <= 0"
-    );
-    res.json({
-      sucesso: true,
-      vidrarias: rows,
-    });
-  } catch (error) {
-    res.json({
-      sucesso: false,
-      mensagem: "Não foi possivel encontrar vidrarias" + error.message,
-    });
-  }
-});
-
 // criar nova solicitação
 app.post("/solicitacoes", verificarToken, async (req, res) => {
   const { idUsuario, observacao } = req.body;
@@ -376,6 +337,7 @@ app.get("/api/reposicao", verificarToken, async (req, res) => {
     res.status(500).json({ erro: "Erro ao buscar reposições" });
   }
 });
+
 app.post("/api/reposicao", verificarToken, async (req, res) => {
   const { idUsuario, observacao } = req.body;
   try {
