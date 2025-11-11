@@ -66,12 +66,12 @@ app.post("/login", async (req, res) => {
           sucesso: true,
           mensagem: "Login realizado com sucesso!",
           token: token,
-        });        
+        });
       } else {
-        res.json({ sucesso: false, mensagem: "Email ou senha incorretos." });        
+        res.json({ sucesso: false, mensagem: "Email ou senha incorretos." });
       }
     } else {
-        res.json({ sucesso: false, mensagem: "Email ou senha incorretos." });        
+      res.json({ sucesso: false, mensagem: "Email ou senha incorretos." });
     }
   } catch (erro) {
     res.status(500).json({ erro: erro.message });
@@ -177,23 +177,23 @@ app.post("/usuarios/atualizar", verificarToken, async (req, res) => {
     return res.status(403).json({
       sucesso: false
     })
-   }else {
+  } else {
     try {
       const hashSenha = await bcrypt.hash(novaSenha, saltrounds) //Não salva mais senhas em texto puro
-       const [result] = await pool.query(
-         'UPDATE usuario SET email = ?, senha = ?, permissao = ? WHERE idUsuario = ?',
-         [email, hashSenha, permissao, idUsuario]
-       );
-       res.json({
-         sucesso: true,
-         mensagem: 'Dados atualizados com sucesso!'
-       });
-     } catch (erro) {
-       res.json({
-         sucesso: false,
-         mensagem: 'Erro ao atualizar: ' + erro.message
-       })
-     }
+      const [result] = await pool.query(
+        'UPDATE usuario SET email = ?, senha = ?, permissao = ? WHERE idUsuario = ?',
+        [email, hashSenha, permissao, idUsuario]
+      );
+      res.json({
+        sucesso: true,
+        mensagem: 'Dados atualizados com sucesso!'
+      });
+    } catch (erro) {
+      res.json({
+        sucesso: false,
+        mensagem: 'Erro ao atualizar: ' + erro.message
+      })
+    }
   }
 });
 
@@ -457,9 +457,66 @@ app.post('/kits/salvar', verificarToken, async (req, res) => {
       mensagem: 'Houve um erro ao salvar o kit',
       erro: error.message
     })
-  }finally{
-    if(connection) connection.release(); //depois de toda operação libera a conexão
+  } finally {
+    if (connection) connection.release(); //depois de toda operação libera a conexão
   }
 })
+//buscar kits
+app.get('/kits/buscar', verificarToken, async (req, res) => {
+  let conexao = await pool.getConnection();
+  const idUsuario = req.usuario.idUsuario;
+  try {
+    const [kits] = await conexao.query(
+      `SELECT k.idKit, k.idUsuario, k.nome, k.descrição
+      FROM kits k
+      INNER JOIN usuario u
+      WHERE k.idUsuario = u.idUsuario AND k.idUsuario = ?`,
+      [idUsuario]
+    );
+    for (let kit of kits) {
+      const [vidrarias] = await conexao.query(
+        `SELECT 
+           v.nomeVidraria, 
+           v.capacidade, 
+           kv.quantidade 
+         FROM Kits_Vidrarias kv
+         JOIN Vidrarias v ON kv.idVidraria = v.idVidraria
+         WHERE kv.idKit = ?`,
+        [kit.idKit]
+      );
+      const [reagentes] = await conexao.query(
+        `SELECT 
+           r.nomeReagente, 
+           kr.quantidade 
+         FROM Kits_Reagentes kr
+         JOIN Reagentes r ON kr.idReagente = r.idReagente
+         WHERE kr.idKit = ?`,
+        [kit.idKit]
+      );
+      kit.produtos = [
+        ...vidrarias.map(v => ({
+          nome: `${v.nomeVidraria} ${v.capacidade || ''}`.trim(),
+          quantidade: v.quantidade
+        })),
+        ...reagentes.map(r => ({
+          nome: r.nomeReagente,
+          quantidade: r.quantidade
+        }))
+      ];
+    }
+    res.json({
+      sucesso: true,
+      kits: kits
+    });
+  } catch (erro) {
+    res.status(500).json({
+      sucesso: false,
+      mensagem: 'Erro ao buscar Kits: ' + erro.message
+    });
+  } finally {
+    if (conexao) conexao.release();
+  }
+})
+
 const PORTA = 3000;
 app.listen(PORTA, () => console.log(`🚀 Servidor rodando na porta ${PORTA}`));

@@ -1,3 +1,4 @@
+import { exibirKits } from "./meusKits.js";
 import { mostrarNotificacao } from "./notificacao.js"
 import { getToken, erroToken } from "./sessao.js"
 
@@ -175,6 +176,7 @@ document.addEventListener("DOMContentLoaded", () => {
                 alternarVisualizacao("meus kits")
                 botaoCriarKits.classList.remove('ativo')
                 botaoMeusKits.classList.add('ativo')
+                exibirKits();
             };
             if (texto.includes("criar kits")) {
                 alternarVisualizacao("criar kits")
