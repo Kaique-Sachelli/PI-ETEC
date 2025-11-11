@@ -173,7 +173,7 @@ function renderizarItens(itens, container, tipo) {
 
     itens.forEach(item => {
         const btn = document.createElement("button");
-        btn.className = `col-lg-3 col-md-4 col-sm-6 ${tipo}`; //
+        btn.className = `col-lg-3 col-md-4 col-sm-6 ${tipo}`; 
 
         let nome, detalhe, quantidade;
 
@@ -186,10 +186,17 @@ function renderizarItens(itens, container, tipo) {
             detalhe = '';
             quantidade = `${item.quantidade}g`;
         }
-        btn.innerHTML = `
-            <img src="../Img/${imgNome}" alt="${nome}" class="${tipo}-img">
-            <p> ${nome} <br> ${detalhe} <br> <span class="produto-quantidade">${quantidade}</span></p>
-        `;
+        if (item.quantidade > 0) {
+            btn.innerHTML = `
+                <img src="../Img/${imgNome}" alt="${nome}" class="${tipo}-img">
+                <p> ${nome} <br> ${detalhe} <br> <span class="produto-quantidade">${quantidade}</span></p>
+            `;
+        } else {
+            btn.innerHTML = `
+                <img src="../Img/${imgNome}" alt="${nome}" class="${tipo}-img">
+                <p> ${nome} <br> ${detalhe} <br> <span class="produto-indisponivel">${quantidade}</span></p>
+            `;
+        }
         // armazena o tipo e o número do estoque no dataset para facilitar verificações
         btn.dataset.tipo = tipo;
         btn.dataset.estoque = tipo === 'vidraria'
