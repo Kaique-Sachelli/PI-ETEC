@@ -3,407 +3,402 @@ body {
   background-color: white;
 }
 
+h2 {
+  font-size: 24px;
+  font-family: 'Roboto Slab', serif;
+  color: #005c6d;
+  text-align: center;
+  margin-top: 20px;
+}
+
 .cabecalho h2 {
-font-size: 30px !important;
-color: black;
-margin: 0;
-text-align: center;
-font-family: Verdana, sans-serif;
-font-weight: normal !important;
-}
-
-.titulo-header h1 {
-font-size: 48px;
-color: black;
-margin: 0;
-text-align: center;
-font-family: 'Roboto Slab', serif;
-font-weight: normal !important;
-}
-
-.titulo-header h2 {
-font-size: 48px;
-color: #333;
-margin: 5px 0 10px;
-font-family: 'Roboto Slab', serif;
-}
-
-.linha-preta {
-height: 2px;
-background-color: black;
-margin: 0 auto;
+  font-size: 30px !important;
+  color: black;
+  margin: 0;
+  text-align: center;
+  font-family: Verdana, sans-serif;
+  font-weight: normal !important;
 }
 
 .logo-etec {
-width: 160px;
-height: auto;
+  width: 160px;
+  height: auto;
 }
 
 .logo-sp {
-width: 150px;
-height: auto;
-margin-top: 10px;
-margin-left: 20px;
+  width: 150px;
+  height: auto;
+  margin-top: 10px;
+  margin-left: 20px;
 }
 
-/* Dropdown Button */
+/* Começo do código icone do usuário + botão de sair */
 .dropbtn {
-padding: 16px;
-font-size: 16px;
-border: none;
+  padding: 16px;
+  font-size: 16px;
+  border: none;
 }
-
 
 .dropdown {
-position: relative;
-display: inline-block;
+  position: relative;
+  display: inline-block;
 }
 
 .dropdown .dropbtn {
-background-color: transparent;
-border: none;
-cursor: pointer;
+  background-color: transparent;
+  border: none;
+  cursor: pointer;
 }
 
 .dropdown .dropbtn img {
-width: 50px;
-height: auto;
+  width: 50px;
+  height: auto;
 }
 
 .dropdown-content {
-display: none;
-position: absolute;
-background-color: #f1f1f1;
-box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
-z-index: 1;
-right: 0;
+  display: none;
+  position: absolute;
+  background-color: #f1f1f1;
+  box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+  z-index: 1;
+  right: 0;
 }
 
 .dropdown-content a {
-color: black;
-padding: 15px 40px;
-text-decoration: none;
-display: block;
+  color: black;
+  padding: 15px 40px;
+  text-decoration: none;
+  display: block;
 }
 
 .dropdown:hover .dropdown-content {
-display: block;
+  display: block;
 }
+/* Fim do código icone do usuário */
+
 
 .linha-preta {
-width: 60%;
-height: 2px;
-background-color: black;
-margin: 0 auto;
+  width: 60%;
+  height: 2px;
+  background-color: black;
+  margin: 0 auto;
 }
 
+
+/* Começo do código da navbar */
 .navbar {
-background-color: #B20000;
+  background-color: #B20000;
 }
 
 .navbar .secao {
-display: flex;
-justify-content: center;
-align-items: center;
-height: 60px;
-font-family: 'Roboto', sans-serif;
-border: none;
-background-color: #B20000;
-color: #fff;
-font-weight: normal;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 60px;
+  font-family: 'Roboto', sans-serif;
+  border: none;
+  background-color: #B20000;
+  color: #fff;
+  font-weight: normal;
 }
 
 .navbar .secao:hover {
-background-color: #BA1A1A; /* Cor um pouco mais escura ao passar o mouse */
-cursor: pointer;
+  background-color: #BA1A1A; 
+  cursor: pointer;
 }
+/* Fim do código da navbar */
 
+
+/* Começo do código do container de solicitações */
 .container-solicitacao {
   text-align: center;
   margin: 30px 0;
-  background-color: #ba1a1a; /* Cor um pouco mais escura ao passar o mouse */
+  background-color: #ba1a1a; 
 }
 
 .container {
-width: 80%;
-max-width: 900px;
-margin-top: 40px;
-font-family: 'Roboto', sans-serif;
+  width: 80%;
+  max-width: 900px;
+  margin-top: 40px;
+  font-family: 'Roboto', sans-serif;
 }
 
 .tabela-cabecalho {
-display: grid;
-grid-template-columns: 1.2fr 1.2fr 0.8fr 1fr 0.5fr;
-align-items: center;
-background-color: #f0f0f0;
-padding: 10px 15px;
-font-weight: bold;
-border-bottom: 2px solid #ccc;
-border-radius: 10px 10px 0 0;
-gap: 10px;
+  display: grid;
+  grid-template-columns: 1.2fr 1.2fr 0.8fr 1fr 0.5fr;
+  align-items: center;
+  background-color: #f0f0f0;
+  padding: 10px 15px;
+  font-weight: bold;
+  border-bottom: 2px solid #ccc;
+  border-radius: 10px 10px 0 0;
+  gap: 10px;
 }
 
 .tabela-cabecalho span {
-text-align: center;
-font-weight: bold;
+  text-align: center;
+  font-weight: bold;
 }
 
 .linha {
-display: grid;
-grid-template-columns: 1.2fr 1.2fr 0.8fr 1fr 0.5fr;
-align-items: center;
-width: 100%;
-gap: 10px;
+  display: grid;
+  grid-template-columns: 1.2fr 1.2fr 0.8fr 1fr 0.5fr;
+  align-items: center;
+  width: 100%;
+  gap: 10px;
 }
 
 .linha span {
-text-align: center;
+  text-align: center;
 }
 
 summary {
-display: flex;
-justify-content: space-between;
-align-items: center;
-cursor: pointer;
-padding: 10px 15px;
-font-weight: bold;
-list-style: none;
-border-radius: 10px;
-margin-top: 10px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  cursor: pointer;
+  padding: 10px 15px;
+  font-weight: bold;
+  list-style: none;
+  border-radius: 10px;
+  margin-top: 10px;
 }
 
 summary::-webkit-details-marker {
-display: none;
+  display: none;
 }
 
 /* Cores principais das linhas */
 .verde summary {
-background-color: #e8fbe4;
-border-left: 4px solid #4acd51;
-border-bottom: #d4f0d6;
+  background-color: #e8fbe4;
+  border-left: 4px solid #4acd51;
+  border-bottom: #d4f0d6;
 }
 
 .amarelo summary {
-background-color: #fff5ea;
-border-left: 4px solid #ffcc00;
+  background-color: #fff5ea;
+  border-left: 4px solid #ffcc00;
 }
 
 .vermelho summary {
-background-color: #fdd5d1;
-border-left: 4px solid #e63c3c;
+  background-color: #fdd5d1;
+  border-left: 4px solid #e63c3c;
 }
+
 .azul summary{
-background-color: #e6f9fa;
-border-left: 4px solid #1ac7d4;
+  background-color: #e6f9fa;
+  border-left: 4px solid #1ac7d4;
 }
 
 .reposicao summary {
-background-color: #fff5ea;
-border-left: 4px solid #ffcc00;
+  background-color: #fff5ea;
+  border-left: 4px solid #ffcc00;
 }
 
 .seta {
-transition: transform 0.3s;
-font-size: 18px;
-color: #444;
-text-align: center;
+  transition: transform 0.3s;
+  font-size: 18px;
+  color: #444;
+  text-align: center;
 }
 
 details[open] .seta {
-transform: rotate(180deg);
+  transform: rotate(180deg);
 }
 
-/* Status */
 .status {
-padding: 4px 12px;
-border-radius: 15px;
-font-weight: bold;
-color: white !important;
-text-align: center;
+  padding: 4px 12px;
+  border-radius: 15px;
+  font-weight: bold;
+  color: white !important;
+  text-align: center;
 }
 
 .aprovado {
-background-color: #3acf1f;
+  background-color: #3acf1f;
 }
 
 .pendente {
-background-color: #b78718;
-color: #333;
+  background-color: #b78718;
+  color: #333;
 }
 
 .cancelado {
-background-color: #d32719;
+  background-color: #d32719;
 }
 .finalizado{
-background-color: #00d8e8;
+  background-color: #00d8e8;
 }
-/* Caixa de detalhes */
+
 .detalhes-box {
-background-color: #f5f5f5;
-border-radius: 10px;
-padding: 15px 20px;
-margin: 10px 5px 20px 5px;
-display: flex;
-justify-content: space-between;
-box-shadow: 0px 0px 5px rgba(0, 0, 0, 0.1);
+  background-color: #f5f5f5;
+  border-radius: 10px;
+  padding: 15px 20px;
+  margin: 10px 5px 20px 5px;
+  display: flex;
+  justify-content: space-between;
+  box-shadow: 0px 0px 5px rgba(0, 0, 0, 0.1);
 }
 
 .detalhes-box .row {
-display: flexbox;
-width: 100%;
-height: auto;
+  display: flexbox;
+  width: 100%;
+  height: auto;
 }
 
 .detalhes-box h4 {
-font-family: 'Roboto Slab', serif;
-color: #005c6d;
-margin-bottom: 8px;
+  font-family: 'Roboto Slab', serif;
+  color: #005c6d;
+  margin-bottom: 8px;
 }
 
 .coluna {
-flex: 1;
-padding: 0 20px ;
-width: 48%;
+  flex: 1;
+  padding: 0 20px ;
+  width: 48%;
 }
-/* linha vertical entre as colunas */
 
 
+/* Começo do código da linha vertical entre as colunas */
 .coluna ul {
-margin: 0;
-padding-left: 18px;
+  margin: 0;
+  padding-left: 18px;
 }
 
 .coluna ul li {
-margin: 5px 0;
+  margin: 5px 0;
 }
+/* Fim do código da linha vertical entre as colunas */
 
-/* Botões */
+
+/* Começo do código dos Botões */
 .botoes {
-display: flex;
-flex-direction: column;
-gap: 10px;
-width: 100%;
-border-radius: 4px;
-font-weight: bold;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  width: 100%;
+  border-radius: 4px;
+  font-weight: bold;
 }
-
 
 button {
-border: none;
-padding: 10px 20px;
-border-radius: 10px;
-color: white;
-font-weight: bold;
-cursor: pointer;
-font-size: 16px;
-transition: background-color 0.3s;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 10px;
+  color: white;
+  font-weight: bold;
+  cursor: pointer;
+  font-size: 16px;
+  transition: background-color 0.3s;
 }
 
 .btn {
-padding: 5px 12px;        
-font-size: 12px;          
-min-width: unset;         
-border-radius: 6px;       
-font-weight: bold;
-color: white !important;
-cursor: pointer;
-transition: all 0.3s ease;
+  padding: 5px 12px;        
+  font-size: 12px;          
+  min-width: unset;         
+  border-radius: 6px;       
+  font-weight: bold;
+  color: white !important;
+  cursor: pointer;
+  transition: all 0.3s ease;
 }
+
 .btn-pronto {
-background-color:  #949494  !important;
-border-radius: 5px;
+  background-color:  #949494  !important;
+  border-radius: 5px;
 }
 
 .btn-pronto:hover {
-background-color: #858585  !important;
+  background-color: #858585  !important;
 }
 
 .btn-devolvido {
-background-color: #4c7eff!important;
-border-radius: 5px;
+  background-color: #4c7eff!important;
+  border-radius: 5px;
 }
 
 .btn-devolvido:hover {
-background-color: #003ee8  !important;
+  background-color: #003ee8  !important;
 }
 
 .btn-cancelado {
-background-color: #D32719 !important;
-border-radius: 5px; 
+  background-color: #D32719 !important;
+  border-radius: 5px; 
 }
 
 .btn-cancelado:hover {
-transform: scale(1.02);
+  transform: scale(1.02);
 }
 
 .btn-cancelado:active {
-background-color: #F95B4D;
+  background-color: #F95B4D;
 }
 
 .btn:hover {
-opacity: 0.9;
-transform: scale(1.03);
+  opacity: 0.9;
+  transform: scale(1.03);
 }
 .btn-pendente{
-background-color: #3acf1f !important;
-border-radius: 5px;
+  background-color: #3acf1f !important;
+  border-radius: 5px;
 }
 
 .btn-cancelado:houver{
-background-color: #4acd51;
+  background-color: #4acd51;
 }
 
 .containerprodutos .botoes {
-display: flex;
-justify-content: flex-end; /* empurra o botão pro canto direito */
-width: 20%; /* garante que ocupe toda a largura */
-margin-top: 65px;
-height: 10%;
+  display: flex;
+  justify-content: flex-end;
+  width: 20%;
+  margin-top: 65px;
+  height: 10%;
 }
 
-/* Aparência do botão "Finalizar" */
 .btn-finalizar {
-background-color: #949494  !important;
-font-weight: bold;
-border: none;
-border-radius: 8px;
-padding: 8px 16px;
-box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
-cursor: pointer;
-transition: 0.2s;
-margin-left: 10%;
+  background-color: #949494  !important;
+  font-weight: bold;
+  border: none;
+  border-radius: 8px;
+  padding: 8px 16px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+  cursor: pointer;
+  transition: 0.2s;
+  margin-left: 10%;
 }
 
 .btn-finalizar:hover {
-background-color: #858585  !important;
+  background-color: #858585  !important;
 }
+
 .btn-pronto,
 .btn-devolvido, 
 .btn-cancelado,
 .btn-pendente{
-width: 150px;  
-height: 50px;  
-padding: 6px 8px !important;  
-font-size: 11px !important;
-border-radius: 5px !important;
-display: flex;
-align-items: center;
-justify-content: center;
-margin: auto;
+  width: 150px;  
+  height: 50px;  
+  padding: 6px 8px !important;  
+  font-size: 11px !important;
+  border-radius: 5px !important;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: auto;
 }
+/* Fim do código dos botões */
 
+
+/* Começo do código dos filtros */
 .container-filtro {
   display: flex;
   justify-content: flex-end;
   position: relative;
-  top: 10px; /* distancia abaixo do título */
+  top: 10px;
   margin-bottom: 25px;
-  /* 🧭 Ajuste fino pra alinhar com “Expandir” */
-  margin-right: 115px; /* ajuste horizontal — altere esse valor se necessário */
+  margin-right: 115px;
   z-index: 1000;
 }
 
-/* 🔹 Ajustes visuais */
 .filtro {
   font-size: 18px;
   color: #000;
@@ -425,16 +420,15 @@ margin: auto;
   overflow: hidden;
   transition: all 0.48s cubic-bezier(0.23, 1, 0.32, 1);
   border: 1px solid #ddd;
-  padding: 15px 45px;  /* 🔸 antes era 12px 36px → ligeiramente maior */
-  font-size: 17px;     /* 🔸 aumenta a fonte */
-  border-radius: 18px; /* bordas mais suaves */
+  padding: 15px 45px;
+  font-size: 17px;
+  border-radius: 18px; 
 }
 
 .filtro .link:hover {
   background-color: #e0f4f7;
 }
 
-/* Efeito hover */
 .filtro .link::after {
   content: "";
   position: absolute;
@@ -506,77 +500,75 @@ margin: auto;
 .filtro .submenu-link:hover {
   background-color: #e0f4f7;
 }
+/* Fim do código do filtro */
 
 
-h2 {
-font-size: 24px;
-font-family: 'Roboto Slab', serif;
-color: #005c6d;
-text-align: center;
-margin-top: 20px;
-}
-
+/* Começo do código do footer */
 footer {
-background-color: #000000;
-min-height: 250px;
-padding: 30px;
-margin-top: 100px;
-font-family: 'Roboto', sans-serif;
+  background-color: #000000;
+  min-height: 250px;
+  padding: 30px;
+  margin-top: 100px;
+  font-family: 'Roboto', sans-serif;
 }
 
 footer .row {
-display: flexbox;
-justify-content: space-around;
+  display: flexbox;
+  justify-content: space-around;
 }
 
 footer .secao {
-min-height: 150px;
-min-width: 230px;
+  min-height: 150px;
+  min-width: 230px;
 }
 
 footer h3 {
-font-family: 'Roboto Slab', serif;
-font-size: x-large;
-color: #fff;
-margin-bottom: 20px;
+  font-family: 'Roboto Slab', serif;
+  font-size: x-large;
+  color: #fff;
+  margin-bottom: 20px;
 }
 
 footer .texto {
-color: rgb(191, 191, 191);
+  color: rgb(191, 191, 191);
 }
 
 footer .secao .icones {
-font-size: 30px;
-margin-top: 10px;
+  font-size: 30px;
+  margin-top: 10px;
 }
 
 footer .linha-footer {
-width: 70%;
-height: 2px;
-margin: 30px auto;
-background-color: rgb(128, 128, 128);
+  width: 70%;
+  height: 2px;
+  margin: 30px auto;
+  background-color: rgb(128, 128, 128);
 }
 
 .icones {
-display: flex;
-gap: 15px;
-margin-top: 10px;
+  display: flex;
+  gap: 15px;
+  margin-top: 10px;
 }
 
 .icones a {
-text-decoration: none; 
+  text-decoration: none; 
 }
 
 .icones-rede {
-width: 40px;
-height: 40px;
-object-fit: contain; 
-transition: transform 0.3s;
+  width: 40px;
+  height: 40px;
+  object-fit: contain; 
+  transition: transform 0.3s;
 }
 
 .icones-rede:hover {
-transform: scale(1.1); 
+  transform: scale(1.1); 
 }
+/* Fim do código do footer */
+
+
+/* Começo do código da notificação */
 #notificacao {
   position: fixed; 
   top: 20px;
@@ -588,27 +580,21 @@ transform: scale(1.1);
   color: white;
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
   z-index: 1001;
-  
-
   opacity: 0;
   transform: translateX(150%);
-  
-  /* Animação suave */
   transition: transform 0.5s ease-out, opacity 0.5s ease-out;
 }
-
 
 #notificacao.show {
   opacity: 1;
   transform: translateX(0);
 }
 
-
 #notificacao.sucesso {
   background-color: #28a745; 
 }
 
-
 #notificacao.erro {
   background-color: #BA1A1A;
 }
+/* Fim do código da notificação */
