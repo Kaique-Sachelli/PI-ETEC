@@ -275,11 +275,15 @@ document.addEventListener("DOMContentLoaded", () => {
                 alternarVisualizacao("gerenciar")
                 botaoSolicitar.classList.remove('ativo')
                 botaoGerenciar.classList.add('ativo')
+                kitSelecionado = []
+                document.querySelector(".kit-lista-gerenciar").innerHTML = ""
             };
             if (texto.includes("solicitar")) {
                 alternarVisualizacao("solicitar")
                 botaoGerenciar.classList.remove('ativo')
                 botaoSolicitar.classList.add('ativo')
+                kitSelecionado = []
+                document.querySelector(".kit-lista-solicitar").innerHTML = ""
             };
         });
     });
