@@ -40,12 +40,13 @@ document.getElementById("formCadastro").addEventListener("submit", async (e) => 
             mostrarNotificacao("Acesso negado, sessão encerrada", "erro");
             encerrarSessao();
          } else {
-            dados = await resposta.json()
+            const dados = await resposta.json()
             if (dados.sucesso) {
                mostrarNotificacao(dados.mensagem, 'sucesso')
                document.getElementById("formCadastro").reset()
             } else {
                mostrarNotificacao(dados.mensagem, 'erro')
+               console.log(dados.mensagem);
             }
          }
       } catch (error) {
