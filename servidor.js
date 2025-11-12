@@ -148,7 +148,7 @@ app.get('/usuarios/:id', verificarToken, async (req, res) => {
       sucesso: false
     })
   } else {
-    const id = req.params.id
+    const id = req.params.id;
     try {
       const [rows] = await pool.query(
         'SELECT email, permissao FROM usuario WHERE idUsuario = ?', [id]
@@ -200,7 +200,7 @@ app.post("/usuarios/atualizar", verificarToken, async (req, res) => {
 app.get("/reagentes", verificarToken, async (req, res) => {
   try {
     const [rows] = await pool.query(
-      "SELECT nomeReagente,quantidade FROM Reagentes"
+      "SELECT idReagente,nomeReagente,quantidade FROM Reagentes"
     );
     res.json({
       sucesso: true,
@@ -218,7 +218,7 @@ app.get("/reagentes", verificarToken, async (req, res) => {
 app.get("/vidrarias", verificarToken, async (req, res) => {
   try {
     const [rows] = await pool.query(
-      "SELECT nomeVidraria,capacidade,quantidade FROM Vidrarias"
+      "SELECT idVidraria,nomeVidraria,capacidade,quantidade FROM Vidrarias"
     );
     res.json({
       sucesso: true,
@@ -431,7 +431,7 @@ app.get('/kits/buscar', verificarToken, async (req, res) => {
   const idUsuario = req.usuario.idUsuario;
   try {
     const [kits] = await conexao.query(
-      `SELECT k.idKit, k.idUsuario, k.nome, k.descrição
+      `SELECT k.idKit, k.idUsuario, k.nome AS nomeKit, k.descrição, u.nome AS nomeProfessor
       FROM kits k
       INNER JOIN usuario u
       WHERE k.idUsuario = u.idUsuario AND k.idUsuario = ?`,
@@ -481,6 +481,45 @@ app.get('/kits/buscar', verificarToken, async (req, res) => {
     if (conexao) conexao.release();
   }
 })
+//exluir kit
+app.delete('/kits/excluir/:idKit', verificarToken, async (req,res) => {
+  const {idKit} = req.params;
+  const conexao = await pool.getConnection();
+  //inicia transação
+  await conexao.beginTransaction();
+  try {
+    await conexao.query(
+      `DELETE FROM kits_vidrarias WHERE idKit =?;`,
+      [idKit]
+    );
+    await conexao.query(
+      `DELETE FROM kits_reagentes WHERE idKit =?;`,
+      [idKit]
+    );
+    await conexao.query(
+      `DELETE FROM kits WHERE idKit = ? ;`,
+      [idKit]
+    );
+    //se os três DELETES deram certo, faz o commit
+    await conexao.commit();
+    res.json({
+      sucesso : true,
+      mensagem : 'Kit deletado com sucesso!'
+    });
+  } catch (error) {
+    //se algum dos três DELETES falharem, desfaz toda operação
+    await conexao.rollback();
+    res.json({
+      sucesso : false,
+      mensagem : 'Houve um erro ao deletar o kit',
+      erro : error.message
+    });
+  }finally{
+    //libera a conexão
+    if (conexao) conexao.release();
+  }
+})
+
 
 const PORTA = 3000;
 app.listen(PORTA, () => console.log(`🚀 Servidor rodando na porta ${PORTA}`));
