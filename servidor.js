@@ -3,12 +3,13 @@ const bodyParser = require("body-parser");
 const jwt = require("jsonwebtoken");
 const cors = require("cors");
 const pool = require("../PI-ETEC/JS/conexao.js");
-
 const app = express();
 app.use(cors());
 app.use(bodyParser.json());
 app.use(express.static("public"));
 const JWT_SECRET = "chave-secreta";
+const bcrypt = require('bcrypt');
+const saltrounds = 10; //custo computacional para gerar o hash
 
 // Middleware para verificar o token JWT
 function verificarToken(req, res, next) {
@@ -44,8 +45,8 @@ app.post("/login", async (req, res) => {
 
   try {
     const [rows] = await pool.query(
-      "SELECT * FROM usuario WHERE email = ? AND senha = ?",
-      [email, senha]
+      "SELECT * FROM usuario WHERE email = ?",
+      [email]
     );
 
     if (rows.length > 0) {
@@ -86,9 +87,10 @@ app.post("/cadastro", verificarToken, async (req, res) => {
     })
   } else {
     try {
+      const hashSenha = await bcrypt.hash(senha, saltrounds); //pega a senha em texto puro e gera o hash
       const [result] = await pool.query(
         'INSERT INTO usuario (nome, email, senha, permissao) VALUES (?, ?, ?, ?)',
-        [nome, email, senha, login]
+        [nome, email, hashSenha, login]
       );
       res.json({
         sucesso: true,
