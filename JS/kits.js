@@ -345,35 +345,41 @@ function alternarVisualizacao(tipo) {
 //Função de salvar kits
 async function salvaKit(kit) {
     const token = getToken();
+    const nomeKit = kit.nomeKit;
+    const produtos = kit.produtos;
     if (!token) {
         erroToken();
         return;
     } else {
-        try {
-            const resposta = await fetch('http://localhost:3000/kits/salvar', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                    'Authorization': `Bearer ${token}`
-                },
-                body: JSON.stringify(kit)
-            })
-            const dados = await resposta.json();
-            if (dados.sucesso) {
-                mostrarNotificacao(dados.mensagem, 'sucesso')
-                kitSelecionado.length = 0;
-                atualizarKit();
-                document.getElementById('nomeKit').value = ''
-                document.getElementById('descricaoKit').value = ''
-            } else {
-                mostrarNotificacao(dados.mensagem, 'erro')
-                console.log(dados.erro)
+        if (!nomeKit || !produtos || produtos.length === 0) {
+            mostrarNotificacao('Nome ou Produtos do kit faltando', 'erro');
+        } else {
+            try {
+                const resposta = await fetch('http://localhost:3000/kits/salvar', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Authorization': `Bearer ${token}`
+                    },
+                    body: JSON.stringify(kit)
+                })
+                const dados = await resposta.json();
+                if (dados.sucesso) {
+                    mostrarNotificacao(dados.mensagem, 'sucesso')
+                    kitSelecionado.length = 0;
+                    atualizarKit();
+                    document.getElementById('nomeKit').value = ''
+                    document.getElementById('descricaoKit').value = ''
+                } else {
+                    mostrarNotificacao(dados.mensagem, 'erro')
+                    console.log(dados.erro)
+                }
+            } catch (error) {
+                mostrarNotificacao('Não foi possivel salvar o kit. Erro de conexão', 'erro')
+                console.log(error.message)
             }
-        } catch (error) {
-            mostrarNotificacao('Não foi possivel salvar o kit. Erro de conexão', 'erro')
-            console.log(error.message)
+        }   
         }
-    }
 }
 
 //função de pesquisa para materias 
