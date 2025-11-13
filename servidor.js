@@ -200,7 +200,7 @@ app.post("/usuarios/atualizar", verificarToken, async (req, res) => {
 app.get("/reagentes", verificarToken, async (req, res) => {
   try {
     const [rows] = await pool.query(
-      "SELECT idReagente,nomeReagente,quantidade FROM Reagentes"
+      "SELECT idReagente,nomeReagente,quantidade FROM Reagentes WHERE quantidade > 0"
     );
     res.json({
       sucesso: true,
@@ -218,7 +218,7 @@ app.get("/reagentes", verificarToken, async (req, res) => {
 app.get("/vidrarias", verificarToken, async (req, res) => {
   try {
     const [rows] = await pool.query(
-      "SELECT idVidraria,nomeVidraria,capacidade,quantidade FROM Vidrarias"
+      "SELECT idVidraria,nomeVidraria,capacidade,quantidade FROM Vidrarias WHERE quantidade > 0"
     );
     res.json({
       sucesso: true,
@@ -460,11 +460,13 @@ app.get('/kits/buscar', verificarToken, async (req, res) => {
       kit.produtos = [
         ...vidrarias.map(v => ({
           nome: `${v.nomeVidraria} ${v.capacidade || ''}`.trim(),
-          quantidade: v.quantidade
+          quantidade: v.quantidade,
+          tipo: 'vidraria'
         })),
         ...reagentes.map(r => ({
           nome: r.nomeReagente,
-          quantidade: r.quantidade
+          quantidade: r.quantidade,
+          tipo : 'reagente'
         }))
       ];
     }
