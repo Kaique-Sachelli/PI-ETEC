@@ -105,4 +105,35 @@ document.addEventListener("DOMContentLoaded", () => {
             exluiKit(idKit);
         }
     })
+    inicializarPesquisa();
 });
+
+//função para pesquisar meus kits
+/**
+ * * @param {string} termo - O texto digitado pelo usuário (já em minúsculas).
+ */
+
+function pesquisarKit(termo) {
+    const container = document.querySelector('#containerMeusKits .kits-scroll .produtos-lista');
+    const kits = container.querySelectorAll('details.verde');
+    kits.forEach(kit =>{
+        const nomeElemento = kit.querySelector('summary span')
+        if (nomeElemento) {
+            const nomeKit = nomeElemento.innerText.toLowerCase();
+            if (nomeKit.includes(termo)) {
+                kit.classList.remove('d-none');
+            } else {
+                kit.classList.add('d-none');
+            }
+        }
+    })
+}
+function inicializarPesquisa(){
+    const barraPesquisa = document.querySelector('#containerMeusKits #pesquisaKits .input');
+    if (barraPesquisa) {
+        barraPesquisa.addEventListener('input', (e) =>{
+            const termoPesquisa = e.target.value.trim().toLowerCase();
+            pesquisarKit(termoPesquisa);
+        });
+    }
+}
