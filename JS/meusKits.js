@@ -52,9 +52,10 @@ export async function exibirKits() {
             } else {
                 kits.forEach(kit => {
                     let produtosHtml = '';
-                    produtosHtml = kit.produtos.map(produto =>
-                        `<li> ${produto.nome} - ${produto.quantidade} un. </li>`
-                    ).join('');
+                    produtosHtml = kit.produtos.map(produto =>{
+                        const unidade = (produto.tipo === 'reagente') ? 'g' : 'un.'; //verifica a unidade de cada produto.
+                        return `<li> ${produto.nome} - ${produto.quantidade} ${unidade} </li>`
+                }).join('');
                     const kitHtml = `
                     <details class="verde">
                         <summary>
