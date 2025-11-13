@@ -30,8 +30,6 @@ async function exluiKit(idKit) {
         }
     }
 }
-
-
 //função de renderizar os kits
 export async function exibirKits() {
     const token = getToken();

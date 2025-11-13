@@ -1,3 +1,4 @@
+
 import { exibirKits } from "./meusKits.js";
 import { mostrarNotificacao } from "./notificacao.js"
 import { getToken, erroToken } from "./sessao.js"
@@ -155,6 +156,7 @@ function atualizarKit() {
 document.addEventListener("DOMContentLoaded", () => {
     inicializarEventos()
     carregarProdutos('todos'); //inicia a pagina com todos os produtos em display
+    pesquisarProdutos();
     const linksFiltro = document.querySelectorAll(".filtro .submenu-link");
     linksFiltro.forEach(link => {
         link.addEventListener("click", (e) => {
@@ -372,4 +374,31 @@ async function salvaKit(kit) {
             console.log(error.message)
         }
     }
+}
+
+//função de pesquisa para materias 
+/**
+ * * @param {string} termo - O texto digitado pelo usuário (já em minúsculas).
+ */
+function filtrarItens(termo) {
+    const container = document.querySelector('#containerCriarKits, .produtos-lista');
+    const itens = container.querySelectorAll('.produtos-lista >  button');
+    itens.forEach(item =>{
+        const p = item.querySelector('p');
+        if (p) {
+            const nomeProduto = p.innerText.toLowerCase();
+            if (nomeProduto.includes(termo)) {
+                item.classList.remove('d-none');
+            } else {
+                item.classList.add('d-none');
+            }
+        }
+    })
+}
+function pesquisarProdutos(){
+    const barraPesquisa = document.querySelector('#containerCriarKits #pesquisaProdutos .input');
+    barraPesquisa.addEventListener('input', (e) =>{
+        const termoPesquisa = e.target.value.trim().toLowerCase();
+        filtrarItens(termoPesquisa);
+    });
 }
