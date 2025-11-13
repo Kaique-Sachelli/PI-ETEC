@@ -200,7 +200,7 @@ app.post("/usuarios/atualizar", verificarToken, async (req, res) => {
 app.get("/reagentes", verificarToken, async (req, res) => {
   try {
     const [rows] = await pool.query(
-      "SELECT idReagente,nomeReagente,quantidade FROM Reagentes"
+      "SELECT idReagente,nomeReagente,quantidade FROM Reagentes WHERE quantidade > 0"
     );
     res.json({
       sucesso: true,
@@ -218,7 +218,7 @@ app.get("/reagentes", verificarToken, async (req, res) => {
 app.get("/vidrarias", verificarToken, async (req, res) => {
   try {
     const [rows] = await pool.query(
-      "SELECT idVidraria,nomeVidraria,capacidade,quantidade FROM Vidrarias"
+      "SELECT idVidraria,nomeVidraria,capacidade,quantidade FROM Vidrarias WHERE quantidade > 0"
     );
     res.json({
       sucesso: true,
@@ -231,6 +231,43 @@ app.get("/vidrarias", verificarToken, async (req, res) => {
     });
   }
 });
+
+//buscar Reagentes indisponíveis
+app.get("/reagentes/indisponiveis", verificarToken, async (req, res) => {
+  try {
+    const [rows] = await pool.query(
+      "SELECT idReagente,nomeReagente,quantidade FROM Reagentes WHERE quantidade <= 0"
+    );
+    res.json({
+      sucesso: true,
+      reagentes: rows,
+    });
+  } catch (error) {
+    res.json({
+      sucesso: false,
+      mensagem: "Não foi possivel encontrar reagentes" + error.message,
+    });
+  }
+});
+
+//buscar vidrarias indisponíveis
+app.get("/vidrarias/indisponiveis", verificarToken, async (req, res) => {
+  try {
+    const [rows] = await pool.query(
+      "SELECT idVidraria,nomeVidraria,capacidade,quantidade FROM Vidrarias WHERE quantidade <= 0"
+    );
+    res.json({
+      sucesso: true,
+      vidrarias: rows,
+    });
+  } catch (error) {
+    res.json({
+      sucesso: false,
+      mensagem: "Não foi possivel encontrar vidrarias" + error.message,
+    });
+  }
+});
+
 // criar nova solicitação
 app.post("/solicitacoes", verificarToken, async (req, res) => {
   const { idUsuario, observacao } = req.body;
