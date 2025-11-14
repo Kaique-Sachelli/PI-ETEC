@@ -150,7 +150,7 @@ app.get('/usuarios/:id', verificarToken, async (req, res) => {
       sucesso: false
     })
   } else {
-    const id = req.params.id
+    const id = req.params.id;
     try {
       const [rows] = await pool.query(
         'SELECT email, permissao FROM usuario WHERE idUsuario = ?', [id]
@@ -462,5 +462,103 @@ app.post('/kits/salvar', verificarToken, async (req, res) => {
     if(connection) connection.release(); //depois de toda operação libera a conexão
   }
 })
+
+//buscar kits
+app.get('/kits/buscar', verificarToken, async (req, res) => {
+  let conexao = await pool.getConnection();
+  const idUsuario = req.usuario.idUsuario;
+  try {
+    const [kits] = await conexao.query(
+      `SELECT k.idKit, k.idUsuario, k.nome AS nomeKit, k.descrição, u.nome AS nomeProfessor
+      FROM kits k
+      INNER JOIN usuario u
+      WHERE k.idUsuario = u.idUsuario AND k.idUsuario = ?`,
+      [idUsuario]
+    );
+    for (let kit of kits) {
+      const [vidrarias] = await conexao.query(
+        `SELECT 
+           v.nomeVidraria, 
+           v.capacidade, 
+           kv.quantidade 
+         FROM Kits_Vidrarias kv
+         JOIN Vidrarias v ON kv.idVidraria = v.idVidraria
+         WHERE kv.idKit = ?`,
+        [kit.idKit]
+      );
+      const [reagentes] = await conexao.query(
+        `SELECT 
+           r.nomeReagente, 
+           kr.quantidade 
+         FROM Kits_Reagentes kr
+         JOIN Reagentes r ON kr.idReagente = r.idReagente
+         WHERE kr.idKit = ?`,
+        [kit.idKit]
+      );
+      kit.produtos = [
+        ...vidrarias.map(v => ({
+          nome: `${v.nomeVidraria} ${v.capacidade || ''}`.trim(),
+          quantidade: v.quantidade,
+          tipo: 'vidraria'
+        })),
+        ...reagentes.map(r => ({
+          nome: r.nomeReagente,
+          quantidade: r.quantidade,
+          tipo : 'reagente'
+        }))
+      ];
+    }
+    res.json({
+      sucesso: true,
+      kits: kits
+    });
+  } catch (erro) {
+    res.status(500).json({
+      sucesso: false,
+      mensagem: 'Erro ao buscar Kits: ' + erro.message
+    });
+  } finally {
+    if (conexao) conexao.release();
+  }
+})
+//exluir kit
+app.delete('/kits/excluir/:idKit', verificarToken, async (req,res) => {
+  const {idKit} = req.params;
+  const conexao = await pool.getConnection();
+  //inicia transação
+  await conexao.beginTransaction();
+  try {
+    await conexao.query(
+      `DELETE FROM kits_vidrarias WHERE idKit =?;`,
+      [idKit]
+    );
+    await conexao.query(
+      `DELETE FROM kits_reagentes WHERE idKit =?;`,
+      [idKit]
+    );
+    await conexao.query(
+      `DELETE FROM kits WHERE idKit = ? ;`,
+      [idKit]
+    );
+    //se os três DELETES deram certo, faz o commit
+    await conexao.commit();
+    res.json({
+      sucesso : true,
+      mensagem : 'Kit deletado com sucesso!'
+    });
+  } catch (error) {
+    //se algum dos três DELETES falharem, desfaz toda operação
+    await conexao.rollback();
+    res.json({
+      sucesso : false,
+      mensagem : 'Houve um erro ao deletar o kit',
+      erro : error.message
+    });
+  }finally{
+    //libera a conexão
+    if (conexao) conexao.release();
+  }
+})
+
 const PORTA = 3000;
 app.listen(PORTA, () => console.log(`🚀 Servidor rodando na porta ${PORTA}`));

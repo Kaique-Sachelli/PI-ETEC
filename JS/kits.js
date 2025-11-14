@@ -1,3 +1,4 @@
+
 import { exibirKits } from "./meusKits.js";
 import { mostrarNotificacao } from "./notificacao.js"
 import { getToken, erroToken } from "./sessao.js"
@@ -155,6 +156,7 @@ function atualizarKit() {
 document.addEventListener("DOMContentLoaded", () => {
     inicializarEventos()
     carregarProdutos('todos'); //inicia a pagina com todos os produtos em display
+    pesquisarProdutos();
     const linksFiltro = document.querySelectorAll(".filtro .submenu-link");
     linksFiltro.forEach(link => {
         link.addEventListener("click", (e) => {
@@ -343,33 +345,66 @@ function alternarVisualizacao(tipo) {
 //Função de salvar kits
 async function salvaKit(kit) {
     const token = getToken();
+    const nomeKit = kit.nomeKit;
+    const produtos = kit.produtos;
     if (!token) {
         erroToken();
         return;
     } else {
-        try {
-            const resposta = await fetch('http://localhost:3000/kits/salvar', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                    'Authorization': `Bearer ${token}`
-                },
-                body: JSON.stringify(kit)
-            })
-            const dados = await resposta.json();
-            if (dados.sucesso) {
-                mostrarNotificacao(dados.mensagem, 'sucesso')
-                kitSelecionado.length = 0;
-                atualizarKit();
-                document.getElementById('nomeKit').value = ''
-                document.getElementById('descricaoKit').value = ''
-            } else {
-                mostrarNotificacao(dados.mensagem, 'erro')
-                console.log(dados.erro)
+        if (!nomeKit || !produtos || produtos.length === 0) {
+            mostrarNotificacao('Nome ou Produtos do kit faltando', 'erro');
+        } else {
+            try {
+                const resposta = await fetch('http://localhost:3000/kits/salvar', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Authorization': `Bearer ${token}`
+                    },
+                    body: JSON.stringify(kit)
+                })
+                const dados = await resposta.json();
+                if (dados.sucesso) {
+                    mostrarNotificacao(dados.mensagem, 'sucesso')
+                    kitSelecionado.length = 0;
+                    atualizarKit();
+                    document.getElementById('nomeKit').value = ''
+                    document.getElementById('descricaoKit').value = ''
+                } else {
+                    mostrarNotificacao(dados.mensagem, 'erro')
+                    console.log(dados.erro)
+                }
+            } catch (error) {
+                mostrarNotificacao('Não foi possivel salvar o kit. Erro de conexão', 'erro')
+                console.log(error.message)
             }
-        } catch (error) {
-            mostrarNotificacao('Não foi possivel salvar o kit. Erro de conexão', 'erro')
-            console.log(error.message)
+        }   
         }
-    }
+}
+
+//função de pesquisa para materias 
+/**
+ * * @param {string} termo - O texto digitado pelo usuário (já em minúsculas).
+ */
+function filtrarItens(termo) {
+    const container = document.querySelector('#containerCriarKits, .produtos-lista');
+    const itens = container.querySelectorAll('.produtos-lista >  button');
+    itens.forEach(item =>{
+        const p = item.querySelector('p');
+        if (p) {
+            const nomeProduto = p.innerText.toLowerCase();
+            if (nomeProduto.includes(termo)) {
+                item.classList.remove('d-none');
+            } else {
+                item.classList.add('d-none');
+            }
+        }
+    })
+}
+function pesquisarProdutos(){
+    const barraPesquisa = document.querySelector('#containerCriarKits #pesquisaProdutos .input');
+    barraPesquisa.addEventListener('input', (e) =>{
+        const termoPesquisa = e.target.value.trim().toLowerCase();
+        filtrarItens(termoPesquisa);
+    });
 }
