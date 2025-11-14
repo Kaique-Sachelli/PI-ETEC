@@ -7,6 +7,7 @@ const pool = require("../PI-ETEC/JS/conexao.js");
 const bcrypt = require('bcrypt');
 const saltrounds = 10;
 
+
 const app = express();
 app.use(cors());
 app.use(bodyParser.json());
@@ -47,8 +48,8 @@ app.post("/login", async (req, res) => {
 
   try {
     const [rows] = await pool.query(
-      "SELECT * FROM usuario WHERE email = ?",
-      [email]
+      "SELECT * FROM usuario WHERE email = ? AND senha = ?",
+      [email, senha]
     );
 
     if (rows.length > 0) {
@@ -90,9 +91,10 @@ app.post("/cadastro", verificarToken, async (req, res) => {
   } else {
     try {
       const hashSenha = await bcrypt.hash(senha, saltrounds) //Não salva mais senhas em texto puro
+
       const [result] = await pool.query(
         'INSERT INTO usuario (nome, email, senha, permissao) VALUES (?, ?, ?, ?)',
-        [nome, email, hashSenha, login]
+        [nome, email, senha, login]
       );
       res.json({
         sucesso: true,
@@ -358,9 +360,6 @@ app.put("/api/solicitacoes/:id", async (req, res) => {
     res.status(500).json({ erro: "Erro interno no servidor" });
   }
 });
-// ===============================
-// REPOSIÇÃO DE ESTOQUE
-// ===============================
 app.get("/api/reposicao", verificarToken, async (req, res) => {
   try {
     const [rows] = await pool.query(`
@@ -399,30 +398,30 @@ app.put("/api/reposicao/:id", verificarToken, async (req, res) => {
   const { id } = req.params;
   const { status } = req.body;
 
-  if (!status) {
-    return res.status(400).json({ erro: "O campo 'status' é obrigatório." });
+// parte do Moreno tentativa de agendamento
+// cria novo agendamento
+app.post("/agendamentos", verificarToken, async (req, res) => {
+  const { data, laboratorio, kit, periodo, horario } = req.body;
+  const idUsuario = req.usuario.idUsuario; // pega o usuário logado do JWT
+
+  // valida
+  if (!data || !laboratorio || !periodo || !horario) {
+    return res.status(400).json({ sucesso: false, mensagem: "Preencha todos os campos" });
   }
 
   try {
     const [result] = await pool.query(
-      "UPDATE ReposicaoEstoque SET status = ? WHERE idReposicao = ?",
-      [status, id]
+      "INSERT INTO Agendamentos (idUsuario, data, laboratorio, kit, periodo, horario) VALUES (?, ?, ?, ?, ?, ?)",
+      [idUsuario, data, laboratorio, kit, periodo, horario]
     );
 
-    if (result.affectedRows === 0) {
-      return res.status(404).json({ erro: "Pedido de reposição não encontrado." });
-    }
-
-    res.json({ sucesso: true, mensagem: "Status atualizado com sucesso!" });
+    res.json({ sucesso: true, mensagem: "Agendamento solicitado", id: result.insertId });
   } catch (erro) {
-    res.status(500).json({ erro: "Erro ao atualizar status: " + erro.message });
+    console.error("Erro ao agendar:", erro);
+    res.status(500).json({ sucesso: false, mensagem: "Erro ao agendar: " + erro.message });
   }
 });
-//salvar kit
 app.post('/kits/salvar', verificarToken, async (req, res) => {
-  const idUsuario = req.usuario.idUsuario;
-  const { nomeKit, descricaoKit, produtos } = req.body;
-
   if (!nomeKit || !produtos || produtos.length === 0) {
     res.json({ sucesso: false, mensagem: 'Nome ou Produtos do kit faltando' })
   }
@@ -561,6 +560,5 @@ app.delete('/kits/excluir/:idKit', verificarToken, async (req,res) => {
     if (conexao) conexao.release();
   }
 })
-
 const PORTA = 3000;
 app.listen(PORTA, () => console.log(`🚀 Servidor rodando na porta ${PORTA}`));

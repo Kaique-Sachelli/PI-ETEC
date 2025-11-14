@@ -1,111 +1,78 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
-<head>
-  <meta charset="UTF-8">
-  <meta http-equiv="X-UA-Compatible" content="IE=edge">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Agendamento - ETEC Júlio de Mesquita</title>
-  <link rel="stylesheet" href="../CSS/agendamento.css">
-  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css" rel="stylesheet"
-    integrity="sha384-rbsA2VBKQhggwzxH7pPCaAqO46MgnOM80zW1RWuH61DGLwZJEdK2Kadq2F9CUG65" crossorigin="anonymous">
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
 
-  <!-- Fonte Roboto -->
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap" rel="stylesheet">                 
-     
-  <!-- Fonte Roboto Slab -->
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Roboto+Slab:wght@100;400;500;700&display=swap" rel="stylesheet">
+<head>
+  <meta charset="UTF-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Agendamento - ETEC Júlio de Mesquita</title>
+
+  <!-- CSS -->
+  <link rel="stylesheet" href="../CSS/agendamento.css" />
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css" rel="stylesheet" />
+
+  <!-- Font Awesome -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
+
+  <!-- Fontes -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=Roboto+Slab:wght@100;400;500;700&display=swap" rel="stylesheet" />
 </head>
 
 <body>
   <div id="notificacao">notificacao</div>
-    <header class="cabecalho container-fluid ">
-      <div class=" row d-flex align-items-center justify-content-between">
 
-         <!-- Logos -->
-         <div class="col-lg-3 col-md-5">
-            <img src="../Img/Logo_etec.png" alt="Logo ETEC" class="img-fluid logo-etec" style="max-height: 100px;">
-            <img src="../Img/Logo_sp.png" alt="Logo SP" class="img-fluid logo-sp" style="max-height: 80px;">
-         </div>
-
-         <!-- Titulo -->
-         <div class="col-lg-8 col-md-8 text-center my-2 my-md-0 flex-grow-1 titulo-header">
-            <h2 class="fs-5 mb-2">Agendamento e Gerenciamento de Aulas Práticas</h2>
-            <div class="linha-preta col-lg-8 mx-auto"></div>
-         </div>
-
-         <!-- Botão usuário -->
-         <div class="col-lg-1 col-md-7 col-sm-7 d-flex justify-content-end">
-            <div class="dropdown">
-               <button class="dropbtn">
-                  <img src="../Img/usuario.png" alt="">
-               </button>
-               <div class="dropdown-content">
-                  <a id="botaoSair" href="../HTML/login.html">Sair</a>
-               </div>
-         </div>
-         </div>
+  <header class="cabecalho container-fluid ">
+    <div class="row d-flex align-items-center justify-content-between">
+      <!-- Logos -->
+      <div class="col-lg-3 col-md-5">
+        <img src="../Img/Logo_etec.png" alt="Logo ETEC" class="img-fluid logo-etec" style="max-height: 100px;" />
+        <img src="../Img/Logo_sp.png" alt="Logo SP" class="img-fluid logo-sp" style="max-height: 80px;" />
       </div>
-   </header>
+
+      <!-- Título -->
+      <div class="col-lg-8 col-md-8 text-center my-2 my-md-0 flex-grow-1 titulo-header">
+        <h2 class="fs-5 mb-2">Agendamento e Gerenciamento de Aulas Práticas</h2>
+        <div class="linha-preta col-lg-8 mx-auto"></div>
+      </div>
+
+      <!-- Botão usuário -->
+      <div class="col-lg-1 col-md-7 col-sm-7 d-flex justify-content-end">
+        <div class="dropdown">
+          <button class="dropbtn">
+            <img src="../Img/usuario.png" alt="Usuário" />
+          </button>
+          <div class="dropdown-content">
+            <a id="botaoSair" href="../HTML/login.html">Sair</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </header>
 
   <!-- MENU -->
   <div class="navbar">
-      <button class="col-md-2 col-4 secao" data-role="professor" onclick="window.location.href='inicio.html'">Início</button>
-
-      <button class="col-md-2 col-4 secao" style="background-color: #BA1A1A;" data-role="professor">Agendamento</button>
-
-      <button class="col-md-2 col-4 secao" data-role="professor" onclick="window.location.href='estoque.html'">Estoque</button>
-
-      <button class="col-md-2 col-4 secao" data-role="professor" onclick="window.location.href='kits.html'">Kits</button>
-
-      <button class="col-md-2 col-4 secao" data-role="professor" onclick="window.location.href='solicitacao.html'">Solicitações</button>
-
-      <button class="col-md-2 col-4 secao" data-role="adm" onclick="window.location.href='cadastro.html'">Cadastro</button>
+    <button class="col-md-2 col-4 secao" onclick="window.location.href='inicio.html'">Início</button>
+    <button class="col-md-2 col-4 secao ativo" style="background-color: #BA1A1A;">Agendamento</button>
+    <button class="col-md-2 col-4 secao" onclick="window.location.href='estoque.html'">Estoque</button>
+    <button class="col-md-2 col-4 secao" onclick="window.location.href='kits.html'">Kits</button>
+    <button class="col-md-2 col-4 secao" onclick="window.location.href='solicitacao.html'">Solicitações</button>
+    <button class="col-md-2 col-4 secao" onclick="window.location.href='cadastro.html'">Cadastro</button>
   </div>
 
+  <!-- 🔹 CONTAINER UNIFICADO -->
+  <div class="container-unificado">
+    <div class="row justify-content-center align-items-start gx-4 gy-4">
 
-  <!-- CONTAINER PRINCIPAL (VISÃO MENSAL) -->
-  <div class="container-principal">
-    <!-- CALENDÁRIO -->
-    <div class="col-12 col-md-9 col-lg-7 col-xl-5 calendario">
-      <div class="mes-header">
-        <button class="seta"><i class="fa-solid fa-chevron-left"></i></button>
-        <h3 class="mes">Setembro</h3>
-        <button class="seta"><i class="fa-solid fa-chevron-right"></i></button>
-      </div>
-
-      <ul class="selecionar-semana">
-        <li><button class="submenu-link ativo">Mês</button></li>
-        <li><button class="submenu-link">Semana</button></li>
-      </ul>
-      
-        <!-- Dias da semana -->
-        <div class="dias-mes">
-          <div>Seg.</div>
-          <div>Ter.</div>
-          <div>Qua.</div>
-          <div>Qui.</div>
-          <div>Sex.</div>
-          <div>Sab.</div>
-          <div>Dom.</div>
-        </div>
-
-        <!-- Dias -->
-        <div class="dias">
-        </div>
-      </div>
-
-      <!-- BLOCO DE HORÁRIOS -->
-      <div class="col-12 col-md-9 col-lg-3 bloco-horarios">
+      <!-- 🔸 BLOCO DE SELEÇÃO (Kits / Laboratório / Período / Horários) -->
+      <div class="col-12 col-md-5 col-lg-4 bloco-horarios">
         <h4 class="mes text-center mb-3">Horários e Salas</h4>
 
         <div class="mb-3">
           <label class="form-label">Laboratórios</label>
-          <select class="form-select">
+          <select class="form-select" id="laboratorioSelect">
             <option value=""></option>
             <option>Laboratório 2</option>
             <option>Laboratório 3</option>
@@ -115,18 +82,17 @@
 
         <div class="mb-3 filtro kits">
           <label class="form-label">Kit</label>
-          <select class="form-select">
+          <select class="form-select" id="kitSelect">
             <option value=""></option>
-            <option>1ª aula - 18h50 às 19h40</option>
-            <option>2ª aula - 19h40 às 20h30</option>
-            <option>3ª aula - 20h44 às 21h34</option>
-            <option>4ª aula - 21h34 às 22h20</option>
+            <option>Kit A</option>
+            <option>Kit B</option>
+            <option>Kit C</option>
           </select>
         </div>
 
         <div class="mb-3">
           <label class="form-label">Período:</label>
-          <select class="form-select periodo">
+          <select class="form-select periodo" id="periodoSelect">
             <option value=""></option>
             <option value="matutino">Matutino</option>
             <option value="vespertino">Vespertino</option>
@@ -134,252 +100,105 @@
           </select>
         </div>
 
-        <!-- MATUTINO -->
-        <div class="mb-3 bloco-periodo matutino">
-          <label class="form-label">Horários Matutino:</label>
-          <select class="form-select">
-            <option value=""></option>
-            <option>1ª aula - 7h10 às 8h00</option>
-            <option>2ª aula - 8h00 às 8h50</option>
-            <option>3ª aula - 8h50 às 9h40</option>
-            <option>4ª aula - 10h00 às 10h50</option>
-            <option>5ª aula - 10h50 às 11h40</option>
-            <option>6ª aula - 11h40 às 12h30</option>
-          </select>
-        </div>
+        <!-- Horários dinâmicos (painel lateral) -->
+        <div id="horariosContainer"></div>
 
-        <!-- VESPERTINO -->
-        <div class="mb-3 bloco-periodo vespertino">
-          <label class="form-label">Horários Vespertino:</label>
-          <select class="form-select">
-            <option value=""></option>
-            <option>1ª aula - 13h00 às 13h50</option>
-            <option>2ª aula - 13h50 às 14h40</option>
-            <option>3ª aula - 14h40 às 15h30</option>
-            <option>4ª aula - 15h50 às 16h40</option>
-            <option>5ª aula - 16h40 às 17h30</option>
-            <option>6ª aula - 17h30 às 18h20</option>
-          </select>
-        </div>
-
-        <!-- NOTURNO -->
-        <div class="mb-3 bloco-periodo noturno">
-          <label class="form-label">Horários Noturno:</label>
-          <select class="form-select">
-            <option value=""></option>
-            <option>1ª aula - 18h50 às 19h40</option>
-            <option>2ª aula - 19h40 às 20h30</option>
-            <option>3ª aula - 20h44 às 21h34</option>
-            <option>4ª aula - 21h34 às 22h20</option>
-          </select>
-        </div>
-
-        <button class="btn w-100 mt-3">Agendar</button>
+        <button id="btnAgendar" class="btn w-100 mt-3">Agendar</button>
       </div>
-    </div>
 
-    <!-- CONTAINER SEMANA -->
-    <div class="container-semana" style="display: none">
-      <div class="col-12 col-md-9 col-lg-7 col-xl-5 calendario">
+      <!-- 🔸 CALENDÁRIO -->
+      <div class="col-12 col-md-7 col-lg-6 calendario">
         <div class="mes-header">
-          <h3 class="mes">Semana</h3>
+          <button class="seta" id="setaEsquerda"><i class="fa-solid fa-chevron-left"></i></button>
+          <h3 class="mes">Setembro</h3>
+          <button class="seta" id="setaDireita"><i class="fa-solid fa-chevron-right"></i></button>
         </div>
 
         <ul class="selecionar-semana">
-          <li><button class="submenu-link ">Mês</button></li>
-          <li><button class="submenu-link ativo">Semana</button></li>
+          <li><button class="submenu-link ativo" id="botaoMes">Mês</button></li>
+          <li><button class="submenu-link" id="botaoSemana">Semana</button></li>
         </ul>
 
-        <div class="dias-semana">
+        <div class="dias-semana" id="cabecalhoDias">
           <div>Seg.</div>
           <div>Ter.</div>
           <div>Qua.</div>
           <div>Qui.</div>
           <div>Sex.</div>
           <div>Sab.</div>
+          <div>Dom.</div>
         </div>
 
-        <div class="semana">
-          <div></div>
-          <div></div>
-          <div></div>
-          <div></div>
-          <div></div>
-          <div></div>
+        <!-- grade mensal -->
+        <div class="dias" id="gradeDias"></div>
+
+        <!-- grade semanal (renderizada pelo JS) -->
+        <div class="semana" id="gradeSemana" style="display: none"></div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- FOOTER (integrado da versão completa) -->
+  <footer>
+    <div class="row">
+      <div class="col-sm-6 secao">
+        <h3>🧪 ETEC Laboratórios</h3>
+        <div class="texto">Sistema de agendamento de laboratórios para a ETEC Júlio de Mesquita.</div>
+        <div class="icones">
+          <a href="https://www.facebook.com/governosp/" target="_blank">
+            <img class="icones-rede" src="../Img/facebook.png" alt="Logo Facebook" />
+          </a>
+          <a href="https://www.instagram.com/governosp/" target="_blank">
+            <img class="icones-rede" src="../Img/instagram.png" alt="Logo Instagram" />
+          </a>
+          <a href="https://x.com/governosp/" target="_blank">
+            <img class="icones-rede" src="../Img/twitter.png" alt="Logo X" />
+          </a>
+          <a href="https://www.youtube.com/governosp" target="_blank">
+            <img class="icones-rede" src="../Img/youtube.png" alt="Logo YouTube" />
+          </a>
+          <a href="https://www.tiktok.com/@governosp" target="_blank">
+            <img class="icones-rede" src="../Img/tik-tok.png" alt="Logo TikTok" />
+          </a>
+          <a href="https://www.linkedin.com/company/governosp/" target="_blank">
+            <img class="icones-rede" src="../Img/linkedin.png" alt="Logo LinkedIn" />
+          </a>
         </div>
       </div>
-      <!-- BLOCO DE HORÁRIOS -->
-      <div class="col-12 col-md-9 col-lg-3 bloco-horarios">
-        <h4 class="mes text-center mb-3">Horários e Salas</h4>
 
-        <div class="mb-3">
-          <label class="form-label">Laboratórios</label>
-          <select class="form-select">
-            <option value=""></option>
-            <option>Laboratório 2</option>
-            <option>Laboratório 3</option>
-            <option>Laboratório 4</option>
-          </select>
-        </div>
-
-        <div class="mb-3">
-          <label class="form-label">Período:</label>
-          <select class="form-select periodo">
-            <option value=""></option>
-            <option value="matutino">Matutino</option>
-            <option value="vespertino">Vespertino</option>
-            <option value="noturno">Noturno</option>
-          </select>
-        </div>
-
-        <!-- MATUTINO -->
-        <div class="mb-3 bloco-periodo matutino">
-          <label class="form-label">Horários Matutino:</label>
-          <select class="form-select">
-            <option value=""></option>
-            <option>1ª aula - 7h10 às 8h00</option>
-            <option>2ª aula - 8h00 às 8h50</option>
-            <option>3ª aula - 8h50 às 9h40</option>
-            <option>4ª aula - 10h00 às 10h50</option>
-            <option>5ª aula - 10h50 às 11h40</option>
-            <option>6ª aula - 11h40 às 12h30</option>
-          </select>
-        </div>
-
-        <!-- VESPERTINO -->
-        <div class="mb-3 bloco-periodo vespertino">
-          <label class="form-label">Horários Vespertino:</label>
-          <select class="form-select">
-            <option value=""></option>
-            <option>1ª aula - 13h00 às 13h50</option>
-            <option>2ª aula - 13h50 às 14h40</option>
-            <option>3ª aula - 14h40 às 15h30</option>
-            <option>4ª aula - 15h50 às 16h40</option>
-            <option>5ª aula - 16h40 às 17h30</option>
-            <option>6ª aula - 17h30 às 18h20</option>
-          </select>
-        </div>
-
-        <!-- NOTURNO -->
-        <div class="mb-3 bloco-periodo noturno">
-          <label class="form-label">Horários Noturno:</label>
-          <select class="form-select">
-            <option value=""></option>
-            <option>1ª aula - 18h50 às 19h40</option>
-            <option>2ª aula - 19h40 às 20h30</option>
-            <option>3ª aula - 20h44 às 21h34</option>
-            <option>4ª aula - 21h34 às 22h20</option>
-          </select>
-        </div>
-
-        <button class="btn w-100 mt-3">Agendar</button>
+      <div class="col-sm-4 secao">
+        <h3>Contato</h3>
+        <div class="texto">📍 Av. Exemplo 1000 - São Paulo SP</div>
+        <div class="texto">📞 (11) 1234-5678</div>
+        <div class="texto">✉ contato@eteclabs.edu.br</div>
+        <div class="texto">🕓 Seg - Sex: 8:00 - 17:00</div>
       </div>
     </div>
-    <!-- FOOTER -->
-    <footer>
-      <div class="row">
-        <div class="col-sm-6 secao">
-          <h3>🧪 ETEC Laboratórios</h3>
-          <div class="texto">
-            Sistema de agendamento de laboratórios para a ETEC Júlio de
-            Mesquita.
-          </div>
-          <div class="icones">
-            <!-- Facebook -->
-            <a href="https://www.facebook.com/governosp/" target="_blank">
-              <img
-                class="icones-rede"
-                src="../Img/facebook.png"
-                alt="Logo Facebook"
-              />
-            </a>
 
-            <!-- Instagram -->
-            <a href="https://www.instagram.com/governosp/" target="_blank">
-              <img
-                class="icones-rede"
-                src="../Img/instagram.png"
-                alt="Logo instagram"
-              />
-            </a>
-
-            <!-- Twitter -->
-            <a href="https://x.com/governosp/" target="_blank">
-              <img
-                class="icones-rede"
-                src="../Img/twitter.png"
-                alt="Logo twitter"
-              />
-            </a>
-
-            <!-- Youtube -->
-            <a href="https://www.youtube.com/governosp" target="_blank">
-              <img
-                class="icones-rede"
-                src="../Img/youtube.png"
-                alt="Logo YouTube"
-              />
-            </a>
-
-            <!-- Tiktok -->
-            <a href="https://www.tiktok.com/@governosp" target="_blank">
-              <img
-                class="icones-rede"
-                src="../Img/tik-tok.png"
-                alt="Logo tiktok"
-              />
-            </a>
-
-            <!-- Linkedin -->
-            <a
-              href="https://www.linkedin.com/company/governosp/"
-              target="_blank"
-            >
-              <img
-                class="icones-rede"
-                src="../Img/linkedin.png"
-                alt="Logo linkedin"
-              />
-            </a>
-          </div>
-        </div>
-
-        <div class="col-sm-4 secao">
-          <h3>Contato</h3>
-          <div class="texto">📍 Av. Exemplo 1000 - São Paulo SP</div>
-          <div class="texto">📞 (11) 1234-5678</div>
-          <div class="texto">✉ contato@eteclabs.edu.br</div>
-          <div class="texto">🕓 Seg - Sex: 8:00 - 17:00</div>
-        </div>
-      </div>
-      <div class="row">
-        <div class="linha-footer d-flex justify-content-center"></div>
-        <div class="texto d-flex justify-content-center">
-          &copy; 2025 ETEC. Todos os direitos reservados.
-        </div>
-      </div>
-    </footer>
-
-    <!-- VLibras -->
-    <div vw class="enabled">
-      <div vw-access-button class="active"></div>
-      <div vw-plugin-wrapper><div class="vw-plugin-top-wrapper"></div></div>
+    <div class="row">
+      <div class="linha-footer d-flex justify-content-center"></div>
+      <div class="texto d-flex justify-content-center">&copy; 2025 ETEC. Todos os direitos reservados.</div>
     </div>
+  </footer>
 
-    <script src="https://vlibras.gov.br/app/vlibras-plugin.js"></script>
-    <script>
-      new window.VLibras.Widget("https://vlibras.gov.br/app");
-    </script>
+  <!-- Acessibilidade / VLibras -->
+  <div vw class="enabled">
+    <div vw-access-button class="active"></div>
+    <div vw-plugin-wrapper"><div class="vw-plugin-top-wrapper"></div></div>
+  </div>
 
-    <script
-      src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"
-      integrity="sha384-kenU1KFdBIe4zVF0s0G1M5b4hcpxyD9F7jL+jjXkk+Q2h455rYXK/7HAuoJl+0I4"
-      crossorigin="anonymous"
-    ></script>
+  <!-- SCRIPTS -->
+  <script src="https://vlibras.gov.br/app/vlibras-plugin.js"></script>
+  <script>new window.VLibras.Widget("https://vlibras.gov.br/app");</script>
 
-    <!-- Script principal -->
-    <script src="https://app.embed.im/accessibility.js" defer></script>
-    <script type="module" src="../JS/sessao.js"></script>
-    <script type="module" src="../JS/agendamento.js"></script>
-  </body>
+  <!-- script de acessibilidade incorporado na versão completa -->
+  <script src="https://app.embed.im/accessibility.js" defer></script>
+
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"></script>
+
+  <script type="module" src="../JS/sessao.js"></script>
+  <script type="module" src="../JS/agendamento.js"></script>
+</body>
+
 </html>
