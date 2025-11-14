@@ -48,8 +48,8 @@ app.post("/login", async (req, res) => {
 
   try {
     const [rows] = await pool.query(
-      "SELECT * FROM usuario WHERE email = ? AND senha = ?",
-      [email, senha]
+      "SELECT * FROM usuario WHERE email = ?",
+      [email]
     );
 
     if (rows.length > 0) {
@@ -94,7 +94,7 @@ app.post("/cadastro", verificarToken, async (req, res) => {
 
       const [result] = await pool.query(
         'INSERT INTO usuario (nome, email, senha, permissao) VALUES (?, ?, ?, ?)',
-        [nome, email, senha, login]
+        [nome, email, hashSenha, login]
       );
       res.json({
         sucesso: true,
@@ -420,8 +420,11 @@ app.post("/agendamentos", verificarToken, async (req, res) => {
     console.error("Erro ao agendar:", erro);
     res.status(500).json({ sucesso: false, mensagem: "Erro ao agendar: " + erro.message });
   }
+})
 });
 app.post('/kits/salvar', verificarToken, async (req, res) => {
+  const { nomeKit, descricaoKit, produtos } = req.body;
+  const idUsuario = req.usuario.idUsuario;
   if (!nomeKit || !produtos || produtos.length === 0) {
     res.json({ sucesso: false, mensagem: 'Nome ou Produtos do kit faltando' })
   }
