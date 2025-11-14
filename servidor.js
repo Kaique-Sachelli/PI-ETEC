@@ -202,7 +202,9 @@ app.post("/usuarios/atualizar", verificarToken, async (req, res) => {
 app.get("/reagentes", verificarToken, async (req, res) => {
   try {
     const [rows] = await pool.query(
+
       "SELECT idReagente, nomeReagente,quantidade FROM Reagentes WHERE quantidade > 0"
+
     );
     res.json({
       sucesso: true,
@@ -233,11 +235,12 @@ app.get("/vidrarias", verificarToken, async (req, res) => {
     });
   }
 });
-//buscar Reagentes indisponiveis
+
+//buscar Reagentes indisponíveis
 app.get("/reagentes/indisponiveis", verificarToken, async (req, res) => {
   try {
     const [rows] = await pool.query(
-      "SELECT nomeReagente,quantidade FROM Reagentes WHERE quantidade <= 0"
+      "SELECT idReagente,nomeReagente,quantidade FROM Reagentes WHERE quantidade <= 0"
     );
     res.json({
       sucesso: true,
@@ -250,12 +253,11 @@ app.get("/reagentes/indisponiveis", verificarToken, async (req, res) => {
     });
   }
 });
-
-//buscar vidrarias indisponiveis
+//buscar vidrarias indisponíveis
 app.get("/vidrarias/indisponiveis", verificarToken, async (req, res) => {
   try {
     const [rows] = await pool.query(
-      "SELECT nomeVidraria,capacidade,quantidade FROM Vidrarias WHERE quantidade <= 0"
+      "SELECT idVidraria,nomeVidraria,capacidade,quantidade FROM Vidrarias WHERE quantidade <= 0"
     );
     res.json({
       sucesso: true,
