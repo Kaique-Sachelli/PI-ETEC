@@ -128,6 +128,7 @@ function gerenciarEstoque() {
 
 document.addEventListener("DOMContentLoaded", () => {
     carregarProdutos("indisponiveis"); //inicia a pagina com todos os produtos indisponiveis em display
+    pesquisarProdutos();
     const linksFiltro = document.querySelectorAll(".filtro .submenu-link");
     linksFiltro.forEach(link => {
         link.addEventListener("click", (e) => {
@@ -313,3 +314,30 @@ document.querySelectorAll('.cancelar-button').forEach(button => {
         }
     });
 });
+
+//função de pesquisa para materias 
+/**
+ * * @param {string} termo - O texto digitado pelo usuário (já em minúsculas).
+ */
+function filtrarItens(termo) {
+    const container = document.querySelector('.container-produtos, .produtos-lista');
+    const itens = container.querySelectorAll('.produtos-lista >  button');
+    itens.forEach(item =>{
+        const p = item.querySelector('p');
+        if (p) {
+            const nomeProduto = p.innerText.toLowerCase();
+            if (nomeProduto.includes(termo)) {
+                item.classList.remove('d-none');
+            } else {
+                item.classList.add('d-none');
+            }
+        }
+    })
+}
+function pesquisarProdutos(){
+    const barraPesquisa = document.querySelector('.container-produtos #pesquisaProdutos .input');
+    barraPesquisa.addEventListener('input', (e) =>{
+        const termoPesquisa = e.target.value.trim().toLowerCase();
+        filtrarItens(termoPesquisa);
+    });
+}
