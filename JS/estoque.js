@@ -53,17 +53,26 @@ function alterarQuantidade(index, delta) {
         item.quantidade = novaQtd;
         solicitarMaterial();
         gerenciarEstoque()
+    } else {
+        item.quantidade = novaQtd;
+        gerenciarEstoque()
     }
 }
 
 function atualizarQuantidadeManual(index, novaQtd) {
-    if (novaQtd <= 0 || isNaN(novaQtd)) {
-        mostrarNotificacao("Quantidade inválida!", "erro");
-        return;
+    if (novaQtd > 0) {
+        kitSelecionado[index].quantidade = novaQtd;
+        solicitarMaterial();
+        gerenciarEstoque()
+    } else {
+        if (document.getElementById("containerSolicitar").style.display == "none") {
+            kitSelecionado[index].quantidade = novaQtd;
+            gerenciarEstoque()
+        } else {
+            mostrarNotificacao("Quantidade inválida!", "erro");
+            return;
+        }
     }
-    kitSelecionado[index].quantidade = novaQtd;
-    solicitarMaterial();
-    gerenciarEstoque()
 }
 
 function solicitarMaterial() {
