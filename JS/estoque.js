@@ -6,14 +6,36 @@ let kitSelecionado = [];
 let modoVisualizacao = "solicitar";
 
 function adicionarAoKit(elemento) {
-    const nomeProduto = elemento.querySelector("p").innerText.trim();
+    const pElem = elemento.querySelector('p');
+    let nomeProduto = '';
+    if (pElem) {
+        const partes = pElem.innerText.split('\n').map(s => s.trim()).filter(Boolean);
+        const nome = partes[0] || '';
+        const detalhe = partes[1] || '';
+        nomeProduto = detalhe ? `${nome} — ${detalhe}` : nome;
+    } else {
+        nomeProduto = elemento.innerText.trim();
+    }
     const imagemProduto = elemento.querySelector("img").getAttribute("src");
     const produtoExistente = kitSelecionado.find(item => item.nome === nomeProduto);
+    const tipoElemento = elemento.dataset.tipo;
+    const estoque = tipoElemento === 'vidraria'
+        ? parseInt(elemento.dataset.estoque, 10) || 0
+        : parseFloat(elemento.dataset.estoque) || 0;
+    const passoInicial = tipoElemento === 'reagente' ? 0.1 : 1;
+    const idProduto = elemento.dataset.idProduto;
     if (produtoExistente) {
         mostrarNotificacao("Este produto já foi adicionado ao kit", "erro");
         return;
     }
-    kitSelecionado.push({ nome: nomeProduto, imagem: imagemProduto, quantidade: 1 });
+    kitSelecionado.push({
+        nome: nomeProduto,
+        imagem: imagemProduto,
+        quantidade: passoInicial,
+        estoqueMax: estoque,
+        tipo: tipoElemento,
+        idProduto: idProduto
+    });
     solicitarMaterial();
     gerenciarEstoque()
 }
