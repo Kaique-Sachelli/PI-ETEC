@@ -66,7 +66,7 @@ async function atualizarStatusBackend(endpoint, id, novoStatus) {
 async function carregarAgendamentos() {
   try {
     const token = getToken();
-    const response = await fetch(`${API_BASE}/agendamentos`, {
+    const response = await fetch(`${API_BASE}/agendamentos/buscar`, {
       method: "GET",
       headers: {
         "Content-Type": "application/json",

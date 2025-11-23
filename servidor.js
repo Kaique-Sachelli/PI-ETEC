@@ -68,12 +68,12 @@ app.post("/login", async (req, res) => {
           sucesso: true,
           mensagem: "Login realizado com sucesso!",
           token: token,
-        });        
+        });
       } else {
-        res.json({ sucesso: false, mensagem: "Email ou senha incorretos." });        
+        res.json({ sucesso: false, mensagem: "Email ou senha incorretos." });
       }
     } else {
-        res.json({ sucesso: false, mensagem: "Email ou senha incorretos." });        
+      res.json({ sucesso: false, mensagem: "Email ou senha incorretos." });
     }
   } catch (erro) {
     res.status(500).json({ erro: erro.message });
@@ -180,23 +180,23 @@ app.post("/usuarios/atualizar", verificarToken, async (req, res) => {
     return res.status(403).json({
       sucesso: false
     })
-   }else {
+  } else {
     try {
       const hashSenha = await bcrypt.hash(novaSenha, saltrounds) //Não salva mais senhas em texto puro
-       const [result] = await pool.query(
-         'UPDATE usuario SET email = ?, senha = ?, permissao = ? WHERE idUsuario = ?',
-         [email, hashSenha, permissao, idUsuario]
-       );
-       res.json({
-         sucesso: true,
-         mensagem: 'Dados atualizados com sucesso!'
-       });
-     } catch (erro) {
-       res.json({
-         sucesso: false,
-         mensagem: 'Erro ao atualizar: ' + erro.message
-       })
-     }
+      const [result] = await pool.query(
+        'UPDATE usuario SET email = ?, senha = ?, permissao = ? WHERE idUsuario = ?',
+        [email, hashSenha, permissao, idUsuario]
+      );
+      res.json({
+        sucesso: true,
+        mensagem: 'Dados atualizados com sucesso!'
+      });
+    } catch (erro) {
+      res.json({
+        sucesso: false,
+        mensagem: 'Erro ao atualizar: ' + erro.message
+      })
+    }
   }
 });
 
@@ -295,27 +295,100 @@ app.post("/solicitacoes", verificarToken, async (req, res) => {
   }
 });
 
-// buscar solicitações
-app.get("/api/solicitacoes", async (req, res) => {
+// buscar agendamentos
+app.get("/agendamentos/buscar", verificarToken, async (req, res) => {
+  let conexao;
   try {
-    const [rows] = await pool.query(`
-      SELECT 
-        s.idSolicitacao AS id,
-        u.nome AS professor,
-        s.statusPedido AS status,
-        DATE_FORMAT(s.dataPedido, '%d/%m/%Y %H:%i') AS dataSolicitacao,
-        'Vespertino' AS periodo,
-        '11:00 - 13:00' AS horario,
-        'LAB1' AS sala
-      FROM Solicitacoes s
-      JOIN Usuario u ON s.idUsuario = u.idUsuario
-      ORDER BY s.dataPedido DESC
+    conexao = await pool.getConnection();
+    const [agendamentos] = await conexao.query(`
+SELECT 
+    a.idAgendamento,
+    DATE_FORMAT(a.dataAgendamento, '%d/%m/%Y') AS data,
+    a.periodoAgendamento AS periodo,
+    a.aula,
+    -- Todo esse case funciona como um if else para mandar as aulas com seus respectivos horarios para facilitar o tratamento no site. 
+    CASE 
+        -- MATUTINO
+        WHEN a.periodoAgendamento = 'Matutino' AND a.aula = '1ª Aula' THEN '07:10 - 08:00'
+        WHEN a.periodoAgendamento = 'Matutino' AND a.aula = '2ª Aula' THEN '08:00 - 08:50'
+        WHEN a.periodoAgendamento = 'Matutino' AND a.aula = '3ª Aula' THEN '08:50 - 09:40'
+        WHEN a.periodoAgendamento = 'Matutino' AND a.aula = '4ª Aula' THEN '10:00 - 10:50'
+        WHEN a.periodoAgendamento = 'Matutino' AND a.aula = '5ª Aula' THEN '10:50 - 11:40'
+        WHEN a.periodoAgendamento = 'Matutino' AND a.aula = '6ª Aula' THEN '11:40 - 12:30'
+        
+        -- VESPERTINO
+        WHEN a.periodoAgendamento = 'Vespertino' AND a.aula = '1ª Aula' THEN '13:00 - 13:50'
+        WHEN a.periodoAgendamento = 'Vespertino' AND a.aula = '2ª Aula' THEN '13:50 - 14:40'
+        WHEN a.periodoAgendamento = 'Vespertino' AND a.aula = '3ª Aula' THEN '14:40 - 15:30'
+        WHEN a.periodoAgendamento = 'Vespertino' AND a.aula = '4ª Aula' THEN '15:50 - 16:40'
+        WHEN a.periodoAgendamento = 'Vespertino' AND a.aula = '5ª Aula' THEN '16:40 - 17:30'
+        WHEN a.periodoAgendamento = 'Vespertino' AND a.aula = '6ª Aula' THEN '17:30 - 18:20'
+        
+        -- NOTURNO
+        WHEN a.periodoAgendamento = 'Noturno' AND a.aula = '1ª Aula' THEN '18:50 - 19:40'
+        WHEN a.periodoAgendamento = 'Noturno' AND a.aula = '2ª Aula' THEN '19:40 - 20:30'
+        WHEN a.periodoAgendamento = 'Noturno' AND a.aula = '3ª Aula' THEN '20:44 - 21:34'
+        WHEN a.periodoAgendamento = 'Noturno' AND a.aula = '4ª Aula' THEN '21:34 - 22:20'
+        
+        ELSE 'Horário Indefinido'
+    END AS horarioAula,
+    a.statusAgendamento AS status,
+    u.nome,
+    l.idLaboratorio,
+    l.sala,
+    k.nome AS kit,
+    a.idKit
+    FROM 
+    Agendamento a
+      JOIN Usuario u ON a.idUsuario = u.idUsuario
+    JOIN Laboratorio l ON a.idLaboratorio = l.idLaboratorio
+    JOIN Kits k ON a.idKit = k.idKit
+    ORDER BY a.dataAgendamento DESC;
     `);
+    // buscar os detalhes dos produtos de CADA KIT
+    for (const agendamento of agendamentos) {
+      const idKit = agendamento.idKit;
 
-    res.json(rows);
+      const [vidrarias] = await conexao.query(
+        `SELECT 
+           v.nomeVidraria, 
+           v.capacidade, 
+           kv.quantidade 
+         FROM Kits_Vidrarias kv
+         JOIN Vidrarias v ON kv.idVidraria = v.idVidraria
+         WHERE kv.idKit = ?`,
+        [idKit]
+      );
+
+      const [reagentes] = await conexao.query(
+        `SELECT 
+           r.nomeReagente, 
+           kr.quantidade 
+         FROM Kits_Reagentes kr
+         JOIN Reagentes r ON kr.idReagente = r.idReagente
+         WHERE kr.idKit = ?`,
+        [idKit]
+      );
+
+      agendamento.produtos = [
+        ...vidrarias.map(v => ({
+          nome: `${v.nomeVidraria} ${v.capacidade || ''}`.trim(),
+          quantidade: v.quantidade,
+          tipo: 'vidraria'
+        })),
+        ...reagentes.map(r => ({
+          nome: r.nomeReagente,
+          quantidade: r.quantidade,
+          tipo: 'reagente'
+        }))
+      ];
+    }
+    res.json(agendamentos);
   } catch (erro) {
     console.error("Erro ao buscar solicitações:", erro);
     res.status(500).json({ erro: "Erro ao buscar solicitações" });
+  } finally {
+    if (conexao) conexao.release();
   }
 });
 
@@ -394,12 +467,7 @@ app.post("/api/reposicao", verificarToken, async (req, res) => {
     res.status(500).json({ erro: "Erro ao criar pedido de reposição" });
   }
 });
-app.put("/api/reposicao/:id", verificarToken, async (req, res) => {
-  const { id } = req.params;
-  const { status } = req.body;
 
-// parte do Moreno tentativa de agendamento
-// cria novo agendamento
 app.post("/agendamentos", verificarToken, async (req, res) => {
   const { data, laboratorio, kit, periodo, horario } = req.body;
   const idUsuario = req.usuario.idUsuario; // pega o usuário logado do JWT
@@ -421,7 +489,8 @@ app.post("/agendamentos", verificarToken, async (req, res) => {
     res.status(500).json({ sucesso: false, mensagem: "Erro ao agendar: " + erro.message });
   }
 })
-});
+
+//salva kit
 app.post('/kits/salvar', verificarToken, async (req, res) => {
   const { nomeKit, descricaoKit, produtos } = req.body;
   const idUsuario = req.usuario.idUsuario;
@@ -462,8 +531,8 @@ app.post('/kits/salvar', verificarToken, async (req, res) => {
       mensagem: 'Houve um erro ao salvar o kit',
       erro: error.message
     })
-  }finally{
-    if(connection) connection.release(); //depois de toda operação libera a conexão
+  } finally {
+    if (connection) connection.release(); //depois de toda operação libera a conexão
   }
 })
 
@@ -508,7 +577,7 @@ app.get('/kits/buscar', verificarToken, async (req, res) => {
         ...reagentes.map(r => ({
           nome: r.nomeReagente,
           quantidade: r.quantidade,
-          tipo : 'reagente'
+          tipo: 'reagente'
         }))
       ];
     }
@@ -526,8 +595,8 @@ app.get('/kits/buscar', verificarToken, async (req, res) => {
   }
 })
 //exluir kit
-app.delete('/kits/excluir/:idKit', verificarToken, async (req,res) => {
-  const {idKit} = req.params;
+app.delete('/kits/excluir/:idKit', verificarToken, async (req, res) => {
+  const { idKit } = req.params;
   const conexao = await pool.getConnection();
   //inicia transação
   await conexao.beginTransaction();
@@ -547,18 +616,18 @@ app.delete('/kits/excluir/:idKit', verificarToken, async (req,res) => {
     //se os três DELETES deram certo, faz o commit
     await conexao.commit();
     res.json({
-      sucesso : true,
-      mensagem : 'Kit deletado com sucesso!'
+      sucesso: true,
+      mensagem: 'Kit deletado com sucesso!'
     });
   } catch (error) {
     //se algum dos três DELETES falharem, desfaz toda operação
     await conexao.rollback();
     res.json({
-      sucesso : false,
-      mensagem : 'Houve um erro ao deletar o kit',
-      erro : error.message
+      sucesso: false,
+      mensagem: 'Houve um erro ao deletar o kit',
+      erro: error.message
     });
-  }finally{
+  } finally {
     //libera a conexão
     if (conexao) conexao.release();
   }
