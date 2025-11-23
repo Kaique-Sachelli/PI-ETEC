@@ -2,7 +2,7 @@ import { mostrarNotificacao } from "./notificacao.js";
 import { encerrarSessao, getToken } from "./sessao.js";
 
 
-let kitSelecionado = [];
+export let kitSelecionado = [];
 let modoVisualizacao = "solicitar";
 
 function adicionarAoKit(elemento) {

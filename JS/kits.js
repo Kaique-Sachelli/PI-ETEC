@@ -408,3 +408,15 @@ function pesquisarProdutos(){
         filtrarItens(termoPesquisa);
     });
 }
+
+const botaoCancelar = document.querySelector('.cancelar-button'); 
+botaoCancelar.addEventListener('click', () => {
+    if (kitSelecionado.length == 0) {
+        return
+    } else {
+        kitSelecionado = [];
+        document.querySelector('.kit-lista').innerHTML = ""
+        document.querySelector('.kit-lista').innerHTML = ""
+        mostrarNotificacao("Processo encerrado, materiais removidos", "sucesso");
+    }
+});
