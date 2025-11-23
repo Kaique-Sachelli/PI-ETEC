@@ -8,7 +8,7 @@ body {
 
 /* Começo do código cabecalho */
 .cabecalho h2 {
-  font-size: 30px !important;
+  font-size: 32px !important;
   color: black;
   margin: 0;
   text-align: center;
@@ -27,8 +27,7 @@ body {
 
 .titulo-header h2 {
   font-size: 48px;
-  color: #333;
-  margin: 5px 0 10px;
+  color: #000000;
   font-family: 'Roboto Slab', serif;
 }
 
@@ -267,6 +266,7 @@ body {
   font-family: 'Roboto Slab', serif;
   font-size: 32px !important;
   text-align: center;
+  font-weight: 400;
 }
 
 .produtos-header-linha {
@@ -523,6 +523,7 @@ details[open] .seta {
   font-family: 'Roboto Slab', serif;
   font-size: 32px !important;
   text-align: center;
+  font-weight: 400;
 }
 
 .add-icon {
