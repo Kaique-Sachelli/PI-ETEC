@@ -272,7 +272,7 @@ body {
 .produtos-header-linha {
   display: flex;
   justify-content: space-between;
-  align-items: center;
+  align-items: start !important;
   width: 100%;
   margin-top: 10px;
 }
@@ -289,6 +289,8 @@ body {
 }
 
 .filtro a {
+  width: 120px !important;
+  height: 52px !important;
   text-decoration: none;
   color: inherit;
   font-family: inherit;
@@ -399,7 +401,7 @@ details[open] .seta {
 
 .input {
   width: 100%;
-  height: 40px;
+  height: 52px !important;
   line-height: 28px;
   padding: 0 1rem;
   padding-left: 2.5rem;

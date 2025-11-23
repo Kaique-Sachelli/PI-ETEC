@@ -313,7 +313,7 @@ body {
 .produtos-header-linha {
   display: flex;
   justify-content: space-between; /* um em cada extremo */
-  align-items: center;            /* centraliza verticalmente */
+  align-items: start !important;
   width: 100%;
   margin-top: 10px;               /* espaço abaixo do título */
 }
@@ -330,6 +330,7 @@ body {
 }
 
 .filtro a {
+  height: 52px !important;
   text-decoration: none;
   color: inherit;
   font-family: inherit;
@@ -436,7 +437,7 @@ body {
 
 .input {
   width: 100%;
-  height: 40px;
+  height: 52px;
   line-height: 28px;
   padding: 0 1rem;
   padding-left: 2.5rem;
