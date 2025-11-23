@@ -1,22 +1,20 @@
+import { mostrarNotificacao } from "./notificacao.js";
 import { getToken, erroToken } from "./sessao.js";
 
-// 🌐 URL base da API
-const API_BASE = "http://localhost:3000/api";
+const API_BASE = "http://localhost:3000";
 
 // Arrays locais
-let solicitacoes = [];
+let agendamentos = [];
 let reposicoes = [];
 
-// -------------------------------
-// 1 - UTILITÁRIOS
-// -------------------------------
-
-// Mapear status do backend para frontend
 function normalizarStatus(status) {
   const mapa = {
     Pendente: "pendente",
-    Aprovada: "aprovado",
-    Reprovada: "cancelado",
+    Aprovado: "aprovado", 
+    Reprovada: "cancelado", 
+    Cancelado: "cancelado", 
+    Finalizado: "finalizado", 
+    Aprovada: "aprovado", 
     Concluida: "finalizado",
     Pedido_Realizado: "aprovado",
     "Kit Pronto": "aprovado",
@@ -64,15 +62,11 @@ async function atualizarStatusBackend(endpoint, id, novoStatus) {
   }
 }
 
-// -------------------------------
-// 2 - SOLICITAÇÕES
-// -------------------------------
-
 // Carrega solicitações do backend
-async function carregarSolicitacoesDoBackend() {
+async function carregarAgendamentos() {
   try {
     const token = getToken();
-    const response = await fetch(`${API_BASE}/solicitacoes`, {
+    const response = await fetch(`${API_BASE}/agendamentos`, {
       method: "GET",
       headers: {
         "Content-Type": "application/json",
@@ -84,55 +78,32 @@ async function carregarSolicitacoesDoBackend() {
     if (!response.ok) throw new Error("Erro ao carregar solicitações");
 
     const dados = await response.json();
-    solicitacoes = dados.map((s) => ({
-      ...s,
-      status: normalizarStatus(s.statusPedido),
+     agendamentos = dados.map((s) => ({
+      id: s.idAgendamento,
+      data: s.data,
+      periodo: s.periodo,
+      aula : s.aula,
+      horario: s.horarioAula,
+      sala: s.sala,
+      lab: s.idLaboratorio,
+      professor: s.nome,
+      status: normalizarStatus(s.status),
+      dataSolicitacao: s.data,
+      kit: s.kit,
+      produtos : s.produtos
     }));
   } catch (error) {
-    console.error("Erro:", error);
-    // fallback offline
-    solicitacoes = [
-      {
-        id: 1,
-        periodo: "Vespertino",
-        horario: "11:00 - 13:00",
-        sala: "LAB1",
-        status: "pendente",
-        professor: "Fábio",
-      },
-      {
-        id: 2,
-        periodo: "Diurno",
-        horario: "14:00 - 17:00",
-        sala: "A06",
-        status: "aprovado",
-        professor: "Ana",
-      },
-      {
-        id: 3,
-        periodo: "Noturno",
-        horario: "19:00 - 22:00",
-        sala: "B04",
-        status: "cancelado",
-        professor: "Marcos",
-      },
-      {
-        id: 4,
-        periodo: "Noturno",
-        horario: "19:00 - 22:00",
-        sala: "B04",
-        status: "finalizado",
-        professor: "Marcos",
-      },
-    ];
+    mostrarNotificacao('Erro ao carregar agendamentos', 'erro')
+    console.error("Erro ao carregar agendamentos", error);
   }
-  carregarSolicitacoes();
+  renderizaAgendamentos();
 }
 
-// Renderiza solicitações no HTML
-function carregarSolicitacoes() {
-  const container = document.querySelector(".container");
-  container.innerHTML = `
+// Renderiza agendamentos no HTML
+function renderizaAgendamentos() {
+  // Renderiza os Agendamentos no HTML
+    const container = document.querySelector(".container");
+    container.innerHTML = `
     <div class="tabela-cabecalho">
       <span>Período</span>
       <span>Horário</span>
@@ -141,8 +112,12 @@ function carregarSolicitacoes() {
       <span>Expandir</span>
     </div>
   `;
-  solicitacoes.forEach((s) => {
-    container.innerHTML += `
+    agendamentos.forEach((s) => {
+      //renderiza os produtos do kit
+      const listaProdutos = s.produtos ? s.produtos.map(p => `
+        <li>${p.nome} - ${p.quantidade} ${p.tipo === 'reagente' ? 'g' : 'und.'}</li>
+    `).join('') : '<li>Nenhum item encontrado no kit.</li>';
+      container.innerHTML += `
       <details class="${corStatus(s.status)}">
         <summary>
           <div class="linha">
@@ -156,17 +131,18 @@ function carregarSolicitacoes() {
         <div class="detalhes-box">
           <div class="row w-100">
             <div class="coluna col-4">
-              <h4>Dados da Solicitação:</h4>
+              <h4>Dados do Agendamento:</h4>
               <p><strong>Professor:</strong> ${s.professor}</p>
+              <p><strong>Aula:</strong> ${s.aula}</p>
               <p><strong>Sala:</strong> ${s.sala}</p>
-              <p><strong>Data:</strong> ${s.dataSolicitacao || "--/--/--"}</p>
+              <p><strong>Data:</strong> ${s.data || "--/--/--"}</p>
+              <p><strong>Kit:</strong> ${s.kit || "N/A"}</p>
             </div>
             <div style="width:2px;border-right:2px solid black;height:150px;"></div>
             <div class="coluna col-4">
-              <h4>Produtos Solicitados:</h4>
+              <h4>Produtos Solicitados (Itens do Kit):</h4>
               <ul>
-                <li>Item Exemplo - 1 und.</li>
-                <li>Item Exemplo - 2 und.</li>
+                ${listaProdutos}
               </ul>
             </div>
             <div style="width:2px;border-right:2px solid black;height:150px;"></div>
@@ -177,8 +153,8 @@ function carregarSolicitacoes() {
         </div>
       </details>
     `;
-  });
-}
+    });
+  }
 
 // Botões conforme status
 function gerarBotoesSolicitacoes(status, id) {
@@ -204,28 +180,28 @@ async function cancelar(id) {
   await atualizarStatusBackend("solicitacoes", id, "cancelado");
   const s = solicitacoes.find((x) => x.id === id);
   if (s) s.status = "cancelado";
-  carregarSolicitacoes();
+  carregarAgendamentos();
 }
 
 async function kitPronto(id) {
   await atualizarStatusBackend("solicitacoes", id, "aprovado");
   const s = solicitacoes.find((x) => x.id === id);
   if (s) s.status = "aprovado";
-  carregarSolicitacoes();
+  carregarAgendamentos();
 }
 
 async function finalizar(id) {
   await atualizarStatusBackend("solicitacoes", id, "finalizado");
   const s = solicitacoes.find((x) => x.id === id);
   if (s) s.status = "finalizado";
-  carregarSolicitacoes();
+  carregarAgendamentos();
 }
 
 async function voltarPendente(id) {
   await atualizarStatusBackend("solicitacoes", id, "pendente");
   const s = solicitacoes.find((x) => x.id === id);
   if (s) s.status = "pendente";
-  carregarSolicitacoes();
+  carregarAgendamentos();
 }
 
 // -------------------------------
@@ -289,12 +265,11 @@ function carregarReposicoes() {
               <p><strong>Técnico:</strong> ${r.tecnico}</p>
             </div>
             <div class="botoes col-3">
-             ${
-               r.status !== "finalizado"
-                 ? `<button class="btn btn-finalizar" 
+             ${r.status !== "finalizado"
+        ? `<button class="btn btn-finalizar" 
               onclick="finalizarReposicao(${r.idReposicao})">Finalizar</button>`
-                 : ""
-             }
+        : ""
+      }
             </div>
           </div>
         </div>
@@ -415,6 +390,6 @@ function filtrarPorStatus(filtro) {
 // 4 - INICIALIZAÇÃO
 // -------------------------------
 document.addEventListener("DOMContentLoaded", async () => {
-  await carregarSolicitacoesDoBackend();
+  await carregarAgendamentos();
   carregarReposicoesDoBackend();
 });
