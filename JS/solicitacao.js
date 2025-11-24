@@ -10,11 +10,11 @@ let reposicoes = [];
 function normalizarStatus(status) {
   const mapa = {
     Pendente: "pendente",
-    Aprovado: "aprovado", 
-    Reprovada: "cancelado", 
-    Cancelado: "cancelado", 
-    Finalizado: "finalizado", 
-    Aprovada: "aprovado", 
+    Aprovado: "aprovado",
+    Reprovada: "cancelado",
+    Cancelado: "cancelado",
+    Finalizado: "finalizado",
+    Aprovada: "aprovado",
     Concluida: "finalizado",
     Pedido_Realizado: "aprovado",
     "Kit Pronto": "aprovado",
@@ -78,11 +78,11 @@ async function carregarAgendamentos() {
     if (!response.ok) throw new Error("Erro ao carregar solicitações");
 
     const dados = await response.json();
-     agendamentos = dados.map((s) => ({
+    agendamentos = dados.map((s) => ({
       id: s.idAgendamento,
       data: s.data,
       periodo: s.periodo,
-      aula : s.aula,
+      aula: s.aula,
       horario: s.horarioAula,
       sala: s.sala,
       lab: s.idLaboratorio,
@@ -90,7 +90,7 @@ async function carregarAgendamentos() {
       status: normalizarStatus(s.status),
       dataSolicitacao: s.data,
       kit: s.kit,
-      produtos : s.produtos
+      produtos: s.produtos
     }));
   } catch (error) {
     mostrarNotificacao('Erro ao carregar agendamentos', 'erro')
@@ -100,10 +100,10 @@ async function carregarAgendamentos() {
 }
 
 // Renderiza agendamentos no HTML
-function renderizaAgendamentos() {
+function renderizaAgendamentos(lista = agendamentos) {
   // Renderiza os Agendamentos no HTML
-    const container = document.querySelector(".container");
-    container.innerHTML = `
+  const container = document.querySelector(".container");
+  container.innerHTML = `
     <div class="tabela-cabecalho">
       <span>Período</span>
       <span>Horário</span>
@@ -112,12 +112,16 @@ function renderizaAgendamentos() {
       <span>Expandir</span>
     </div>
   `;
-    agendamentos.forEach((s) => {
-      //renderiza os produtos do kit
-      const listaProdutos = s.produtos ? s.produtos.map(p => `
+  if (lista.length === 0) {
+    container.innerHTML += `<p style="text-align:center; padding: 20px;">Nenhum agendamento encontrado.</p>`;
+    return;
+  }
+  lista.forEach((s) => {
+    //renderiza os produtos do kit
+    const listaProdutos = s.produtos ? s.produtos.map(p => `
         <li>${p.nome} - ${p.quantidade} ${p.tipo === 'reagente' ? 'g' : 'und.'}</li>
     `).join('') : '<li>Nenhum item encontrado no kit.</li>';
-      container.innerHTML += `
+    container.innerHTML += `
       <details class="${corStatus(s.status)}">
         <summary>
           <div class="linha">
@@ -153,8 +157,8 @@ function renderizaAgendamentos() {
         </div>
       </details>
     `;
-    });
-  }
+  });
+}
 
 // Botões conforme status
 function gerarBotoesSolicitacoes(status, id) {
@@ -204,71 +208,93 @@ async function voltarPendente(id) {
   carregarAgendamentos();
 }
 
-// -------------------------------
-// 3 - REPOSIÇÕES DE ESTOQUE
-// -------------------------------
-async function carregarReposicoesDoBackend() {
+//função para chamar solicitações de reposição
+async function carregarSolicitacoes() {
   try {
     const token = getToken();
-    const response = await fetch(`${API_BASE}/reposicoes`, {
+    const resposta = await fetch(`${API_BASE}/solicitacoes`, {
       method: "GET",
       headers: {
         "Content-Type": "application/json",
         Authorization: `Bearer ${token}`,
       },
     });
+    if (resposta.status === 401) return erroToken();
 
-    if (response.status === 401) return erroToken();
-    reposicoes = await response.json();
+    reposicoes = await resposta.json();
+
+    renderizarSolicitacoes();
+
   } catch (error) {
     console.error("Erro ao carregar reposições:", error);
-    reposicoes = [
-      {
-        idReposicao: 1,
-        dataPedido: "2025-10-12 15:00",
-        status: "pendente",
-        tecnico: "Fábio",
-      },
-    ];
+    mostrarNotificacao("Erro ao carregar reposições", "erro");
   }
-  carregarReposicoes();
 }
 
-function carregarReposicoes() {
+function renderizarSolicitacoes(lista = reposicoes) {
   const container = document.querySelector(".containerprodutos .container");
+
+  // Cabeçalho da tabela
   container.innerHTML = `
     <h2>Pedido para reposição de estoque</h2>
     <div class="tabela-cabecalho">
       <span>Data</span>
-      <span></span>
-      <span></span>
-      <span>Status</span>
+      <span>Solicitante</span>
+      <span></span><span>Status</span>
       <span>Expandir</span>
     </div>
   `;
-  reposicoes.forEach((r) => {
+
+  if (lista.length === 0) {
+    container.innerHTML += `<p style="text-align:center; padding: 20px;">Nenhuma solicitação encontrada.</p>`;
+    return;
+  }
+
+  lista.forEach((r) => {
+    const listaProdutos = r.produtos && r.produtos.length > 0
+      ? r.produtos.map(p => `
+            <li>${p.nome} - ${p.quantidade} ${p.tipo === 'reagente' ? 'g' : 'und.'}</li>
+          `).join('')
+      : '<li>Nenhum item listado.</li>';
+
+    const statusClass = normalizarStatus(r.status || 'pendente');
+
     container.innerHTML += `
-      <details class="${corStatus(r.status)}">
+      <details class="${corStatus(statusClass)}">
         <summary>
           <div class="linha">
-            <span>${r.dataPedido}</span>
-            <span></span>
-            <span></span>
-            <span class="status ${r.status}">${statusText(r.status)}</span>
+            <span>${r.data}</span>
+            <span>${r.tecnico}</span> 
+            <span></span> <span class="status ${statusClass}">${statusText(statusClass)}</span>
             <i class="bi bi-chevron-down seta">▼</i>
           </div>
         </summary>
         <div class="detalhes-box">
-          <div class="row">
+          <div class="row w-100">
             <div class="coluna col-4">
               <h4>Dados da Solicitação:</h4>
-              <p><strong>Técnico:</strong> ${r.tecnico}</p>
+              <p><strong>Solicitante:</strong> ${r.tecnico}</p>
+              <p><strong>Observação:</strong> ${r.observacao || "Nenhuma"}</p>
             </div>
+            
+            <div style="width:2px;border-right:2px solid black;height:150px;"></div>
+            
+            <div class="coluna col-4">
+              <h4>Produtos Solicitados:</h4>
+              <ul>
+                ${listaProdutos}
+              </ul>
+            </div>
+            
+            <div style="width:2px;border-right:2px solid black;height:150px;"></div>
+            
             <div class="botoes col-3">
-             ${r.status !== "finalizado"
-        ? `<button class="btn btn-finalizar" 
-              onclick="finalizarReposicao(${r.idReposicao})">Finalizar</button>`
-        : ""
+             ${statusClass !== "finalizado" && statusClass !== "cancelado" 
+        ? `<button class="btn btn-pendente" 
+                      onclick="finalizaSolicitacao(${r.idSolicitacao})">Finalizar</button>
+            <button class="btn btn-cancelado" 
+                      onclick="cancelarSolicitacao(${r.idSolicitacao})">Cancelar</button>`
+        : "<span></span>"
       }
             </div>
           </div>
@@ -278,123 +304,87 @@ function carregarReposicoes() {
   });
 }
 
-async function finalizarReposicao(id) {
+async function finalizaSolicitacao(id) {
   try {
     const token = getToken();
-    const response = await fetch(`${API_BASE}/reposicoes/${id}`, {
+    const response = await fetch(`${API_BASE}/solicitacoes/atualizar/${id}`, {
       method: "PUT",
       headers: {
         "Content-Type": "application/json",
         Authorization: `Bearer ${token}`,
       },
-      body: JSON.stringify({ status: "finalizado" }),
+      body: JSON.stringify({ status: "Finalizado" }),
     });
 
     if (response.status === 401) return erroToken();
-    const r = reposicoes.find((rep) => rep.idReposicao === id);
+    const r = reposicoes.find((rep) => rep.idSolicitacao === id);
     if (r) r.status = "finalizado";
-    carregarReposicoes();
-    alert("Reposição finalizada com sucesso!");
+    renderizarSolicitacoes();
+    mostrarNotificacao("Reposição finalizada com sucesso!", 'sucesso');
   } catch (error) {
     console.error("Erro ao finalizar reposição:", error);
     alert("Erro ao finalizar reposição.");
   }
 }
 
-// -------------------------------
-// 5 - FILTRO POR STATUS
-// -------------------------------
+async function cancelarSolicitacao(id) {
+  try {
+    const token = getToken();
+    const response = await fetch(`${API_BASE}/soliciatacoes/atualizar/${id}`, {
+      method: "PUT",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${token}`,
+      },
+      body: JSON.stringify({ status: "Cancelado" }),
+    });
+
+    if (response.status === 401) return erroToken();
+    const r = reposicoes.find((rep) => rep.idSolicitacao === id);
+    if (r) r.status = "cancelado";
+    renderizarSolicitacoes();
+    mostrarNotificacao("Reposição cancelada com sucesso!", 'sucesso');
+  } catch (error) {
+    console.error("Erro ao cancelar reposição:", error);
+    alert("Erro ao cancelar reposição.");
+  }
+}
+
+// Função unificada de filtro
 function filtrarPorStatus(filtro) {
   const botoes = document.querySelectorAll(".submenu-link");
   botoes.forEach((btn) => btn.classList.remove("ativo"));
 
-  const btnAtivo = [...botoes].find((b) =>
-    b.textContent.toLowerCase().includes(filtro)
-  );
+  const btnAtivo = [...botoes].find(b => b.getAttribute('onclick').includes(`'${filtro}'`));
   if (btnAtivo) btnAtivo.classList.add("ativo");
 
-  let filtradas = solicitacoes;
-  switch (filtro) {
-    case "aprovado":
-      filtradas = solicitacoes.filter(
-        (s) => s.status === "pendente" || s.status === "aprovado"
-      );
-      break;
-    case "cancelado":
-      filtradas = solicitacoes.filter(
-        (s) => s.status === "cancelado" || s.status === "finalizado"
-      );
-      break;
-    case "todos":
-    default:
-      filtradas = solicitacoes;
-      break;
+  let agendamentosFiltrados = [];
+  let reposicoesFiltradas = [];
+
+  if (filtro === 'todos') {
+    agendamentosFiltrados = agendamentos;
+    reposicoesFiltradas = reposicoes;
+  } else {
+    agendamentosFiltrados = agendamentos.filter(s => s.status === filtro);
+
+    reposicoesFiltradas = reposicoes.filter(r => normalizarStatus(r.status) === filtro);
   }
 
-  const container = document.querySelector(".container");
-  container.innerHTML = `
-    <div class="tabela-cabecalho">
-      <span>Período</span>
-      <span>Horário</span>
-      <span>Sala</span>
-      <span>Status</span>
-      <span>Expandir</span>
-    </div>
-  `;
-
-  if (filtradas.length === 0) {
-    container.innerHTML += `<p style="text-align:center; padding:20px;">Nenhuma solicitação encontrada.</p>`;
-    return;
-  }
-
-  filtradas.forEach((s) => {
-    container.innerHTML += `
-      <details class="${corStatus(s.status)}">
-        <summary>
-          <div class="linha">
-            <span>${s.periodo}</span>
-            <span>${s.horario}</span>
-            <span>${s.sala}</span>
-            <span class="status ${s.status}">${statusText(s.status)}</span>
-            <i class="bi bi-chevron-down seta">▼</i>
-          </div>
-        </summary>
-        <div class="detalhes-box">
-          <div class="row w-100">
-            <div class="coluna col-4">
-              <h4>Dados da Solicitação:</h4>
-              <p><strong>Professor:</strong> ${s.professor}</p>
-              <p><strong>Sala:</strong> ${s.sala}</p>
-              <p><strong>Data:</strong> ${s.dataSolicitacao || "--/--/--"}</p>
-            </div>
-            <div style="width:2px;border-right:2px solid black;height:150px;"></div>
-            <div class="coluna col-4">
-              <h4>Produtos Solicitados:</h4>
-              <ul>
-                <li>Item Exemplo - 1 und.</li>
-                <li>Item Exemplo - 2 und.</li>
-              </ul>
-            </div>
-            <div style="width:2px;border-right:2px solid black;height:150px;"></div>
-            <div class="botoes col-3">
-              ${gerarBotoesSolicitacoes(s.status, s.id)}
-            </div>
-          </div>
-        </div>
-      </details>
-    `;
-  });
+  renderizaAgendamentos(agendamentosFiltrados);
+  renderizarSolicitacoes(reposicoesFiltradas);
 }
 
-// -------------------------------
-// 4 - INICIALIZAÇÃO
-// -------------------------------
+window.filtrarPorStatus = filtrarPorStatus;
+
+
 document.addEventListener("DOMContentLoaded", async () => {
   await carregarAgendamentos();
-  carregarReposicoesDoBackend();
+  carregarSolicitacoes();
 });
 
 window.aprovarAgendamento = aprovarAgendamento;
 window.cancelar = cancelar;
 window.finalizar = finalizar;
 window.voltarPendente = voltarPendente;
+window.cancelarSolicitacao = cancelarSolicitacao;
+window.finalizaSolicitacao = finalizaSolicitacao;
