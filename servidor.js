@@ -393,7 +393,7 @@ SELECT
 });
 
 // atualizar status (KIT PRONTO, CONCLUÍDA, etc.)
-app.put("/api/solicitacoes/:id", async (req, res) => {
+app.put("/agendamentos/atualizar/:id", verificarToken, async (req, res) => {
   const { id } = req.params;
   const { status } = req.body || {};
 
@@ -403,35 +403,85 @@ app.put("/api/solicitacoes/:id", async (req, res) => {
 
   const mapaStatus = {
     pendente: "Pendente",
-    aprovado: "Aprovada",
-    cancelado: "Reprovada",
-    finalizado: "Concluida",
+    aprovado: "Aprovado",
+    cancelado: "Cancelado",
+    finalizado: "Finalizado",
   };
 
   const statusBanco = mapaStatus[status];
   if (!statusBanco) {
     return res.status(400).json({ erro: "Status inválido" });
   }
-
+  let conexao = await pool.getConnection();
   try {
-    const [result] = await pool.query(
-      "UPDATE Solicitacoes SET statusPedido = ? WHERE idSolicitacao = ?",
+    await conexao.beginTransaction();
+    //controla o estoque se o agendamento for aprovado
+    if(statusBanco === 'Aprovado'){
+       const [row] = await conexao.query(
+        'SELECT idKit FROM agendamento WHERE idAgendamento = ?',
+        [id]
+      )
+      const idKit = row[0].idKit;
+      const [vidrarias] = await conexao.query(
+        'SELECT idVidraria, quantidade FROM Kits_Vidrarias WHERE idKit = ?',
+        [idKit]
+      )
+      for(let vidraria of vidrarias){
+        await conexao.query(
+          'UPDATE Vidrarias SET quantidade = quantidade - ? WHERE idVidraria = ?',
+          [vidraria.quantidade, vidraria.idVidraria]
+        )
+      }
+      const [reagentes] = await conexao.query(
+        'SELECT idReagente, quantidade FROM Kits_Reagentes WHERE idKit =?',
+        [idKit]
+      )
+  
+      for(let reagente of reagentes){
+        await conexao.query(
+          'UPDATE Reagentes SET quantidade = quantidade - ? WHERE idReagente = ?',
+          [reagente.quantidade, reagente.idReagente]
+        )
+      }
+    }
+
+    // retorna as vidrarias ao estoque quando a aula é concluida
+    if (statusBanco === 'Finalizado') {
+       const [row] = await conexao.query(
+        'SELECT idKit FROM agendamento WHERE idAgendamento = ?',
+        [id]
+      )
+      const idKit = row[0].idKit;
+      const [vidrariasDoKit] = await conexao.query("SELECT idVidraria, quantidade FROM Kits_Vidrarias WHERE idKit = ?", [idKit]);
+        for (const item of vidrariasDoKit) {
+            await conexao.query("UPDATE Vidrarias SET quantidade = quantidade + ? WHERE idVidraria = ?",
+              [item.quantidade, item.idVidraria]
+            );
+        }
+    }
+
+    // apos toda operação ser concluida atualiza o status do agendamento
+    const [result] = await conexao.query(
+      "UPDATE Agendamento SET statusAgendamento = ? WHERE idAgendamento = ?",
       [statusBanco, id]
     );
 
     if (result.affectedRows === 0) {
-      return res.status(404).json({ erro: "Solicitação não encontrada" });
+      return res.status(404).json({ erro: "Agendamento não encontrado" });
     }
-
+    await conexao.commit(); // faz as alterações no banco
     res.json({
       sucesso: true,
       mensagem: "Status atualizado com sucesso!",
       status: statusBanco,
     });
+
   } catch (err) {
+    await conexao.rollback(); // se qualquer coisa der errado desfaz toda a operação
     console.error("Erro ao atualizar status:", err);
     res.status(500).json({ erro: "Erro interno no servidor" });
   }
+  if (conexao) conexao.release();
 });
 app.get("/api/reposicao", verificarToken, async (req, res) => {
   try {
