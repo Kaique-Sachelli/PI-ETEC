@@ -1,5 +1,5 @@
 import { mostrarNotificacao } from "./notificacao.js";
-import { getToken, erroToken } from "./sessao.js";
+import { getToken, erroToken, getPermissaoUsuario } from "./sessao.js";
 
 const API_BASE = "http://localhost:3000";
 
@@ -13,6 +13,7 @@ function normalizarStatus(status) {
     Aprovado: "aprovado",
     Reprovada: "cancelado",
     Cancelado: "cancelado",
+    Cancelada: "cancelado",
     Finalizado: "finalizado",
     Aprovada: "aprovado",
     Concluida: "finalizado",
@@ -162,6 +163,15 @@ function renderizaAgendamentos(lista = agendamentos) {
 
 // Botões conforme status
 function gerarBotoesSolicitacoes(status, id) {
+  const permissaoUsuario = getPermissaoUsuario();
+  // filtra para o professor apenas conseguir cancelar seu agendamento
+  if (permissaoUsuario === 'Professor') {
+    if (status === "pendente") {
+      return `
+        <button class="btn btn-cancelado" onclick="cancelar(${id})">Cancelar</button>`;
+    }
+    return '';
+  }
   if (status === "pendente")
     return `
     <button class="btn btn-pendente" onclick="aprovarAgendamento(${id})">Aprovar Agendamento</button>
@@ -232,6 +242,7 @@ async function carregarSolicitacoes() {
 }
 
 function renderizarSolicitacoes(lista = reposicoes) {
+  const permissaoUsuario = getPermissaoUsuario();
   const container = document.querySelector(".containerprodutos .container");
 
   // Cabeçalho da tabela
@@ -259,6 +270,21 @@ function renderizarSolicitacoes(lista = reposicoes) {
 
     const statusClass = normalizarStatus(r.status || 'pendente');
 
+    let botoesHtml = "";
+    if (permissaoUsuario === 'Professor') {
+      if (statusClass !== "finalizado" && statusClass !== "cancelado") {
+        botoesHtml = `<button class="btn btn-cancelado" onclick="cancelarSolicitacao(${r.idSolicitacao})">Cancelar</button>`;
+      }
+    } else {
+      if (statusClass !== "finalizado" && statusClass !== "cancelado") {
+        botoesHtml = `
+          <button class="btn btn-pendente" 
+                onclick="finalizaSolicitacao(${r.idSolicitacao})">Finalizar</button>
+          <button class="btn btn-cancelado" 
+                onclick="cancelarSolicitacao(${r.idSolicitacao})">Cancelar</button>
+        `;
+      }
+    }
     container.innerHTML += `
       <details class="${corStatus(statusClass)}">
         <summary>
@@ -289,13 +315,7 @@ function renderizarSolicitacoes(lista = reposicoes) {
             <div style="width:2px;border-right:2px solid black;height:150px;"></div>
             
             <div class="botoes col-3">
-             ${statusClass !== "finalizado" && statusClass !== "cancelado" 
-        ? `<button class="btn btn-pendente" 
-                      onclick="finalizaSolicitacao(${r.idSolicitacao})">Finalizar</button>
-            <button class="btn btn-cancelado" 
-                      onclick="cancelarSolicitacao(${r.idSolicitacao})">Cancelar</button>`
-        : "<span></span>"
-      }
+              ${botoesHtml}
             </div>
           </div>
         </div>
@@ -313,12 +333,12 @@ async function finalizaSolicitacao(id) {
         "Content-Type": "application/json",
         Authorization: `Bearer ${token}`,
       },
-      body: JSON.stringify({ status: "Finalizado" }),
+      body: JSON.stringify({ status: "Concluida" }),
     });
 
     if (response.status === 401) return erroToken();
     const r = reposicoes.find((rep) => rep.idSolicitacao === id);
-    if (r) r.status = "finalizado";
+    if (r) r.status = "Concluida";
     renderizarSolicitacoes();
     mostrarNotificacao("Reposição finalizada com sucesso!", 'sucesso');
   } catch (error) {
@@ -326,17 +346,16 @@ async function finalizaSolicitacao(id) {
     alert("Erro ao finalizar reposição.");
   }
 }
-
 async function cancelarSolicitacao(id) {
   try {
     const token = getToken();
-    const response = await fetch(`${API_BASE}/soliciatacoes/atualizar/${id}`, {
+    const response = await fetch(`${API_BASE}/solicitacoes/atualizar/${id}`, {
       method: "PUT",
       headers: {
         "Content-Type": "application/json",
         Authorization: `Bearer ${token}`,
       },
-      body: JSON.stringify({ status: "Cancelado" }),
+      body: JSON.stringify({ status: "Cancelada" }),
     });
 
     if (response.status === 401) return erroToken();
@@ -349,7 +368,6 @@ async function cancelarSolicitacao(id) {
     alert("Erro ao cancelar reposição.");
   }
 }
-
 // Função unificada de filtro
 function filtrarPorStatus(filtro) {
   const botoes = document.querySelectorAll(".submenu-link");

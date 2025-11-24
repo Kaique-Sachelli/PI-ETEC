@@ -300,8 +300,7 @@ app.get("/agendamentos/buscar", verificarToken, async (req, res) => {
   let conexao;
   try {
     conexao = await pool.getConnection();
-    const [agendamentos] = await conexao.query(`
-SELECT 
+    var sql = `SELECT 
     a.idAgendamento,
     DATE_FORMAT(a.dataAgendamento, '%d/%m/%Y') AS data,
     a.periodoAgendamento AS periodo,
@@ -342,9 +341,16 @@ SELECT
     Agendamento a
       JOIN Usuario u ON a.idUsuario = u.idUsuario
     JOIN Laboratorio l ON a.idLaboratorio = l.idLaboratorio
-    JOIN Kits k ON a.idKit = k.idKit
-    ORDER BY a.dataAgendamento DESC;
-    `);
+    JOIN Kits k ON a.idKit = k.idKit`;
+
+    params = [];
+    if (req.usuario.permissao === 'Professor') {
+      sql += ` WHERE a.idUsuario = ?`;
+      params.push(req.usuario.idUsuario); // protege o banco de sql injecton mesmo se o valor vier do token
+    }
+    sql += ` ORDER BY a.dataAgendamento DESC;` //finaliza o SELECT depois de filtrar a permissao do usuário
+
+    const [agendamentos] = await conexao.query(sql, params);
     // buscar os detalhes dos produtos de CADA KIT
     for (const agendamento of agendamentos) {
       const idKit = agendamento.idKit;
@@ -359,7 +365,6 @@ SELECT
          WHERE kv.idKit = ?`,
         [idKit]
       );
-
       const [reagentes] = await conexao.query(
         `SELECT 
            r.nomeReagente, 
@@ -369,7 +374,6 @@ SELECT
          WHERE kr.idKit = ?`,
         [idKit]
       );
-
       agendamento.produtos = [
         ...vidrarias.map(v => ({
           nome: `${v.nomeVidraria} ${v.capacidade || ''}`.trim(),
@@ -385,7 +389,7 @@ SELECT
     }
     res.json(agendamentos);
   } catch (erro) {
-    console.error("Erro ao buscar solicitações:", erro);
+    console.error("Erro ao buscar agendamentos:", erro);
     res.status(500).json({ erro: "Erro ao buscar solicitações" });
   } finally {
     if (conexao) conexao.release();
@@ -416,8 +420,8 @@ app.put("/agendamentos/atualizar/:id", verificarToken, async (req, res) => {
   try {
     await conexao.beginTransaction();
     //controla o estoque se o agendamento for aprovado
-    if(statusBanco === 'Aprovado'){
-       const [row] = await conexao.query(
+    if (statusBanco === 'Aprovado') {
+      const [row] = await conexao.query(
         'SELECT idKit FROM agendamento WHERE idAgendamento = ?',
         [id]
       )
@@ -426,7 +430,7 @@ app.put("/agendamentos/atualizar/:id", verificarToken, async (req, res) => {
         'SELECT idVidraria, quantidade FROM Kits_Vidrarias WHERE idKit = ?',
         [idKit]
       )
-      for(let vidraria of vidrarias){
+      for (let vidraria of vidrarias) {
         await conexao.query(
           'UPDATE Vidrarias SET quantidade = quantidade - ? WHERE idVidraria = ?',
           [vidraria.quantidade, vidraria.idVidraria]
@@ -436,8 +440,8 @@ app.put("/agendamentos/atualizar/:id", verificarToken, async (req, res) => {
         'SELECT idReagente, quantidade FROM Kits_Reagentes WHERE idKit =?',
         [idKit]
       )
-  
-      for(let reagente of reagentes){
+
+      for (let reagente of reagentes) {
         await conexao.query(
           'UPDATE Reagentes SET quantidade = quantidade - ? WHERE idReagente = ?',
           [reagente.quantidade, reagente.idReagente]
@@ -447,17 +451,17 @@ app.put("/agendamentos/atualizar/:id", verificarToken, async (req, res) => {
 
     // retorna as vidrarias ao estoque quando a aula é concluida
     if (statusBanco === 'Finalizado') {
-       const [row] = await conexao.query(
+      const [row] = await conexao.query(
         'SELECT idKit FROM agendamento WHERE idAgendamento = ?',
         [id]
       )
       const idKit = row[0].idKit;
       const [vidrariasDoKit] = await conexao.query("SELECT idVidraria, quantidade FROM Kits_Vidrarias WHERE idKit = ?", [idKit]);
-        for (const item of vidrariasDoKit) {
-            await conexao.query("UPDATE Vidrarias SET quantidade = quantidade + ? WHERE idVidraria = ?",
-              [item.quantidade, item.idVidraria]
-            );
-        }
+      for (const item of vidrariasDoKit) {
+        await conexao.query("UPDATE Vidrarias SET quantidade = quantidade + ? WHERE idVidraria = ?",
+          [item.quantidade, item.idVidraria]
+        );
+      }
     }
 
     // apos toda operação ser concluida atualiza o status do agendamento
@@ -487,19 +491,29 @@ app.put("/agendamentos/atualizar/:id", verificarToken, async (req, res) => {
 // Rota para buscar Solicitações com seus produtos
 app.get("/solicitacoes", verificarToken, async (req, res) => {
   let conexao;
+  permissaoUsuario = req.usuario.permissao;
+  idUsuario = req.usuario.idUsuario;
   try {
     conexao = await pool.getConnection();
-    const [rows] = await conexao.query(`
-      SELECT 
-        s.idSolicitacao,
-        DATE_FORMAT(s.dataPedido, '%d/%m/%Y') AS data, 
-        s.statusPedido AS status,
-        s.observacao,
-        u.nome AS tecnico
-      FROM Solicitacoes s
-      JOIN Usuario u ON s.idUsuario = u.idUsuario
-      ORDER BY s.dataPedido DESC
-    `);
+    let sql = `
+        SELECT 
+          s.idSolicitacao,
+          DATE_FORMAT(s.dataPedido, '%d/%m/%Y') AS data, 
+          s.statusPedido AS status,
+          s.observacao,
+          u.nome AS tecnico
+        FROM Solicitacoes s
+        JOIN Usuario u ON s.idUsuario = u.idUsuario
+      `;
+    params = []
+    if (permissaoUsuario === 'Professor') {
+      sql += ' WHERE s.idUsuario = ?';
+      params.push(idUsuario)
+    }
+
+    sql += ` ORDER BY s.dataPedido DESC`
+
+    const [rows] = await conexao.query(sql, params);
 
     for (const solicitacao of rows) {
       const id = solicitacao.idSolicitacao;
@@ -535,24 +549,24 @@ app.get("/solicitacoes", verificarToken, async (req, res) => {
 
 // Rota para ALTERAR solicitação (Atualizar Status)
 app.put("/solicitacoes/atualizar/:id", verificarToken, async (req, res) => {
-    const { id } = req.params;
-    const { status } = req.body;
-  
-    try {
-      const [result] = await pool.query(
-        "UPDATE Solicitacoes SET statusPedido = ? WHERE idSolicitacao = ?",
-        [status, id]
-      );
-      
-      if (result.affectedRows > 0) {
-          res.json({ sucesso: true, mensagem: "Status atualizado com sucesso!" });
-      } else {
-          res.status(404).json({ sucesso: false, mensagem: "Solicitação não encontrada." });
-      }
-    } catch (erro) {
-      console.error("Erro ao atualizar solicitação:", erro);
-      res.status(500).json({ erro: "Erro ao atualizar solicitação" });
+  const { id } = req.params;
+  const { status } = req.body;
+
+  try {
+    const [result] = await pool.query(
+      "UPDATE Solicitacoes SET statusPedido = ? WHERE idSolicitacao = ?",
+      [status, id]
+    );
+
+    if (result.affectedRows > 0) {
+      res.json({ sucesso: true, mensagem: "Status atualizado com sucesso!" });
+    } else {
+      res.status(404).json({ sucesso: false, mensagem: "Solicitação não encontrada." });
     }
+  } catch (erro) {
+    console.error("Erro ao atualizar solicitação:", erro);
+    res.status(500).json({ erro: "Erro ao atualizar solicitação" });
+  }
 });
 app.post("/api/reposicao", verificarToken, async (req, res) => {
   const { idUsuario, observacao } = req.body;
