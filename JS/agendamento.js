@@ -1,3 +1,6 @@
+import { mostrarNotificacao } from "./notificacao.js";
+import { getToken } from "./sessao.js";
+
 let dataAtual = new Date();
 let modoVisualizacao = "mes";
 let diaSelecionado = null;
@@ -22,7 +25,33 @@ function isoDate(d) {
   return new Date(d).toISOString().split("T")[0];
 }
 
-function pad(n){ return String(n).padStart(2,"0"); }
+function pad(n) { return String(n).padStart(2, "0"); }
+
+
+async function carregarLaboratorios() {
+  try {
+    const token = getToken();
+    const r = await fetch("http://localhost:3000/laboratorios", {
+      headers: { "Authorization": `Bearer ${token}` }
+    });
+
+    const dados = await r.json();
+    if (!dados.sucesso) return;
+
+    laboratorioSelect.innerHTML = "<option value=''>Selecione...</option>";
+
+    dados.laboratorios.forEach(lab => {
+      const opt = document.createElement("option");
+      opt.value = lab.idLaboratorio;
+      opt.textContent = lab.sala;
+      laboratorioSelect.appendChild(opt);
+    });
+
+  } catch (e) {
+    console.error("Erro ao carregar laboratórios:", e);
+  }
+}
+
 
 // sistema 48h
 function verificarRestricaoData(data) {
@@ -30,7 +59,7 @@ function verificarRestricaoData(data) {
   const inicioDoDia = new Date(data);
   inicioDoDia.setHours(0, 0, 0, 0);
 
-  if (inicioDoDia.getTime() < new Date().setHours(0,0,0,0))
+  if (inicioDoDia.getTime() < new Date().setHours(0, 0, 0, 0))
     return "passado";
 
   const limite = new Date(agora.getTime() + 48 * 60 * 60 * 1000);
@@ -51,7 +80,7 @@ function carregarAgendamentosLocal() {
 
 async function carregarAgendamentos() {
   try {
-    const r = await fetch("/agendamentos");
+    const r = await fetch("http://localhost:3000/agendamentos");
     if (!r.ok) throw 0;
     agendamentos = await r.json();
     salvarAgendamentosLocal();
@@ -99,15 +128,15 @@ function renderizarMes() {
     }
 
     el.addEventListener("click", () => {
-      if (status === "passado") return alert("⚠ Este dia já passou.");
-      if (status === "48h") return alert("⚠ Agendamentos só podem ser feitos com 48h de antecedência.");
+      if (status === "passado") return mostrarNotificacao("⚠ Este dia já passou.", "erro");
+      if (status === "48h") return mostrarNotificacao("⚠ Agendamentos só podem ser feitos com 48h de antecedência.", "erro");
       selecionarDia(d);
     });
 
     if (diaSelecionado &&
-        diaSelecionado.getDate() === d &&
-        diaSelecionado.getMonth() === dataAtual.getMonth() &&
-        diaSelecionado.getFullYear() === dataAtual.getFullYear()) {
+      diaSelecionado.getDate() === d &&
+      diaSelecionado.getMonth() === dataAtual.getMonth() &&
+      diaSelecionado.getFullYear() === dataAtual.getFullYear()) {
       el.classList.add("ativo", "selecionado");
     }
 
@@ -129,7 +158,7 @@ function renderizarSemana() {
   const inicio = new Date(dataAtual);
   inicio.setDate(dataAtual.getDate() - ((diaDaSemana + 6) % 7));
 
-  const nomes = ["Seg","Ter","Qua","Qui","Sex","Sáb","Dom"];
+  const nomes = ["Seg", "Ter", "Qua", "Qui", "Sex", "Sáb", "Dom"];
 
   for (let i = 0; i < 7; i++) {
     const dia = new Date(inicio);
@@ -192,9 +221,9 @@ function selecionarDia(num) {
   diaSelecionado = dt;
   horarioSelecionado = null;
 
-  document.querySelectorAll(".dia").forEach(d => d.classList.remove("ativo","selecionado"));
+  document.querySelectorAll(".dia").forEach(d => d.classList.remove("ativo", "selecionado"));
   const clicked = [...document.querySelectorAll(".dia")].find(d => d.textContent == num);
-  clicked?.classList.add("ativo","selecionado");
+  clicked?.classList.add("ativo", "selecionado");
 
   atualizarHorarios();
 }
@@ -203,8 +232,8 @@ function selecionarHorario(dia, horario, botao) {
   horarioSelecionado = horario;
   diaSelecionado = new Date(dia.getFullYear(), dia.getMonth(), dia.getDate());
 
-  document.querySelectorAll(".horario-btn").forEach(b => b.classList.remove("ativo","selecionado"));
-  botao.classList.add("ativo","selecionado");
+  document.querySelectorAll(".horario-btn").forEach(b => b.classList.remove("ativo", "selecionado"));
+  botao.classList.add("ativo", "selecionado");
 
   const sel = document.getElementById("horarioSelect");
   if (sel) sel.value = horario;
@@ -258,25 +287,37 @@ function obterHorariosPorPeriodo(p) {
 
 btnAgendar.addEventListener("click", async () => {
   if (!diaSelecionado || !horarioSelecionado)
-    return alert("Selecione o dia e o horário!");
+    return mostrarNotificacao("Selecione o dia e o horário!", "erro");
 
   const status = verificarRestricaoData(diaSelecionado);
-  if (status === "passado") return alert("⚠ Este dia já passou.");
-  if (status === "48h") return alert("⚠ Agendamentos só podem ser feitos com 48h de antecedência.");
+  if (status === "passado") return mostrarNotificacao("⚠ Este dia já passou.", "erro");
+  if (status === "48h") return mostrarNotificacao("⚠ Agendamentos só podem ser feitos com 48h de antecedência.", "erro");
 
   const dataISO = isoDate(diaSelecionado);
   const laboratorio = laboratorioSelect.value;
   const kit = kitSelect.value;
 
   const repetido = agendamentos.find(a => a.data === dataISO && a.horario === horarioSelecionado && a.laboratorio === laboratorio);
-  if (repetido) return alert("⚠ Já existe um agendamento nesse horário!");
+  if (repetido) return mostrarNotificacao("⚠ Já existe um agendamento nesse horário!", "erro");
 
   try {
-    const r = await fetch("/agendamentos", {
+    const periodo = periodoSelect.value;
+    const token = getToken()
+    const r = await fetch("http://localhost:3000/agendamentos/salvar", {
       method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ data: dataISO, horario: horarioSelecionado, laboratorio, kit })
+      headers: {
+        "Content-Type": "application/json",
+        "Authorization": `Bearer ${token}`
+      },
+      body: JSON.stringify({
+        data: dataISO,
+        horario: horarioSelecionado,
+        laboratorio: laboratorioSelect.value,
+        kit: kitSelect.value,
+        periodo: periodoSelect.value,
+      })
     });
+
     if (!r.ok) throw 0;
     await carregarAgendamentos();
   } catch {
@@ -284,26 +325,27 @@ btnAgendar.addEventListener("click", async () => {
     salvarAgendamentosLocal();
   }
 
-  alert(`✅ Agendado com sucesso para ${dataISO} — ${horarioSelecionado}`);
+  mostrarNotificacao(`✅ Agendado com sucesso!`, "sucesso");
   renderizarSemana();
 });
 
 setaEsquerda.addEventListener("click", () => {
   modoVisualizacao === "mes" ? dataAtual.setMonth(dataAtual.getMonth() - 1)
-                             : dataAtual.setDate(dataAtual.getDate() - 7);
+    : dataAtual.setDate(dataAtual.getDate() - 7);
   modoVisualizacao === "mes" ? renderizarMes() : renderizarSemana();
 });
 setaDireita.addEventListener("click", () => {
   modoVisualizacao === "mes" ? dataAtual.setMonth(dataAtual.getMonth() + 1)
-                             : dataAtual.setDate(dataAtual.getDate() + 7);
+    : dataAtual.setDate(dataAtual.getDate() + 7);
   modoVisualizacao === "mes" ? renderizarMes() : renderizarSemana();
 });
 botaoMes.addEventListener("click", () => renderizarMes());
 botaoSemana.addEventListener("click", () => renderizarSemana());
-periodoSelect.addEventListener("change", () => { atualizarHorarios(); if(modoVisualizacao==="semana") renderizarSemana(); });
-laboratorioSelect.addEventListener("change", () => modoVisualizacao==="semana" ? renderizarSemana() : renderizarMes());
+periodoSelect.addEventListener("change", () => { atualizarHorarios(); if (modoVisualizacao === "semana") renderizarSemana(); });
+laboratorioSelect.addEventListener("change", () => modoVisualizacao === "semana" ? renderizarSemana() : renderizarMes());
 
 (async function init() {
+  await carregarLaboratorios(); 
   await carregarAgendamentos();
   atualizarMes();
   atualizarHorarios();

@@ -397,11 +397,40 @@ app.post("/api/reposicao", verificarToken, async (req, res) => {
 app.put("/api/reposicao/:id", verificarToken, async (req, res) => {
   const { id } = req.params;
   const { status } = req.body;
+  
+});
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 // parte do Moreno tentativa de agendamento
+
 // cria novo agendamento
-// cria novo agendamento
-app.post("/agendamentos", verificarToken, async (req, res) => {
+app.post("/agendamentos/salvar", verificarToken, async (req, res) => {
   const { data, laboratorio, kit, periodo, horario } = req.body;
   const idUsuario = req.usuario.idUsuario;
 
@@ -424,7 +453,7 @@ app.post("/agendamentos", verificarToken, async (req, res) => {
 
   try {
     const [result] = await pool.query(
-      "INSERT INTO Agendamentos (idUsuario, data, laboratorio, kit, periodo, horario, status) VALUES (?, ?, ?, ?, ?, ?, 'Aprovado')",
+      "INSERT INTO Agendamento (idUsuario, dataAgendamento, idLaboratorio, idKit, periodoAgendamento, aula, statusAgendamento) VALUES (?, ?, ?, ?, ?, ?, 'Aprovado')",
       [idUsuario, data, laboratorio, kit, periodo, horario]
     );
 
@@ -434,16 +463,27 @@ app.post("/agendamentos", verificarToken, async (req, res) => {
     res.status(500).json({ sucesso: false, mensagem: "Erro ao agendar: " + erro.message });
   }
 });
+
+
 // Buscar agendamentos já cadastrados
 app.get('/agendamentos', async (req, res) => {
   const { laboratorio } = req.query;
 
   try {
-    let sql = "SELECT data, horario, laboratorio FROM agendamentos WHERE 1 = 1";
+    let sql = `
+      SELECT 
+        a.dataAgendamento AS data,
+        a.periodoAgendamento AS periodo,
+        a.aula AS horario,
+        l.sala AS laboratorio
+      FROM Agendamento a
+      JOIN Laboratorio l ON a.idLaboratorio = l.idLaboratorio
+      WHERE 1 = 1
+    `;
     let params = [];
 
     if (laboratorio) {
-      sql += " AND laboratorio = ?";
+      sql += " AND l.sala = ?";
       params.push(laboratorio);
     }
 
@@ -455,7 +495,45 @@ app.get('/agendamentos', async (req, res) => {
   }
 });
 
+// Buscar laboratórios
+app.get("/laboratorios", verificarToken, async (req, res) => {
+  try {
+    const [rows] = await pool.query(
+      "SELECT idLaboratorio, sala FROM Laboratorio"
+    );
+
+    res.json({
+      sucesso: true,
+      laboratorios: rows
+    });
+  } catch (erro) {
+    res.status(500).json({
+      sucesso: false,
+      mensagem: "Erro ao buscar laboratórios: " + erro.message
+    });
+  }
 });
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 app.post('/kits/salvar', verificarToken, async (req, res) => {
   const { nomeKit, descricaoKit, produtos } = req.body;
   const idUsuario = req.usuario.idUsuario;
