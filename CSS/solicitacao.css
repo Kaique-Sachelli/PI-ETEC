@@ -283,6 +283,8 @@ details[open] .seta {
   width: 100%;
   border-radius: 4px;
   font-weight: bold;
+  align-items: center;
+  justify-content: space-around;
 }
 
 button {
@@ -298,11 +300,11 @@ button {
 
 .btn {
   padding: 5px 12px;        
-  font-size: 12px;          
+  font-size: 12px ;          
   min-width: unset;         
   border-radius: 6px;       
   font-weight: bold;
-  color: white !important;
+  color: rgb(255, 255, 255) !important;
   cursor: pointer;
   transition: all 0.3s ease;
 }
@@ -342,6 +344,7 @@ button {
   opacity: 0.9;
   transform: scale(1.03);
 }
+
 .btn-pendente{
   background-color: #3acf1f !important;
   border-radius: 5px;
@@ -349,14 +352,6 @@ button {
 
 .btn-cancelado:houver{
   background-color: #4acd51;
-}
-
-.containerprodutos .botoes {
-  display: flex;
-  justify-content: flex-end;
-  width: 20%;
-  margin-top: 65px;
-  height: 10%;
 }
 
 .btn-finalizar {
@@ -379,15 +374,14 @@ button {
 .btn-devolvido, 
 .btn-cancelado,
 .btn-pendente{
-  width: 150px;  
+  width: 170px;  
   height: 50px;  
   padding: 6px 8px !important;  
-  font-size: 11px !important;
+  font-size: 16px !important;
   border-radius: 5px !important;
   display: flex;
   align-items: center;
   justify-content: center;
-  margin: auto;
 }
 /* Fim do código dos botões */
 

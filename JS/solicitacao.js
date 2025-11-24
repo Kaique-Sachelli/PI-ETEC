@@ -135,7 +135,7 @@ function renderizaAgendamentos(lista = agendamentos) {
         </summary>
         <div class="detalhes-box">
           <div class="row w-100">
-            <div class="coluna col-4">
+            <div class="coluna col-4" style="border-right:2px solid black;">
               <h4>Dados do Agendamento:</h4>
               <p><strong>Professor:</strong> ${s.professor}</p>
               <p><strong>Aula:</strong> ${s.aula}</p>
@@ -143,15 +143,13 @@ function renderizaAgendamentos(lista = agendamentos) {
               <p><strong>Data:</strong> ${s.data || "--/--/--"}</p>
               <p><strong>Kit:</strong> ${s.kit || "N/A"}</p>
             </div>
-            <div style="width:2px;border-right:2px solid black;height:150px;"></div>
-            <div class="coluna col-4">
+            <div class="coluna col-4" style="border-right:2px solid black;">
               <h4>Produtos Solicitados (Itens do Kit):</h4>
               <ul>
                 ${listaProdutos}
               </ul>
             </div>
-            <div style="width:2px;border-right:2px solid black;height:150px;"></div>
-            <div class="botoes col-3">
+            <div class="botoes col-4">
               ${gerarBotoesSolicitacoes(s.status, s.id)}
             </div>
           </div>
@@ -297,24 +295,20 @@ function renderizarSolicitacoes(lista = reposicoes) {
         </summary>
         <div class="detalhes-box">
           <div class="row w-100">
-            <div class="coluna col-4">
+            <div class="coluna col-4" style="border-right:2px solid black;">
               <h4>Dados da Solicitação:</h4>
               <p><strong>Solicitante:</strong> ${r.tecnico}</p>
               <p><strong>Observação:</strong> ${r.observacao || "Nenhuma"}</p>
             </div>
-            
-            <div style="width:2px;border-right:2px solid black;height:150px;"></div>
-            
-            <div class="coluna col-4">
+                        
+            <div class="coluna col-4" style="border-right:2px solid black;">
               <h4>Produtos Solicitados:</h4>
               <ul>
                 ${listaProdutos}
               </ul>
             </div>
             
-            <div style="width:2px;border-right:2px solid black;height:150px;"></div>
-            
-            <div class="botoes col-3">
+            <div class="botoes col-4">
               ${botoesHtml}
             </div>
           </div>
