@@ -394,21 +394,20 @@ button {
 
 /* Começo do código dos filtros */
 .container-filtro {
-  display: flex;
-  justify-content: flex-end;
-  position: relative;
-  top: 10px;
-  margin-bottom: 25px;
-  margin-right: 115px;
-  z-index: 1000;
+  display: grid;
+  grid-template-columns: 1.2fr 1.2fr 0.8fr 1fr 0.5fr; 
+  width: 100%;
+  margin-bottom: 15px;
+  align-items: center;
+  gap: 10px; 
 }
-
 .filtro {
-  font-size: 18px;
-  color: #000;
+  grid-column: 4 ;      
+  justify-self: center; 
+  width: max-content;
+  margin-left: 50px; 
   list-style: none;
   padding: 0;
-  margin: 0;
 }
 
 .filtro a {
