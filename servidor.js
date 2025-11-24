@@ -483,23 +483,76 @@ app.put("/agendamentos/atualizar/:id", verificarToken, async (req, res) => {
   }
   if (conexao) conexao.release();
 });
-app.get("/api/reposicao", verificarToken, async (req, res) => {
+
+// Rota para buscar Solicitações com seus produtos
+app.get("/solicitacoes", verificarToken, async (req, res) => {
+  let conexao;
   try {
-    const [rows] = await pool.query(`
+    conexao = await pool.getConnection();
+    const [rows] = await conexao.query(`
       SELECT 
-        r.idReposicao AS id,
-        u.nome AS usuario,
-        r.status,
-        DATE_FORMAT(r.dataPedido, '%d/%m/%Y %H:%i') AS dataPedido,
-        r.observacao
-      FROM ReposicaoEstoque r
-      JOIN Usuario u ON r.idUsuario = u.idUsuario
-      ORDER BY r.dataPedido DESC
+        s.idSolicitacao,
+        DATE_FORMAT(s.dataPedido, '%d/%m/%Y') AS data, 
+        s.statusPedido AS status,
+        s.observacao,
+        u.nome AS tecnico
+      FROM Solicitacoes s
+      JOIN Usuario u ON s.idUsuario = u.idUsuario
+      ORDER BY s.dataPedido DESC
     `);
+
+    for (const solicitacao of rows) {
+      const id = solicitacao.idSolicitacao;
+
+      const [vidrarias] = await conexao.query(`
+        SELECT v.nomeVidraria AS nome, sv.quantidade, 'vidraria' as tipo
+        FROM Solicitacoes_Vidrarias sv
+        JOIN Vidrarias v ON sv.idVidraria = v.idVidraria
+        WHERE sv.idSolicitacao = ?
+      `, [id]);
+
+      const [reagentes] = await conexao.query(`
+        SELECT r.nomeReagente AS nome, sr.quantidadeSolicitada AS quantidade, 'reagente' as tipo
+        FROM Solicitacoes_Reagentes sr
+        JOIN Reagentes r ON sr.idReagente = r.idReagente
+        WHERE sr.idSolicitacao = ?
+      `, [id]);
+
+      // Unir os produtos no objeto da solicitação
+      solicitacao.produtos = [...vidrarias, ...reagentes];
+    }
+
     res.json(rows);
+
   } catch (erro) {
-    res.status(500).json({ erro: "Erro ao buscar reposições" });
+    console.error("Erro ao buscar solicitações:", erro);
+    res.status(500).json({ erro: "Erro ao buscar solicitações" });
+  } finally {
+    if (conexao) conexao.release();
   }
+});
+
+
+// Rota para ALTERAR solicitação (Atualizar Status)
+app.put("/solicitacoes/atualizar/:id", verificarToken, async (req, res) => {
+    const { id } = req.params;
+    const { status } = req.body;
+  
+    try {
+      const [result] = await pool.query(
+        "UPDATE Solicitacoes SET statusPedido = ? WHERE idSolicitacao = ?",
+        [status, id]
+      );
+      
+      if (result.affectedRows > 0) {
+          res.json({ sucesso: true, mensagem: "Status atualizado com sucesso!" });
+      } else {
+          res.status(404).json({ sucesso: false, mensagem: "Solicitação não encontrada." });
+      }
+    } catch (erro) {
+      console.error("Erro ao atualizar solicitação:", erro);
+      res.status(500).json({ erro: "Erro ao atualizar solicitação" });
+    }
 });
 app.post("/api/reposicao", verificarToken, async (req, res) => {
   const { idUsuario, observacao } = req.body;
