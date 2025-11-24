@@ -25,7 +25,7 @@ function adicionarAoKit(elemento) {
     const passoInicial = tipoElemento === 'reagente' ? 0.1 : 1;
     const idProduto = elemento.dataset.idProduto;
     if (produtoExistente) {
-        mostrarNotificacao("Este produto já foi adicionado ao kit", "erro");
+        mostrarNotificacao("Este produto já foi adicionado à solicitação", "erro");
         return;
     }
     kitSelecionado.push({
@@ -81,7 +81,7 @@ function solicitarMaterial() {
     if (!listaContainer) {
         listaContainer = document.createElement("div");
         listaContainer.classList.add("kit-lista-solicitar");
-        kitContainer.insertBefore(listaContainer, kitContainer.querySelector(".finalizar-button"));
+        kitContainer.insertBefore(listaContainer, kitContainer.querySelector(".botoes"));
     }
     listaContainer.innerHTML = "";
 
@@ -122,7 +122,7 @@ function gerenciarEstoque() {
     if (!listaContainer) {
         listaContainer = document.createElement("div");
         listaContainer.classList.add("kit-lista-gerenciar");
-        kitContainer.insertBefore(listaContainer, kitContainer.querySelector(".finalizar-button"));
+        kitContainer.insertBefore(listaContainer, kitContainer.querySelector(".botoes"));
     }
     listaContainer.innerHTML = "";
 
@@ -158,6 +158,7 @@ function gerenciarEstoque() {
 }
 
 document.addEventListener("DOMContentLoaded", () => {
+    inicializarEventos()
     carregarProdutos("indisponiveis"); //inicia a pagina com todos os produtos indisponiveis em display
     pesquisarProdutos();
     const linksFiltro = document.querySelectorAll(".filtro .submenu-link");
@@ -258,37 +259,94 @@ function renderizarItens(itens, container, tipo) {
         const btn = document.createElement("button");
         btn.className = `col-lg-3 col-md-4 col-sm-6 ${tipo}`; 
 
-        let nome, detalhe, quantidade;
+        let nome, detalhe, quantidade, idProduto;
 
         if (tipo === 'vidraria') {
             nome = item.nomeVidraria;
             detalhe = item.capacidade || '';
             quantidade = `${item.quantidade} und.`;
+            idProduto = item.idVidraria;
         } else {
             nome = item.nomeReagente;
             detalhe = '';
             quantidade = `${item.quantidade}g`;
+            idProduto = item.idReagente;
         }
-        if (item.quantidade > 0) {
-            btn.innerHTML = `
-                <img src="../Img/${imgNome}" alt="${nome}" class="${tipo}-img">
-                <p> ${nome} <br> ${detalhe} <br> <span class="produto-quantidade">${quantidade}</span></p>
-            `;
-        } else {
-            btn.innerHTML = `
-                <img src="../Img/${imgNome}" alt="${nome}" class="${tipo}-img">
-                <p> ${nome} <br> ${detalhe} <br> <span class="produto-indisponivel">${quantidade}</span></p>
-            `;
-        }
+        btn.innerHTML = `
+            <img src="../Img/${imgNome}" alt="${nome}" class="${tipo}-img">
+            <p> ${nome} <br> ${detalhe} <br> <span class="produto-quantidade">${quantidade}</span></p>
+        `;
         // armazena o tipo e o número do estoque no dataset para facilitar verificações
         btn.dataset.tipo = tipo;
         btn.dataset.estoque = tipo === 'vidraria'
             ? (parseInt(item.quantidade, 10) || 0)
             : (parseFloat(item.quantidade) || 0);
         btn.addEventListener("click", () => adicionarAoKit(btn));
+        btn.dataset.idProduto = idProduto;
 
         container.appendChild(btn);
     });
+}
+
+function inicializarEventos() {
+    const produtos = document.querySelectorAll(".vidraria, .reagente");
+    produtos.forEach(produto => {
+        produto.addEventListener("click", () => adicionarAoKit(produto));
+    });
+
+    const botaoConfirmar = document.querySelector(".confirmar-button");
+    botaoConfirmar.addEventListener("click", () => {
+        const descricao = document.getElementById('descricaoKit').value
+        if (kitSelecionado.length === 0) {
+            mostrarNotificacao('Nenhum item selecionado!', 'erro')
+            return;
+        }
+        const solicitacaoFinal = {
+            descricaoKit: descricao,
+            produtos: kitSelecionado
+        }
+        //função para salvar a solicitacao
+        salvaSolicitacao(solicitacaoFinal);
+    });
+}
+
+//Função de salvar kits
+async function salvaSolicitacao(solicitacao) {
+    const token = getToken();
+    const produtos = solicitacao.produtos;
+    if (!token) {
+        erroToken();
+        return;
+    } else {
+        if (!produtos || produtos.length === 0) {
+            mostrarNotificacao('Produtos da solicitação faltando', 'erro');
+        } else {
+            try {
+                const resposta = await fetch('http://localhost:3000/estoque/salvar', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Authorization': `Bearer ${token}`
+                    },
+                    body: JSON.stringify(solicitacao)
+                })
+                const dados = await resposta.json();
+                if (dados.sucesso) {
+                    mostrarNotificacao(dados.mensagem, 'sucesso')
+                    kitSelecionado.length = 0;
+                    document.getElementById('descricaoKit').value = ''
+                    document.querySelector('.kit-lista-solicitar').innerHTML = ""
+                    document.querySelector('.kit-lista-gerenciar').innerHTML = ""
+                } else {
+                    mostrarNotificacao(dados.mensagem, 'erro')
+                    console.log(dados.erro)
+                }
+            } catch (error) {
+                mostrarNotificacao('Não foi possivel salvar a solicitação. Erro de conexão', 'erro')
+                console.log(error.message)
+            }
+        }   
+    }
 }
 
 // Visualização Única
