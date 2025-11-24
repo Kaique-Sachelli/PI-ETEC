@@ -43,7 +43,7 @@ function statusText(status) {
 }
 
 // Atualiza status no backend
-async function atualizarStatusBackend(endpoint, id, novoStatus) {
+async function atualizarAgendamento(endpoint, id, novoStatus) {
   try {
     const token = getToken();
     const response = await fetch(`${API_BASE}/${endpoint}/${id}`, {
@@ -160,16 +160,16 @@ function renderizaAgendamentos() {
 function gerarBotoesSolicitacoes(status, id) {
   if (status === "pendente")
     return `
-    <button class="btn btn-pronto" onclick="kitPronto(${id})">Devolver Kit</button>
+    <button class="btn btn-pendente" onclick="aprovarAgendamento(${id})">Aprovar Agendamento</button>
     <button class="btn btn-cancelado" onclick="cancelar(${id})">Cancelar</button>`;
 
   if (status === "aprovado")
     return `
-    <button class="btn btn-devolvido" onclick="finalizar(${id})">Kit Pronto</button>`;
+    <button class="btn btn-devolvido" onclick="finalizar(${id})">Devolver Kit</button>`;
 
   if (status === "cancelado")
     return `
-    <button class="btn btn-pendente" onclick="voltarPendente(${id})">Reabrir Solicitação</button>`;
+    <button class="btn btn-pendente" onclick="voltarPendente(${id})">Reabrir Agendamento</button>`;
 
   return "";
 }
@@ -177,29 +177,29 @@ function gerarBotoesSolicitacoes(status, id) {
 // Funções de ação
 async function cancelar(id) {
   if (!confirm("Deseja cancelar esta solicitação?")) return;
-  await atualizarStatusBackend("solicitacoes", id, "cancelado");
-  const s = solicitacoes.find((x) => x.id === id);
+  await atualizarAgendamento("agendamentos/atualizar", id, "cancelado");
+  const s = agendamentos.find((x) => x.id === id);
   if (s) s.status = "cancelado";
   carregarAgendamentos();
 }
 
-async function kitPronto(id) {
-  await atualizarStatusBackend("solicitacoes", id, "aprovado");
-  const s = solicitacoes.find((x) => x.id === id);
+async function aprovarAgendamento(id) {
+  await atualizarAgendamento("agendamentos/atualizar", id, "aprovado");
+  const s = agendamentos.find((x) => x.id === id);
   if (s) s.status = "aprovado";
   carregarAgendamentos();
 }
 
 async function finalizar(id) {
-  await atualizarStatusBackend("solicitacoes", id, "finalizado");
-  const s = solicitacoes.find((x) => x.id === id);
+  await atualizarAgendamento("agendamentos/atualizar", id, "finalizado");
+  const s = agendamentos.find((x) => x.id === id);
   if (s) s.status = "finalizado";
   carregarAgendamentos();
 }
 
 async function voltarPendente(id) {
-  await atualizarStatusBackend("solicitacoes", id, "pendente");
-  const s = solicitacoes.find((x) => x.id === id);
+  await atualizarAgendamento("agendamentos/atualizar", id, "pendente");
+  const s = agendamentos.find((x) => x.id === id);
   if (s) s.status = "pendente";
   carregarAgendamentos();
 }
@@ -393,3 +393,8 @@ document.addEventListener("DOMContentLoaded", async () => {
   await carregarAgendamentos();
   carregarReposicoesDoBackend();
 });
+
+window.aprovarAgendamento = aprovarAgendamento;
+window.cancelar = cancelar;
+window.finalizar = finalizar;
+window.voltarPendente = voltarPendente;
