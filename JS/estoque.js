@@ -272,10 +272,17 @@ function renderizarItens(itens, container, tipo) {
             quantidade = `${item.quantidade}g`;
             idProduto = item.idReagente;
         }
-        btn.innerHTML = `
-            <img src="../Img/${imgNome}" alt="${nome}" class="${tipo}-img">
-            <p> ${nome} <br> ${detalhe} <br> <span class="produto-quantidade">${quantidade}</span></p>
-        `;
+        if (item.quantidade > 0) {
+            btn.innerHTML = `
+                <img src="../Img/${imgNome}" alt="${nome}" class="${tipo}-img">
+                <p> ${nome} <br> ${detalhe} <br> <span class="produto-quantidade">${quantidade}</span></p>
+            `;
+        } else {
+            btn.innerHTML = `
+                <img src="../Img/${imgNome}" alt="${nome}" class="${tipo}-img">
+                <p> ${nome} <br> ${detalhe} <br> <span class="produto-indisponivel">${quantidade}</span></p>
+            `;
+        }
         // armazena o tipo e o número do estoque no dataset para facilitar verificações
         btn.dataset.tipo = tipo;
         btn.dataset.estoque = tipo === 'vidraria'
@@ -294,8 +301,8 @@ function inicializarEventos() {
         produto.addEventListener("click", () => adicionarAoKit(produto));
     });
 
-    const botaoConfirmar = document.querySelector(".confirmar-button");
-    botaoConfirmar.addEventListener("click", () => {
+    const botaoConfirmarSolicitar = document.querySelector("#confirmar-button-solicitar");
+    botaoConfirmarSolicitar.addEventListener("click", () => {
         const descricao = document.getElementById('descricaoKit').value
         if (kitSelecionado.length === 0) {
             mostrarNotificacao('Nenhum item selecionado!', 'erro')
@@ -307,6 +314,19 @@ function inicializarEventos() {
         }
         //função para salvar a solicitacao
         salvaSolicitacao(solicitacaoFinal);
+    });
+
+    const botaoConfirmarGerenciar = document.querySelector("#confirmar-button-gerenciar");
+    botaoConfirmarGerenciar.addEventListener("click", () => {
+        if (kitSelecionado.length === 0) {
+            mostrarNotificacao('Nenhum item selecionado!', 'erro')
+            return;
+        }
+        const gerenciamentoFinal = {
+            produtos: kitSelecionado
+        }
+        // função para gerenciar estoque
+        salvaGerenciamento(gerenciamentoFinal)
     });
 }
 
@@ -343,6 +363,45 @@ async function salvaSolicitacao(solicitacao) {
                 }
             } catch (error) {
                 mostrarNotificacao('Não foi possivel salvar a solicitação. Erro de conexão', 'erro')
+                console.log(error.message)
+            }
+        }   
+    }
+}
+
+//Função para salvar gerenciamento de estoque
+async function salvaGerenciamento(gerenciamento) {
+    const token = getToken();
+    const produtos = gerenciamento.produtos;
+    if (!token) {
+        erroToken();
+        return;
+    } else {
+        if (!produtos || produtos.length === 0) {
+            mostrarNotificacao('Produtos do gerenciamento faltando', 'erro');
+        } else {
+            try {
+                const resposta = await fetch('http://localhost:3000/estoque/gerenciar', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Authorization': `Bearer ${token}`
+                    },
+                    body: JSON.stringify(gerenciamento)
+                })
+                const dados = await resposta.json();
+                if (dados.sucesso) {
+                    mostrarNotificacao(dados.mensagem, 'sucesso')
+                    kitSelecionado.length = 0;
+                    document.querySelector('.kit-lista-solicitar').innerHTML = ""
+                    document.querySelector('.kit-lista-gerenciar').innerHTML = ""
+                    carregarProdutos("indisponiveis");
+                } else {
+                    mostrarNotificacao(dados.mensagem, 'erro')
+                    console.log(dados.erro)
+                }
+            } catch (error) {
+                mostrarNotificacao('Não foi possivel salvar o gerenciamento. Erro de conexão', 'erro')
                 console.log(error.message)
             }
         }   

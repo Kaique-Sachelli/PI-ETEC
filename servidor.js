@@ -576,11 +576,11 @@ app.post('/estoque/salvar', verificarToken, async (req, res) => {
   try {
     connection = await pool.getConnection() // usa transação para garantir que nao haja kits fantamas
     await connection.beginTransaction();
-    const [resultSolcitacao] = await connection.query(
+    const [resultSolicitacao] = await connection.query(
       'INSERT INTO Solicitacoes (idUsuario, observacao) VALUES (?, ?)',
       [idUsuario, descricaoKit || null] //null se a descrição não vir
     )
-    const idSolicitacao = resultSolcitacao.insertId;
+    const idSolicitacao = resultSolicitacao.insertId;
     for (const produto of produtos) {
       if (produto.tipo == 'vidraria') {
         await connection.query(
@@ -604,6 +604,46 @@ app.post('/estoque/salvar', verificarToken, async (req, res) => {
     res.status(500).json({
       sucesso: false,
       mensagem: 'Houve um erro ao salvar a solicitação',
+      erro: error.message
+    })
+  }finally{
+    if(connection) connection.release(); //depois de toda operação libera a conexão
+  }
+})
+
+// salvar solcitação de reposição de estoque
+app.post('/estoque/gerenciar', verificarToken, async (req, res) => {
+  const {produtos} = req.body;
+  if (!produtos || produtos.length === 0) {
+    res.json({ sucesso: false, mensagem: 'Produtos do gerenciamento faltando' })
+  }
+  let connection;
+  try {
+    connection = await pool.getConnection() // usa transação para garantir que nao haja kits fantamas
+    await connection.beginTransaction();
+    for (const produto of produtos) {
+      if (produto.tipo == 'vidraria') {
+        await connection.query(
+          'UPDATE Vidrarias SET quantidade = quantidade + ? WHERE idVidraria = ?;',
+          [produto.quantidade, produto.idProduto]
+        )
+      } else if (produto.tipo == 'reagente') {
+        await connection.query(
+          'UPDATE Reagentes SET quantidade = quantidade + ? WHERE idReagente = ?;',
+          [produto.quantidade, produto.idProduto]
+        )
+      }
+    }
+    await connection.commit(); //salva a operação se TODOS os loops funcionarem
+    res.json({
+      sucesso: true,
+      mensagem: 'Gerenciamento salvo com sucesso!'
+    })
+  } catch (error) {
+    if (connection) await connection.rollback()
+    res.status(500).json({
+      sucesso: false,
+      mensagem: 'Houve um erro ao salvar o gerenciamento',
       erro: error.message
     })
   }finally{
