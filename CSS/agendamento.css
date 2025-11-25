@@ -415,7 +415,7 @@ body {
   font-weight: 500;
   min-height: auto;
   display: block;
-  text-align: left;/
+  text-align: left;
 }
 
 .horario-btn:hover:not(:disabled) {
@@ -562,3 +562,4 @@ footer .linha-footer {
     width: 100%;
   }
 }
+

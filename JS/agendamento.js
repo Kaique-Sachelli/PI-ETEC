@@ -63,7 +63,7 @@ async function carregarKits() {
 
 
     const kitSelect = document.getElementById("kitSelect");
-    
+
 
     kitSelect.innerHTML = "<option value=''>Selecione um Kit...</option>";
 
@@ -81,20 +81,41 @@ async function carregarKits() {
 
 
 // sistema 48h
-function verificarRestricaoData(data) {
+function verificarRestricaoData(data, horarioTexto) {
   const agora = new Date();
-  const inicioDoDia = new Date(data);
-  inicioDoDia.setHours(0, 0, 0, 0);
 
-  if (inicioDoDia.getTime() < new Date().setHours(0, 0, 0, 0))
+  // --- monta a data+hora real conforme o horário selecionado ---
+  // exemplo: "1ª aula - 7h10 às 8h00"
+  let horaInicio = horarioTexto?.match(/(\d{1,2})h(\d{2})/);
+
+  let dataComHora = new Date(data);
+
+  if (horaInicio) {
+    const h = parseInt(horaInicio[1]);
+    const m = parseInt(horaInicio[2]);
+    dataComHora.setHours(h, m, 0, 0);
+  } else {
+    // fallback: se não conseguir extrair, assume 00:00 (comportamento antigo)
+    dataComHora.setHours(0, 0, 0, 0);
+  }
+
+  // --- DIA PASSADO ---
+  if (dataComHora < agora) {
     return "passado";
+  }
 
-  const limite = new Date(agora.getTime() + 48 * 60 * 60 * 1000);
-  if (inicioDoDia.getTime() < limite.getTime())
+  // --- DIFERENÇA REAL EM HORAS ---
+  const diffMs = dataComHora.getTime() - agora.getTime();
+  const diffHoras = diffMs / (1000 * 60 * 60);
+
+  if (diffHoras < 48) {
     return "48h";
+  }
 
   return "ok";
 }
+
+
 
 function salvarAgendamentosLocal() {
   localStorage.setItem("agendamentos", JSON.stringify(agendamentos));
@@ -107,14 +128,61 @@ function carregarAgendamentosLocal() {
 
 async function carregarAgendamentos() {
   try {
-    const r = await fetch("http://localhost:3000/agendamentos");
+    const token = getToken();
+    const r = await fetch("http://localhost:3000/agendamentos", {
+      headers: { "Authorization": `Bearer ${token}` }
+    });
+
     if (!r.ok) throw 0;
-    agendamentos = await r.json();
+
+    const lista = await r.json();
+
+    // converte o formato do backend para o formato esperado no frontend
+    agendamentos = lista.map(a => {
+      return {
+        data: a.data,
+        laboratorio: a.laboratorio,
+        periodo: a.periodo,
+        horario: converterHorario(a.horario, a.periodo)
+      };
+    });
+    function converterHorario(aula, periodo) {
+      const maps = {
+        matutino: {
+          "1ª Aula": "1ª aula - 7h10 às 8h00",
+          "2ª Aula": "2ª aula - 8h00 às 8h50",
+          "3ª Aula": "3ª aula - 8h50 às 9h40",
+          "4ª Aula": "4ª aula - 10h00 às 10h50",
+          "5ª Aula": "5ª aula - 10h50 às 11h40",
+          "6ª Aula": "6ª aula - 11h40 às 12h30"
+        },
+        vespertino: {
+          "1ª Aula": "1ª aula - 13h00 às 13h50",
+          "2ª Aula": "2ª aula - 13h50 às 14h40",
+          "3ª Aula": "3ª aula - 14h40 às 15h30",
+          "4ª Aula": "4ª aula - 15h50 às 16h40",
+          "5ª Aula": "5ª aula - 16h40 às 17h30",
+          "6ª Aula": "6ª aula - 17h30 às 18h20"
+        },
+        noturno: {
+          "1ª Aula": "1ª aula - 18h50 às 19h40",
+          "2ª Aula": "2ª aula - 19h40 às 20h30",
+          "3ª Aula": "3ª aula - 20h44 às 21h34",
+          "4ª Aula": "4ª aula - 21h34 às 22h20"
+        }
+      };
+
+      return maps[periodo]?.[aula] || aula;
+    }
+
+
     salvarAgendamentosLocal();
-  } catch {
+  } catch (e) {
+    console.warn("⚠ Usando agendamentos do localStorage (erro ou falta de token)");
     carregarAgendamentosLocal();
   }
 }
+
 
 function atualizarMes() {
   const nomeMes = dataAtual.toLocaleString("pt-BR", { month: "long", year: "numeric" });
@@ -312,13 +380,13 @@ function obterHorariosPorPeriodo(p) {
   }[p] || [];
 }
 
-// agendamento.js
+// botao agendar
 
 btnAgendar.addEventListener("click", async () => {
   if (!diaSelecionado || !horarioSelecionado)
     return mostrarNotificacao("Selecione o dia e o horário!", "erro");
 
-  const status = verificarRestricaoData(diaSelecionado);
+  const status = verificarRestricaoData(diaSelecionado, horarioSelecionado);
   if (status === "passado") return mostrarNotificacao("⚠ Este dia já passou.", "erro");
   if (status === "48h") return mostrarNotificacao("⚠ Agendamentos só podem ser feitos com 48h de antecedência.", "erro");
 
@@ -333,15 +401,15 @@ btnAgendar.addEventListener("click", async () => {
   // --- TRATAMENTO DO HORÁRIO AQUI ---
   // O horarioSelecionado vem como "1ª aula - 7h10 às 8h00"
   // O split quebra no " - " e pegamos a posição [0] que é "1ª aula"
-  let aulaApenas = horarioSelecionado.split(" - ")[0]; 
-  
+  let aulaApenas = horarioSelecionado.split(" - ")[0];
+
   // Opcional: Garante que o 'a' de aula fique maiúsculo para bater com o ENUM do banco (1ª Aula)
-  aulaApenas = aulaApenas.replace("aula", "Aula"); 
+  aulaApenas = aulaApenas.replace("aula", "Aula");
 
   try {
     const periodo = periodoSelect.value;
     const token = getToken();
-    
+
     const r = await fetch("http://localhost:3000/agendamentos/salvar", {
       method: "POST",
       headers: {
@@ -350,7 +418,7 @@ btnAgendar.addEventListener("click", async () => {
       },
       body: JSON.stringify({
         data: dataISO,
-        horario: aulaApenas, 
+        horario: aulaApenas,
         laboratorio: laboratorioSelect.value,
         kit: kitSelect.value,
         periodo: periodoSelect.value,
@@ -360,18 +428,23 @@ btnAgendar.addEventListener("click", async () => {
     // Se o servidor retornar erro, lança exceção
     const resposta = await r.json();
     if (!resposta.sucesso) {
-        throw new Error(resposta.mensagem);
+      throw new Error(resposta.mensagem);
     }
 
     await carregarAgendamentos();
     mostrarNotificacao(`✅ Agendado com sucesso!`, "sucesso");
-    
+
   } catch (erro) {
     console.error(erro);
     mostrarNotificacao("Erro ao agendar: " + (erro.message || erro), "erro");
   }
 
-  renderizarSemana();
+  if (modoVisualizacao === "semana") {
+    renderizarSemana();
+  } else {
+    renderizarMes();
+  }
+
 });
 setaEsquerda.addEventListener("click", () => {
   modoVisualizacao === "mes" ? dataAtual.setMonth(dataAtual.getMonth() - 1)
@@ -389,7 +462,7 @@ periodoSelect.addEventListener("change", () => { atualizarHorarios(); if (modoVi
 laboratorioSelect.addEventListener("change", () => modoVisualizacao === "semana" ? renderizarSemana() : renderizarMes());
 
 (async function init() {
-  await carregarLaboratorios(); 
+  await carregarLaboratorios();
   await carregarAgendamentos();
   await carregarKits();
   atualizarMes();
