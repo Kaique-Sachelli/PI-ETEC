@@ -164,6 +164,7 @@ p {
   box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
   padding: 20px;
   width: 100%;
+  justify-content: center;
 }
 
 .agendamentos-titulo {
@@ -174,7 +175,24 @@ p {
   font-weight: 400;
   display: flex;
   justify-self: center;
+  margin-bottom: 20px;
 }
+
+.agendamentos-cabecalho {
+  font-family: 'Roboto', sans-serif;
+  text-align: center;
+  font-weight: bold;
+}
+
+.agendamento {
+  text-align: center;
+}
+
+.valor {
+  border: #000000 1px solid;
+  line-height: 3;
+}
+
 /* ------ Fim do código de Seus Agendamentos ------ */
 
 
