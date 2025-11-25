@@ -51,6 +51,33 @@ async function carregarLaboratorios() {
     console.error("Erro ao carregar laboratórios:", e);
   }
 }
+async function carregarKits() {
+  try {
+    const token = getToken();
+    const r = await fetch("http://localhost:3000/kits/lista", {
+      headers: { "Authorization": `Bearer ${token}` }
+    });
+
+    const dados = await r.json();
+    if (!dados.sucesso) return;
+
+
+    const kitSelect = document.getElementById("kitSelect");
+    
+
+    kitSelect.innerHTML = "<option value=''>Selecione um Kit...</option>";
+
+    dados.kits.forEach(kit => {
+      const opt = document.createElement("option");
+      opt.value = kit.idKit;
+      opt.textContent = kit.nome;
+      kitSelect.appendChild(opt);
+    });
+
+  } catch (e) {
+    console.error("Erro ao carregar kits:", e);
+  }
+}
 
 
 // sistema 48h
@@ -285,6 +312,8 @@ function obterHorariosPorPeriodo(p) {
   }[p] || [];
 }
 
+// agendamento.js
+
 btnAgendar.addEventListener("click", async () => {
   if (!diaSelecionado || !horarioSelecionado)
     return mostrarNotificacao("Selecione o dia e o horário!", "erro");
@@ -297,12 +326,22 @@ btnAgendar.addEventListener("click", async () => {
   const laboratorio = laboratorioSelect.value;
   const kit = kitSelect.value;
 
+  // Verifica colisão localmente (opcional, mas bom manter)
   const repetido = agendamentos.find(a => a.data === dataISO && a.horario === horarioSelecionado && a.laboratorio === laboratorio);
   if (repetido) return mostrarNotificacao("⚠ Já existe um agendamento nesse horário!", "erro");
 
+  // --- TRATAMENTO DO HORÁRIO AQUI ---
+  // O horarioSelecionado vem como "1ª aula - 7h10 às 8h00"
+  // O split quebra no " - " e pegamos a posição [0] que é "1ª aula"
+  let aulaApenas = horarioSelecionado.split(" - ")[0]; 
+  
+  // Opcional: Garante que o 'a' de aula fique maiúsculo para bater com o ENUM do banco (1ª Aula)
+  aulaApenas = aulaApenas.replace("aula", "Aula"); 
+
   try {
     const periodo = periodoSelect.value;
-    const token = getToken()
+    const token = getToken();
+    
     const r = await fetch("http://localhost:3000/agendamentos/salvar", {
       method: "POST",
       headers: {
@@ -311,24 +350,29 @@ btnAgendar.addEventListener("click", async () => {
       },
       body: JSON.stringify({
         data: dataISO,
-        horario: horarioSelecionado,
+        horario: aulaApenas, 
         laboratorio: laboratorioSelect.value,
         kit: kitSelect.value,
         periodo: periodoSelect.value,
       })
     });
 
-    if (!r.ok) throw 0;
+    // Se o servidor retornar erro, lança exceção
+    const resposta = await r.json();
+    if (!resposta.sucesso) {
+        throw new Error(resposta.mensagem);
+    }
+
     await carregarAgendamentos();
-  } catch {
-    agendamentos.push({ data: dataISO, horario: horarioSelecionado, laboratorio, kit });
-    salvarAgendamentosLocal();
+    mostrarNotificacao(`✅ Agendado com sucesso!`, "sucesso");
+    
+  } catch (erro) {
+    console.error(erro);
+    mostrarNotificacao("Erro ao agendar: " + (erro.message || erro), "erro");
   }
 
-  mostrarNotificacao(`✅ Agendado com sucesso!`, "sucesso");
   renderizarSemana();
 });
-
 setaEsquerda.addEventListener("click", () => {
   modoVisualizacao === "mes" ? dataAtual.setMonth(dataAtual.getMonth() - 1)
     : dataAtual.setDate(dataAtual.getDate() - 7);
@@ -347,6 +391,7 @@ laboratorioSelect.addEventListener("change", () => modoVisualizacao === "semana"
 (async function init() {
   await carregarLaboratorios(); 
   await carregarAgendamentos();
+  await carregarKits();
   atualizarMes();
   atualizarHorarios();
   renderizarMes();

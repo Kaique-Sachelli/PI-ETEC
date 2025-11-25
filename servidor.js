@@ -453,7 +453,7 @@ app.post("/agendamentos/salvar", verificarToken, async (req, res) => {
 
   try {
     const [result] = await pool.query(
-      "INSERT INTO Agendamento (idUsuario, dataAgendamento, idLaboratorio, idKit, periodoAgendamento, aula, statusAgendamento) VALUES (?, ?, ?, ?, ?, ?, 'Aprovado')",
+      "INSERT INTO Agendamento (idUsuario, dataAgendamento, idLaboratorio, idKit, periodoAgendamento, aula) VALUES (?, ?, ?, ?, ?, ?)",
       [idUsuario, data, laboratorio, kit, periodo, horario]
     );
 
@@ -514,7 +514,24 @@ app.get("/laboratorios", verificarToken, async (req, res) => {
   }
 });
 
-
+app.get("/kits/lista", verificarToken, async (req, res) => {
+  const idUsuario = req.usuario.idUsuario;
+  try {
+    const [rows] = await pool.query(
+      "SELECT idKit, nome FROM Kits WHERE idUsuario = ? ORDER BY nome ASC",
+      [idUsuario]
+    );
+    res.json({
+      sucesso: true,
+      kits: rows
+    });
+  } catch (erro) {
+    res.status(500).json({
+      sucesso: false,
+      mensagem: "Erro ao buscar lista de kits: " + erro.message
+    });
+  }
+});
 
 
 
