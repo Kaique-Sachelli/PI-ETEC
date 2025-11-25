@@ -129,7 +129,7 @@ function carregarAgendamentosLocal() {
 async function carregarAgendamentos() {
   try {
     const token = getToken();
-    const r = await fetch("http://localhost:3000/agendamentos", {
+    const r = await fetch("http://localhost:3000/agendamentos/buscar", {
       headers: { "Authorization": `Bearer ${token}` }
     });
 
@@ -137,48 +137,17 @@ async function carregarAgendamentos() {
 
     const lista = await r.json();
 
-    // converte o formato do backend para o formato esperado no frontend
-    agendamentos = lista.map(a => {
-      return {
-        data: a.data,
-        laboratorio: a.laboratorio,
-        periodo: a.periodo,
-        horario: converterHorario(a.horario, a.periodo)
-      };
-    });
-    function converterHorario(aula, periodo) {
-      const maps = {
-        matutino: {
-          "1ª Aula": "1ª aula - 7h10 às 8h00",
-          "2ª Aula": "2ª aula - 8h00 às 8h50",
-          "3ª Aula": "3ª aula - 8h50 às 9h40",
-          "4ª Aula": "4ª aula - 10h00 às 10h50",
-          "5ª Aula": "5ª aula - 10h50 às 11h40",
-          "6ª Aula": "6ª aula - 11h40 às 12h30"
-        },
-        vespertino: {
-          "1ª Aula": "1ª aula - 13h00 às 13h50",
-          "2ª Aula": "2ª aula - 13h50 às 14h40",
-          "3ª Aula": "3ª aula - 14h40 às 15h30",
-          "4ª Aula": "4ª aula - 15h50 às 16h40",
-          "5ª Aula": "5ª aula - 16h40 às 17h30",
-          "6ª Aula": "6ª aula - 17h30 às 18h20"
-        },
-        noturno: {
-          "1ª Aula": "1ª aula - 18h50 às 19h40",
-          "2ª Aula": "2ª aula - 19h40 às 20h30",
-          "3ª Aula": "3ª aula - 20h44 às 21h34",
-          "4ª Aula": "4ª aula - 21h34 às 22h20"
-        }
-      };
-
-      return maps[periodo]?.[aula] || aula;
-    }
-
+    // ✅ CORREÇÃO: A resposta vem com 'aula' e 'idLaboratorio', não 'horario' e 'laboratorio'
+    agendamentos = lista.map(a => ({
+      data: a.data,                    // ✅ Já vem formatado como "DD/MM/YYYY"
+      laboratorio: a.idLaboratorio,    // ✅ ID do laboratório
+      periodo: a.periodo,
+      horarioSimples: a.aula           // ✅ "1ª Aula" (do backend)
+    }));
 
     salvarAgendamentosLocal();
   } catch (e) {
-    console.warn("⚠ Usando agendamentos do localStorage (erro ou falta de token)");
+    console.warn("⚠ Usando agendamentos do localStorage");
     carregarAgendamentosLocal();
   }
 }
@@ -254,11 +223,13 @@ function renderizarSemana() {
   inicio.setDate(dataAtual.getDate() - ((diaDaSemana + 6) % 7));
 
   const nomes = ["Seg", "Ter", "Qua", "Qui", "Sex", "Sáb", "Dom"];
+  const laboratorioSelecionado = laboratorioSelect?.value;
+  const periodo = periodoSelect?.value;
 
   for (let i = 0; i < 7; i++) {
     const dia = new Date(inicio);
     dia.setDate(inicio.getDate() + i);
-    const iso = isoDate(dia);
+    const iso = isoDate(dia); // Formato YYYY-MM-DD
     const status = verificarRestricaoData(dia);
 
     const div = document.createElement("div");
@@ -266,50 +237,69 @@ function renderizarSemana() {
     div.dataset.data = iso;
     div.innerHTML = `<strong>${nomes[i]}</strong><div>${pad(dia.getDate())}</div><div class="horarios-dia"></div>`;
 
-    const lista = obterHorariosPorPeriodo(periodoSelect?.value) || [];
+    const lista = obterHorariosPorPeriodo(periodo) || [];
     const horariosDia = div.querySelector(".horarios-dia");
 
-    lista.forEach(h => {
-      const btn = document.createElement("button");
-      btn.type = "button";
-      btn.className = "horario-btn";
-      btn.textContent = h;
+    if (!laboratorioSelecionado) {
+      horariosDia.innerHTML = '<p style="font-size: 12px; color: #999; padding: 10px;">Selecione um laboratório</p>';
+    } else {
+      lista.forEach(h => {
+        const btn = document.createElement("button");
+        btn.type = "button";
+        btn.className = "horario-btn";
+        btn.textContent = h;
 
-      const ocupado = agendamentos.find(a => a.data === iso && a.horario === h && (a.laboratorio || "") === (laboratorioSelect?.value || ""));
-      if (ocupado) {
-        btn.disabled = true;
-        btn.style.opacity = ".5";
-        btn.title = "Horário já agendado";
-      }
+        // ✅ Extrai a aula (ex: "1ª aula - 7h10..." → "1ª Aula")
+        const horarioCurto = h.split(" - ")[0];
+        const horarioFormatado = horarioCurto.replace("aula", "Aula");
 
-      if (status === "passado") {
-        btn.disabled = true;
-        btn.style.opacity = ".5";
-        btn.title = "Dia já passou";
-      }
+        // ✅ CORREÇÃO: Converte data do backend "DD/MM/YYYY" para "YYYY-MM-DD" para comparar
+        const ocupado = agendamentos.find(a => {
+          // Converte "25/11/2025" para "2025-11-25"
+          const dataParts = a.data.split("/");
+          const dataFormatada = `${dataParts[2]}-${dataParts[1]}-${dataParts[0]}`;
+          
+          return dataFormatada === iso && 
+                 a.horarioSimples === horarioFormatado && 
+                 String(a.laboratorio) === String(laboratorioSelecionado);
+        });
 
-      if (status === "48h") {
-        btn.disabled = true;
-        btn.style.opacity = ".5";
-        btn.title = "Somente com 48h de antecedência";
-      }
+        if (ocupado) {
+          btn.disabled = true;
+          btn.classList.add("ocupado");
+          btn.title = "Horário já agendado";
+        }
 
-      btn.addEventListener("click", () => {
-        if (!btn.disabled) selecionarHorario(dia, h, btn);
+        if (status === "passado") {
+          btn.disabled = true;
+          btn.style.opacity = ".5";
+          btn.title = "Dia já passou";
+        }
+
+        if (status === "48h") {
+          btn.disabled = true;
+          btn.style.opacity = ".5";
+          btn.title = "Somente com 48h de antecedência";
+        }
+
+        btn.addEventListener("click", () => {
+          if (!btn.disabled) selecionarHorario(dia, h, btn);
+        });
+
+        if (diaSelecionado && isoDate(diaSelecionado) === iso && horarioSelecionado === h) {
+          btn.classList.add("selecionado", "ativo");
+        }
+
+        horariosDia.appendChild(btn);
       });
-
-      if (diaSelecionado && isoDate(diaSelecionado) === iso && horarioSelecionado === h) {
-        btn.classList.add("selecionado", "ativo");
-      }
-
-      horariosDia.appendChild(btn);
-    });
+    }
 
     semanaContainer.appendChild(div);
   }
 
   atualizarMes();
 }
+
 
 function selecionarDia(num) {
   const dt = new Date(dataAtual.getFullYear(), dataAtual.getMonth(), num);
@@ -387,6 +377,7 @@ btnAgendar.addEventListener("click", async () => {
     return mostrarNotificacao("Selecione o dia e o horário!", "erro");
 
   const status = verificarRestricaoData(diaSelecionado, horarioSelecionado);
+
   if (status === "passado") return mostrarNotificacao("⚠ Este dia já passou.", "erro");
   if (status === "48h") return mostrarNotificacao("⚠ Agendamentos só podem ser feitos com 48h de antecedência.", "erro");
 

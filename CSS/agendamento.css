@@ -563,3 +563,9 @@ footer .linha-footer {
   }
 }
 
+.horario-btn.ocupado {
+    background-color: #ffd6d6 !important;
+    color: #6b0000 !important;
+    border-color: #db7878 !important;
+    opacity: 1 !important; /* Se quiser o botão bem visível */
+}
