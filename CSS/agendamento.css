@@ -414,7 +414,7 @@ body {
   font-weight: 500;
   min-height: auto;
   display: block;
-  text-align: left;/
+  text-align: left;
 }
 
 .horario-btn:hover:not(:disabled) {
@@ -560,4 +560,11 @@ footer .linha-footer {
   .submenu-link {
     width: 100%;
   }
+}
+
+.horario-btn.ocupado {
+    background-color: #ffd6d6 !important;
+    color: #6b0000 !important;
+    border-color: #db7878 !important;
+    opacity: 1 !important; /* Se quiser o botão bem visível */
 }

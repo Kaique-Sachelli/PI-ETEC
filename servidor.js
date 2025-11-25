@@ -588,6 +588,7 @@ app.post("/agendamentos", verificarToken, async (req, res) => {
   const { data, laboratorio, kit, periodo, horario } = req.body;
   const idUsuario = req.usuario.idUsuario; // pega o usuário logado do JWT
 
+});
 
 // cria novo agendamento
 app.post("/agendamentos/salvar", verificarToken, async (req, res) => {
@@ -612,19 +613,37 @@ app.post("/agendamentos/salvar", verificarToken, async (req, res) => {
   }
 
   try {
+    // verifica se tem agendamentos no mesmo horario
+    const [existe] = await pool.query(
+      `SELECT idAgendamento FROM Agendamento 
+       WHERE dataAgendamento = ? 
+         AND idLaboratorio = ?
+         AND periodoAgendamento = ?
+         AND aula = ?`,
+      [data, laboratorio, periodo, horario]
+    );
+
+    if (existe.length > 0) {
+      return res.status(400).json({
+        sucesso: false,
+        mensagem: "Já existe um agendamento neste horário para este laboratório."
+      });
+    }
+
+
     const [result] = await pool.query(
       "INSERT INTO Agendamento (idUsuario, dataAgendamento, idLaboratorio, idKit, periodoAgendamento, aula) VALUES (?, ?, ?, ?, ?, ?)",
       [idUsuario, data, laboratorio, kit, periodo, horario]
     );
 
     res.json({ sucesso: true, mensagem: "Agendamento realizado com sucesso", id: result.insertId });
+
   } catch (erro) {
     console.error("Erro ao agendar:", erro);
     res.status(500).json({ sucesso: false, mensagem: "Erro ao agendar: " + erro.message });
   }
-})
-
 });
+
 
 // Buscar agendamentos já cadastrados
 app.get('/agendamentos', async (req, res) => {

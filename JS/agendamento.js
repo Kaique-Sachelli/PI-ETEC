@@ -63,7 +63,7 @@ async function carregarKits() {
 
 
     const kitSelect = document.getElementById("kitSelect");
-    
+
 
     kitSelect.innerHTML = "<option value=''>Selecione um Kit...</option>";
 
@@ -81,20 +81,41 @@ async function carregarKits() {
 
 
 // sistema 48h
-function verificarRestricaoData(data) {
+function verificarRestricaoData(data, horarioTexto) {
   const agora = new Date();
-  const inicioDoDia = new Date(data);
-  inicioDoDia.setHours(0, 0, 0, 0);
 
-  if (inicioDoDia.getTime() < new Date().setHours(0, 0, 0, 0))
+  // --- monta a data+hora real conforme o horário selecionado ---
+  // exemplo: "1ª aula - 7h10 às 8h00"
+  let horaInicio = horarioTexto?.match(/(\d{1,2})h(\d{2})/);
+
+  let dataComHora = new Date(data);
+
+  if (horaInicio) {
+    const h = parseInt(horaInicio[1]);
+    const m = parseInt(horaInicio[2]);
+    dataComHora.setHours(h, m, 0, 0);
+  } else {
+    // fallback: se não conseguir extrair, assume 00:00 (comportamento antigo)
+    dataComHora.setHours(0, 0, 0, 0);
+  }
+
+  // --- DIA PASSADO ---
+  if (dataComHora < agora) {
     return "passado";
+  }
 
-  const limite = new Date(agora.getTime() + 48 * 60 * 60 * 1000);
-  if (inicioDoDia.getTime() < limite.getTime())
+  // --- DIFERENÇA REAL EM HORAS ---
+  const diffMs = dataComHora.getTime() - agora.getTime();
+  const diffHoras = diffMs / (1000 * 60 * 60);
+
+  if (diffHoras < 48) {
     return "48h";
+  }
 
   return "ok";
 }
+
+
 
 function salvarAgendamentosLocal() {
   localStorage.setItem("agendamentos", JSON.stringify(agendamentos));
@@ -107,14 +128,30 @@ function carregarAgendamentosLocal() {
 
 async function carregarAgendamentos() {
   try {
-    const r = await fetch("http://localhost:3000/agendamentos");
+    const token = getToken();
+    const r = await fetch("http://localhost:3000/agendamentos/buscar", {
+      headers: { "Authorization": `Bearer ${token}` }
+    });
+
     if (!r.ok) throw 0;
-    agendamentos = await r.json();
+
+    const lista = await r.json();
+
+    // ✅ CORREÇÃO: A resposta vem com 'aula' e 'idLaboratorio', não 'horario' e 'laboratorio'
+    agendamentos = lista.map(a => ({
+      data: a.data,                    // ✅ Já vem formatado como "DD/MM/YYYY"
+      laboratorio: a.idLaboratorio,    // ✅ ID do laboratório
+      periodo: a.periodo,
+      horarioSimples: a.aula           // ✅ "1ª Aula" (do backend)
+    }));
+
     salvarAgendamentosLocal();
-  } catch {
+  } catch (e) {
+    console.warn("⚠ Usando agendamentos do localStorage");
     carregarAgendamentosLocal();
   }
 }
+
 
 function atualizarMes() {
   const nomeMes = dataAtual.toLocaleString("pt-BR", { month: "long", year: "numeric" });
@@ -186,11 +223,13 @@ function renderizarSemana() {
   inicio.setDate(dataAtual.getDate() - ((diaDaSemana + 6) % 7));
 
   const nomes = ["Seg", "Ter", "Qua", "Qui", "Sex", "Sáb", "Dom"];
+  const laboratorioSelecionado = laboratorioSelect?.value;
+  const periodo = periodoSelect?.value;
 
   for (let i = 0; i < 7; i++) {
     const dia = new Date(inicio);
     dia.setDate(inicio.getDate() + i);
-    const iso = isoDate(dia);
+    const iso = isoDate(dia); // Formato YYYY-MM-DD
     const status = verificarRestricaoData(dia);
 
     const div = document.createElement("div");
@@ -198,50 +237,69 @@ function renderizarSemana() {
     div.dataset.data = iso;
     div.innerHTML = `<strong>${nomes[i]}</strong><div>${pad(dia.getDate())}</div><div class="horarios-dia"></div>`;
 
-    const lista = obterHorariosPorPeriodo(periodoSelect?.value) || [];
+    const lista = obterHorariosPorPeriodo(periodo) || [];
     const horariosDia = div.querySelector(".horarios-dia");
 
-    lista.forEach(h => {
-      const btn = document.createElement("button");
-      btn.type = "button";
-      btn.className = "horario-btn";
-      btn.textContent = h;
+    if (!laboratorioSelecionado) {
+      horariosDia.innerHTML = '<p style="font-size: 12px; color: #999; padding: 10px;">Selecione um laboratório</p>';
+    } else {
+      lista.forEach(h => {
+        const btn = document.createElement("button");
+        btn.type = "button";
+        btn.className = "horario-btn";
+        btn.textContent = h;
 
-      const ocupado = agendamentos.find(a => a.data === iso && a.horario === h && (a.laboratorio || "") === (laboratorioSelect?.value || ""));
-      if (ocupado) {
-        btn.disabled = true;
-        btn.style.opacity = ".5";
-        btn.title = "Horário já agendado";
-      }
+        // ✅ Extrai a aula (ex: "1ª aula - 7h10..." → "1ª Aula")
+        const horarioCurto = h.split(" - ")[0];
+        const horarioFormatado = horarioCurto.replace("aula", "Aula");
 
-      if (status === "passado") {
-        btn.disabled = true;
-        btn.style.opacity = ".5";
-        btn.title = "Dia já passou";
-      }
+        // ✅ CORREÇÃO: Converte data do backend "DD/MM/YYYY" para "YYYY-MM-DD" para comparar
+        const ocupado = agendamentos.find(a => {
+          // Converte "25/11/2025" para "2025-11-25"
+          const dataParts = a.data.split("/");
+          const dataFormatada = `${dataParts[2]}-${dataParts[1]}-${dataParts[0]}`;
+          
+          return dataFormatada === iso && 
+                 a.horarioSimples === horarioFormatado && 
+                 String(a.laboratorio) === String(laboratorioSelecionado);
+        });
 
-      if (status === "48h") {
-        btn.disabled = true;
-        btn.style.opacity = ".5";
-        btn.title = "Somente com 48h de antecedência";
-      }
+        if (ocupado) {
+          btn.disabled = true;
+          btn.classList.add("ocupado");
+          btn.title = "Horário já agendado";
+        }
 
-      btn.addEventListener("click", () => {
-        if (!btn.disabled) selecionarHorario(dia, h, btn);
+        if (status === "passado") {
+          btn.disabled = true;
+          btn.style.opacity = ".5";
+          btn.title = "Dia já passou";
+        }
+
+        if (status === "48h") {
+          btn.disabled = true;
+          btn.style.opacity = ".5";
+          btn.title = "Somente com 48h de antecedência";
+        }
+
+        btn.addEventListener("click", () => {
+          if (!btn.disabled) selecionarHorario(dia, h, btn);
+        });
+
+        if (diaSelecionado && isoDate(diaSelecionado) === iso && horarioSelecionado === h) {
+          btn.classList.add("selecionado", "ativo");
+        }
+
+        horariosDia.appendChild(btn);
       });
-
-      if (diaSelecionado && isoDate(diaSelecionado) === iso && horarioSelecionado === h) {
-        btn.classList.add("selecionado", "ativo");
-      }
-
-      horariosDia.appendChild(btn);
-    });
+    }
 
     semanaContainer.appendChild(div);
   }
 
   atualizarMes();
 }
+
 
 function selecionarDia(num) {
   const dt = new Date(dataAtual.getFullYear(), dataAtual.getMonth(), num);
@@ -312,13 +370,14 @@ function obterHorariosPorPeriodo(p) {
   }[p] || [];
 }
 
-// agendamento.js
+// botao agendar
 
 btnAgendar.addEventListener("click", async () => {
   if (!diaSelecionado || !horarioSelecionado)
     return mostrarNotificacao("Selecione o dia e o horário!", "erro");
 
-  const status = verificarRestricaoData(diaSelecionado);
+  const status = verificarRestricaoData(diaSelecionado, horarioSelecionado);
+
   if (status === "passado") return mostrarNotificacao("⚠ Este dia já passou.", "erro");
   if (status === "48h") return mostrarNotificacao("⚠ Agendamentos só podem ser feitos com 48h de antecedência.", "erro");
 
@@ -333,15 +392,15 @@ btnAgendar.addEventListener("click", async () => {
   // --- TRATAMENTO DO HORÁRIO AQUI ---
   // O horarioSelecionado vem como "1ª aula - 7h10 às 8h00"
   // O split quebra no " - " e pegamos a posição [0] que é "1ª aula"
-  let aulaApenas = horarioSelecionado.split(" - ")[0]; 
-  
+  let aulaApenas = horarioSelecionado.split(" - ")[0];
+
   // Opcional: Garante que o 'a' de aula fique maiúsculo para bater com o ENUM do banco (1ª Aula)
-  aulaApenas = aulaApenas.replace("aula", "Aula"); 
+  aulaApenas = aulaApenas.replace("aula", "Aula");
 
   try {
     const periodo = periodoSelect.value;
     const token = getToken();
-    
+
     const r = await fetch("http://localhost:3000/agendamentos/salvar", {
       method: "POST",
       headers: {
@@ -350,7 +409,7 @@ btnAgendar.addEventListener("click", async () => {
       },
       body: JSON.stringify({
         data: dataISO,
-        horario: aulaApenas, 
+        horario: aulaApenas,
         laboratorio: laboratorioSelect.value,
         kit: kitSelect.value,
         periodo: periodoSelect.value,
@@ -360,18 +419,23 @@ btnAgendar.addEventListener("click", async () => {
     // Se o servidor retornar erro, lança exceção
     const resposta = await r.json();
     if (!resposta.sucesso) {
-        throw new Error(resposta.mensagem);
+      throw new Error(resposta.mensagem);
     }
 
     await carregarAgendamentos();
     mostrarNotificacao(`✅ Agendado com sucesso!`, "sucesso");
-    
+
   } catch (erro) {
     console.error(erro);
     mostrarNotificacao("Erro ao agendar: " + (erro.message || erro), "erro");
   }
 
-  renderizarSemana();
+  if (modoVisualizacao === "semana") {
+    renderizarSemana();
+  } else {
+    renderizarMes();
+  }
+
 });
 setaEsquerda.addEventListener("click", () => {
   modoVisualizacao === "mes" ? dataAtual.setMonth(dataAtual.getMonth() - 1)
@@ -389,7 +453,7 @@ periodoSelect.addEventListener("change", () => { atualizarHorarios(); if (modoVi
 laboratorioSelect.addEventListener("change", () => modoVisualizacao === "semana" ? renderizarSemana() : renderizarMes());
 
 (async function init() {
-  await carregarLaboratorios(); 
+  await carregarLaboratorios();
   await carregarAgendamentos();
   await carregarKits();
   atualizarMes();
