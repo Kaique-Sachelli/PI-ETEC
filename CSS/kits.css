@@ -8,7 +8,7 @@ body {
 
 /* Começo do código cabecalho */
 .cabecalho h2 {
-  font-size: 30px !important;
+  font-size: 32px !important;
   color: black;
   margin: 0;
   text-align: center;
@@ -27,8 +27,7 @@ body {
 
 .titulo-header h2 {
   font-size: 48px;
-  color: #333;
-  margin: 5px 0 10px;
+  color: #000000;
   font-family: 'Roboto Slab', serif;
 }
 
@@ -267,6 +266,7 @@ body {
   font-family: 'Roboto Slab', serif;
   font-size: 32px !important;
   text-align: center;
+  font-weight: 400;
 }
 
 .produtos-header-linha {
@@ -525,6 +525,7 @@ details[open] .seta {
   font-family: 'Roboto Slab', serif;
   font-size: 32px !important;
   text-align: center;
+  font-weight: 400;
 }
 
 .add-icon {
@@ -585,26 +586,50 @@ details[open] .seta {
 }
 /* Fim do código da IA */
 
+.botoes {
+  display: flex;
+  width: 100%;
+  justify-content: center !important;
+  gap: 20px;
+  padding: 0px !important;
+}
+
+.cancelar-button,
 .finalizar-button {
-  background-color: #3ACF1F;
-  color: #ffffff;
+  color: white;
   border: none;
-  border-radius: 8px;
   padding: 15px;
-  width: 95%;
+  border-radius: 8px;
   font-size: 1.2em;
   font-weight: 500;
-  cursor: pointer; 
-  transition: background-color 0.3s; 
+  cursor: pointer;
+  width: 45%;
+}
+
+.finalizar-button {
+  background-color: #3ACF1F;
 }
 
 .finalizar-button:hover {
-  transform: scale(1.01);
+  transform: scale(1.02);
 }
 
 .finalizar-button:active {
   background-color: #80E96D;
 }
+
+.cancelar-button {
+  background-color: #D32719; 
+}
+
+.cancelar-button:hover {
+  transform: scale(1.02);
+}
+
+.cancelar-button:active {
+  background-color: #F95B4D;
+}
+
 /* Fim do código Container Kit */
 
 

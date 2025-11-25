@@ -8,7 +8,7 @@ body {
 
 /* Começo do código do cabecalho */
 .cabecalho h2 {
-  font-size: 30px !important;
+  font-size: 32px !important;
   color: black;
   margin: 0;
   text-align: center;
@@ -141,6 +141,7 @@ body {
   font-size: 24px;
   font-family: 'Roboto Slab', serif;
   color: #005c6d;
+  font-weight: 400;
 }
 
 .mes-header .seta:first-child {

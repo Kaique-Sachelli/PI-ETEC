@@ -80,7 +80,7 @@ body {
 
 /* Início do código do cabeçalho */
 .cabecalho h2 {
-  font-size: 30px !important;
+  font-size: 32px !important;
   color: black;
   margin: 0;
   text-align: center;
@@ -97,10 +97,20 @@ body {
   font-weight: normal !important;
 }
 
+.titulo-divisor {
+  background-image: url(https://bkpsitecpsnew.blob.core.windows.net/uploadsitecps/sites/1/2022/07/divisor.svg);
+  background-position: center left;
+  background-repeat: no-repeat;
+  background-size: cover;
+  width: 100%;
+  height: 15px;
+  display: inline-block;
+  margin-bottom: 30px;
+}
+
 .titulo-header h2 {
   font-size: 48px;
-  color: #333;
-  margin: 5px 0 10px;
+  color: #000000;
   font-family: 'Roboto Slab', serif;
 }
 
@@ -135,14 +145,9 @@ body {
   font-family: 'Roboto Slab', serif;
   color: #005c6d;
   text-align: left;
+  font-weight: 400;
 }
 
-.texto .subtitulo {
-  font-size: 24px;
-  font-family: 'Roboto Slab', serif;
-  color: #005c6d;
-  text-align: left;
-}
 
 p {
   font-size: 16px;
@@ -150,6 +155,45 @@ p {
   color: #666;
 }
 /* ------ Fim do código do texto ------ */
+
+
+/* ------ Código de Seus Agendamentos ------ */
+.container-agendamentos {
+  background-color: white;
+  border-radius: 10px;
+  box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+  padding: 20px;
+  width: 100%;
+  justify-content: center;
+}
+
+.agendamentos-titulo {
+  font-size: 24px;
+  font-family: 'Roboto Slab', serif;
+  color: #005c6d;
+  text-align: left;
+  font-weight: 400;
+  display: flex;
+  justify-self: center;
+  margin-bottom: 20px;
+}
+
+.agendamentos-cabecalho {
+  font-family: 'Roboto', sans-serif;
+  text-align: center;
+  font-weight: bold;
+}
+
+.agendamento {
+  text-align: center;
+}
+
+.valor {
+  border: #000000 1px solid;
+  line-height: 3;
+}
+
+/* ------ Fim do código de Seus Agendamentos ------ */
 
 
 /* Como usar professor */
@@ -180,6 +224,7 @@ p {
   font-family: 'Roboto Slab', serif;
   color: #005c6d;
   text-align: left;
+  font-weight: 400;
 }
 .container-professor h2 {
   font-size: 16px;
@@ -218,6 +263,7 @@ p {
   font-family: 'Roboto Slab', serif;
   color: #005c6d;
   text-align: left;
+  font-weight: 400;
 }
 .container-tecnico h2 {
   font-size: 16px;
@@ -256,6 +302,7 @@ p {
   font-family: 'Roboto Slab', serif;
   color: #005c6d;
   text-align: left;
+  font-weight: 400;
 }
 .container-adm h2 {
   font-size: 16px;

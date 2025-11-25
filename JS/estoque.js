@@ -2,18 +2,40 @@ import { mostrarNotificacao } from "./notificacao.js";
 import { encerrarSessao, getToken } from "./sessao.js";
 
 
-let kitSelecionado = [];
+export let kitSelecionado = [];
 let modoVisualizacao = "solicitar";
 
 function adicionarAoKit(elemento) {
-    const nomeProduto = elemento.querySelector("p").innerText.trim();
+    const pElem = elemento.querySelector('p');
+    let nomeProduto = '';
+    if (pElem) {
+        const partes = pElem.innerText.split('\n').map(s => s.trim()).filter(Boolean);
+        const nome = partes[0] || '';
+        const detalhe = partes[1] || '';
+        nomeProduto = detalhe ? `${nome} — ${detalhe}` : nome;
+    } else {
+        nomeProduto = elemento.innerText.trim();
+    }
     const imagemProduto = elemento.querySelector("img").getAttribute("src");
     const produtoExistente = kitSelecionado.find(item => item.nome === nomeProduto);
+    const tipoElemento = elemento.dataset.tipo;
+    const estoque = tipoElemento === 'vidraria'
+        ? parseInt(elemento.dataset.estoque, 10) || 0
+        : parseFloat(elemento.dataset.estoque) || 0;
+    const passoInicial = tipoElemento === 'reagente' ? 0.1 : 1;
+    const idProduto = elemento.dataset.idProduto;
     if (produtoExistente) {
-        mostrarNotificacao("Este produto já foi adicionado ao kit", "erro");
+        mostrarNotificacao("Este produto já foi adicionado à solicitação", "erro");
         return;
     }
-    kitSelecionado.push({ nome: nomeProduto, imagem: imagemProduto, quantidade: 1 });
+    kitSelecionado.push({
+        nome: nomeProduto,
+        imagem: imagemProduto,
+        quantidade: passoInicial,
+        estoqueMax: estoque,
+        tipo: tipoElemento,
+        idProduto: idProduto
+    });
     solicitarMaterial();
     gerenciarEstoque()
 }
@@ -31,17 +53,26 @@ function alterarQuantidade(index, delta) {
         item.quantidade = novaQtd;
         solicitarMaterial();
         gerenciarEstoque()
+    } else {
+        item.quantidade = novaQtd;
+        gerenciarEstoque()
     }
 }
 
 function atualizarQuantidadeManual(index, novaQtd) {
-    if (novaQtd <= 0 || isNaN(novaQtd)) {
-        mostrarNotificacao("Quantidade inválida!", "erro");
-        return;
+    if (novaQtd > 0) {
+        kitSelecionado[index].quantidade = novaQtd;
+        solicitarMaterial();
+        gerenciarEstoque()
+    } else {
+        if (document.getElementById("containerSolicitar").style.display == "none") {
+            kitSelecionado[index].quantidade = novaQtd;
+            gerenciarEstoque()
+        } else {
+            mostrarNotificacao("Quantidade inválida!", "erro");
+            return;
+        }
     }
-    kitSelecionado[index].quantidade = novaQtd;
-    solicitarMaterial();
-    gerenciarEstoque()
 }
 
 function solicitarMaterial() {
@@ -50,7 +81,7 @@ function solicitarMaterial() {
     if (!listaContainer) {
         listaContainer = document.createElement("div");
         listaContainer.classList.add("kit-lista-solicitar");
-        kitContainer.insertBefore(listaContainer, kitContainer.querySelector(".finalizar-button"));
+        kitContainer.insertBefore(listaContainer, kitContainer.querySelector(".botoes"));
     }
     listaContainer.innerHTML = "";
 
@@ -91,7 +122,7 @@ function gerenciarEstoque() {
     if (!listaContainer) {
         listaContainer = document.createElement("div");
         listaContainer.classList.add("kit-lista-gerenciar");
-        kitContainer.insertBefore(listaContainer, kitContainer.querySelector(".finalizar-button"));
+        kitContainer.insertBefore(listaContainer, kitContainer.querySelector(".botoes"));
     }
     listaContainer.innerHTML = "";
 
@@ -127,7 +158,9 @@ function gerenciarEstoque() {
 }
 
 document.addEventListener("DOMContentLoaded", () => {
+    inicializarEventos()
     carregarProdutos("indisponiveis"); //inicia a pagina com todos os produtos indisponiveis em display
+    pesquisarProdutos();
     const linksFiltro = document.querySelectorAll(".filtro .submenu-link");
     linksFiltro.forEach(link => {
         link.addEventListener("click", (e) => {
@@ -226,16 +259,18 @@ function renderizarItens(itens, container, tipo) {
         const btn = document.createElement("button");
         btn.className = `col-lg-3 col-md-4 col-sm-6 ${tipo}`; 
 
-        let nome, detalhe, quantidade;
+        let nome, detalhe, quantidade, idProduto;
 
         if (tipo === 'vidraria') {
             nome = item.nomeVidraria;
             detalhe = item.capacidade || '';
             quantidade = `${item.quantidade} und.`;
+            idProduto = item.idVidraria;
         } else {
             nome = item.nomeReagente;
             detalhe = '';
             quantidade = `${item.quantidade}g`;
+            idProduto = item.idReagente;
         }
         if (item.quantidade > 0) {
             btn.innerHTML = `
@@ -254,9 +289,123 @@ function renderizarItens(itens, container, tipo) {
             ? (parseInt(item.quantidade, 10) || 0)
             : (parseFloat(item.quantidade) || 0);
         btn.addEventListener("click", () => adicionarAoKit(btn));
+        btn.dataset.idProduto = idProduto;
 
         container.appendChild(btn);
     });
+}
+
+function inicializarEventos() {
+    const produtos = document.querySelectorAll(".vidraria, .reagente");
+    produtos.forEach(produto => {
+        produto.addEventListener("click", () => adicionarAoKit(produto));
+    });
+
+    const botaoConfirmarSolicitar = document.querySelector("#confirmar-button-solicitar");
+    botaoConfirmarSolicitar.addEventListener("click", () => {
+        const descricao = document.getElementById('descricaoKit').value
+        if (kitSelecionado.length === 0) {
+            mostrarNotificacao('Nenhum item selecionado!', 'erro')
+            return;
+        }
+        const solicitacaoFinal = {
+            descricaoKit: descricao,
+            produtos: kitSelecionado
+        }
+        //função para salvar a solicitacao
+        salvaSolicitacao(solicitacaoFinal);
+    });
+
+    const botaoConfirmarGerenciar = document.querySelector("#confirmar-button-gerenciar");
+    botaoConfirmarGerenciar.addEventListener("click", () => {
+        if (kitSelecionado.length === 0) {
+            mostrarNotificacao('Nenhum item selecionado!', 'erro')
+            return;
+        }
+        const gerenciamentoFinal = {
+            produtos: kitSelecionado
+        }
+        // função para gerenciar estoque
+        salvaGerenciamento(gerenciamentoFinal)
+    });
+}
+
+//Função de salvar kits
+async function salvaSolicitacao(solicitacao) {
+    const token = getToken();
+    const produtos = solicitacao.produtos;
+    if (!token) {
+        erroToken();
+        return;
+    } else {
+        if (!produtos || produtos.length === 0) {
+            mostrarNotificacao('Produtos da solicitação faltando', 'erro');
+        } else {
+            try {
+                const resposta = await fetch('http://localhost:3000/estoque/salvar', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Authorization': `Bearer ${token}`
+                    },
+                    body: JSON.stringify(solicitacao)
+                })
+                const dados = await resposta.json();
+                if (dados.sucesso) {
+                    mostrarNotificacao(dados.mensagem, 'sucesso')
+                    kitSelecionado.length = 0;
+                    document.getElementById('descricaoKit').value = ''
+                    document.querySelector('.kit-lista-solicitar').innerHTML = ""
+                    document.querySelector('.kit-lista-gerenciar').innerHTML = ""
+                } else {
+                    mostrarNotificacao(dados.mensagem, 'erro')
+                    console.log(dados.erro)
+                }
+            } catch (error) {
+                mostrarNotificacao('Não foi possivel salvar a solicitação. Erro de conexão', 'erro')
+                console.log(error.message)
+            }
+        }   
+    }
+}
+
+//Função para salvar gerenciamento de estoque
+async function salvaGerenciamento(gerenciamento) {
+    const token = getToken();
+    const produtos = gerenciamento.produtos;
+    if (!token) {
+        erroToken();
+        return;
+    } else {
+        if (!produtos || produtos.length === 0) {
+            mostrarNotificacao('Produtos do gerenciamento faltando', 'erro');
+        } else {
+            try {
+                const resposta = await fetch('http://localhost:3000/estoque/gerenciar', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Authorization': `Bearer ${token}`
+                    },
+                    body: JSON.stringify(gerenciamento)
+                })
+                const dados = await resposta.json();
+                if (dados.sucesso) {
+                    mostrarNotificacao(dados.mensagem, 'sucesso')
+                    kitSelecionado.length = 0;
+                    document.querySelector('.kit-lista-solicitar').innerHTML = ""
+                    document.querySelector('.kit-lista-gerenciar').innerHTML = ""
+                    carregarProdutos("indisponiveis");
+                } else {
+                    mostrarNotificacao(dados.mensagem, 'erro')
+                    console.log(dados.erro)
+                }
+            } catch (error) {
+                mostrarNotificacao('Não foi possivel salvar o gerenciamento. Erro de conexão', 'erro')
+                console.log(error.message)
+            }
+        }   
+    }
 }
 
 // Visualização Única
@@ -313,3 +462,30 @@ document.querySelectorAll('.cancelar-button').forEach(button => {
         }
     });
 });
+
+//função de pesquisa para materias 
+/**
+ * * @param {string} termo - O texto digitado pelo usuário (já em minúsculas).
+ */
+function filtrarItens(termo) {
+    const container = document.querySelector('.container-produtos, .produtos-lista');
+    const itens = container.querySelectorAll('.produtos-lista >  button');
+    itens.forEach(item =>{
+        const p = item.querySelector('p');
+        if (p) {
+            const nomeProduto = p.innerText.toLowerCase();
+            if (nomeProduto.includes(termo)) {
+                item.classList.remove('d-none');
+            } else {
+                item.classList.add('d-none');
+            }
+        }
+    })
+}
+function pesquisarProdutos(){
+    const barraPesquisa = document.querySelector('.container-produtos #pesquisaProdutos .input');
+    barraPesquisa.addEventListener('input', (e) =>{
+        const termoPesquisa = e.target.value.trim().toLowerCase();
+        filtrarItens(termoPesquisa);
+    });
+}

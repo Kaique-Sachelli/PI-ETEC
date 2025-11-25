@@ -261,7 +261,7 @@ async function carregarReposicoesDoBackend() {
 function carregarReposicoes() {
   const container = document.querySelector(".containerprodutos .container");
   container.innerHTML = `
-    <h2>Pedido para reposição de estoque</h2>
+    <h2 class="title">Pedido para reposição de estoque</h2>
     <div class="tabela-cabecalho">
       <span>Data</span>
       <span></span>
