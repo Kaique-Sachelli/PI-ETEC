@@ -6,6 +6,7 @@ const API_BASE = "http://localhost:3000";
 // Arrays locais
 let agendamentos = [];
 let reposicoes = [];
+let modoVisualizacao = "solicitacao";
 
 function normalizarStatus(status) {
   const mapa = {
@@ -364,7 +365,7 @@ async function cancelarSolicitacao(id) {
 }
 // Função unificada de filtro
 function filtrarPorStatus(filtro) {
-  const botoes = document.querySelectorAll(".submenu-link");
+  const botoes = document.querySelectorAll(".filtragem .submenu-link");
   botoes.forEach((btn) => btn.classList.remove("ativo"));
 
   const btnAtivo = [...botoes].find(b => b.getAttribute('onclick').includes(`'${filtro}'`));
@@ -400,3 +401,41 @@ window.finalizar = finalizar;
 window.voltarPendente = voltarPendente;
 window.cancelarSolicitacao = cancelarSolicitacao;
 window.finalizaSolicitacao = finalizaSolicitacao;
+
+// Visualização Única
+function alternarVisualizacao(tipo) {
+    const containerSolicitacao = document.querySelector("#containerSolicitacao");
+    const containerReposicao = document.querySelector("#containerReposicao");
+
+    if (tipo === "reposicao") {
+        modoVisualizacao = "reposicao";
+        containerSolicitacao.style.display = "none";
+        containerReposicao.style.display = "block";
+    } else {
+        modoVisualizacao = "solicitacao";
+        containerSolicitacao.style.display = "block";
+        containerReposicao.style.display = "none";
+    }
+}
+
+document.addEventListener("DOMContentLoaded", () => {
+    const opcoesFiltro = document.querySelectorAll(".submenu-link");
+    opcoesFiltro.forEach(opcao => {
+        opcao.addEventListener("click", (e) => {
+            e.preventDefault();
+            const texto = opcao.textContent.trim().toLowerCase();
+            let botaoSolicitacao = document.getElementById("solicitacao")
+            let botaoReposicao = document.getElementById("reposicao")
+            if (texto.includes("reposição")) {
+                alternarVisualizacao("reposicao")
+                botaoSolicitacao.classList.remove('ativo')
+                botaoReposicao.classList.add('ativo')
+            };
+            if (texto.includes("solicitação")) {
+                alternarVisualizacao("solicitacao")
+                botaoReposicao.classList.remove('ativo')
+                botaoSolicitacao.classList.add('ativo')
+            };
+        });
+    });
+});
