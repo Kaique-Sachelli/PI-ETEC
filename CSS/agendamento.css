@@ -110,6 +110,12 @@ body {
   padding: 30px 20px;
 }
 
+.container-principal {
+  width: 100%;
+  height: auto;
+  padding-bottom: 5em;
+}
+
 /* ========== BLOCO DE HORÁRIOS (SELEÇÃO) ========== */
 .bloco-horarios {
   background-color: #ffffff;
@@ -169,24 +175,21 @@ body {
   background-color: #3ACF1F;
   color: #fff;
   border: none;
-  padding: 12px 24px;
+  padding: 15px;
   border-radius: 8px;
   font-size: 16px;
-  font-weight: 600;
+  font-weight: 500;
   cursor: pointer;
   transition: all 0.3s ease;
   width: 100%;
 }
 
 .bloco-horarios button:hover {
-  background-color: #2ba817;
-  transform: translateY(-2px);
-  box-shadow: 0 4px 8px rgba(58, 207, 31, 0.3);
+  transform: scale(1.02);
 }
 
 .bloco-horarios button:active {
   background-color: #80E96D;
-  transform: translateY(0);
 }
 
 /* ========== CALENDÁRIO ========== */
