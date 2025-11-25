@@ -702,7 +702,7 @@ details[open] .seta {
   box-shadow: 0px 0px 5px rgba(0, 0, 0, 0.1);
   display: flex;
   flex-direction: column; /* Para empilhar verticalmente */
-  gap: 12px;
+
   box-sizing: border-box;
   align-items: stretch;
 }
@@ -745,10 +745,10 @@ details[open] .seta {
 .botoes .botao_excluir {
   color: white;
   border: none;
-  padding: 5px;
+  padding: 15px;
   border-radius: 8px;
   font-size: 1.2em;
-  font-weight: 300;
+  font-weight: 500;
   cursor: pointer;
   width: 100%;
 }
@@ -765,16 +765,17 @@ details[open] .seta {
   background-color: #F95B4D;
 }
 
+.botoes .botao_excluir {
+  width: auto;
+  margin-left: 0;
+}
+
 .coluna {
   width: 100%;
   padding: 0 20px;
   box-sizing: border-box;
 }
 
-.botoes .botao_excluir {
-  width: auto;
-  margin-left: 0;
-}
 /* Fim do código meus kits */
 
 

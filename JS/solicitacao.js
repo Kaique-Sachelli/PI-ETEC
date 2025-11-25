@@ -173,7 +173,7 @@ function gerarBotoesSolicitacoes(status, id) {
   }
   if (status === "pendente")
     return `
-    <button class="btn btn-pendente" onclick="aprovarAgendamento(${id})">Aprovar Agendamento</button>
+    <button class="btn btn-pendente" onclick="aprovarAgendamento(${id})">Aprovar</button>
     <button class="btn btn-cancelado" onclick="cancelar(${id})">Cancelar</button>`;
 
   if (status === "aprovado")

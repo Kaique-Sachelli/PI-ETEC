@@ -353,11 +353,11 @@ button {
 }
 
 .btn {
-  padding: 5px 12px;        
-  font-size: 12px ;          
+  padding: 15px;        
+  font-size: 1.2em ;          
   min-width: unset;         
-  border-radius: 6px;       
-  font-weight: bold;
+  border-radius: 8px;       
+  font-weight: 500 !important;
   color: rgb(255, 255, 255) !important;
   cursor: pointer;
   transition: all 0.3s ease;
