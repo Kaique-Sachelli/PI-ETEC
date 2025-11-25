@@ -1,6 +1,8 @@
+import { mostrarNotificacao } from "./notificacao.js";
+import { getToken } from "./sessao.js";
 
 let dataAtual = new Date();
-let modoVisualizacao = "mes"; 
+let modoVisualizacao = "mes";
 let diaSelecionado = null;
 let horarioSelecionado = null;
 let agendamentos = [];
@@ -20,23 +22,104 @@ const laboratorioSelect = document.getElementById("laboratorioSelect");
 const btnAgendar = document.getElementById("btnAgendar");
 
 function isoDate(d) {
-  return d.toISOString().split("T")[0];
+  return new Date(d).toISOString().split("T")[0];
 }
-function pad(n){ return String(n).padStart(2,"0"); }
-function salvarAgendamentos() { localStorage.setItem("agendamentos", JSON.stringify(agendamentos)); }
-function carregarAgendamentos() {
-  const raw = localStorage.getItem("agendamentos");
-  if (raw) {
-    try { agendamentos = JSON.parse(raw) || []; } catch(e){ agendamentos = []; }
+
+function pad(n) { return String(n).padStart(2, "0"); }
+
+
+async function carregarLaboratorios() {
+  try {
+    const token = getToken();
+    const r = await fetch("http://localhost:3000/laboratorios", {
+      headers: { "Authorization": `Bearer ${token}` }
+    });
+
+    const dados = await r.json();
+    if (!dados.sucesso) return;
+
+    laboratorioSelect.innerHTML = "<option value=''>Selecione...</option>";
+
+    dados.laboratorios.forEach(lab => {
+      const opt = document.createElement("option");
+      opt.value = lab.idLaboratorio;
+      opt.textContent = lab.sala;
+      laboratorioSelect.appendChild(opt);
+    });
+
+  } catch (e) {
+    console.error("Erro ao carregar laboratórios:", e);
+  }
+}
+async function carregarKits() {
+  try {
+    const token = getToken();
+    const r = await fetch("http://localhost:3000/kits/lista", {
+      headers: { "Authorization": `Bearer ${token}` }
+    });
+
+    const dados = await r.json();
+    if (!dados.sucesso) return;
+
+
+    const kitSelect = document.getElementById("kitSelect");
+    
+
+    kitSelect.innerHTML = "<option value=''>Selecione um Kit...</option>";
+
+    dados.kits.forEach(kit => {
+      const opt = document.createElement("option");
+      opt.value = kit.idKit;
+      opt.textContent = kit.nome;
+      kitSelect.appendChild(opt);
+    });
+
+  } catch (e) {
+    console.error("Erro ao carregar kits:", e);
   }
 }
 
+
+// sistema 48h
+function verificarRestricaoData(data) {
+  const agora = new Date();
+  const inicioDoDia = new Date(data);
+  inicioDoDia.setHours(0, 0, 0, 0);
+
+  if (inicioDoDia.getTime() < new Date().setHours(0, 0, 0, 0))
+    return "passado";
+
+  const limite = new Date(agora.getTime() + 48 * 60 * 60 * 1000);
+  if (inicioDoDia.getTime() < limite.getTime())
+    return "48h";
+
+  return "ok";
+}
+
+function salvarAgendamentosLocal() {
+  localStorage.setItem("agendamentos", JSON.stringify(agendamentos));
+}
+
+function carregarAgendamentosLocal() {
+  const raw = localStorage.getItem("agendamentos");
+  if (raw) agendamentos = JSON.parse(raw);
+}
+
+async function carregarAgendamentos() {
+  try {
+    const r = await fetch("http://localhost:3000/agendamentos");
+    if (!r.ok) throw 0;
+    agendamentos = await r.json();
+    salvarAgendamentosLocal();
+  } catch {
+    carregarAgendamentosLocal();
+  }
+}
 
 function atualizarMes() {
   const nomeMes = dataAtual.toLocaleString("pt-BR", { month: "long", year: "numeric" });
   mesElemento.textContent = nomeMes.charAt(0).toUpperCase() + nomeMes.slice(1);
 }
-
 
 function renderizarMes() {
   modoVisualizacao = "mes";
@@ -47,33 +130,41 @@ function renderizarMes() {
 
   diasContainer.innerHTML = "";
 
-  const primeiroDiaMes = new Date(dataAtual.getFullYear(), dataAtual.getMonth(), 1);
-  const ultimoDiaMes = new Date(dataAtual.getFullYear(), dataAtual.getMonth() + 1, 0);
-  // converte getday para 1 ate 7, fazendo comecar na segunda
-  const diaSemanaInicial = primeiroDiaMes.getDay() === 0 ? 7 : primeiroDiaMes.getDay();
+  const primeiro = new Date(dataAtual.getFullYear(), dataAtual.getMonth(), 1);
+  const ultimo = new Date(dataAtual.getFullYear(), dataAtual.getMonth() + 1, 0);
+  const inicio = primeiro.getDay() === 0 ? 7 : primeiro.getDay();
 
-  for (let i = 1; i < diaSemanaInicial; i++) {
-    const vazio = document.createElement("div");
-    vazio.classList.add("dia-vazio");
-    diasContainer.appendChild(vazio);
+  for (let i = 1; i < inicio; i++) {
+    diasContainer.appendChild(Object.assign(document.createElement("div"), { className: "dia-vazio" }));
   }
 
-  for (let dia = 1; dia <= ultimoDiaMes.getDate(); dia++) {
+  for (let d = 1; d <= ultimo.getDate(); d++) {
     const el = document.createElement("div");
-    el.classList.add("dia");
-    el.textContent = dia;
+    el.className = "dia";
+    el.textContent = d;
+    const dataDia = new Date(dataAtual.getFullYear(), dataAtual.getMonth(), d);
+
+    const status = verificarRestricaoData(dataDia);
+    if (status === "passado") {
+      el.style.opacity = ".5";
+      el.title = "Dia já passou";
+    }
+    if (status === "48h") {
+      el.style.opacity = ".5";
+      el.title = "Somente com 48h de antecedência";
+    }
 
     el.addEventListener("click", () => {
-      selecionarDia(dia);
+      if (status === "passado") return mostrarNotificacao("⚠ Este dia já passou.", "erro");
+      if (status === "48h") return mostrarNotificacao("⚠ Agendamentos só podem ser feitos com 48h de antecedência.", "erro");
+      selecionarDia(d);
     });
 
-    // 
-    if (diaSelecionado instanceof Date &&
-        diaSelecionado.getFullYear() === dataAtual.getFullYear() &&
-        diaSelecionado.getMonth() === dataAtual.getMonth() &&
-        diaSelecionado.getDate() === dia) {
-      el.classList.add("ativo");
-      el.classList.add("selecionado");
+    if (diaSelecionado &&
+      diaSelecionado.getDate() === d &&
+      diaSelecionado.getMonth() === dataAtual.getMonth() &&
+      diaSelecionado.getFullYear() === dataAtual.getFullYear()) {
+      el.classList.add("ativo", "selecionado");
     }
 
     diasContainer.appendChild(el);
@@ -82,7 +173,6 @@ function renderizarMes() {
   atualizarMes();
 }
 
-// 
 function renderizarSemana() {
   modoVisualizacao = "semana";
   diasContainer.style.display = "none";
@@ -91,110 +181,89 @@ function renderizarSemana() {
   botaoMes.classList.remove("ativo");
 
   semanaContainer.innerHTML = "";
-
-  // inicio da semana na segunda
-  const diaDaSemana = dataAtual.getDay(); // 0 dom ...6 sab
-  const inicioSemana = new Date(dataAtual);
-  inicioSemana.setHours(0,0,0,0);
-  inicioSemana.setDate(dataAtual.getDate() - ((diaDaSemana + 6) % 7));
+  const diaDaSemana = dataAtual.getDay();
+  const inicio = new Date(dataAtual);
+  inicio.setDate(dataAtual.getDate() - ((diaDaSemana + 6) % 7));
 
   const nomes = ["Seg", "Ter", "Qua", "Qui", "Sex", "Sáb", "Dom"];
 
   for (let i = 0; i < 7; i++) {
-    const dia = new Date(inicioSemana);
-    dia.setDate(inicioSemana.getDate() + i);
-    const diaISO = isoDate(dia);
-    const diaNumero = pad(dia.getDate());
-    const mesNumero = pad(dia.getMonth() + 1);
+    const dia = new Date(inicio);
+    dia.setDate(inicio.getDate() + i);
+    const iso = isoDate(dia);
+    const status = verificarRestricaoData(dia);
 
-    const divDia = document.createElement("div");
-    divDia.classList.add("dia-semana");
-    divDia.dataset.data = diaISO;
-    divDia.innerHTML = `
-      <strong>${nomes[i]}</strong>
-      <div class="data">${diaNumero}/${mesNumero}</div>
-      <div class="horarios-dia"></div>
-    `;
+    const div = document.createElement("div");
+    div.className = "dia-semana";
+    div.dataset.data = iso;
+    div.innerHTML = `<strong>${nomes[i]}</strong><div>${pad(dia.getDate())}</div><div class="horarios-dia"></div>`;
 
-    // coloca os horarios do periodo
-    const horariosDia = divDia.querySelector(".horarios-dia");
-    const horarios = obterHorariosPorPeriodo(periodoSelect.value);
-    horarios.forEach(h => {
+    const lista = obterHorariosPorPeriodo(periodoSelect?.value) || [];
+    const horariosDia = div.querySelector(".horarios-dia");
+
+    lista.forEach(h => {
       const btn = document.createElement("button");
-      btn.classList.add("horario-btn");
       btn.type = "button";
+      btn.className = "horario-btn";
       btn.textContent = h;
 
-      // marca se ja ta agendado
-      const ocup = agendamentos.find(a => a.data === diaISO && a.horario === h);
-      if (ocup) {
+      const ocupado = agendamentos.find(a => a.data === iso && a.horario === h && (a.laboratorio || "") === (laboratorioSelect?.value || ""));
+      if (ocupado) {
         btn.disabled = true;
-        btn.style.opacity = "0.5";
+        btn.style.opacity = ".5";
         btn.title = "Horário já agendado";
-        btn.classList.remove("selecionado");
-        btn.classList.remove("ativo");
+      }
+
+      if (status === "passado") {
+        btn.disabled = true;
+        btn.style.opacity = ".5";
+        btn.title = "Dia já passou";
+      }
+
+      if (status === "48h") {
+        btn.disabled = true;
+        btn.style.opacity = ".5";
+        btn.title = "Somente com 48h de antecedência";
       }
 
       btn.addEventListener("click", () => {
-        if (btn.disabled) return;
-        selecionarHorario(dia, h, btn);
+        if (!btn.disabled) selecionarHorario(dia, h, btn);
       });
 
-
-      if (diaSelecionado instanceof Date && isoDate(diaSelecionado) === diaISO && horarioSelecionado === h) {
-        btn.classList.add("selecionado");
-        btn.classList.add("ativo");
+      if (diaSelecionado && isoDate(diaSelecionado) === iso && horarioSelecionado === h) {
+        btn.classList.add("selecionado", "ativo");
       }
 
       horariosDia.appendChild(btn);
     });
 
-    semanaContainer.appendChild(divDia);
+    semanaContainer.appendChild(div);
   }
 
   atualizarMes();
 }
 
-
-function selecionarDia(diaNum) {
-  document.querySelectorAll(".dia").forEach(d => {
-    d.classList.remove("ativo");
-    d.classList.remove("selecionado");
-  });
-
-  const diaClicado = Array.from(document.querySelectorAll(".dia")).find(d => d.textContent == diaNum);
-  if (diaClicado) {
-    diaClicado.classList.add("ativo");
-    diaClicado.classList.add("selecionado");
-  }
-
-  diaSelecionado = new Date(dataAtual.getFullYear(), dataAtual.getMonth(), diaNum);
+function selecionarDia(num) {
+  const dt = new Date(dataAtual.getFullYear(), dataAtual.getMonth(), num);
+  diaSelecionado = dt;
   horarioSelecionado = null;
 
-  reaplicarPainelHorario();
+  document.querySelectorAll(".dia").forEach(d => d.classList.remove("ativo", "selecionado"));
+  const clicked = [...document.querySelectorAll(".dia")].find(d => d.textContent == num);
+  clicked?.classList.add("ativo", "selecionado");
+
+  atualizarHorarios();
 }
 
 function selecionarHorario(dia, horario, botao) {
-  const existe = agendamentos.find(a => a.data === isoDate(dia) && a.horario === horario);
-  if (existe) {
-    alert("⚠ Este horário já está agendado!");
-    return;
-  }
-
-
-  document.querySelectorAll(".horario-btn").forEach(b => {
-    b.classList.remove("selecionado");
-    b.classList.remove("ativo");
-  });
-
-  botao.classList.add("selecionado");
-  botao.classList.add("ativo");
-
-  diaSelecionado = new Date(dia.getFullYear(), dia.getMonth(), dia.getDate());
   horarioSelecionado = horario;
+  diaSelecionado = new Date(dia.getFullYear(), dia.getMonth(), dia.getDate());
 
+  document.querySelectorAll(".horario-btn").forEach(b => b.classList.remove("ativo", "selecionado"));
+  botao.classList.add("ativo", "selecionado");
 
-  reaplicarPainelHorario();
+  const sel = document.getElementById("horarioSelect");
+  if (sel) sel.value = horario;
 }
 
 function atualizarHorarios() {
@@ -204,54 +273,20 @@ function atualizarHorarios() {
 
   const horarios = obterHorariosPorPeriodo(periodo);
   const select = document.createElement("select");
-  select.classList.add("form-select");
+  select.className = "form-select";
   select.id = "horarioSelect";
 
-  const optVazio = document.createElement("option");
-  optVazio.value = "";
-  optVazio.textContent = "";
-  select.appendChild(optVazio);
+  select.appendChild(new Option("", ""));
 
-  horarios.forEach(h => {
-    const op = document.createElement("option");
-    op.value = h;
-    op.textContent = h;
-    select.appendChild(op);
-  });
-
+  horarios.forEach(h => select.appendChild(new Option(h, h)));
   horariosContainer.appendChild(select);
+  if (horarioSelecionado) select.value = horarioSelecionado;
 
-
-  if (horarioSelecionado) {
-    select.value = horarioSelecionado;
-  }
-
-  select.addEventListener("change", (e) => {
-    horarioSelecionado = e.target.value || null;
-
-    document.querySelectorAll(".horario-btn").forEach(btn => {
-      if (btn.textContent === horarioSelecionado) {
-        btn.classList.add("selecionado");
-        btn.classList.add("ativo");
-      } else {
-        btn.classList.remove("selecionado");
-        btn.classList.remove("ativo");
-      }
-    });
-  });
+  select.addEventListener("change", e => horarioSelecionado = e.target.value || null);
 }
 
-
-function reaplicarPainelHorario() {
-  const sel = document.getElementById("horarioSelect");
-  if (sel) {
-    sel.value = horarioSelecionado || "";
-  }
-}
-
-
-function obterHorariosPorPeriodo(periodo) {
-  const horarios = {
+function obterHorariosPorPeriodo(p) {
+  return {
     matutino: [
       "1ª aula - 7h10 às 8h00",
       "2ª aula - 8h00 às 8h50",
@@ -274,84 +309,90 @@ function obterHorariosPorPeriodo(periodo) {
       "3ª aula - 20h44 às 21h34",
       "4ª aula - 21h34 às 22h20",
     ],
-  };
-  return horarios[periodo] || [];
+  }[p] || [];
 }
 
-// agendar
-btnAgendar.addEventListener("click", () => {
-  if (!diaSelecionado || !horarioSelecionado) {
-    alert("Selecione o dia e o horário primeiro!");
-    return;
-  }
+// agendamento.js
+
+btnAgendar.addEventListener("click", async () => {
+  if (!diaSelecionado || !horarioSelecionado)
+    return mostrarNotificacao("Selecione o dia e o horário!", "erro");
+
+  const status = verificarRestricaoData(diaSelecionado);
+  if (status === "passado") return mostrarNotificacao("⚠ Este dia já passou.", "erro");
+  if (status === "48h") return mostrarNotificacao("⚠ Agendamentos só podem ser feitos com 48h de antecedência.", "erro");
 
   const dataISO = isoDate(diaSelecionado);
-  const existe = agendamentos.find(a => a.data === dataISO && a.horario === horarioSelecionado);
-  if (existe) {
-    alert("⚠ Já existe um agendamento neste horário!");
-    return;
-  }
+  const laboratorio = laboratorioSelect.value;
+  const kit = kitSelect.value;
 
-  // registra
-  agendamentos.push({ data: dataISO, horario: horarioSelecionado, laboratorio: laboratorioSelect?.value || "", kit: kitSelect?.value || "" });
-  salvarAgendamentos();
-  alert(`✅ Agendado com sucesso para ${dataISO} — ${horarioSelecionado}`);
+  // Verifica colisão localmente (opcional, mas bom manter)
+  const repetido = agendamentos.find(a => a.data === dataISO && a.horario === horarioSelecionado && a.laboratorio === laboratorio);
+  if (repetido) return mostrarNotificacao("⚠ Já existe um agendamento nesse horário!", "erro");
 
-  // desliga botao
-  document.querySelectorAll(".horario-btn").forEach(btn => {
-    const diaPai = btn.closest(".dia-semana");
-    if (!diaPai) return;
-    const diaISO = diaPai.dataset.data;
-    if (diaISO === dataISO && btn.textContent === horarioSelecionado) {
-      btn.disabled = true;
-      btn.style.opacity = "0.5";
-      btn.title = "Horário já agendado";
-      btn.classList.remove("selecionado");
-      btn.classList.remove("ativo");
+  // --- TRATAMENTO DO HORÁRIO AQUI ---
+  // O horarioSelecionado vem como "1ª aula - 7h10 às 8h00"
+  // O split quebra no " - " e pegamos a posição [0] que é "1ª aula"
+  let aulaApenas = horarioSelecionado.split(" - ")[0]; 
+  
+  // Opcional: Garante que o 'a' de aula fique maiúsculo para bater com o ENUM do banco (1ª Aula)
+  aulaApenas = aulaApenas.replace("aula", "Aula"); 
+
+  try {
+    const periodo = periodoSelect.value;
+    const token = getToken();
+    
+    const r = await fetch("http://localhost:3000/agendamentos/salvar", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        "Authorization": `Bearer ${token}`
+      },
+      body: JSON.stringify({
+        data: dataISO,
+        horario: aulaApenas, 
+        laboratorio: laboratorioSelect.value,
+        kit: kitSelect.value,
+        periodo: periodoSelect.value,
+      })
+    });
+
+    // Se o servidor retornar erro, lança exceção
+    const resposta = await r.json();
+    if (!resposta.sucesso) {
+        throw new Error(resposta.mensagem);
     }
-  });
-});
 
-// setinhas
-setaEsquerda.addEventListener("click", () => {
-  if (modoVisualizacao === "mes") {
-    dataAtual.setMonth(dataAtual.getMonth() - 1);
-    renderizarMes();
-  } else {
-    dataAtual.setDate(dataAtual.getDate() - 7);
-    renderizarSemana();
+    await carregarAgendamentos();
+    mostrarNotificacao(`✅ Agendado com sucesso!`, "sucesso");
+    
+  } catch (erro) {
+    console.error(erro);
+    mostrarNotificacao("Erro ao agendar: " + (erro.message || erro), "erro");
   }
-});
-setaDireita.addEventListener("click", () => {
-  if (modoVisualizacao === "mes") {
-    dataAtual.setMonth(dataAtual.getMonth() + 1);
-    renderizarMes();
-  } else {
-    dataAtual.setDate(dataAtual.getDate() + 7);
-    renderizarSemana();
-  }
-});
 
-// muda mes/semana
-botaoMes.addEventListener("click", () => {
-  renderizarMes();
-});
-botaoSemana.addEventListener("click", () => {
   renderizarSemana();
 });
-
-
-periodoSelect.addEventListener("change", () => {
-  atualizarHorarios();
-  if (modoVisualizacao === "semana") renderizarSemana();
+setaEsquerda.addEventListener("click", () => {
+  modoVisualizacao === "mes" ? dataAtual.setMonth(dataAtual.getMonth() - 1)
+    : dataAtual.setDate(dataAtual.getDate() - 7);
+  modoVisualizacao === "mes" ? renderizarMes() : renderizarSemana();
 });
+setaDireita.addEventListener("click", () => {
+  modoVisualizacao === "mes" ? dataAtual.setMonth(dataAtual.getMonth() + 1)
+    : dataAtual.setDate(dataAtual.getDate() + 7);
+  modoVisualizacao === "mes" ? renderizarMes() : renderizarSemana();
+});
+botaoMes.addEventListener("click", () => renderizarMes());
+botaoSemana.addEventListener("click", () => renderizarSemana());
+periodoSelect.addEventListener("change", () => { atualizarHorarios(); if (modoVisualizacao === "semana") renderizarSemana(); });
+laboratorioSelect.addEventListener("change", () => modoVisualizacao === "semana" ? renderizarSemana() : renderizarMes());
 
-// quando trocar kit/lab salva na selecao local 
-if (kitSelect) kitSelect.addEventListener("change", () => { /* placeholder se precisar */ });
-if (laboratorioSelect) laboratorioSelect.addEventListener("change", () => { /* placeholder */ });
-
-
-carregarAgendamentos();
-atualizarMes();
-atualizarHorarios();
-renderizarMes();
+(async function init() {
+  await carregarLaboratorios(); 
+  await carregarAgendamentos();
+  await carregarKits();
+  atualizarMes();
+  atualizarHorarios();
+  renderizarMes();
+})();

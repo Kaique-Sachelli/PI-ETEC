@@ -588,23 +588,111 @@ app.post("/agendamentos", verificarToken, async (req, res) => {
   const { data, laboratorio, kit, periodo, horario } = req.body;
   const idUsuario = req.usuario.idUsuario; // pega o usuário logado do JWT
 
-  // valida
+
+// cria novo agendamento
+app.post("/agendamentos/salvar", verificarToken, async (req, res) => {
+  const { data, laboratorio, kit, periodo, horario } = req.body;
+  const idUsuario = req.usuario.idUsuario;
+
   if (!data || !laboratorio || !periodo || !horario) {
     return res.status(400).json({ sucesso: false, mensagem: "Preencha todos os campos" });
   }
 
+  // Impedir agendamento com menos de 48 horas
+  const agora = new Date();
+  const dataAgendamento = new Date(data);
+  const diffMs = dataAgendamento - agora;
+  const diffHoras = diffMs / (1000 * 60 * 60);
+
+  if (diffHoras < 48) {
+    return res.status(400).json({
+      sucesso: false,
+      mensagem: "Agendamento só pode ser feito com no mínimo 48 horas de antecedência."
+    });
+  }
+
   try {
     const [result] = await pool.query(
-      "INSERT INTO Agendamentos (idUsuario, data, laboratorio, kit, periodo, horario) VALUES (?, ?, ?, ?, ?, ?)",
+      "INSERT INTO Agendamento (idUsuario, dataAgendamento, idLaboratorio, idKit, periodoAgendamento, aula) VALUES (?, ?, ?, ?, ?, ?)",
       [idUsuario, data, laboratorio, kit, periodo, horario]
     );
 
-    res.json({ sucesso: true, mensagem: "Agendamento solicitado", id: result.insertId });
+    res.json({ sucesso: true, mensagem: "Agendamento realizado com sucesso", id: result.insertId });
   } catch (erro) {
     console.error("Erro ao agendar:", erro);
     res.status(500).json({ sucesso: false, mensagem: "Erro ao agendar: " + erro.message });
   }
 })
+
+});
+
+// Buscar agendamentos já cadastrados
+app.get('/agendamentos', async (req, res) => {
+  const { laboratorio } = req.query;
+
+  try {
+    let sql = `
+      SELECT 
+        a.dataAgendamento AS data,
+        a.periodoAgendamento AS periodo,
+        a.aula AS horario,
+        l.sala AS laboratorio
+      FROM Agendamento a
+      JOIN Laboratorio l ON a.idLaboratorio = l.idLaboratorio
+      WHERE 1 = 1
+    `;
+    let params = [];
+
+    if (laboratorio) {
+      sql += " AND l.sala = ?";
+      params.push(laboratorio);
+    }
+
+    const [rows] = await pool.query(sql, params);
+    return res.json(rows);
+
+  } catch (error) {
+    return res.status(500).json({ erro: "Erro ao buscar agendamentos", detalhes: error });
+  }
+});
+
+// Buscar laboratórios
+app.get("/laboratorios", verificarToken, async (req, res) => {
+  try {
+    const [rows] = await pool.query(
+      "SELECT idLaboratorio, sala FROM Laboratorio"
+    );
+
+    res.json({
+      sucesso: true,
+      laboratorios: rows
+    });
+  } catch (erro) {
+    res.status(500).json({
+      sucesso: false,
+      mensagem: "Erro ao buscar laboratórios: " + erro.message
+    });
+  }
+});
+
+app.get("/kits/lista", verificarToken, async (req, res) => {
+  const idUsuario = req.usuario.idUsuario;
+  try {
+    const [rows] = await pool.query(
+      "SELECT idKit, nome FROM Kits WHERE idUsuario = ? ORDER BY nome ASC",
+      [idUsuario]
+    );
+    res.json({
+      sucesso: true,
+      kits: rows
+    });
+  } catch (erro) {
+    res.status(500).json({
+      sucesso: false,
+      mensagem: "Erro ao buscar lista de kits: " + erro.message
+    });
+  }
+});
 
 app.post('/kits/salvar', verificarToken, async (req, res) => {
   const { nomeKit, descricaoKit, produtos } = req.body;
