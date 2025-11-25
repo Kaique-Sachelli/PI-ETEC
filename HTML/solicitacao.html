@@ -65,205 +65,61 @@
     
     <div class="container-principal mt-2 p-5">
 
-      <!-- CONTAINER DO FILTRO -->
-      <div class="container-filtro">
-        <div class="col-4 visualizacao">
-          <ul class="selecionar-funcao">
-            <li><button id="solicitacao" class="submenu-link ativo">Solicitação</button></li>
-            <li><button id="reposicao" class="submenu-link">Reposição</button></li>
-          </ul>
-        </div>
-
-        <div class="col-4 filtragem">
-          <ul class="filtro">
-            <li class="item">
-              <a href="#" class="link"><span>Filtros</span></a>
-              <ul class="submenu">
-                <li class="submenu-item"><a href="#" class="submenu-link" onclick="filtrarPorStatus('todos')">Todos</a></li>
-                <li class="submenu-item"><a href="#" class="submenu-link" onclick="filtrarPorStatus('pendente')">Pendentes</a></li>
-                <li class="submenu-item"><a href="#" class="submenu-link" onclick="filtrarPorStatus('aprovado')">Aprovados</a></li>
-                <li class="submenu-item"><a href="#" class="submenu-link" onclick="filtrarPorStatus('finalizado')">Finalizados</a></li>
-                <li class="submenu-item"><a href="#" class="submenu-link" onclick="filtrarPorStatus('cancelado')">Cancelados</a></li>
-              </ul>
-            </li>
-          </ul>
-        </div>
-
-      </div>
-
-      
-      <!-- TABELA DE SOLICITAÇÕES -->
-      <div id="containerSolicitacao">
-        <h2>Solicitações</h2>
-        <div class="container"> 
-          <div class="tabela-cabecalho">
-            <span>Período</span>
-            <span>Horário</span>
-            <span>Sala</span>
-            <span>Status</span>
-            <span>Expandir</span>
+        <!-- CONTAINER DO FILTRO -->
+        <div class="container-filtro">
+          <div class="col-4 visualizacao">
+            <ul class="selecionar-funcao">
+              <li><button id="solicitacao" class="submenu-link ativo">Solicitação</button></li>
+              <li><button id="reposicao" class="submenu-link">Reposição</button></li>
+            </ul>
           </div>
-        </div>
-      </details>
 
-      <!-- Linha 2 -->
-      <details class="amarelo">
-        <summary>
-          <div class="linha">
-            <span>Diurno</span>
-            <span>14:00 - 17:00</span>
-            <span>A06</span>
-            <span class="status pendente">Pendente</span>
-            <i class="bi bi-chevron-down seta">▼</i>
-          </div>
-        </summary>
-
-        <div class="detalhes-box">
-          <div class="row">
-            <div class="coluna col-lg-4 col-md-5 col-sm-5">
-              <h4>Dados da Solicitação:</h4>
-              <p><strong>Professor:</strong> Ana</p>
-              <p><strong>Sala solicitada:</strong> A06</p>
-              <p><strong>Data da solicitação:</strong> 18/10/25 - 14h</p>
-            </div>
-
-            <div style="width: 2px; border-right: 2px solid black; height: 150px;"></div>
-
-            <div class="coluna col-4">
-              <h4>Produtos Solicitados:</h4>
-              <ul>
-                <li>Multímetro digital - 1 und.</li>
-                <li>Fonte 12V - 1 und.</li>
-              </ul>
-            </div>
-
-            <div style="width: 2px; border-right: 2px solid black; height: 150px;"></div>
-
-            <div class="botoes col-lg-2">
-              <button class="btn btn-devolvido" data-role="tecnico">Devolver Kit</button>
-              <button class="btn btn-cancelado" data-role="tecnico">Cancelar</button>
-            </div>
-          </div>
-        </div>
-      </details>
-
-      <!-- Linha 3 -->
-      <details class="vermelho">
-        <summary>
-          <div class="linha">
-            <span>Noturno</span>
-            <span>19:00 - 22:00</span>
-            <span>B04</span>
-            <span class="status cancelado">Cancelado</span>
-            <i class="bi bi-chevron-down seta">▼</i>
-          </div>
-        </summary>
-        <div class="detalhes-box">
-          <div class="row">
-            <div class="coluna col-4">
-              <h4>Dados da Solicitação:</h4>
-              <p><strong>Professor:</strong> Marcos</p>
-              <p><strong>Sala solicitada:</strong> B04</p>
-              <p><strong>Data da solicitação:</strong> 20/10/25 - 20h</p>
-            </div>
-            <div class="coluna col-4">
-              <h4>Produtos Solicitados:</h4>
-              <ul>
-                <li>Arduino UNO - 2 und.</li>
-                <li>Sensor Ultrassônico - 1 und.</li>
-              </ul>
-            </div>
-            <div class="botoes col-3">
-              <button class="btn btn-pendente" onclick="voltarPendente()">Reabrir Solicitação</button>
-            </div>
-          </div>
-        </div>
-      </details>
-
-      <!-- Linha 4 -->
-      <details class="azul">
-        <summary>
-          <div class="linha">
-            <span>Noturno</span>
-            <span>19:00 - 22:00</span>
-            <span>B04</span>
-            <span class="status finalizado">Finalizado</span>
-            <i class="bi bi-chevron-down seta">▼</i>
-          </div>
-        </summary>
-        <div class="detalhes-box">
-          <div class="row">
-            <div class="coluna col-4">
-              <h4>Dados da Solicitação:</h4>
-              <p><strong>Professor:</strong> Marcos</p>
-              <p><strong>Sala solicitada:</strong> B04</p>
-              <p><strong>Data da solicitação:</strong> 20/10/25 - 20h</p>
-            </div>
-            <div class="coluna col-4">
-              <h4>Produtos Solicitados:</h4>
-              <ul>
-                <li>Arduino UNO - 2 und.</li>
-                <li>Sensor Ultrassônico - 1 und.</li>
-              </ul>
-            </div>
-          </div>
-        </div>
-      </details>
-    </div>
-
-    <!-- CONTAINER DE REPOSIÇÃO -->
-    <div class="containerprodutos" data-role="professor">
-      <div class="container">
-        <h2>Pedido para reposição de estoque</h2>
-        <div class="tabela-cabecalho">
-          <span>Data</span><span></span><span></span><span>Status</span><span>Expandir</span>
-        </div>
-        <details class="reposicao">
-          <summary>
-            <div class="linha">
-              <span>11:00 - 13:00</span><span></span><span></span>
-              <span class="status pendente">Pendente</span>
-              <i class="bi bi-chevron-down seta">▼</i>
-            </div>
-          </summary>
-          <div class="detalhes-box">
-            <div class="row">
-              <div class="coluna col-4">
-                <h4>Dados da Solicitação:</h4>
-                <p><strong>Técnico:</strong> Fábio</p>
-                <p><strong>Data da solicitação:</strong> 12/10/25 - 15h</p>
-              </div>
-              <div style="width: 2px; border-right: 2px solid black; margin-right: 20px; height: 150px;"></div>
-              <div class="coluna col-4">
-                <h4>Reposição Solicitada:</h4>
-                <ul>
-                  <li>Frascos de petróleo 500ml - 1 und.</li>
-                  <li>Frascos de petróleo 500ml - 1 und.</li>
-                  <li>Frascos de petróleo 300ml - 1 und.</li>
+          <div class="col-4 filtragem">
+            <ul class="filtro">
+              <li class="item">
+                <a href="#" class="link"><span>Filtros</span></a>
+                <ul class="submenu">
+                  <li class="submenu-item"><a href="#" class="submenu-link" onclick="filtrarPorStatus('todos')">Todos</a></li>
+                  <li class="submenu-item"><a href="#" class="submenu-link" onclick="filtrarPorStatus('pendente')">Pendentes</a></li>
+                  <li class="submenu-item"><a href="#" class="submenu-link" onclick="filtrarPorStatus('aprovado')">Aprovados</a></li>
+                  <li class="submenu-item"><a href="#" class="submenu-link" onclick="filtrarPorStatus('finalizado')">Finalizados</a></li>
+                  <li class="submenu-item"><a href="#" class="submenu-link" onclick="filtrarPorStatus('cancelado')">Cancelados</a></li>
                 </ul>
-              </div>
-              <div style="width: 2px; border-right: 2px solid black; margin-right: 15px; height: 150px;"></div>
-              <div class="botoes col-3">
-                <button class="btn btn-finalizar" data-role="tecnico" onclick="finalizarReposicao(1)">Finalizar</button>
-              </div>
+              </li>
+            </ul>
+          </div>
+
+        </div>
+
+        
+        <!-- TABELA DE SOLICITAÇÕES -->
+        <div id="containerSolicitacao">
+          <h2 class="title">Solicitações</h2>
+          <div class="container"> 
+            <div class="tabela-cabecalho">
+              <span>Período</span>
+              <span>Horário</span>
+              <span>Sala</span>
+              <span>Status</span>
+              <span>Expandir</span>
             </div>
           </div>
-        </details>
-      </div>
+        </div>
 
-      <!-- CONTAINER DE REPOSIÇÃO -->
-      <div class="containerprodutos" id="containerReposicao">
-        <div class="container">
-          <h2>Pedido para reposição de estoque</h2>
-          <div class="tabela-cabecalho">
-            <span>Data</span>
-            <span>Solicitante</span>
-            <span></span> <span>Status</span>
-            <span>Expandir</span>        
+        <!-- CONTAINER DE REPOSIÇÃO -->
+        <div class="containerprodutos" id="containerReposicao">
+          <div class="container">
+            <h2>Pedido para reposição de estoque</h2>
+            <div class="tabela-cabecalho">
+              <span>Data</span>
+              <span>Solicitante</span>
+              <span></span> <span>Status</span>
+              <span>Expandir</span>        
+            </div>
           </div>
         </div>
-      </div>
 
+    </div>
     </div>
 
     <!-- FOOTER -->
