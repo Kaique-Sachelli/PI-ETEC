@@ -186,11 +186,58 @@ p {
 
 .agendamento {
   text-align: center;
+  align-items: center;
+  padding: 12px 20px;
 }
 
-.valor {
-  border: #000000 1px solid;
+.valor:not(.status){
+  font-family: 'Roboto', sans-serif;
   line-height: 3;
+}
+
+.verde summary {
+  background-color: #e8fbe4;
+  border-left: 4px solid #4acd51;
+  border-bottom: #d4f0d6;
+}
+
+.amarelo summary {
+  background-color: #fff5ea;
+  border-left: 4px solid #ffcc00;
+}
+
+.vermelho summary {
+  background-color: #fdd5d1;
+  border-left: 4px solid #e63c3c;
+}
+
+.azul summary{
+  background-color: #e6f9fa;
+  border-left: 4px solid #1ac7d4;
+}
+
+.status {
+  padding: 4px 12px;
+  border-radius: 15px;
+  font-weight: bold;
+  color: white !important;
+  text-align: center;
+}
+
+.aprovado {
+  background-color: #3acf1f;
+}
+
+.pendente {
+  background-color: #b78718;
+  color: #333;
+}
+
+.cancelado {
+  background-color: #d32719;
+}
+.finalizado{
+  background-color: #00d8e8;
 }
 
 /* ------ Fim do código de Seus Agendamentos ------ */
