@@ -210,7 +210,7 @@ body {
   font-size: 28px;
   font-family: 'Roboto Slab', serif;
   color: #005c6d;
-  font-weight: 400;
+  font-weight: 400 !important;
   text-transform: capitalize;
 }
 
@@ -252,7 +252,6 @@ body {
   margin-bottom: 20px;
   width: fit-content; 
   justify-content: center;
-  margin-left: auto;
   margin-right: auto;
   display: flex;
 }
